@@ -13,32 +13,42 @@
 #' @examples
 #' my_email <- "gonzalo.garciadecastro@upf.edu"
 #' bvq_connect(google_email = my_email)
-bvq_connect <- function(
-        google_email = NULL
-){
+bvq_connect <- function(google_email = NULL,
+                        verbose = TRUE) {
     formr_email <- "gonzalo.garciadecastro@upf.edu"
     
     # ask for email in console is everything is NULL
-    if (is.null(google_email)) google_email <- formr_email
-    
-    # if key does not exist and is not provided, create it
-    is_key_formr_missing <- !("bvq" %in% key_list()$service)
-    if (is_key_formr_missing) key_set("bvq", formr_email)
-    
-    # if key exists, use it to log in
-    suppressWarnings(
-        formr_connect(
-            email = formr_email,
-            password = key_get("bvq", formr_email),
-            host = "https://formr.org/"
+    spinny <- cli::make_spinner(template = "{spin} Connecting to formR")
+    working <- TRUE
+    while(working){
+        if (verbose) spinny$spin()
+        if (is.null(google_email)) google_email <- formr_email
+        
+        # if key does not exist and is not provided, create it
+        is_key_formr_missing <- !("bvq" %in% key_list()$service)
+        if (is_key_formr_missing) key_set("bvq", formr_email)
+        
+        # if key exists, use it to log in
+        suppressWarnings(
+            formr_connect(
+                email = formr_email,
+                password = key_get("bvq", formr_email),
+                host = "https://formr.org/"
+            )
         )
-    )
+        
+        working <- FALSE
+    }
     
     # check if Google credentials exists, ask for them if not
     is_key_google <- gs4_has_token()
     if (!is_key_google) gs4_auth(email = google_email)
     
     # return success code but do not print it
-    invisible(gs4_has_token())
+    if (verbose && gs4_has_token()){
+        cli::cli_text("")
+        cli::cli_alert_success("Connected to BVQ")
+    }
     
+    invisible(gs4_has_token())
 }
