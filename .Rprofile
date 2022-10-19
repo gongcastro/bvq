@@ -22,8 +22,7 @@ if(interactive()) {
     # bias against scientific notation
     options(scipen = 4)
     
-    # hey gurl
-    
+    # print loaded packages
     cli::cli_alert_success(
         paste0("Loaded: ", 
                paste0(
