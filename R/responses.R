@@ -47,9 +47,9 @@
 #' @author Gonzalo Garcia-Castro
 #'
 bvq_responses <- function(participants = NULL,
-                         runs = c("BL-Long2", "BL-Lockdown"), # c("Inhibition", "DevLex", "CBC", "BL-Short", "BL-Long-1", "BL-Long-2", "BL-Lockdown")
-                         longitudinal = "all",
-                         update = TRUE) {
+                          runs = c("BL-Long2", "BL-Lockdown"), # c("Inhibition", "DevLex", "CBC", "BL-Short", "BL-Long-1", "BL-Long-2", "BL-Lockdown")
+                          longitudinal = "all",
+                          update = TRUE) {
 
   #### import data ----
   responses_exists <- file.exists(system.file("responses.rds", package = "multilex"))

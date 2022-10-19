@@ -1,10 +1,7 @@
-bvq_connect()
-
+bvq_connect(verbose = FALSE)
 participants <- bvq_participants()
 
-
 test_that("bvq_participants columns are the right classes", {
-
   expect_true(is.character(participants$id))
   expect_true(is.character(participants$id_exp))
   expect_true(is.character(participants$id_db))
@@ -25,7 +22,7 @@ dups_exist <- test_that("participants and times are not duplicated", {
   expect_false(any(duplicated(select(participants, id, time))))
 })
 
-if (!dups_exist){
+if (!dups_exist) {
   message("Duplicated rows: ")
   participants %>%
     count(id, time) %>%

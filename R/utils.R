@@ -350,4 +350,3 @@ get_longitudinal <- function(x, longitudinal = "all") {
   }
   return(y)
 }
-

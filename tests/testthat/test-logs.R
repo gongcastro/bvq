@@ -1,9 +1,6 @@
-bvq_connect()
-
+bvq_connect(verbose = FALSE)
 participants <- bvq_participants()
-
 responses <- bvq_responses(participants, update = FALSE)
-
 logs <- bvq_logs(participants, responses)
 
 
@@ -74,7 +71,3 @@ test_that("missing values are only where expected", {
   expect_false(any(is.na(logs$age_today)))
   expect_false(any(is.na(logs$lp)))
 })
-
-
-
-

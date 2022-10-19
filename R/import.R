@@ -22,70 +22,58 @@ import_formr_lockdown <- function(surveys = c(
                                     "bilexicon_lockdown_06_words_spanish"
                                   )) {
   suppressMessages({
-    participants <- get("participants", parent.frame()) %>%
+    participants_tmp <- get("participants", parent.frame()) %>%
       select(-.data$version)
 
-    items_to_keep <- c("code", "bl_code", "consent_mail", "demo_parent1", "demo_parent2", "demo_postcode", "sex", "language_doe_spanish", "language_doe_spanish_american", "language_doe_catalan_barcelona", "language_doe_catalan_majorca", "language_doe_catalan_other")
-
+    # fetch responses
     raw <- map(surveys, formr_raw_results) %>%
       set_names(surveys) %>%
       map(select, -any_of("language"))
 
-    raw$bilexicon_lockdown_01_log <- raw$bilexicon_lockdown_01_log %>%
-      mutate(created = as_datetime(.data$created)) %>%
-      arrange(desc(.data$created), .data$bl_code) %>%
-      drop_na(.data$bl_code, .data$ended) %>%
-      filter(.data$bl_code != "") %>%
+    # edit logs dataset
+    raw[[1]] <- raw[[1]] %>%
       rename(code = .data$bl_code) %>%
+      mutate(
+        # fix codes known to be wrong
+        code = fix_code(na_if(.data$code, "")),
+        created = as_datetime(.data$created)
+      ) %>%
+      # remove responses with no code
+      drop_na(.data$code, .data$ended) %>%
+      # fix codes known to be wrong
       fix_code_raw() %>%
+      # remove codes not inlcuded in participants
+      filter(.data$code %in% participants_tmp$code) %>%
+      # get only last response of each code
+      arrange(desc(.data$created)) %>%
       distinct(.data$code, .keep_all = TRUE)
 
-    processed <- raw %>%
-      map(select, -one_of(c("created", "modified", "ended", "expired"))) %>%
-      reduce(left_join, by = "session") %>%
-      mutate(code = fix_code(.data$code)) %>%
-      left_join(participants, by = "code") %>%
-      filter(.data$code %in% participants$code) %>%
-      left_join(
-        select(
-          raw$bilexicon_lockdown_06_words_cat,
-          .data$session,
-          created_cat = .data$created,
-          ended_cat = .data$ended
-        ),
-        by = "session"
-      ) %>%
-      left_join(
-        select(
-          raw$bilexicon_lockdown_06_words_spa,
-          .data$session,
-          created_spa = .data$created,
-          ended_spa = .data$ended
-        ),
-        by = "session"
-      ) %>%
-      filter(.data$code %in% participants$code) %>%
-      drop_na(.data$created_cat, .data$created_spa) %>%
-      mutate_at(
-        vars("created_cat", "created_spa", "ended_cat", "ended_spa", "date_birth"),
-        as_datetime
-      ) %>%
-      mutate_at(
-        vars(starts_with("language_doe")),
-        function(x) ifelse(is.na(x), 0, x)
-      )
+    items_to_keep <- c(
+      "time", "code", "study", "version", "randomisation", "time_stamp", "date_birth",
+      "age", "postcode", "sex", "edu_parent1", "edu_parent2",
+      "language_doe_catalan", "language_doe_spanish", "language_doe_others",
+      "language_doe_catalan_lockdown", "language_doe_spanish_lockdown", "language_doe_others_lockdown"
+    )
 
-    # breaking pipe to use custom functions (not pipe-friendly at the moment)
-    processed <- processed %>%
+    processed <- raw %>%
+      map(drop_na, created) %>%
+      map(select, -one_of(c("created", "modified", "ended", "expired"))) %>%
+      reduce(inner_join, by = "session") %>%
+      left_join(participants_tmp, by = "code") %>%
+      left_join(select(raw[[6]], .data$session, created_cat = .data$created, ended_cat = .data$ended), by = "session") %>%
+      left_join(select(raw[[7]], .data$session, created_spa = .data$created, ended_spa = .data$ended), by = "session") %>%
       mutate(
+        across(c(created_cat, created_spa, ended_cat, ended_spa, date_birth), as_datetime),
+        across(starts_with("language_doe"), function(x) ifelse(is.na(x), 0, x)),
         version = paste0("BL-Lockdown-", .data$version),
-        time_stamp = get_time_stamp(processed, c("ended_cat", "ended_spa"), "last"),
-        age = time_length(difftime(time_stamp, date_birth), "months"),
-        age = ifelse(.data$age %in% c(-Inf, Inf), NA_real_, .data$age),
-        language_doe_catalan = get_doe(processed, languages = .env$languages_lockdown1[grep("catalan", .env$languages_lockdown1)]),
-        language_doe_spanish = get_doe(processed, languages = .env$languages_lockdown1[grep("spanish", .env$languages_lockdown1)]),
-        language_doe_catalan_lockdown = get_doe(processed, languages = .env$languages_lockdown2[grep("catalan", .env$languages_lockdown2)]),
-        language_doe_spanish_lockdown = get_doe(processed, languages = .env$languages_lockdown2[grep("spanish", .env$languages_lockdown2)]),
+        time_stamp = get_time_stamp(., c("ended_cat", "ended_spa"), "last"),
+        # calculate age in months
+        age = time_length(difftime(time_stamp, date_birth), "months") %>%
+          ifelse(. %in% c(-Inf, Inf), NA_real_, .),
+        language_doe_catalan = get_doe(., languages = .env$languages_lockdown1[grep("catalan", .env$languages_lockdown1)]),
+        language_doe_spanish = get_doe(., languages = .env$languages_lockdown1[grep("spanish", .env$languages_lockdown1)]),
+        language_doe_catalan_lockdown = get_doe(., languages = .env$languages_lockdown2[grep("catalan", .env$languages_lockdown2)]),
+        language_doe_spanish_lockdown = get_doe(., languages = .env$languages_lockdown2[grep("spanish", .env$languages_lockdown2)]),
       ) %>%
       rowwise() %>%
       mutate(
@@ -93,7 +81,6 @@ import_formr_lockdown <- function(surveys = c(
         language_doe_others_lockdown = 100 - sum(.data$language_doe_catalan_lockdown, .data$language_doe_spanish_lockdown, na.rm = TRUE)
       ) %>%
       ungroup() %>%
-      clean_names() %>%
       arrange(desc(.data$time_stamp)) %>%
       distinct(.data$session, .keep_all = TRUE) %>%
       rename(
@@ -101,33 +88,26 @@ import_formr_lockdown <- function(surveys = c(
         edu_parent1 = .data$demo_parent1,
         edu_parent2 = .data$demo_parent2
       ) %>%
-      rename_all(function(x) gsub("language_", "", x)) %>%
       drop_na(.data$age) %>%
-      select(
-        starts_with("id"), .data$time, .data$code, .data$study, .data$version,
-        .data$randomisation, .data$time_stamp, .data$date_birth, .data$age,
-        .data$postcode, .data$sex, starts_with("edu_"), .data$doe_catalan,
-        .data$doe_spanish, .data$doe_others, .data$doe_catalan_lockdown,
-        .data$doe_spanish_lockdown, .data$doe_others_lockdown, matches("cat_|spa_")
-      ) %>%
+      select(starts_with("id"), one_of(items_to_keep), starts_with("cat_"), starts_with("spa_")) %>%
       pivot_longer(
         cols = matches("cat_|spa_"),
         names_to = "item",
         values_to = "response"
       ) %>%
+      rename_with(~ gsub("language_", "", .), everything()) %>%
       mutate(
         language = ifelse(grepl("cat_", .data$item), "Catalan", "Spanish"),
         sex = ifelse(.data$sex == 1, "Male", "Female"),
-        postcode = as.integer(ifelse(.data$postcode == "", NA_character_, .data$postcode)),
-        edu_parent1 = ifelse(.data$edu_parent1 %in% "", NA_character_, .data$edu_parent1),
-        edu_parent2 = ifelse(.data$edu_parent2 %in% "", NA_character_, .data$edu_parent2),
+        postcode = as.integer(na_if(.data$postcode, "")),
+        edu_parent1 = na_if(.data$edu_parent1, ""),
+        edu_parent2 = na_if(.data$edu_parent2, ""),
         sex = NA_character_
       ) %>%
-      arrange(desc(.data$time_stamp)) %>%
-      distinct(.data$id, .data$code, .data$item, .keep_all = TRUE)
+      arrange(desc(.data$time_stamp))
   })
 
-  message("BL-Lockdown updated")
+  message(paste0("BL-Lockdown updated: ", nrow(distinct(processed, code)), " responses retrieved"))
 
   return(processed)
 }
@@ -156,72 +136,77 @@ import_formr_short <- function(surveys = c(
                                  "bilexicon_short_06_words_spanish"
                                )) {
   suppressMessages({
-    participants <- get("participants", parent.frame())
-    participants <- filter(participants, version %in% "BL-Short") %>%
+    participants_tmp <- get("participants", parent.frame()) %>%
+      filter(version %in% "BL-Short") %>%
       select(-version)
-
-    items_to_keep <- c("code", "bl_code", "consent_mail", "demo_parent1", "demo_parent2", "demo_postcode", "sex", "language_doe_spanish", "language_doe_spanish_american", "language_doe_catalan_barcelona", "language_doe_catalan_majorca", "language_doe_catalan_other")
 
     # import data
     raw <- map(surveys, formr_raw_results) %>%
       set_names(surveys) %>%
       map(select, -any_of("language"))
 
-    raw$bilexicon_short_06_words_spanish <- rename_all(
-      raw$bilexicon_short_06_words_spanish,
-      function(x) gsub("cat_", "spa_", x)
-    )
+    # edit Spanish inventory
+    raw[[7]] <- rename_all(raw[[7]], ~ gsub("cat_", "spa_", .))
 
-    raw$bilexicon_short_01_log <- raw$bilexicon_short_01_log %>%
-      mutate(created = as_datetime(.data$created)) %>%
-      arrange(desc(.data$created), .data$code) %>%
-      fix_code_raw() %>%
+    # edit logs dataset
+    raw[[1]] <- raw[[1]] %>%
+      mutate(
+        # fix codes known to be wrong
+        code = fix_code(na_if(.data$code, "")),
+        created = as_datetime(.data$created)
+      ) %>%
+      # remove codes not inlcuded in participants
+      filter(.data$code %in% participants_tmp$code) %>%
+      # get only last response of each code
+      arrange(desc(.data$created)) %>%
       distinct(.data$code, .keep_all = TRUE) %>%
-      drop_na(.data$code)
+      # remove responses with no code
+      drop_na(.data$code, .data$ended) %>%
+      # fix codes known to be wrong
+      fix_code_raw()
+
+    items_to_keep <- c(
+      "time", "code", "study", "version", "randomisation",
+      "time_stamp", "date_birth", "age",
+      "sex", "postcode", "edu_parent1", "edu_parent2",
+      "language_doe_catalan", "language_doe_spanish", "language_doe_others"
+    )
 
     # process data
     processed <- raw %>%
       map(select, -one_of(c("created", "modified", "ended", "expired"))) %>%
       reduce(left_join, by = "session") %>%
       mutate(code = fix_code(.data$code)) %>%
-      left_join(participants, by = "code") %>%
-      filter(code %in% participants$code) %>%
+      left_join(participants_tmp, by = "code") %>%
+      filter(code %in% participants_tmp$code) %>%
       left_join(select(raw$bilexicon_short_06_words_cat, .data$session, created_cat = .data$created, ended_cat = .data$ended), by = "session") %>%
       left_join(select(raw$bilexicon_short_06_words_spa, .data$session, created_spa = .data$created, ended_spa = .data$ended), by = "session") %>%
-      filter(.data$code %in% participants$code) %>%
+      filter(.data$code %in% participants_tmp$code) %>%
       drop_na(.data$created_cat, .data$created_spa) %>%
-      mutate_at(vars("created_cat", "created_spa", "ended_cat", "ended_spa", "date_birth"), as_datetime) %>%
-      mutate_at(vars(starts_with("language_doe_")), function(x) ifelse(is.na(x), 0, x))
-
-    # breaking pipe to use custom functions (not pipe-friendly at the moment)
-    processed <- processed %>%
       mutate(
+        across(c(created_cat, created_spa, ended_cat, ended_spa, date_birth), as_datetime),
+        across(starts_with("language_doe_"), ~ ifelse(is.na(.), 0, .)),
         version = paste0("BL-Short-", .data$version),
-        time_stamp = get_time_stamp(processed, c("ended_cat", "ended_spa"), "last"),
-        age = time_length(difftime(time_stamp, date_birth), "months"),
-        age = ifelse(.data$age %in% c(-Inf, Inf), NA_real_, .data$age),
-        language_doe_catalan = get_doe(processed, languages = .env$languages_short[grep("catalan", languages_short)]),
-        language_doe_spanish = get_doe(processed, languages = .env$languages_short[grep("spanish", languages_short)])
+        time_stamp = get_time_stamp(., c("ended_cat", "ended_spa"), "last"),
+        age = time_length(difftime(time_stamp, date_birth), "months") %>%
+          ifelse(. %in% c(-Inf, Inf), NA_real_, .),
+        language_doe_catalan = get_doe(., languages = .env$languages_short[grep("catalan", languages_short)]),
+        language_doe_spanish = get_doe(., languages = .env$languages_short[grep("spanish", languages_short)])
       ) %>%
       rowwise() %>%
       mutate(language_doe_others = 100 - sum(.data$language_doe_catalan, .data$language_doe_spanish, na.rm = TRUE)) %>%
       ungroup() %>%
-      clean_names() %>%
       arrange(desc(.data$time_stamp)) %>%
       distinct(.data$session, .keep_all = TRUE) %>%
       rename(postcode = .data$demo_postcode, edu_parent1 = .data$demo_parent1, edu_parent2 = .data$demo_parent2) %>%
-      rename_all(function(x) gsub("language_", "", x)) %>%
       drop_na(.data$age) %>%
-      select(
-        starts_with("id"), .data$time, .data$code, .data$study, .data$version,
-        .data$randomisation, .data$time_stamp, .data$date_birth, .data$age,
-        .data$sex, .data$postcode, starts_with("edu_"), .data$doe_catalan, .data$doe_spanish,
-        matches("cat_|spa_")
+      select(starts_with("id"), one_of(items_to_keep), starts_with("cat_"), starts_with("spa_")) %>%
+      pivot_longer(
+        cols = matches("cat_|spa_"),
+        names_to = "item",
+        values_to = "response"
       ) %>%
-      # group_by(id, time, code) %>%
-      # summarise_all(coalesce_by_column) %>%
-      # ungroup() %>%
-      pivot_longer(cols = matches("cat_|spa_"), names_to = "item", values_to = "response") %>%
+      rename_all(function(x) gsub("language_", "", x)) %>%
       mutate(
         language = ifelse(grepl("cat_", .data$item), "Catalan", "Spanish"),
         sex = ifelse(.data$sex %in% 1, "Male", "Female"),
@@ -232,8 +217,7 @@ import_formr_short <- function(surveys = c(
       arrange(desc(.data$time_stamp)) %>%
       distinct(.data$id, .data$code, .data$item, .keep_all = TRUE)
   })
-
-  message("BL-Short updated")
+  message(paste0("BL-Short updated: ", nrow(distinct(processed, code)), " responses retrieved"))
 
   return(processed)
 }
@@ -261,64 +245,67 @@ import_formr2 <- function(surveys = c(
                             "bilexicon_06_words_spa"
                           )) {
   suppressMessages({
-    participants <- get("participants", parent.frame())
-
-    participants <- filter(
-      participants,
-      .data$version %in% "BL-Long",
-      .data$randomisation %in% "2"
-    ) %>%
+    participants_tmp <- get("participants", parent.frame()) %>%
+      filter(
+        .data$version %in% "BL-Long",
+        .data$randomisation %in% "2"
+      ) %>%
       select(-.data$version)
 
-    items_to_keep <- c("code", "bl_code", "consent_mail", "demo_parent1", "demo_parent2", "demo_postcode", "sex", "language_doe_spanish", "language_doe_spanish_american", "language_doe_catalan_barcelona", "language_doe_catalan_majorca", "language_doe_catalan_other")
+    items_to_keep <- c(
+      "time", "code", "study", "version", "randomisation",
+      "time_stamp", "date_birth", "age", "sex", "postcode",
+      "edu_parent1", "edu_parent2",
+      "language_doe_catalan", "language_doe_spanish", "language_doe_others"
+    )
 
     # import data
     raw <- map(surveys, formr_raw_results) %>%
       set_names(surveys) %>%
       map(select, -any_of("language"))
 
-    raw$bilexicon_06_words_spa <- rename_all(
-      raw$bilexicon_06_words_spa,
-      function(x) gsub("cat_", "spa_", x)
-    )
+    # edit Spanish checklist
+    raw[[7]] <- rename_with(raw[[7]], ~ gsub("cat_", "spa_", .), everything())
 
-    raw$bilexicon_01_log <- raw$bilexicon_01_log %>%
-      mutate(created = as_datetime(.data$created)) %>%
-      arrange(desc(.data$created), .data$code) %>%
+    # edit logs dataset
+    raw[[1]] <- raw[[1]] %>%
+      mutate(
+        # fix codes known to be wrong
+        code = fix_code(na_if(.data$code, "")),
+        created = as_datetime(.data$created)
+      ) %>%
+      # remove codes not inlcuded in participants
+      filter(.data$code %in% participants_tmp$code) %>%
+      # get only last response of each code
+      arrange(desc(.data$created)) %>%
+      distinct(.data$code, .keep_all = TRUE) %>%
+      # remove responses with no code
       drop_na(.data$code, .data$ended) %>%
-      filter(.data$code != "") %>%
-      fix_code_raw() %>%
-      distinct(.data$code, .keep_all = TRUE)
+      # fix codes known to be wrong
+      fix_code_raw()
 
     # process data
     processed <- map(raw, select, -any_of(c("created", "modified", "ended", "expired"))) %>%
       reduce(left_join, by = "session") %>%
       mutate(code = fix_code(.data$code)) %>%
-      left_join(select(participants, -.data$comments), by = "code") %>%
+      left_join(select(participants_tmp, -.data$comments), by = "code") %>%
       left_join(select(raw$bilexicon_06_words_cat, .data$session, created_cat = .data$created, ended_cat = .data$ended), by = "session") %>%
       left_join(select(raw$bilexicon_06_words_spa, .data$session, created_spa = .data$created, ended_spa = .data$ended), by = "session") %>%
-      filter(.data$code %in% participants$code) %>%
+      filter(.data$code %in% participants_tmp$code) %>%
       drop_na(.data$created_cat, .data$created_spa, .data$ended_cat, .data$ended_spa) %>%
-      mutate_at(
-        vars("created_cat", "created_spa", "ended_cat", "ended_spa", "date_birth"),
-        as_datetime
-      ) %>%
-      mutate_at(vars(starts_with("language_doe")), function(x) ifelse(is.na(x), 0, x))
-
-    # breaking pipe to use custom functions (not pipe-friendly at the moment)
-    processed <- processed %>%
       mutate(
+        across(c(created_cat, created_spa, ended_cat, ended_spa, date_birth), as_datetime),
+        across(starts_with("language_doe"), ~ ifelse(is.na(.), 0, .)),
         version = "BL-Long-2",
-        time_stamp = get_time_stamp(processed, c("ended_cat", "ended_spa"), "last"),
+        time_stamp = get_time_stamp(., c("ended_cat", "ended_spa"), "last"),
         age = time_length(difftime(time_stamp, date_birth), "months"),
         age = ifelse(.data$age %in% c(-Inf, Inf), NA_real_, .data$age),
-        language_doe_catalan = get_doe(processed, languages = .env$languages2[grep("catalan", .env$languages2)]),
-        language_doe_spanish = get_doe(processed, languages = .env$languages2[grep("spanish", .env$languages2)])
+        language_doe_catalan = get_doe(., languages = .env$languages2[grep("catalan", .env$languages2)]),
+        language_doe_spanish = get_doe(., languages = .env$languages2[grep("spanish", .env$languages2)])
       ) %>%
       rowwise() %>%
       mutate(language_doe_others = 100 - sum(.data$language_doe_catalan, .data$language_doe_spanish, na.rm = TRUE)) %>%
       ungroup() %>%
-      clean_names() %>%
       arrange(desc(.data$time_stamp)) %>%
       distinct(.data$session, .keep_all = TRUE) %>%
       rename(
@@ -326,27 +313,21 @@ import_formr2 <- function(surveys = c(
         edu_parent1 = .data$demo_parent1,
         edu_parent2 = .data$demo_parent2
       ) %>%
-      rename_all(function(x) gsub("language_", "", x)) %>%
       drop_na(.data$age) %>%
-      select(
-        starts_with("id"), .data$time, .data$code, .data$study, .data$version,
-        .data$randomisation, .data$time_stamp, .data$date_birth, .data$age, .data$sex,
-        .data$postcode, starts_with("edu_"), .data$doe_catalan, .data$doe_spanish,
-        .data$doe_others, matches("cat_|spa_")
-      ) %>%
+      select(starts_with("id"), one_of(items_to_keep), starts_with("cat_"), starts_with("spa_")) %>%
       pivot_longer(cols = matches("cat_|spa_"), names_to = "item", values_to = "response") %>%
+      rename_all(~ gsub("language_", "", .)) %>%
       mutate(
         language = ifelse(grepl("cat_", .data$item), "Catalan", "Spanish"),
         sex = ifelse(.data$sex %in% 1, "Male", "Female"),
         postcode = as.integer(ifelse(.data$postcode %in% "", NA_character_, .data$postcode)),
-        edu_parent1 = ifelse(.data$edu_parent1 %in% "", NA_character_, .data$edu_parent1),
-        edu_parent2 = ifelse(.data$edu_parent2 %in% "", NA_character_, .data$edu_parent2)
+        across(starts_with("edu_"), na_if, "")
       ) %>%
       arrange(desc(.data$time_stamp)) %>%
       distinct(.data$id, .data$code, .data$item, .keep_all = TRUE)
   })
 
-  message("BL-Long-2 updated")
+  message(paste0("BL-Long-2 updated: ", nrow(distinct(processed, code)), " responses retrieved"))
 
   return(processed)
 }

@@ -1,5 +1,3 @@
-#### bvq_logs: Generate logs
-
 #' Generate participant information and progress for each response
 #' @import dplyr
 #' @importFrom scales label_percent
@@ -33,7 +31,7 @@
 #'      \item{code}{a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.}
 #'      \item{time}{a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.}
 #'      \item{study}{a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.}
-#'      \item{version}{a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the \href{https://github.com/gongcastro/bvq}{GitHub repository}). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).}
+#'      \item{version}{a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the \href{https://github.com/gongcastro/multilex}{GitHub repository}). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).}
 #'      \item{date_sent}{a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating the date in which the questionnaire was sent to participants.}
 #'      \item{days_from_sent}{a numeric value indicating the number of days elapsed since participants were sent the questionnaire (as indicated by \code{date_sent})  and completed the questionnaire.}
 #'      \item{date_birth}{a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating participants birth date.}
@@ -54,9 +52,9 @@
 #'  }
 #' @author Gonzalo Garcia-Castro
 bvq_logs <- function(participants = NULL,
-                    responses = NULL,
-                    bilingual_threshold = 0.80,
-                    other_threshold = 0.10) {
+                     responses = NULL,
+                     bilingual_threshold = 0.80,
+                     other_threshold = 0.10) {
   bvq_connect() # get credentials to Google and formr
 
   # if participants or responses are missing from function call, generate them
@@ -99,13 +97,13 @@ bvq_logs <- function(participants = NULL,
           "doe_catalan", "doe_others", "time_stamp", "code", "study", "version"
         )
       ) %>%
-      # total items to fill by each participant (varies accross versions)
+      # total items to fill by each participant (varies across versions)
       summarise(complete_items = sum(!is.na(.data$response)), .groups = "drop") %>%
       left_join(total_items) %>%
       left_join(select(participants, -c(.data$date_birth, .data$version))) %>%
       drop_na(.data$id) %>%
       # compute participant's progress trhough the questionnaire
-      mutate_at(vars(.data$time_stamp), as_datetime) %>%
+      mutate(across(.data$time_stamp, as_datetime)) %>%
       rowwise() %>%
       mutate(
         progress = label_percent()(.data$complete_items / .data$total_items),
@@ -114,20 +112,22 @@ bvq_logs <- function(participants = NULL,
       ungroup() %>%
       # compute time laps between events
       mutate(
-        date_sent = as_date(.data$date_sent),
-        time_stamp = as_date(.data$time_stamp),
-        days_from_sent = as.numeric((.data$time_stamp - .data$date_sent), units = "days"),
-        age_today = as.numeric((today() - as_date(.data$date_birth))) / 30,
-        months_from_last_response = as.numeric(today() - .data$time_stamp) / 30
+        across(c(date_sent, time_stamp), as_date),
+        days_from_sent = time_length(difftime(today(), .data$date_sent), "days"),
+        age_today = time_length(difftime(today(), .data$date_birth), "months") %>%
+          ifelse(. %in% c(-Inf, Inf), NA_real_, .),
+        months_from_last_response = time_length(difftime(today(), .data$time_stamp), "months")
       ) %>%
       # select relevant columns and reorder them
       select(
-        .data$id, .data$id_exp, .data$id_db, .data$code, .data$time, .data$study,
-        .data$version, .data$date_sent, .data$time_stamp, .data$days_from_sent,
-        .data$date_birth, .data$age, .data$age_today, .data$months_from_last_response,
-        .data$sex, .data$postcode, .data$edu_parent1, .data$edu_parent2, .data$dominance,
-        .data$lp, .data$doe_spanish, .data$doe_catalan, .data$doe_others,
-        .data$progress, .data$completed
+        starts_with("id"),
+        one_of(
+          "code", "time", "study", "version",
+          "date_sent", "time_stamp", "days_from_sent", "date_birth", "age", "age_today", "months_from_last_response",
+          "sex", "postcode", "edu_parent1", "edu_parent2",
+          "dominance", "lp", "doe_spanish", "doe_catalan", "doe_others",
+          "progress", "completed"
+        )
       ) %>%
       arrange(desc(.data$time_stamp))
   })

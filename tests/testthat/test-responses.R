@@ -1,9 +1,7 @@
-bvq_connect()
-
+bvq_connect(verbose = FALSE)
 responses <- bvq_responses(update = TRUE)
 
 test_that("bvq_responses columns are the right classes", {
-
   expect_true(is.character(responses$id))
   expect_true(is.character(responses$id_exp))
   expect_true(is.character(responses$id_db))
