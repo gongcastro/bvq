@@ -12,7 +12,6 @@
 #'   \item{class}{Funcional category (verb, nouns, adjective, etc.)}
 #'   \item{label}{item label, as presented to participants in the front-end of the questionnaire, some labels are not unique within or across quesitonnaires}
 #'   \item{ipa}{phonological transcription in IPA format}
-#'   \item{ipa_flat}{phonological transcription in IPA format, without special characters (ready to compute distance metrics)}
 #'   \item{label_subtlex}{word label, as included in the corresponding version of SUBTLEX}
 #'   \item{frequency_million}{lexical frequency (in counts per million score) retrieved from the corresponding version of SUBTLEX}
 #'   \item{frequency_zipf}{lexical frequency (in Zipf score) retrieved from the corresponding version of SUBTLEX}
