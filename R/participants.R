@@ -30,7 +30,7 @@
 
 bvq_participants <- function() {
   suppressMessages({
-    bvq_connect() # get credentials to Google and formr
+    bvq_connect(verbose = FALSE) # get credentials to Google and formr
 
     participants <- read_sheet("164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo", sheet = "Participants") %>%
       drop_na(.data$code) %>%

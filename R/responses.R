@@ -64,7 +64,7 @@ bvq_responses <- function(participants = NULL,
       message("Updating data...")
     }
 
-    bvq_connect() # get credentials to Google and formr
+    bvq_connect(verbose = FALSE) # get credentials to Google and formr
 
     # get participant information
     if (is.null(participants)) participants <- bvq_participants()
