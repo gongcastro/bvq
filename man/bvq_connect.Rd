@@ -4,10 +4,12 @@
 \alias{bvq_connect}
 \title{Authenticate in Google and formr}
 \usage{
-bvq_connect(google_email = NULL)
+bvq_connect(google_email = NULL, verbose = TRUE)
 }
 \arguments{
 \item{google_email}{E-mail used in Google Drive account. If NULL (default), it is assumed to be the same as formr_email.}
+
+\item{verbose}{Should progress messages and warnings be printed in the console}
 }
 \value{
 Logical. TRUE if Google and formr authentication was successful, FALSE if authentication of any of the two failed.

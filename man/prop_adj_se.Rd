@@ -3,7 +3,7 @@
 \name{prop_adj_se}
 \alias{prop_adj_se}
 \title{Standard error of proportion, adjusted for zero- and one-inflation
-\insertCite{gelman2020regression}{multilex}}
+\insertCite{gelman2020regression}{bvqdev}}
 \usage{
 prop_adj_se(x, n)
 }
@@ -14,8 +14,8 @@ prop_adj_se(x, n)
 }
 \description{
 Standard error of proportion, adjusted for zero- and one-inflation
-\insertCite{gelman2020regression}{multilex}
+\insertCite{gelman2020regression}{bvqdev}
 }
 \references{
-\insertRef{gelman2020regression}{multilex}
+\insertRef{gelman2020regression}{bvqdev}
 }

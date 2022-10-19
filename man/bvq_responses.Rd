@@ -8,7 +8,8 @@ bvq_responses(
   participants = NULL,
   runs = c("BL-Long2", "BL-Lockdown"),
   longitudinal = "all",
-  update = TRUE
+  update = TRUE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ bvq_responses(
 \item{longitudinal}{Should longitudinal data be included? If "all" (default), all responses (including repeated measures) are included. If "no", participants with more than one responses to the questionnaire (regardless of the version) are excluded. If "first", only the first response of each participant is included. If "last", only the last response of each participant is included. If "only", only responses with repeated measures are included.}
 
 \item{update}{Should data be recovered from last update, or should it be updated now?}
+
+\item{verbose}{Should progress messages and warnings be printed in the console}
 }
 \value{
 A data frame (actually, a \code{\link[tibble]{tibble}}) containing participant's responses to each item, along with some session-specific metadata. The output includes the following variables:

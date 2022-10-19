@@ -8,11 +8,14 @@ import_formr_lockdown(
   surveys = c("bilexicon_lockdown_01_log", "bilexicon_lockdown_02_welcome",
     "bilexicon_lockdown_03_consent", "bilexicon_lockdown_04_demo",
     "bilexicon_lockdown_05_language", "bilexicon_lockdown_06_words_catalan",
-    "bilexicon_lockdown_06_words_spanish")
+    "bilexicon_lockdown_06_words_spanish"),
+  verbose = TRUE
 )
 }
 \arguments{
 \item{surveys}{Name of formr surveys from the bilexicon_lockdown run}
+
+\item{verbose}{Should progress messages and warnings be printed in the console}
 }
 \description{
 Import lockdown data

@@ -3,7 +3,7 @@
 \name{prop_adj_ci}
 \alias{prop_adj_ci}
 \title{Confidence interval of proportion, adjusted for zero- and one-inflation
-\insertCite{gelman2020regression}{multilex}}
+\insertCite{gelman2020regression}{bvqdev}}
 \usage{
 prop_adj_ci(x, n, .width = 0.95)
 }
@@ -16,8 +16,8 @@ prop_adj_ci(x, n, .width = 0.95)
 }
 \description{
 Confidence interval of proportion, adjusted for zero- and one-inflation
-\insertCite{gelman2020regression}{multilex}
+\insertCite{gelman2020regression}{bvqdev}
 }
 \references{
-\insertRef{gelman2020regression}{multilex}
+\insertRef{gelman2020regression}{bvqdev}
 }

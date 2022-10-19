@@ -3,7 +3,7 @@
 \name{prop_adj}
 \alias{prop_adj}
 \title{Proportion, adjusted for zero- and one- inflation
-\insertCite{gelman2020regression}{multilex}}
+\insertCite{gelman2020regression}{bvqdev}}
 \usage{
 prop_adj(x, n)
 }
@@ -14,8 +14,8 @@ prop_adj(x, n)
 }
 \description{
 Proportion, adjusted for zero- and one- inflation
-\insertCite{gelman2020regression}{multilex}
+\insertCite{gelman2020regression}{bvqdev}
 }
 \references{
-\insertRef{gelman2020regression}{multilex}
+\insertRef{gelman2020regression}{bvqdev}
 }

@@ -8,11 +8,14 @@ import_formr_short(
   surveys = c("bilexicon_short_01_log", "bilexicon_short_02_welcome",
     "bilexicon_short_03_consent", "bilexicon_short_04_demo",
     "bilexicon_short_05_language", "bilexicon_short_06_words_catalan",
-    "bilexicon_short_06_words_spanish")
+    "bilexicon_short_06_words_spanish"),
+  verbose = TRUE
 )
 }
 \arguments{
 \item{surveys}{Name of formr surveys from the bilexicon_short run}
+
+\item{verbose}{Should progress messages and warnings be printed in the console}
 }
 \description{
 Import short

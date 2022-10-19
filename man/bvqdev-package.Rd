@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-What the package does (one paragraph).
+This package is intended for internal use by the mantainers of the bvq package. It contains functions that download the BVQ survey data from the formR servers, where the questionnaires are hosted and the data are stored, clean them, and upload them to the Universitat Pompeu Fabra servers. The final data is what users of the bvq package can retrieve.
 }
 \seealso{
 Useful links:

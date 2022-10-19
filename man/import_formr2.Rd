@@ -7,11 +7,14 @@
 import_formr2(
   surveys = c("bilexicon_01_log", "bilexicon_02_welcome", "bilexicon_03_consent",
     "bilexicon_04_demo", "bilexicon_05_language", "bilexicon_06_words_cat",
-    "bilexicon_06_words_spa")
+    "bilexicon_06_words_spa"),
+  verbose = TRUE
 )
 }
 \arguments{
 \item{surveys}{Name of formr surveys from the bilexicon_long2 run}
+
+\item{verbose}{Should progress messages and warnings be printed in the console}
 }
 \description{
 Import formr 2
