@@ -1,0 +1,16 @@
+citHeader("To cite bvqdev in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "Barcelona Vocabulary Questionnaire (BVQ): a bilingual vocabulary checklist in Catalan and Spanish",
+  author   = "Garcia-Castro, Gonzalo and Ávila-Varela, Daniela S. and Sebastian-Galles, Núria",
+  journal  = ,
+  year     = 2022,
+  volume   = ,
+  number   = ,
+  pages    = ,
+  url      = ,
+  textVersion = paste(
+
+  )
+)
