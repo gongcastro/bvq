@@ -1,2 +1,4 @@
-url: https://gongcastro.github.io/bvqdev/
+url: ~
+template:
+  bootstrap: 5
 
