@@ -5,6 +5,9 @@
 #' @importFrom formr formr_connect
 #' @importFrom stats time
 #' @importFrom rlang .data
+#' @importFrom cli cli_alert_info
+#' @importFrom cli cli_alert_warning
+#' @importFrom cli cli_text
 #' @export bvq_responses
 #' @details This function generates a data frame with participant's responses
 #' to each item, along with some session-specific metadata. It takes \code{participants}
@@ -16,6 +19,7 @@
 #' @param runs formr runs to update
 #' @param longitudinal Should longitudinal data be included? If "all" (default), all responses (including repeated measures) are included. If "no", participants with more than one responses to the questionnaire (regardless of the version) are excluded. If "first", only the first response of each participant is included. If "last", only the last response of each participant is included. If "only", only responses with repeated measures are included.
 #' @param update Should data be recovered from last update, or should it be updated now?
+#' @param verbose Should progress messages and warnings be printed in the console
 #' @return A data frame (actually, a \code{\link[tibble]{tibble}}) containing participant's responses to each item, along with some session-specific metadata. The output includes the following variables:
 #'  \describe{
 #'      \item{id}{a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.}
@@ -49,63 +53,71 @@
 bvq_responses <- function(participants = NULL,
                           runs = c("BL-Long2", "BL-Lockdown"), # c("Inhibition", "DevLex", "CBC", "BL-Short", "BL-Long-1", "BL-Long-2", "BL-Lockdown")
                           longitudinal = "all",
-                          update = TRUE) {
-
-  #### import data ----
-  responses_exists <- file.exists(system.file("responses.rds", package = "multilex"))
-
-  if (!update & responses_exists) {
-    message(paste0("Loading last update (", file.info(system.file("responses.rds", package = "multilex"))$mtime, ") ..."))
-    responses <- readRDS(system.file("responses.rds", package = "multilex"))
-  } else if (update | !responses_exists) {
-    if (!responses_exists) {
-      message("Data not available. Updating data...")
-    } else if (update) {
-      message("Updating data...")
+                          update = TRUE,
+                          verbose = TRUE) {
+    
+    #### import data ----
+    responses_exists <- file.exists(system.file("responses.rds", package = "bvq"))
+    
+    if (!update & responses_exists) {
+        
+        last_update <- file.info(system.file("responses.rds", package = "bvq"))$mtime
+        if (verbose) cli_alert_info(paste0("Loading last update (", last_update, ") ..."))
+        responses <- readRDS(system.file("responses.rds", package = "bvq"))
+        
+    } else if (update | !responses_exists) {
+        
+        if (verbose) {
+            if (!responses_exists) {
+                cli_alert_warning("Data not available. Updating data...")
+            } else if (update) {
+                cli_alert_info("Updating surveys...")
+            }
+        }
+        
+        bvq_connect(verbose = verbose) # get credentials to Google and formr
+        
+        # get participant information
+        if (is.null(participants)) participants <- bvq_participants()
+        
+        # retrieve data from formr
+        formr2 <- import_formr2(verbose = verbose) # formr2
+        formr_lockdown <- import_formr_lockdown(verbose = verbose) # formr-lockdown
+        
+        # merge data
+        suppressMessages({
+            responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
+                bind_rows() %>%
+                distinct(.data$id, .data$code, .data$item, .keep_all = TRUE) %>%
+                mutate(
+                    date_birth = as_date(.data$date_birth),
+                    time_stamp = as_date(.data$time_stamp),
+                    version = case_when(
+                        .data$study %in% "DevLex" ~ "DevLex",
+                        .data$study %in% c("CBC", "Signs", "Negation", "Inhibition") ~ "CBC",
+                        TRUE ~ .data$version
+                    ),
+                    time = ifelse(is.na(.data$time), 1, .data$time),
+                    dominance = case_when(
+                        .data$doe_catalan >= .data$doe_spanish ~ "Catalan",
+                        .data$doe_spanish > .data$doe_catalan ~ "Spanish"
+                    ),
+                    version = fix_version(version)
+                ) %>%
+                fix_item() %>%
+                fix_doe() %>%
+                mutate(across(starts_with("doe_"), function(x) x / 100)) %>%
+                fix_postcode() %>%
+                fix_sex() %>%
+                fix_study() %>%
+                fix_id_exp() %>%
+                drop_na(.data$time_stamp) %>%
+                get_longitudinal(longitudinal = longitudinal) %>%
+                arrange(.data$time_stamp)
+        })
+        
+        saveRDS(responses, file = file.path(system.file(package = "multilex"), "responses.rds"))
     }
-
-    bvq_connect(verbose = FALSE) # get credentials to Google and formr
-
-    # get participant information
-    if (is.null(participants)) participants <- bvq_participants()
-
-    # retrieve data from formr
-    formr2 <- import_formr2() # formr2
-    formr_lockdown <- import_formr_lockdown() # formr-lockdown
-
-    # merge data
-    suppressMessages({
-      responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
-        bind_rows() %>%
-        distinct(.data$id, .data$code, .data$item, .keep_all = TRUE) %>%
-        mutate(
-          date_birth = as_date(.data$date_birth),
-          time_stamp = as_date(.data$time_stamp),
-          version = case_when(
-            .data$study %in% "DevLex" ~ "DevLex",
-            .data$study %in% c("CBC", "Signs", "Negation", "Inhibition") ~ "CBC",
-            TRUE ~ .data$version
-          ),
-          time = ifelse(is.na(.data$time), 1, .data$time),
-          dominance = case_when(
-            .data$doe_catalan >= .data$doe_spanish ~ "Catalan",
-            .data$doe_spanish > .data$doe_catalan ~ "Spanish"
-          ),
-          version = fix_version(version)
-        ) %>%
-        fix_item() %>%
-        fix_doe() %>%
-        mutate_at(vars(starts_with("doe_")), function(x) x / 100) %>%
-        fix_postcode() %>%
-        fix_sex() %>%
-        fix_study() %>%
-        fix_id_exp() %>%
-        drop_na(.data$time_stamp) %>%
-        get_longitudinal(longitudinal = longitudinal) %>%
-        arrange(time_stamp)
-    })
-
-    saveRDS(responses, file = file.path(system.file(package = "multilex"), "responses.rds"))
-  }
-  return(responses)
+    
+    return(responses)
 }

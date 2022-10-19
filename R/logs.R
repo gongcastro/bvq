@@ -21,6 +21,7 @@
 #' @param other_threshold Numeric scalar ranging from 0 to 1 indicating the minimum
 #'  degree of exposure to languages other than Catalan and Spanish to consider a
 #'   participant as *Other*.
+#' @param verbose Should progress messages and warnings be printed in the console
 #' @returns A data frame (actually, a \code{\link[tibble]{tibble}}) with participant-level
 #' information. Each row corresponds to a questionnaire response and each column
 #'  represents a variable. The output includes the following variables:
@@ -54,15 +55,16 @@
 bvq_logs <- function(participants = NULL,
                      responses = NULL,
                      bilingual_threshold = 0.80,
-                     other_threshold = 0.10) {
-  bvq_connect() # get credentials to Google and formr
+                     other_threshold = 0.10,
+                     verbose = TRUE) {
+  bvq_connect(verbose = verbose) # get credentials to Google and formr
 
   # if participants or responses are missing from function call, generate them
   if (is.null(responses)) {
     if (is.null(participants)) {
       participants <- bvq_participants()
     }
-    responses <- bvq_responses(participants = participants)
+    responses <- bvq_responses(participants = participants, verbose = verbose)
   }
 
   suppressMessages({
@@ -112,11 +114,10 @@ bvq_logs <- function(participants = NULL,
       ungroup() %>%
       # compute time laps between events
       mutate(
-        across(c(date_sent, time_stamp), as_date),
+        across(c(.data$date_sent, .data$time_stamp), as_date),
         days_from_sent = time_length(difftime(today(), .data$date_sent), "days"),
-        age_today = time_length(difftime(today(), .data$date_birth), "months") %>%
-          ifelse(. %in% c(-Inf, Inf), NA_real_, .),
-        months_from_last_response = time_length(difftime(today(), .data$time_stamp), "months")
+        age_today = diff_in_months(today(), .data$date_birth),
+        months_from_last_response = diff_in_months(today(), .data$time_stamp)
       ) %>%
       # select relevant columns and reorder them
       select(
