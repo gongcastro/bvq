@@ -20,3 +20,6 @@
 ^CONTRIBUTING.md
 ^.Renviron$
 ^inst/extdata/.\.xlsx$
+^codecov\.yml$
+^data-raw$
+^.covrignore$
