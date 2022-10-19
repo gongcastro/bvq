@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: c(
   person("Gonzalo", "Garcia-Castro", email = "gonzalo.garciadecastro@upf.edu", role = "cre", comment = c(ORCID = "0000-0002-8553-4209")))
 Maintainer: Gonzalo Garcia-Castro <gonzalo.garciadecastro@upf.edu>
-Description: What the package does (one paragraph).
+Description: This package is intended for internal use by the mantainers of the bvq package. It contains functions that download the BVQ survey data from the formR servers, where the questionnaires are hosted and the data are stored, clean them, and upload them to the Universitat Pompeu Fabra servers. The final data is what users of the bvq package can retrieve.
 License: MIT + file LICENSE
 Imports: 
     cli,
@@ -13,25 +13,23 @@ Imports:
     ggplot2,
     glue,
     googlesheets4,
-    httr,
     janitor,
     keyring,
     lifecycle,
     lubridate,
     magrittr,
     purrr,
-    readxl,
+    Rdpack,
     rlang (>= 0.4.11),
     scales,
     stringr,
     tibble,
     tidyr,
-    withr
 Suggests: 
     covr,
     knitr,
+    readxl,
     roxygen2,
-    Rdpack,
     spelling,
     testthat (>= 3.0.0)
 Depends: 
@@ -39,7 +37,7 @@ Depends:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 RdMacros: Rdpack
 VignetteBuilder: knitr
 Language: en-US
@@ -47,3 +45,4 @@ Remotes:
     github::rubenarslan/formr
 URL: https://gongcastro.github.io/bvqdev/
 BugReports: https://github.com/gongcastro/multilex/issues
+LazyData: true
