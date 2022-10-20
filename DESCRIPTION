@@ -8,6 +8,7 @@ Description: This package is intended for internal use by the mantainers of the 
 License: MIT + file LICENSE
 Imports: 
     cli,
+    dbplyr,
     dplyr,
     formr (>= 0.9.1),
     ggplot2,
@@ -19,7 +20,7 @@ Imports:
     lubridate,
     magrittr,
     purrr,
-    Rdpack,
+    RMariaDB,
     rlang (>= 0.4.11),
     scales,
     stringr,
@@ -33,7 +34,8 @@ Suggests:
     spelling,
     testthat (>= 3.0.0)
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0),
+    Rdpack
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
