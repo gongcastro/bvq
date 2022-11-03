@@ -358,7 +358,7 @@ flatten_ipa <- function(x) {
 #' Remove punctuation from SAMPA transcriptions
 #' 
 #' @details Note that this function will effectively remove information about phoneme clustering.
-#' @export flatten_ipa
+#' @export flatten_sampa
 #' @param x A character vector with at least one element that contains phonological transcriptions in Speech Assessment Methods Phonetic Alphabet (SAMPA) format. 
 #' @return A character vector of the same length in which punctuation characters have been removed.
 flatten_sampa <- function(x) {
