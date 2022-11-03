@@ -1,6 +1,7 @@
 comment: false
 
 coverage:
+  bot: gongcastro
   status:
     project:
       default:
