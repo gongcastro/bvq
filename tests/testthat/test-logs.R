@@ -1,7 +1,7 @@
 bvq_connect(verbose = FALSE)
 participants <- bvq_participants()
 responses <- bvq_responses(participants, update = FALSE, verbose = FALSE)
-logs <- bvq_logs(participants, responses)
+logs <- bvq_logs(participants, responses, verbose = FALSE)
 
 
 test_that("bvq_responses columns are the right classes", {
