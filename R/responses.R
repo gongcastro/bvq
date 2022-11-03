@@ -116,7 +116,7 @@ bvq_responses <- function(participants = NULL,
                 arrange(.data$time_stamp)
         })
         
-        saveRDS(responses, file = file.path(system.file(package = "multilex"), "responses.rds"))
+        saveRDS(responses, file = file.path(system.file(package = "bvqdev"), "responses.rds"))
     }
     
     return(responses)
