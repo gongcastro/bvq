@@ -7,7 +7,7 @@ download_surveys <- function(surveys, verbose) {
     n <- length(surveys)
     i <- 0
     raw <- vector(mode = "list", length = n)
-    if (verbose) cli_progress_step(msg = "Downloaded {i}/{n} {qty(i)}survey{?s}.")
+    if (verbose) cli_progress_step(msg = "Downloaded {i}/{n} {qty(i)}survey{?s}")
     for (i in 1:length(surveys)) {
         raw[[i]] <- formr_raw_results(surveys[i])
         if (verbose) cli_progress_update()
