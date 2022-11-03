@@ -2,21 +2,19 @@
 % Please edit documentation in R/utils.R
 \name{flatten_sampa}
 \alias{flatten_sampa}
-\title{Remove punctuation and fix non-ASCII characters from IPA transcriptions}
+\title{Remove punctuation from SAMPA transcriptions}
 \usage{
 flatten_sampa(x)
 }
 \arguments{
-\item{x}{A character vector with at least one element that contains phonological transcriptions in International Phonology Association (IPA) format. These character strings may contain non-ASCII characters that make certain operations daunting, such as computing edit distances between transcriptions.}
-
-\item{longitudinal}{A character string indicating what subset of the participants should be returned: "all" (default) returns all participants, "no" remove all participants with more than one response, only" returns only participants with more than one response in the dataset (i.e., longitudinal participants), "first" returns the first response of each participant (participants with only one appearance are included), and "last" returns the last response from each participant (participants with only one response are included).}
+\item{x}{A character vector with at least one element that contains phonological transcriptions in Speech Assessment Methods Phonetic Alphabet (SAMPA) format.}
 }
 \value{
-A character vector of the same length in which punctuation characters have been removed and non-ASCII characters have been replaced by computer-friendly ones.
+A character vector of the same length in which punctuation characters have been removed.
 }
 \description{
-Remove punctuation and fix non-ASCII characters from IPA transcriptions
+Remove punctuation from SAMPA transcriptions
 }
 \details{
-Note that this function will effectively remove information about syllabification and stress from the phonological representations.
+Note that this function will effectively remove information about phoneme clustering.
 }
