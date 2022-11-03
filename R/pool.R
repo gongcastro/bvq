@@ -13,6 +13,7 @@
 #'   \item{sampa}{phonological transcription in C-SAMPA format, transcribed from \code{ipa} using the \href{https://clearpond.northwestern.edu/ipa_cpsampa.html}{CLEARPOND transcriber}}
 #'   \item{subtlex_lemma}{word label, as included in the corresponding version of SUBTLEX}
 #'   \item{wordbank_lemma}{word label, as indexed in Worbank}
+#'   \item{wordbank_lemma}{word label, as it appears in the CHILDES English corpora (based on \code{wordbank_lemma})}
 #'   \item{category}{semantic/functional category the items belongs to}
 #'   \item{class}{Funcional category (verb, nouns, adjective, etc.)}
 #'   \item{include}{should this item be included in analyses?}
