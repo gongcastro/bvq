@@ -29,17 +29,43 @@ bvq_connect <- function(google_email = NULL,
     if (is_key_formr_missing) key_set("bvq", formr_email)
     
     # if key exists, use it to log in
-    suppressWarnings(
-        formr_connect(
-            email = formr_email,
-            password = key_get("bvq", formr_email),
-            host = "https://formr.org/"
-        )
+    tryCatch(
+        suppressWarnings(
+            formr_connect(
+                email = formr_email,
+                password = key_get("bvq", formr_email),
+                host = "https://formr.org/"
+            )
+        ), 
+        error = function(e){
+            cli_abort(
+                strwrap(
+                    prefix = " ",
+                    initial = "",
+                    "Could not connect to formR. Please check your internet connection or make sure you have set the right formR password."
+                )
+            )
+        }
     )
     
     # check if Google credentials exists, ask for them if not
     is_key_google <- gs4_has_token()
-    if (!is_key_google) gs4_auth(email = google_email)
+    
+    if (!is_key_google) {
+        
+        tryCatch(
+            suppressWarnings(gs4_auth(email = google_email)), 
+            error = function(e){
+                cli_abort(
+                    strwrap(
+                        prefix = " ",
+                        initial = "",
+                        "Could not connect to Google. Please check your internet connection or grant the necessary permissions."
+                    )
+                )
+            }
+        )
+    }
     
     # return success code but do not print it
     if (verbose && gs4_has_token()){

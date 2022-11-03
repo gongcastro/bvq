@@ -1,7 +1,8 @@
+
 if(interactive()) {
     
-    suppressMessages(require(usethis))
-    suppressMessages(require(devtools))
+    suppressWarnings(require(usethis, quietly = TRUE))
+    suppressWarnings(require(devtools, quietly = TRUE))
     
     cat("\014") # clear screen
     cli::cli_text("")
@@ -10,10 +11,11 @@ if(interactive()) {
     
     # customise the prompt
     prompt::set_prompt(function(...){
-        branch <- (purrr::safely(gert::git_branch))()
+        branch <- suppressWarnings(purrr::safely(gert::git_branch)())
         if(is.null(branch$result)) return("> ")
         return(paste0("[", branch$result, "] > "))
     })
+    
     
     # usethis options
     options(usethis.protocol = "ssh")
@@ -26,11 +28,10 @@ if(interactive()) {
     cli::cli_alert_success(
         paste0("Loaded: ", 
                paste0(
-                   session_info()$packages[session_info()$packages$attached, 1], 
+                   sessioninfo::session_info()$packages[sessioninfo::session_info()$packages$attached, 1], 
                    collapse = ", "
                )
         )
     )      
     cli::cli_text("")
-    
 }

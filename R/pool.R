@@ -12,10 +12,8 @@
 #'   \item{class}{Funcional category (verb, nouns, adjective, etc.)}
 #'   \item{label}{item label, as presented to participants in the front-end of the questionnaire, some labels are not unique within or across quesitonnaires}
 #'   \item{ipa}{phonological transcription in IPA format}
-#'   \item{label_subtlex}{word label, as included in the corresponding version of SUBTLEX}
-#'   \item{frequency_million}{lexical frequency (in counts per million score) retrieved from the corresponding version of SUBTLEX}
-#'   \item{frequency_zipf}{lexical frequency (in Zipf score) retrieved from the corresponding version of SUBTLEX}
-#'   \item{cognate}{cognate status, manually coded}
+#'   \item{subtlex_lemma}{word label, as included in the corresponding version of SUBTLEX}
+#'   \item{wordbank_lemma}{word label, as indexed in Worbank}
 #'   \item{include}{should this item be included in analyses?}
 #'   \item{version}{what short version of the questionnaire does this item appear on?}
 #'   \item{comments}{additional comments to the item}
