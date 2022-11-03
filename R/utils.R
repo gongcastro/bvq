@@ -358,6 +358,13 @@ import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "mu
 #' @importFrom dplyr ungroup
 #' @return A subset of the data frame \code{x} with only the selected cases, according to \code{longitudinal}.
 get_longitudinal <- function(x, longitudinal = "all") {
+    
+    longitudinal_opts <- c("all", "no", "first", "last", "only")
+    
+    if (!(longitudinal %in% longitudinal_opts)) {
+        cli_abort(paste0("longitudinal must be one of: ", paste0(longitudinal_opts, collapse = ", ")))
+    }
+    
     repeated <- distinct(x, id, time) %>%
         group_by(id) %>%
         filter(n() > 1) %>%
