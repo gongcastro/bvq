@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{prop_adj_se}
 \alias{prop_adj_se}
-\title{Standard error of proportion, adjusted for zero- and one-inflation
-\insertCite{gelman2020regression}{bvqdev}}
+\title{Standard error of proportion, adjusted for zero- and one-inflation}
 \usage{
 prop_adj_se(x, n)
 }
@@ -13,7 +12,6 @@ prop_adj_se(x, n)
 \item{n}{Number of tries}
 }
 \description{
-Standard error of proportion, adjusted for zero- and one-inflation
 \insertCite{gelman2020regression}{bvqdev}
 }
 \references{

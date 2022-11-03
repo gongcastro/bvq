@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{prop_adj_ci}
 \alias{prop_adj_ci}
-\title{Confidence interval of proportion, adjusted for zero- and one-inflation
-\insertCite{gelman2020regression}{bvqdev}}
+\title{Confidence interval of proportion, adjusted for zero- and one-inflation}
 \usage{
 prop_adj_ci(x, n, .width = 0.95)
 }
@@ -15,7 +14,6 @@ prop_adj_ci(x, n, .width = 0.95)
 \item{.width}{Confidence level (defaults to .95)}
 }
 \description{
-Confidence interval of proportion, adjusted for zero- and one-inflation
 \insertCite{gelman2020regression}{bvqdev}
 }
 \references{

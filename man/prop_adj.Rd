@@ -2,8 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{prop_adj}
 \alias{prop_adj}
-\title{Proportion, adjusted for zero- and one- inflation
-\insertCite{gelman2020regression}{bvqdev}}
+\title{Proportion, adjusted for zero- and one- inflation}
 \usage{
 prop_adj(x, n)
 }
@@ -13,7 +12,6 @@ prop_adj(x, n)
 \item{n}{Number of tries}
 }
 \description{
-Proportion, adjusted for zero- and one- inflation
 \insertCite{gelman2020regression}{bvqdev}
 }
 \references{

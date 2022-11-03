@@ -1,4 +1,5 @@
 #' Download formR surveys
+#' 
 #' @import cli
 #' @param surveys Name of the surveys in the formR run
 #' @param verbose Should progress messages and warnings be printed in the console
@@ -18,6 +19,7 @@ download_surveys <- function(surveys, verbose) {
 }
 
 #' Age difference in months
+#' 
 #' @param x Most recent date
 #' @param y Least recent date
 #' @importFrom lubridate time_length
@@ -29,6 +31,7 @@ diff_in_months <- function(x, y) {
 }
 
 #' Get timestamps
+#' 
 #' @param .data Data frame containing a column for the first time stamp and the last time stamp of participants' resposes the word inventory in each language (Spanish and Catalan)
 #' @param cols Character string vector indicating the name of the columns containing the first and the last time stamps (in that order) of participants' responses to a given language inventory.
 #' @param which Which time stamp to consider: first (by default) or last?
@@ -47,6 +50,7 @@ get_time_stamp <- function(.data, cols, which = "first") {
 }
 
 #' Summarise language profile
+#' 
 #' @importFrom rlang .data
 #' @param .data Data frame that contains each degree of exposure as columns, named \code{language_doe_*}
 #' @param languages Character vector of languages to compute degree of exposure for (all others will be considered as doe_others)
@@ -55,12 +59,14 @@ get_doe <- function(.data, languages) {
 }
 
 #' Fix variable version
+#' 
 #' @param x Vector of \code{version} whose values should be fixed
 fix_version <- function(x) {
     trimws(x)
 }
 
 #' Fix codes
+#' 
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_remove_all
 #' @param x Vector of \code{code} whose values should be fixed
@@ -82,6 +88,7 @@ fix_code <- function(x) {
 
 
 #' Fix raw codes
+#' 
 #' @param x Vector of \code{code} whose values should be fixed, based on \code{session}
 fix_code_raw <- function(x) {
     x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "code"] <- "BL1674"
@@ -96,6 +103,7 @@ fix_code_raw <- function(x) {
 }
 
 #' Fix DOEs
+#' 
 #' @importFrom dplyr mutate
 #' @importFrom dplyr case_when
 #' @param x Vector of \code{doe} whose values should be fixed
@@ -128,6 +136,7 @@ fix_doe <- function(x) {
 }
 
 #' Fix sex (missing in first responses to BL-Lockdown)
+#' 
 #' @importFrom dplyr group_by
 #' @importFrom dplyr mutate
 #' @importFrom dplyr case_when
@@ -146,6 +155,7 @@ fix_sex <- function(x) {
 }
 
 #' Fix postcode
+#' 
 #' @importFrom dplyr mutate
 #' @importFrom dplyr case_when
 #' @importFrom rlang .data
@@ -159,6 +169,7 @@ fix_postcode <- function(x) {
 }
 
 #' Fix item
+#' 
 #' @importFrom dplyr case_when
 #' @importFrom rlang .data
 #' @param x Vector of \code{item} whose values should be fixed
@@ -186,6 +197,7 @@ fix_item <- function(x) {
 
 
 #' Fix study
+#' 
 #' @importFrom dplyr mutate
 #' @importFrom rlang .data
 #' @param x Vector of \code{study} whose values should be fixed
@@ -201,6 +213,7 @@ fix_study <- function(x) {
 }
 
 #' Fix id_exp
+#' 
 #' @importFrom dplyr mutate
 #' @importFrom dplyr case_when
 #' @param x Vector of \code{id_exp} whose values should be fixed
@@ -215,6 +228,7 @@ fix_id_exp <- function(x) {
 }
 
 #' Replace special characters
+#' 
 #' @importFrom stringr str_replace_all
 #' @importFrom rlang chr_unserialise_unicode
 #' @param x Character vector whose strings will be transformed
@@ -239,6 +253,7 @@ replace_special_characters <- function(x) {
 }
 
 #' Fill missing with previous row
+#' 
 #' @param x Vector whose missing values will be filled with parallel non-missing values
 coalesce_by_column <- function(x) {
     return(x[max(which(!is.na(x)))])
@@ -246,6 +261,7 @@ coalesce_by_column <- function(x) {
 
 
 #' Evaluate if x is included in y
+#' 
 #' @export `%nin%`
 #' @param x Vector whose elements will be evaluated
 #' @param y Vector in which elements of \code{x} will be evaluated
@@ -259,6 +275,7 @@ first_non_na <- function(x) {
 }
 
 #' Select age bins flexibly
+#' 
 #' @importFrom ggplot2 cut_width
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_remove_all
@@ -279,6 +296,7 @@ get_age_bins <- function(x, width = 2) {
 
 
 #' Proportion, adjusted for zero- and one- inflation
+#' 
 #' \insertCite{gelman2020regression}{bvqdev}
 #' @references
 #' \insertRef{gelman2020regression}{bvqdev}
@@ -291,6 +309,7 @@ prop_adj <- function(x, n) {
 }
 
 #' Standard error of proportion, adjusted for zero- and one-inflation
+#' 
 #' \insertCite{gelman2020regression}{bvqdev}
 #' @references
 #' \insertRef{gelman2020regression}{bvqdev}
@@ -304,6 +323,7 @@ prop_adj_se <- function(x, n) {
 }
 
 #' Confidence interval of proportion, adjusted for zero- and one-inflation
+#' 
 #' \insertCite{gelman2020regression}{bvqdev}
 #' @references
 #' \insertRef{gelman2020regression}{bvqdev}
@@ -322,32 +342,31 @@ prop_adj_ci <- function(x, n, .width = 0.95) {
 }
 
 
-import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "multilex")) {
-    x <- readxl::read_xlsx(file) %>%
-        dplyr::mutate_at(vars(.data$te), as.integer) %>%
-        dplyr::mutate_at(
-            dplyr::vars(.data$cognate, .data$include),
-            function(x) as.logical(as.integer(x))
-        ) %>%
-        dplyr::mutate_at(dplyr::vars(.data$version), function(x) strsplit(x, split = ",")) %>%
-        mutate(
-            ipa_flat = gsub(
-                pool$ipa %>%
-                    paste(collapse = "") %>%
-                    strsplit("") %>%
-                    unlist() %>%
-                    unique() %>%
-                    .data[c(3, 6, 37, 39, 44, 50)] %>%
-                    paste0("\\", .data, collapse = "|"),
-                "",
-                .data$ipa
-            )
-        ) %>%
-        dplyr::relocate(.data$ipa_flat, .after = .data$ipa)
-    return(x)
+#' Remove punctuation and fix non-ASCII characters from IPA transcriptions
+#' 
+#' @details Note that this function will effectively remove information about syllabification and stress from the phonological representations.
+#' @export flatten_ipa
+#' @param x A character vector with at least one element that contains phonological transcriptions in International Phonology Association (IPA) format. These character strings may contain non-ASCII characters that make certain operations daunting, such as computing edit distances between transcriptions.
+#' @return A character vector of the same length in which punctuation characters have been removed and non-ASCII characters have been replaced by computer-friendly ones.
+flatten_ipa <- function(x) {
+    unique_phonemes <- unique(unlist(strsplit(paste(x, collapse = ""), "")))
+    shortlisted_phonemes <- paste0("\\", unique_phonemes[c(3, 6, 37, 39, 44, 50)] , collapse = "|")
+    gsub(shortlisted_phonemes, "", x)
+}
+
+
+#' Remove punctuation from SAMPA transcriptions
+#' 
+#' @details Note that this function will effectively remove information about phoneme clustering.
+#' @export flatten_ipa
+#' @param x A character vector with at least one element that contains phonological transcriptions in Speech Assessment Methods Phonetic Alphabet (SAMPA) format. 
+#' @return A character vector of the same length in which punctuation characters have been removed.
+flatten_sampa <- function(x) {
+    gsub("[[:punct:]]", "", x)
 }
 
 #' Deal with repeated measures
+#' 
 #' @export get_longitudinal
 #' @param x A data frame containing a column for participants (each participant gets a unique ID), and a column for times (a numeric value indicating how many times each participant appears in the data frame counting this one). One participant may appear several times in the data frame, with each time with a unique value of \code{time}.
 #' @param longitudinal A character string indicating what subset of the participants should be returned: "all" (defult) returns all participants, "no" remove all participants with more than one response, only" returns only participants with more than one response in the dataset (i.e., longitudinal participants), "first" returns the first response of each participant (participants with only one appearance are included), and "last" returns the last response from each participant (participants with only one response are included).
