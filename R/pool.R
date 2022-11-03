@@ -6,8 +6,8 @@
 #' @format A data frame with 1601 rows and 20 variables:
 #' \describe{
 #'   \item{item}{item label, as indicated in the formr survey spreadsheets, items are unique within and across questionnaires}
-#'   \item{te}{index associated to translation equivalents across languages}
 #'   \item{language}{language the item belongs to}
+#'   \item{te}{index associated to translation equivalents across languages}
 #'   \item{category}{semantic/functional category the items belongs to}
 #'   \item{class}{Funcional category (verb, nouns, adjective, etc.)}
 #'   \item{label}{item label, as presented to participants in the front-end of the questionnaire, some labels are not unique within or across quesitonnaires}
