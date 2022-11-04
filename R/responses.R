@@ -57,13 +57,13 @@ bvq_responses <- function(participants = NULL,
                           verbose = TRUE) {
     
     #### import data ----
-    responses_exists <- file.exists(system.file("responses.rds", package = "bvq"))
+    responses_exists <- file.exists(system.file("responses.rds", package = "bvqdev"))
     
     if (!update & responses_exists) {
         
-        last_update <- file.info(system.file("responses.rds", package = "bvq"))$mtime
+        last_update <- file.info(system.file("responses.rds", package = "bvqdev"))$mtime
         if (verbose) cli_alert_info(paste0("Loading last update (", last_update, ") ..."))
-        responses <- readRDS(system.file("responses.rds", package = "bvq"))
+        responses <- readRDS(system.file("responses.rds", package = "bvqdev"))
         
     } else if (update | !responses_exists) {
         
