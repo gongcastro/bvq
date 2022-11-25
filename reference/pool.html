@@ -77,13 +77,19 @@ with some lexical properties. Transcriptions were (a) generated manually, (b) re
 <dt>sampa</dt>
 <dd><p>phonological transcription in C-SAMPA format, transcribed from <code>ipa</code> using the <a href="https://clearpond.northwestern.edu/ipa_cpsampa.html" class="external-link">CLEARPOND transcriber</a></p></dd>
 
+<dt>n_lemmas</dt>
+<dd><p>an integer indicating the number of different lemmas showed in the item label to participants. for instance, the Spanish item <code>spa_hierba</code> was shown to in the questionnaire as "hierba / césped". Lemma with similar roots were considered as one, such as the Spanish item <code>spa_tonto</code>, presented as "tonto / tonta" in the questionnaire.</p></dd>
+
+<dt>is_multiword</dt>
+<dd><p>an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item <code>spa_cepillodientes</code> was shown as "cepillo de dientes" in the questionnaire, which includes three words.</p></dd>
+
 <dt>subtlex_lemma</dt>
 <dd><p>word label, as included in the corresponding version of SUBTLEX</p></dd>
 
 <dt>wordbank_lemma</dt>
 <dd><p>word label, as indexed in Worbank</p></dd>
 
-<dt>wordbank_lemma</dt>
+<dt>childes_lemma</dt>
 <dd><p>word label, as it appears in the CHILDES English corpora (based on <code>wordbank_lemma</code>)</p></dd>
 
 <dt>category</dt>
