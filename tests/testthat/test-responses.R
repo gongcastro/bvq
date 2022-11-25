@@ -40,3 +40,4 @@ test_that("all participants have at least one non-missing response", {
     pull(not_missing)
   expect_false(all(non_missing_responses))
 })
+

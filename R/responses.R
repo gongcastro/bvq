@@ -88,19 +88,19 @@ bvq_responses <- function(participants = NULL,
         suppressMessages({
             responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
                 bind_rows() %>%
-                distinct(.data$id, .data$code, .data$item, .keep_all = TRUE) %>%
+                distinct(id, code, item, .keep_all = TRUE) %>%
                 mutate(
-                    date_birth = as_date(.data$date_birth),
-                    time_stamp = as_date(.data$time_stamp),
+                    date_birth = as_date(date_birth),
+                    time_stamp = as_date(time_stamp),
                     version = case_when(
-                        .data$study %in% "DevLex" ~ "DevLex",
-                        .data$study %in% c("CBC", "Signs", "Negation", "Inhibition") ~ "CBC",
-                        TRUE ~ .data$version
+                        study %in% "DevLex" ~ "DevLex",
+                        study %in% c("CBC", "Signs", "Negation", "Inhibition") ~ "CBC",
+                        TRUE ~ version
                     ),
-                    time = ifelse(is.na(.data$time), 1, .data$time),
+                    time = ifelse(is.na(time), 1, time),
                     dominance = case_when(
-                        .data$doe_catalan >= .data$doe_spanish ~ "Catalan",
-                        .data$doe_spanish > .data$doe_catalan ~ "Spanish"
+                        doe_catalan >= doe_spanish ~ "Catalan",
+                        doe_spanish > doe_catalan ~ "Spanish"
                     ),
                     version = fix_version(version)
                 ) %>%
@@ -111,9 +111,9 @@ bvq_responses <- function(participants = NULL,
                 fix_sex() %>%
                 fix_study() %>%
                 fix_id_exp() %>%
-                drop_na(.data$time_stamp) %>%
+                drop_na(time_stamp) %>%
                 get_longitudinal(longitudinal = longitudinal) %>%
-                arrange(.data$time_stamp)
+                arrange(time_stamp)
         })
         
         saveRDS(responses, file = file.path(system.file(package = "bvqdev"), "responses.rds"))

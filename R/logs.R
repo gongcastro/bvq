@@ -71,25 +71,25 @@ bvq_logs <- function(participants = NULL,
 
     # get n items answered by participants (depends on the questionnaire version)
     total_items <- studies %>%
-      distinct(.data$version, .data$language, .data$n) %>%
-      group_by(.data$version) %>%
-      summarise(total_items = sum(.data$n), .groups = "drop")
+      distinct(version, language, n) %>%
+      group_by(version) %>%
+      summarise(total_items = sum(n), .groups = "drop")
 
     # generate logs
     logs <- responses %>%
       mutate(
         # define language profiles based on thresholds
         lp = case_when(
-          .data$doe_catalan >= bilingual_threshold ~ "Monolingual",
-          .data$doe_spanish >= bilingual_threshold ~ "Monolingual",
-          .data$doe_others > other_threshold ~ "Other",
+          doe_catalan >= bilingual_threshold ~ "Monolingual",
+          doe_spanish >= bilingual_threshold ~ "Monolingual",
+          doe_others > other_threshold ~ "Other",
           TRUE ~ "Bilingual"
         ),
         # define language dominance
         dominance = case_when(
-          .data$doe_catalan > .data$doe_spanish ~ "Catalan",
-          .data$doe_spanish > .data$doe_catalan ~ "Spanish",
-          .data$doe_catalan == .data$doe_spanish ~ sample(c("Catalan", "Spanish"), 1)
+          doe_catalan > doe_spanish ~ "Catalan",
+          doe_spanish > doe_catalan ~ "Spanish",
+          doe_catalan == doe_spanish ~ sample(c("Catalan", "Spanish"), 1)
         )
       ) %>%
       group_by_at(
@@ -100,24 +100,24 @@ bvq_logs <- function(participants = NULL,
         )
       ) %>%
       # total items to fill by each participant (varies across versions)
-      summarise(complete_items = sum(!is.na(.data$response)), .groups = "drop") %>%
+      summarise(complete_items = sum(!is.na(response)), .groups = "drop") %>%
       left_join(total_items) %>%
-      left_join(select(participants, -c(.data$date_birth, .data$version))) %>%
-      drop_na(.data$id) %>%
+      left_join(select(participants, -c(date_birth, version))) %>%
+      drop_na(id) %>%
       # compute participant's progress trhough the questionnaire
-      mutate(across(.data$time_stamp, as_datetime)) %>%
+      mutate(across(time_stamp, as_datetime)) %>%
       rowwise() %>%
       mutate(
-        progress = label_percent()(.data$complete_items / .data$total_items),
-        completed = (.data$complete_items / .data$total_items) >= 0.95
+        progress = label_percent()(complete_items / total_items),
+        completed = (complete_items / total_items) >= 0.95
       ) %>%
       ungroup() %>%
       # compute time laps between events
       mutate(
-        across(c(.data$date_sent, .data$time_stamp), as_date),
-        days_from_sent = time_length(difftime(today(), .data$date_sent), "days"),
-        age_today = diff_in_months(today(), .data$date_birth),
-        months_from_last_response = diff_in_months(today(), .data$time_stamp)
+        across(c(date_sent, time_stamp), as_date),
+        days_from_sent = time_length(difftime(today(), date_sent), "days"),
+        age_today = diff_in_months(today(), date_birth),
+        months_from_last_response = diff_in_months(today(), time_stamp)
       ) %>%
       # select relevant columns and reorder them
       select(
@@ -130,7 +130,7 @@ bvq_logs <- function(participants = NULL,
           "progress", "completed"
         )
       ) %>%
-      arrange(desc(.data$time_stamp))
+      arrange(desc(time_stamp))
   })
 
   return(logs)
