@@ -55,7 +55,8 @@
 <span>  participants <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  responses <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  scale <span class="op">=</span> <span class="st">"count"</span></span>
+<span>  scale <span class="op">=</span> <span class="st">"count"</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -75,6 +76,10 @@
 
 <dt>scale</dt>
 <dd><p>A character vector that takes the value "count" and/or "prop". If "count" (default) vocabulary metrics are reported as counts (number of words). If "prop", vocabulary metrics are calculated as proportions?</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Extra arguments that will be passed to the <code>bvq_responses</code> function.</p></dd>
 
 </dl></div>
     <div class="section level2">
