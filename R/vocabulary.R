@@ -57,6 +57,8 @@ bvq_vocabulary <- function(participants = NULL,
         logs <- bvq_logs(participants, responses) %>%
             filter(id %in% unique(responses$id)) # get logs
         
+        data("pool")
+        
         vocab_base <- responses %>%
             mutate(understands = response==2|response==3,
                    produces = response==3) %>% 
