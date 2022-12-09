@@ -20,4 +20,4 @@ pool <- read_xlsx("inst/extdata/pool.xlsx") %>%
     ) 
 
 # export pool database
-usethis::use_data(pool, overwrite = TRUE)
+usethis::use_data(pool, overwrite = TRUE, internal = FALSE)

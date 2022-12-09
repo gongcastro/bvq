@@ -8,7 +8,8 @@ bvq_vocabulary(
   participants = NULL,
   responses = NULL,
   by = NULL,
-  scale = "count"
+  scale = "count",
+  ...
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ bvq_vocabulary(
 \item{by}{A character vector that takes the name of the variable(s) to group data into. Vocabulary metrics will be calculated by aggregating responses within the groups that result from the combination of crossing of the variables provided in \code{by}. This variables can refer to item properties (see \code{pool}, e.g., "category") or to participant properties (see \code{bvq_logs()}, e.g., "dominance").}
 
 \item{scale}{A character vector that takes the value "count" and/or "prop". If "count" (default) vocabulary metrics are reported as counts (number of words). If "prop", vocabulary metrics are calculated as proportions?}
+
+\item{...}{Extra arguments that will be passed to the \code{bvq_responses} function.}
 }
 \value{
 A dataset (actually, a \code{\link[tibble]{tibble}}) with each participant's comprehensive and/or vocabulary size in each language. This data frame contains the following variables:
