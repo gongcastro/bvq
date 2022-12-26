@@ -6,7 +6,7 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-Development package for the Barcelona Vocabulary Questoinnaire (BVQ).
+Development package for the Barcelona Vocabulary Questionnaire (BVQ).
 
 ## Code of Conduct
 
