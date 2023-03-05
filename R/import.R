@@ -1,3 +1,24 @@
+#' Download formR surveys
+#' @import cli
+#' @param surveys Name of the surveys in the formR run
+#' @param verbose Should progress messages and warnings be printed in the console
+download_surveys <- function(surveys, verbose) {
+    n <- length(surveys)
+    i <- 0
+    raw <- vector(mode = "list", length = n)
+    if (interactive() & verbose) {
+        cli_progress_step(msg = "Downloaded {i}/{n} {qty(i)}survey{?s}")
+    }
+    for (i in 1:length(surveys)) {
+        raw[[i]] <- formr_raw_results(surveys[i])
+        if (interactive() & verbose) cli_progress_update()
+    }
+    cli_progress_done(result = "done")
+    raw <- lapply(raw, select, -any_of("language"))
+    names(raw) <- surveys
+    return(raw)
+}
+
 #' Import lockdown data
 #' @import dplyr
 #' @importFrom formr formr_raw_results
@@ -24,7 +45,11 @@ import_formr_lockdown <- function(surveys = c(
     "bilexicon_lockdown_06_words_spanish"),
     verbose = TRUE) {
     
+<<<<<<< HEAD
     participants_tmp <- get("participants", parent.frame()) %>%
+=======
+    participants_tmp <- get("participants", parent.frame()) |> 
+>>>>>>> dplyr-1.0.0
         select(-version)
     
     # fetch responses
@@ -32,12 +57,19 @@ import_formr_lockdown <- function(surveys = c(
     
     # edit logs dataset
     raw[[1]] <- raw[[1]] %>%
+<<<<<<< HEAD
         rename(code = bl_code) %>%
         mutate(
             # fix codes known to be wrong
             code = fix_code(na_if(code, "")),
             created = as_datetime(created)
         ) %>%
+=======
+        # fix codes known to be wrong
+        rename(code = bl_code) %>%
+        mutate(code = fix_code(na_if(code, "")),
+               created = as_datetime(created)) %>%
+>>>>>>> dplyr-1.0.0
         # remove responses with no code
         drop_na(code, ended) %>%
         # fix codes known to be wrong
@@ -58,10 +90,25 @@ import_formr_lockdown <- function(surveys = c(
     processed <- raw %>%
         map(drop_na, created) %>%
         map(select, -one_of(c("created", "modified", "ended", "expired"))) %>%
+<<<<<<< HEAD
         reduce(inner_join, by = "session") %>%
         left_join(participants_tmp, by = "code") %>%
         left_join(select(raw[[6]], session, created_cat = created, ended_cat = ended), by = "session") %>%
         left_join(select(raw[[7]], session, created_spa = created, ended_spa = ended), by = "session") %>%
+=======
+        # if a single session ID has multiple entries, select most recent
+        reduce(inner_join, 
+               by = join_by(session),
+               multiple = "all") %>%
+        left_join(participants_tmp,
+                  by = join_by(code)) %>%
+        left_join(select(raw[[6]], session, created_cat = created, ended_cat = ended), 
+                  by = join_by(session),
+                  multiple = "all") %>%
+        left_join(select(raw[[7]], session, created_spa = created, ended_spa = ended),
+                  by = join_by(session),
+                  multiple = "all") %>%
+>>>>>>> dplyr-1.0.0
         mutate(
             across(c(created_cat, created_spa, ended_cat, ended_spa, date_birth), as_datetime),
             across(starts_with("language_doe"), ~ifelse(is.na(.), 0, .)),
@@ -75,6 +122,7 @@ import_formr_lockdown <- function(surveys = c(
             language_doe_spanish_lockdown = get_doe(., languages = .env$languages_lockdown2[grep("spanish", .env$languages_lockdown2)]),
             language_doe_others = 100 - rowSums(across(c(language_doe_catalan, language_doe_spanish)), na.rm = TRUE),
             language_doe_others_lockdown = 100 - rowSums(across(c(language_doe_catalan_lockdown, language_doe_spanish_lockdown)), na.rm = TRUE)
+<<<<<<< HEAD
         ) %>%
         arrange(desc(time_stamp)) %>%
         distinct(session, .keep_all = TRUE) %>%
@@ -89,12 +137,31 @@ import_formr_lockdown <- function(surveys = c(
             cols = matches("cat_|spa_"),
             names_to = "item",
             values_to = "response"
+=======
+>>>>>>> dplyr-1.0.0
         ) %>%
+        arrange(desc(time_stamp)) %>%
+        distinct(session, .keep_all = TRUE) %>%
+        rename(postcode = demo_postcode,
+               edu_parent1 = demo_parent1,
+               edu_parent2 = demo_parent2) %>%
+        drop_na(age) %>%
+        select(starts_with("id"), 
+               one_of(items_to_keep), 
+               starts_with("cat_"),
+               starts_with("spa_")) %>%
+        pivot_longer(cols = matches("cat_|spa_"),
+                     names_to = "item",
+                     values_to = "response") %>%
         rename_with(~ gsub("language_", "", .), everything()) %>%
         mutate(
             language = ifelse(grepl("cat_", item), "Catalan", "Spanish"),
             sex = ifelse(sex == 1, "Male", "Female"),
+<<<<<<< HEAD
             postcode = as.integer(na_if(postcode, "")),
+=======
+            postcode = na_if(as.character(postcode), ""),
+>>>>>>> dplyr-1.0.0
             edu_parent1 = na_if(edu_parent1, ""),
             edu_parent2 = na_if(edu_parent2, ""),
             sex = NA_character_
@@ -102,7 +169,9 @@ import_formr_lockdown <- function(surveys = c(
         arrange(desc(time_stamp))
     
     if (verbose){
-        cli_alert_success(paste0("BL-Lockdown updated: ", nrow(distinct(processed, code)), " responses retrieved"))
+        cli_alert_success(paste0("BL-Lockdown updated: ",
+                                 nrow(distinct(processed, code)), 
+                                 " responses retrieved"))
     }
     
     return(processed)
@@ -146,11 +215,17 @@ import_formr_short <- function(surveys = c(
     
     # edit logs dataset
     raw[[1]] <- raw[[1]] %>%
+<<<<<<< HEAD
         mutate(
             # fix codes known to be wrong
             code = fix_code(na_if(code, "")),
             created = as_datetime(created)
         ) %>%
+=======
+        # fix codes known to be wrong
+        mutate(code = fix_code(na_if(code, "")),
+               created = as_datetime(created)) %>%
+>>>>>>> dplyr-1.0.0
         # remove codes not inlcuded in participants
         filter(code %in% participants_tmp$code) %>%
         # get only last response of each code
@@ -171,6 +246,7 @@ import_formr_short <- function(surveys = c(
     # process data
     processed <- raw %>%
         map(select, -one_of(c("created", "modified", "ended", "expired"))) %>%
+<<<<<<< HEAD
         reduce(left_join, by = "session") %>%
         mutate(code = fix_code(code)) %>%
         left_join(participants_tmp, by = "code") %>%
@@ -178,6 +254,24 @@ import_formr_short <- function(surveys = c(
         left_join(select(raw$bilexicon_short_06_words_cat, session, created_cat = created, ended_cat = ended), by = "session") %>%
         left_join(select(raw$bilexicon_short_06_words_spa, session, created_spa = created, ended_spa = ended), by = "session") %>%
         filter(code %in% participants_tmp$code) %>%
+=======
+        # if a single session ID has multiple entries, select all
+        reduce(inner_join, 
+               by = join_by(session),
+               multiple = "all") %>%   
+        mutate(code = fix_code(code)) %>%
+        left_join(participants_tmp, by = join_by(code)) %>%
+        filter(code %in% participants_tmp$code) %>%
+        left_join(select(raw$bilexicon_short_06_words_cat, session,
+                         created_cat = created, ended_cat = ended), 
+                  by = join_by(session),
+                  multiple = "all") %>%
+        left_join(select(raw$bilexicon_short_06_words_spa, session,
+                         created_spa = created, ended_spa = ended), 
+                  by = join_by(session),
+                  multiple = "all") %>%
+        filter(code %in% participants_tmp$code) %>%
+>>>>>>> dplyr-1.0.0
         drop_na(created_cat, created_spa) %>%
         mutate(
             across(c(created_cat, created_spa, ended_cat, ended_spa, date_birth), as_datetime),
@@ -199,14 +293,20 @@ import_formr_short <- function(surveys = c(
         mutate(
             language = ifelse(grepl("cat_", item), "Catalan", "Spanish"),
             sex = ifelse(sex %in% 1, "Male", "Female"),
+<<<<<<< HEAD
             postcode = as.integer(ifelse(postcode %in% "", NA_character_, postcode)),
+=======
+            postcode = na_if(as.character(postcode), ""),
+>>>>>>> dplyr-1.0.0
             edu_parent1 = ifelse(edu_parent1 %in% "", NA_character_, edu_parent1),
             edu_parent2 = ifelse(edu_parent2 %in% "", NA_character_, edu_parent2)
         ) %>%
         arrange(desc(time_stamp)) %>%
         distinct(id, code, item, .keep_all = TRUE)
     
-    if (verbose) cli_alert_success(paste0("BL-Short updated: ", nrow(distinct(processed, code)), " responses retrieved"))
+    if (verbose) cli_alert_success(paste0("BL-Short updated: ",
+                                          nrow(distinct(processed, code)), 
+                                          " responses retrieved"))
     
     return(processed)
 }
@@ -237,10 +337,15 @@ import_formr2 <- function(surveys = c(
     verbose = TRUE) {
     
     participants_tmp <- get("participants", parent.frame()) %>%
+<<<<<<< HEAD
         filter(
             version %in% "BL-Long",
             randomisation %in% "2"
         ) %>%
+=======
+        filter(version %in% "BL-Long",
+               randomisation %in% "2") %>%
+>>>>>>> dplyr-1.0.0
         select(-version)
     
     items_to_keep <- c(
@@ -258,11 +363,17 @@ import_formr2 <- function(surveys = c(
     
     # edit logs dataset
     raw[[1]] <- raw[[1]] %>%
+<<<<<<< HEAD
         mutate(
             # fix codes known to be wrong
             code = fix_code(na_if(code, "")),
             created = as_datetime(created)
         ) %>%
+=======
+        # fix codes known to be wrong
+        mutate(code = fix_code(na_if(code, "")),
+               created = as_datetime(created)) %>%
+>>>>>>> dplyr-1.0.0
         # remove codes not inlcuded in participants
         filter(code %in% participants_tmp$code) %>%
         # get only last response of each code
@@ -275,11 +386,29 @@ import_formr2 <- function(surveys = c(
     
     # process data
     processed <- map(raw, select, -any_of(c("created", "modified", "ended", "expired"))) %>%
+<<<<<<< HEAD
         reduce(left_join, by = "session") %>%
         mutate(code = fix_code(code)) %>%
         left_join(select(participants_tmp, -comments), by = "code") %>%
         left_join(select(raw$bilexicon_06_words_cat, session, created_cat = created, ended_cat = ended), by = "session") %>%
         left_join(select(raw$bilexicon_06_words_spa, session, created_spa = created, ended_spa = ended), by = "session") %>%
+=======
+        # if a single session ID has multiple entries, select most recent
+        reduce(inner_join, 
+               by = join_by(session),
+               multiple = "all") %>%
+        mutate(code = fix_code(code)) %>%
+        left_join(select(participants_tmp, -comments),
+                  by = join_by(code)) %>%
+        left_join(select(raw$bilexicon_06_words_cat, session, 
+                         created_cat = created, ended_cat = ended),
+                  by = join_by(session),
+                  multiple = "all") %>%
+        left_join(select(raw$bilexicon_06_words_spa, session,
+                         created_spa = created, ended_spa = ended), 
+                  by = join_by(session),
+                  multiple = "all") %>%
+>>>>>>> dplyr-1.0.0
         filter(code %in% participants_tmp$code) %>%
         drop_na(created_cat, created_spa, ended_cat, ended_spa) %>%
         mutate(
@@ -294,21 +423,42 @@ import_formr2 <- function(surveys = c(
         ) %>%
         arrange(desc(time_stamp)) %>%
         distinct(session, .keep_all = TRUE) %>%
+<<<<<<< HEAD
         rename(postcode = demo_postcode, edu_parent1 = demo_parent1, edu_parent2 = demo_parent2) %>%
         drop_na(age) %>%
         select(starts_with("id"), one_of(items_to_keep), starts_with("cat_"), starts_with("spa_")) %>%
         pivot_longer(cols = matches("cat_|spa_"), names_to = "item", values_to = "response") %>%
+=======
+        rename(postcode = demo_postcode, 
+               edu_parent1 = demo_parent1,
+               edu_parent2 = demo_parent2) %>%
+        drop_na(age) %>%
+        select(starts_with("id"),
+               one_of(items_to_keep), 
+               starts_with("cat_"), 
+               starts_with("spa_")) %>%
+        pivot_longer(cols = matches("cat_|spa_"), 
+                     names_to = "item",
+                     values_to = "response") %>%
+>>>>>>> dplyr-1.0.0
         rename_all(~ gsub("language_", "", .)) %>%
         mutate(
             language = ifelse(grepl("cat_", item), "Catalan", "Spanish"),
             sex = ifelse(sex %in% 1, "Male", "Female"),
+<<<<<<< HEAD
             postcode = as.integer(ifelse(postcode %in% "", NA_character_, postcode)),
             across(starts_with("edu_"), na_if, "")
+=======
+            postcode = na_if(as.character(postcode), ""),
+            across(starts_with("edu_"), \(x) na_if(x, ""))
+>>>>>>> dplyr-1.0.0
         ) %>%
         arrange(desc(time_stamp)) %>%
         distinct(id, code, item, .keep_all = TRUE)
     
-    if (verbose) cli_alert_success(paste0("BL-Long-2 updated: ", nrow(distinct(processed, code)), " responses retrieved"))
+    if (verbose) cli_alert_success(paste0("BL-Long-2 updated: ", 
+                                          nrow(distinct(processed, code)),
+                                          " responses retrieved"))
     
     return(processed)
 }

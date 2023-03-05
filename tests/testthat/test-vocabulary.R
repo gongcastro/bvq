@@ -1,6 +1,6 @@
 bvq_connect(verbose = FALSE)
 participants <- bvq_participants()
-responses <- bvq_responses(participants, update = FALSE, verbose = FALSE)
+responses <- bvq_responses(participants, verbose = FALSE)
 logs <- bvq_logs(participants, responses, verbose = FALSE)
 
 n_total <- studies %>%

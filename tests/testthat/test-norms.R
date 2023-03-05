@@ -1,5 +1,5 @@
 participants <- bvq_participants()
-responses <- bvq_responses(participants, update = FALSE)
+responses <- bvq_responses(participants)
 norms <- bvq_norms(participants, responses)
 
 test_that("values have plausible values", {

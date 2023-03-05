@@ -68,7 +68,7 @@ bvq_connect <- function(google_email = NULL,
     }
     
     # return success code but do not print it
-    if (verbose && gs4_has_token()){
+    if (interactive() && verbose && gs4_has_token()){
         cli_alert_success("Connected to BVQ")
     }
     

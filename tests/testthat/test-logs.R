@@ -1,10 +1,10 @@
 bvq_connect(verbose = FALSE)
 participants <- bvq_participants()
-responses <- bvq_responses(participants, update = FALSE, verbose = FALSE)
-logs <- bvq_logs(participants, responses, verbose = FALSE)
+responses <- bvq_responses(participants, verbose = FALSE)
+logs <- bvq_logs(participants, responses)
 
 
-test_that("bvq_responses columns are the right classes", {
+test_that("columns are the right classes", {
   expect_true(is.character(logs$id))
   expect_true(is.character(logs$id_exp))
   expect_true(is.character(logs$id_db))
@@ -28,7 +28,7 @@ test_that("bvq_responses columns are the right classes", {
   expect_true(is.numeric(logs$doe_spanish))
   expect_true(is.numeric(logs$doe_catalan))
   expect_true(is.numeric(logs$doe_others))
-  expect_true(is.character(logs$progress))
+  expect_true(is.numeric(logs$progress))
   expect_true(is.logical(logs$completed))
 })
 

@@ -57,13 +57,17 @@ bvq_logs <- function(participants = NULL,
                      bilingual_threshold = 0.80,
                      other_threshold = 0.10,
                      verbose = TRUE) {
-  bvq_connect(verbose = verbose) # get credentials to Google and formr
-
-  # if participants or responses are missing from function call, generate them
-  if (is.null(responses)) {
-    if (is.null(participants)) {
-      participants <- bvq_participants()
+    bvq_connect(verbose = verbose) # get credentials to Google and formr
+    
+    # if participants or responses are missing from function call, generate them
+    if (is.null(responses)) {
+        if (is.null(participants)) {
+            participants <- bvq_participants()
+        }
+        responses <- bvq_responses(participants = participants, 
+                                   verbose = verbose)
     }
+<<<<<<< HEAD
     responses <- bvq_responses(participants = participants, verbose = verbose)
   }
 
@@ -134,4 +138,71 @@ bvq_logs <- function(participants = NULL,
   })
 
   return(logs)
+=======
+    
+    suppressMessages({
+        
+        # get n items answered by participants (depends on the questionnaire version)
+        total_items <- studies %>%
+            distinct(version, language, n) %>%
+            summarise(total_items = sum(n), 
+                      .by = version)
+        
+        # generate logs
+        logs <- responses %>%
+            mutate(
+                # define language profiles based on thresholds
+                lp = case_when(
+                    doe_catalan >= bilingual_threshold ~ "Monolingual",
+                    doe_spanish >= bilingual_threshold ~ "Monolingual",
+                    doe_others > other_threshold ~ "Other",
+                    .default = "Bilingual"
+                ),
+                # define language dominance
+                dominance = case_when(
+                    doe_catalan > doe_spanish ~ "Catalan",
+                    doe_spanish > doe_catalan ~ "Spanish",
+                    doe_catalan == doe_spanish ~ sample(c("Catalan", "Spanish"), 1)
+                )
+            ) %>%
+            # total items to fill by each participant (varies across versions)
+            summarise(complete_items = sum(!is.na(response)),
+                      .by = any_of(c("id_db", "date_birth", "time", "age", "sex",
+                                     "postcode", "edu_parent1", "edu_parent2",
+                                     "dominance", "lp", "doe_spanish", "doe_catalan",
+                                     "doe_others", "time_stamp", "code", "study", 
+                                     "version"))) %>%
+            left_join(total_items,
+                      by = join_by(version)) %>%
+            left_join(select(participants, -c(date_birth, version)),
+                      by = join_by(id_db, time, code, study)) %>%
+            drop_na(id) %>%
+            # compute participant's progress trhough the questionnaire
+            mutate(across(time_stamp, as_datetime)) %>%
+            rowwise() %>%
+            mutate(progress = complete_items / total_items,
+                   completed = progress >= 0.95) %>%
+            ungroup() %>%
+            # compute time laps between events
+            mutate(
+                across(c(date_sent, date_birth, time_stamp), as_date),
+                days_from_sent = time_length(difftime(today(), date_sent), "days"),
+                age_today = diff_in_months(today(), date_birth),
+                months_from_last_response = diff_in_months(today(), time_stamp)
+            ) %>%
+            # select relevant columns and reorder them
+            select(
+                starts_with("id"),
+                any_of(c("code", "time", "study", "version",
+                         "date_sent", "time_stamp", "days_from_sent", "date_birth", 
+                         "age", "age_today", "months_from_last_response",
+                         "sex", "postcode", "edu_parent1", "edu_parent2",
+                         "dominance", "lp", "doe_spanish", "doe_catalan", "doe_others",
+                         "progress", "completed"))
+            ) %>%
+            arrange(desc(time_stamp))
+    })
+    
+    return(logs)
+>>>>>>> dplyr-1.0.0
 }
