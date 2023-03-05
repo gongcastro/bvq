@@ -8,7 +8,6 @@ bvq_responses(
   participants = NULL,
   runs = c("BL-Long2", "BL-Lockdown"),
   longitudinal = "all",
-  update = TRUE,
   verbose = TRUE
 )
 }
@@ -18,8 +17,6 @@ bvq_responses(
 \item{runs}{formr runs to update}
 
 \item{longitudinal}{Should longitudinal data be included? If "all" (default), all responses (including repeated measures) are included. If "no", participants with more than one responses to the questionnaire (regardless of the version) are excluded. If "first", only the first response of each participant is included. If "last", only the last response of each participant is included. If "only", only responses with repeated measures are included.}
-
-\item{update}{Should data be recovered from last update, or should it be updated now?}
 
 \item{verbose}{Should progress messages and warnings be printed in the console}
 }
@@ -62,7 +59,7 @@ to each item, along with some session-specific metadata. It takes \code{particip
 (the output of \code{bvq_participants}) and \code{runs} (a character vector that can take
 zero, one, or multiple of the following values: "formr2", "formr-short", "formr-lockdown")
 as arguments. Only responses from the versions indicated in \code{runs} input will
-be updated. For the rest, data will be retrieved from the their last update.
+be updated.
 }
 \author{
 Gonzalo Garcia-Castro

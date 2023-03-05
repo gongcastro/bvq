@@ -1,22 +1,3 @@
-#' Download formR surveys
-#' @import cli
-#' @param surveys Name of the surveys in the formR run
-#' @param verbose Should progress messages and warnings be printed in the console
-download_surveys <- function(surveys, verbose) {
-    n <- length(surveys)
-    i <- 0
-    raw <- vector(mode = "list", length = n)
-    if (verbose) cli_progress_step(msg = "Downloaded {i}/{n} {qty(i)}survey{?s}.")
-    for (i in 1:length(surveys)) {
-        raw[[i]] <- formr_raw_results(surveys[i])
-        if (verbose) cli_progress_update()
-    }
-    cli_progress_done(result = "done")
-    raw <- lapply(raw, select, -any_of("language"))
-    names(raw) <- surveys
-    return(raw)
-}
-
 #' Age difference in months
 #' @param x Most recent date
 #' @param y Least recent date
@@ -69,12 +50,10 @@ fix_code <- function(x) {
     x <- x %>%
         str_remove_all(".*BL") %>%
         str_replace_all(
-            c(
-                "O" = "0",
-                "l" = "L",
-                "I" = "L",
-                "BLBL" = "BL"
-            )
+            c("O" = "0",
+              "l" = "L",
+              "I" = "L",
+              "BLBL" = "BL")
         )
     x <- ifelse(!grepl("BL", x), paste0("BL", x), x)
     return(x)
@@ -109,12 +88,12 @@ fix_doe <- function(x) {
                 code == "BL1582" ~ 30,
                 code == "BL1295" ~ 10,
                 code == "BL1252" ~ 90,
-                TRUE ~ doe_catalan
+                .default = doe_catalan
             ),
             doe_spanish = case_when(
                 id_db == "57046" & time == 1 ~ 50,
                 code == "BL896" ~ 75,
-                TRUE ~ doe_spanish
+                .default = doe_spanish
             ),
             doe_others = case_when(
                 code == "BL1252" ~ 0,
@@ -122,7 +101,7 @@ fix_doe <- function(x) {
                 code == "BL896" ~ 0,
                 code == "BL1582" ~ 0,
                 code == "BL1295" ~ 0,
-                TRUE ~ doe_others
+                .default = doe_others
             )
         )
 }
@@ -134,15 +113,18 @@ fix_doe <- function(x) {
 #' @importFrom dplyr ungroup
 #' @param x Vector of \code{sex} whose values should be fixed
 fix_sex <- function(x) {
-    group_by(x, id) %>%
-        mutate(
-            sex = case_when(
-                id %in% c("bilexicon_1097", "bilexicon_1441", "bilexicon_1124", "bilexicon_1448") ~ "Female",
-                id %in% c("bilexicon_1447") ~ "Male",
-                TRUE ~ sex[which(!is.na(sex))[1]]
-            )
-        ) %>%
-        ungroup()
+    x$sex <- ifelse(x$id %in% c("bilexicon_1097", 
+                                "bilexicon_1441", 
+                                "bilexicon_1124",
+                                "bilexicon_1448"),
+                    "Female",
+                    x$sex)
+    
+    x$sex <- ifelse(x$id %in% c("bilexicon_1447"),
+                    "Male",
+                    x$sex)
+    
+    return(x)
 }
 
 #' Fix postcode
@@ -153,8 +135,8 @@ fix_sex <- function(x) {
 fix_postcode <- function(x) {
     mutate(
         x,
-        postcode = ifelse(nchar(.data$postcode) < 5, paste0("0", .data$postcode), .data$postcode),
-        postcode = ifelse(nchar(.data$postcode) < 5, NA_character_, .data$postcode)
+        postcode = ifelse(nchar(postcode) < 5, paste0("0", postcode), postcode),
+        postcode = ifelse(nchar(postcode) < 5, NA_character_, postcode)
     )
 }
 
@@ -166,20 +148,20 @@ fix_item <- function(x) {
     mutate(
         x,
         item = case_when(
-            .data$item == "cat_parc" ~ "cat_parc1",
-            .data$item == "cat_eciam" ~ "cat_enciam",
-            .data$item == "cat_voler3" ~ "cat_voler2",
-            .data$item == "cat_voler" ~ "cat_voler1",
-            .data$item == "cat_despres1" ~ "cat_despres",
-            .data$item == "cat_peix" ~ "cat_peix1",
-            .data$item == "cat_estar" ~ "cat_estar1",
-            .data$item == "cat_querer" ~ "cat_querer1",
-            .data$item == "cat_estiguestequiet" ~ "cat_estiguesquiet",
-            .data$item == "spa_nibla" ~ "spa_niebla",
-            .data$item == "spa_ir" ~ "spa_ir1",
-            .data$item == "spa_querer" ~ "spa_querer1",
-            .data$item == "cat_anar" ~ "cat_anar1",
-            TRUE ~ .data$item
+            item == "cat_parc" ~ "cat_parc1",
+            item == "cat_eciam" ~ "cat_enciam",
+            item == "cat_voler3" ~ "cat_voler2",
+            item == "cat_voler" ~ "cat_voler1",
+            item == "cat_despres1" ~ "cat_despres",
+            item == "cat_peix" ~ "cat_peix1",
+            item == "cat_estar" ~ "cat_estar1",
+            item == "cat_querer" ~ "cat_querer1",
+            item == "cat_estiguestequiet" ~ "cat_estiguesquiet",
+            item == "spa_nibla" ~ "spa_niebla",
+            item == "spa_ir" ~ "spa_ir1",
+            item == "spa_querer" ~ "spa_querer1",
+            item == "cat_anar" ~ "cat_anar1",
+            .default = item
         )
     )
 }
@@ -193,9 +175,9 @@ fix_study <- function(x) {
     mutate(
         x,
         study = ifelse(
-            is.na(.data$study),
+            is.na(study),
             "BiLexicon",
-            .data$study
+            study
         )
     )
 }
@@ -205,13 +187,8 @@ fix_study <- function(x) {
 #' @importFrom dplyr case_when
 #' @param x Vector of \code{id_exp} whose values should be fixed
 fix_id_exp <- function(x) {
-    mutate(
-        x,
-        id_exp = case_when(
-            code == "BL547" ~ "bilexicon_189",
-            TRUE ~ id_exp
-        )
-    )
+    x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
+    return(x)
 }
 
 #' Replace special characters
@@ -221,20 +198,18 @@ fix_id_exp <- function(x) {
 replace_special_characters <- function(x) {
     str_replace_all(
         chr_unserialise_unicode(x),
-        c(
-            "<U+00E1>" = "a",
-            "<U+00E9>" = "e",
-            "<U+00ED>" = "i",
-            "<U+00FA>" = "u",
-            "<U+00F1>" = "n",
-            "<U+00E7>" = "c",
-            "<U+00E0>" = "a",
-            "<U+00E9>" = "e",
-            "<U+00F2>" = "o",
-            "<U+00F3>" = "o",
-            "<U+00FC>" = "u",
-            "<U+00EF>" = "i"
-        )
+        c("<U+00E1>" = "a",
+          "<U+00E9>" = "e",
+          "<U+00ED>" = "i",
+          "<U+00FA>" = "u",
+          "<U+00F1>" = "n",
+          "<U+00E7>" = "c",
+          "<U+00E0>" = "a",
+          "<U+00E9>" = "e",
+          "<U+00F2>" = "o",
+          "<U+00F3>" = "o",
+          "<U+00FC>" = "u",
+          "<U+00EF>" = "i")
     )
 }
 
@@ -324,12 +299,12 @@ prop_adj_ci <- function(x, n, .width = 0.95) {
 
 import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "multilex")) {
     x <- readxl::read_xlsx(file) %>%
-        dplyr::mutate_at(vars(.data$te), as.integer) %>%
+        dplyr::mutate_at(vars(te), as.integer) %>%
         dplyr::mutate_at(
-            dplyr::vars(.data$cognate, .data$include),
+            dplyr::vars(cognate, include),
             function(x) as.logical(as.integer(x))
         ) %>%
-        dplyr::mutate_at(dplyr::vars(.data$version), function(x) strsplit(x, split = ",")) %>%
+        dplyr::mutate_at(dplyr::vars(version), function(x) strsplit(x, split = ",")) %>%
         mutate(
             ipa_flat = gsub(
                 pool$ipa %>%
@@ -340,10 +315,10 @@ import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "mu
                     .data[c(3, 6, 37, 39, 44, 50)] %>%
                     paste0("\\", .data, collapse = "|"),
                 "",
-                .data$ipa
+                ipa
             )
         ) %>%
-        dplyr::relocate(.data$ipa_flat, .after = .data$ipa)
+        dplyr::relocate(ipa_flat, .after = ipa)
     return(x)
 }
 

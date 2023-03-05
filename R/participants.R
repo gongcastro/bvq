@@ -33,10 +33,10 @@ bvq_participants <- function() {
     bvq_connect(verbose = FALSE) # get credentials to Google and formr
 
     participants <- read_sheet("164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo", sheet = "Participants") %>%
-      drop_na(.data$code) %>%
-      mutate_at(vars(.data$date_birth, .data$date_test, .data$date_sent), as_date) %>%
-      select(-.data$link) %>%
-      arrange(desc(as.numeric(gsub("BL", "", .data$code))))
+      drop_na(code) %>%
+      mutate(across(c(date_birth, date_test, date_sent), as_date)) %>%
+      select(-link) %>%
+      arrange(desc(as.numeric(gsub("BL", "", code))))
   })
   # make sure no columns are lists (probably due to inconsistent cell types)
   if (any(map_lgl(participants, is.list))) {

@@ -6,7 +6,7 @@
 \alias{bvqdev-package}
 \title{bvqdev: What the Package Does (One Line, Title Case)}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
 This package is intended for internal use by the mantainers of the bvq package. It contains functions that download the BVQ survey data from the formR servers, where the questionnaires are hosted and the data are stored, clean them, and upload them to the Universitat Pompeu Fabra servers. The final data is what users of the bvq package can retrieve.
 }
