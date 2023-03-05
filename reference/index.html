@@ -173,7 +173,36 @@
           
           <code><a href="get_longitudinal.html">get_longitudinal()</a></code> 
         </dt>
-        <dd>Deal with repeated measures</dd>
+        <dd>#' Import and prepare pool
+#'
+#' @param file Path to pool.xlsx file (extdata/pool.xlsx by default)
+#' @import dplyr
+#' @importFrom readxl read_xlsx
+import_pool &lt;- function(file = system.file("extdata", "pool.xlsx", package = "bvqdev")) 
+x &lt;- read_xlsx(file) %&gt;%
+mutate(te = as.integer(te),
+across(c(cognate, include),
+\(x) as.logical(as.integer(x))),
+version = strsplit(version, split = ","),
+ipa_flat = gsub(
+pool$ipa %&gt;%
+paste(collapse = "") %&gt;%
+strsplit("") %&gt;%
+unlist() %&gt;%
+unique() %&gt;%
+.datac(3, 6, 37, 39, 44, 50) %&gt;%
+paste0("\", .data, collapse = "|"),
+"",
+ipa
+)
+) %&gt;%
+relocate(ipa_flat, .after = ipa)
+
+<div class="sourceCode"><pre><code>return(x)
+</code></pre></div>
+
+
+Deal with repeated measures</dd>
       </dl><dl><dt>
           
           <code><a href="get_time_stamp.html">get_time_stamp()</a></code> 

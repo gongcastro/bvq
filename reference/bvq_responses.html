@@ -55,7 +55,6 @@
 <span>  participants <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  runs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BL-Long2"</span>, <span class="st">"BL-Lockdown"</span><span class="op">)</span>,</span>
 <span>  longitudinal <span class="op">=</span> <span class="st">"all"</span>,</span>
-<span>  update <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -72,10 +71,6 @@
 
 <dt>longitudinal</dt>
 <dd><p>Should longitudinal data be included? If "all" (default), all responses (including repeated measures) are included. If "no", participants with more than one responses to the questionnaire (regardless of the version) are excluded. If "first", only the first response of each participant is included. If "last", only the last response of each participant is included. If "only", only responses with repeated measures are included.</p></dd>
-
-
-<dt>update</dt>
-<dd><p>Should data be recovered from last update, or should it be updated now?</p></dd>
 
 
 <dt>verbose</dt>
@@ -170,7 +165,7 @@ to each item, along with some session-specific metadata. It takes <code>particip
 (the output of <code>bvq_participants</code>) and <code>runs</code> (a character vector that can take
 zero, one, or multiple of the following values: "formr2", "formr-short", "formr-lockdown")
 as arguments. Only responses from the versions indicated in <code>runs</code> input will
-be updated. For the rest, data will be retrieved from the their last update.</p>
+be updated.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
