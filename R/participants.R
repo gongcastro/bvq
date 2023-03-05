@@ -1,14 +1,14 @@
 #' Retrieve and update local and/or remote data from formr
+#' 
 #' @import dplyr
 #' @importFrom tidyr drop_na
 #' @importFrom lubridate as_date
 #' @importFrom googlesheets4 read_sheet
 #' @importFrom purrr map_lgl
-#' @importFrom rlang .data
 #' @export bvq_participants
 #' @details This function generates a data frame with the information of all
 #'  participants that have participated or are candidates to participate in any of
-#'  the versions of MultiLex.
+#'  the versions of BVQ
 #' @return A data frame (actually, a \code{\link[tibble]{tibble}}) with all participants that have participated or are candidates to participate in any of the versions of MultiLex. Each row corresponds to a questionnaire response and each column represents a variable. The output includes the following variables:
 #'  \describe{
 #'      \item{id}{a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.}
@@ -27,7 +27,6 @@
 #'      \item{comments}{a character string indicating useful information for database management}
 #' }
 #' @author Gonzalo Garcia-Castro
-
 bvq_participants <- function() {
   suppressMessages({
     bvq_connect(verbose = FALSE) # get credentials to Google and formr

@@ -16,7 +16,6 @@ diff_in_months <- function(x, y) {
 #' @param cols Character string vector indicating the name of the columns containing the first and the last time stamps (in that order) of participants' responses to a given language inventory.
 #' @param which Which time stamp to consider: first (by default) or last?
 #' @importFrom lubridate as_datetime
-#' @importFrom rlang .data
 #' @export get_time_stamp
 get_time_stamp <- function(.data, cols, which = "first") {
     d <- .data[c(cols[1], cols[2])]
@@ -139,7 +138,6 @@ fix_sex <- function(x) {
 #' 
 #' @importFrom dplyr mutate
 #' @importFrom dplyr case_when
-#' @importFrom rlang .data
 #' @param x Vector of \code{postcode} whose values should be fixed
 fix_postcode <- function(x) {
     mutate(
@@ -152,7 +150,6 @@ fix_postcode <- function(x) {
 #' Fix item
 #' 
 #' @importFrom dplyr case_when
-#' @importFrom rlang .data
 #' @param x Vector of \code{item} whose values should be fixed
 fix_item <- function(x) {
     mutate(
@@ -242,6 +239,7 @@ coalesce_by_column <- function(x) {
 `%nin%` <- function(x, y) !(x %in% y)
 
 #' First non-non-missing value
+#' 
 #' @importFrom dplyr first
 #' @param x Vector whose NAs will be replaced with first non-NA value
 first_non_na <- function(x) {
@@ -271,9 +269,6 @@ get_age_bins <- function(x, width = 2) {
 
 #' Proportion, adjusted for zero- and one- inflation
 #' 
-#' \insertCite{gelman2020regression}{bvqdev}
-#' @references
-#' \insertRef{gelman2020regression}{bvqdev}
 #' @export prop_adj
 #' @param x Number of successes
 #' @param n Number of tries
@@ -284,9 +279,6 @@ prop_adj <- function(x, n) {
 
 #' Standard error of proportion, adjusted for zero- and one-inflation
 #' 
-#' \insertCite{gelman2020regression}{bvqdev}
-#' @references
-#' \insertRef{gelman2020regression}{bvqdev}
 #' @export prop_adj_se
 #' @param x Number of successes
 #' @param n Number of tries
@@ -298,9 +290,6 @@ prop_adj_se <- function(x, n) {
 
 #' Confidence interval of proportion, adjusted for zero- and one-inflation
 #' 
-#' \insertCite{gelman2020regression}{bvqdev}
-#' @references
-#' \insertRef{gelman2020regression}{bvqdev}
 #' @importFrom stats qnorm
 #' @export prop_adj_ci
 #' @param x Number of successes

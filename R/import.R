@@ -1,4 +1,5 @@
 #' Download formR surveys
+#' 
 #' @import cli
 #' @param surveys Name of the surveys in the formR run
 #' @param verbose Should progress messages and warnings be printed in the console
@@ -20,6 +21,7 @@ download_surveys <- function(surveys, verbose) {
 }
 
 #' Import lockdown data
+#' 
 #' @import dplyr
 #' @importFrom formr formr_raw_results
 #' @importFrom purrr map
@@ -30,7 +32,6 @@ download_surveys <- function(surveys, verbose) {
 #' @importFrom tidyr drop_na
 #' @importFrom tidyr pivot_longer
 #' @importFrom janitor clean_names
-#' @importFrom rlang .data
 #' @importFrom rlang .env
 #' @importFrom cli cli_alert_success
 #' @param surveys Name of formr surveys from the bilexicon_lockdown run
@@ -138,6 +139,7 @@ import_formr_lockdown <- function(surveys = c(
 
 
 #' Import short
+#' 
 #' @import dplyr
 #' @importFrom formr formr_raw_results
 #' @importFrom purrr map
@@ -147,7 +149,6 @@ import_formr_lockdown <- function(surveys = c(
 #' @importFrom tidyr drop_na
 #' @importFrom tidyr pivot_longer
 #' @importFrom janitor clean_names
-#' @importFrom rlang .data
 #' @importFrom rlang .env
 #' @importFrom cli cli_alert_success
 #' @param surveys Name of formr surveys from the bilexicon_short run
@@ -249,6 +250,7 @@ import_formr_short <- function(surveys = c(
 }
 
 #' Import formr 2
+#' 
 #' @import dplyr
 #' @importFrom formr formr_raw_results
 #' @importFrom purrr map
@@ -258,7 +260,6 @@ import_formr_short <- function(surveys = c(
 #' @importFrom tidyr drop_na
 #' @importFrom tidyr pivot_longer
 #' @importFrom janitor clean_names
-#' @importFrom rlang .data
 #' @importFrom rlang .env
 #' @importFrom cli cli_alert_success
 #' @param surveys Name of formr surveys from the bilexicon_long2 run

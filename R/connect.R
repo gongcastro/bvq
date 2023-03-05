@@ -1,4 +1,5 @@
 #' Authenticate in Google and formr
+#' 
 #' @export bvq_connect
 #' @importFrom googlesheets4 gs4_has_token
 #' @importFrom googlesheets4 gs4_auth
@@ -14,9 +15,6 @@
 #' @param verbose Should progress messages and warnings be printed in the console
 #' @details This function tries to log in to the formr API by trying to retrieve its corresponding key via the keyring package. If no key exists under the name "multilex", the user is prompted to create it first.
 #' @return Logical. TRUE if Google and formr authentication was successful, FALSE if authentication of any of the two failed.
-#' @examples
-#' my_email <- "gonzalo.garciadecastro@upf.edu"
-#' bvq_connect(google_email = my_email)
 bvq_connect <- function(google_email = NULL,
                         verbose = TRUE) {
     formr_email <- "gonzalo.garciadecastro@upf.edu"

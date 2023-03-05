@@ -1,4 +1,5 @@
 #' Retrieve and update local and/or remote data from formr
+#' 
 #' @import dplyr
 #' @importFrom tidyr drop_na
 #' @importFrom lubridate as_date
@@ -49,7 +50,6 @@
 #'      \item{dominance}{a character string indicating the language of highest exposure ("Catalan" or "Spanish"), as reported by parents. If exposure is identical for both language, "Catalan" is assigned.}
 #'  }
 #' @author Gonzalo Garcia-Castro
-#'
 bvq_responses <- function(participants = NULL,
                           runs = c("BL-Long2", "BL-Lockdown"), # c("Inhibition", "DevLex", "CBC", "BL-Short", "BL-Long-1", "BL-Long-2", "BL-Lockdown")
                           longitudinal = "all",

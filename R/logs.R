@@ -1,4 +1,5 @@
 #' Generate participant information and progress for each response
+#' 
 #' @import dplyr
 #' @importFrom scales label_percent
 #' @importFrom lubridate as_date
