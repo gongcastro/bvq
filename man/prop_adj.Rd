@@ -12,8 +12,5 @@ prop_adj(x, n)
 \item{n}{Number of tries}
 }
 \description{
-\insertCite{gelman2020regression}{bvqdev}
-}
-\references{
-\insertRef{gelman2020regression}{bvqdev}
+Proportion, adjusted for zero- and one- inflation
 }

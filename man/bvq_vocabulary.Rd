@@ -44,6 +44,9 @@ A dataset (actually, a \code{\link[tibble]{tibble}}) with each participant's com
 The specific subset of columns returned by \code{bvq_vocabulary} depends on the arguments provided.
 }
 \description{
+Generate participant information and progress for each response
+}
+\details{
 This function generates a data frame with the vocabulary of each participant (keeping longitudinal data from the same participant in different rows). Comprehensive and productive vocabulary sizes are computed as raw counts (\code{vocab_count}) and as proportions \code{vocab_prop}, calculated from the total of items filled by the participant in the response \code{vocab_n}).
 }
 \author{

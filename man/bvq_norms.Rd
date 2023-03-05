@@ -2,7 +2,7 @@
 % Please edit documentation in R/norms.R
 \name{bvq_norms}
 \alias{bvq_norms}
-\title{Generate item-level norms for age, sex, language profile and item dominance.}
+\title{Generate item-level norms for age, sex, language profile and item dominance}
 \usage{
 bvq_norms(
   participants = NULL,
@@ -66,24 +66,20 @@ A data frame (actually, a \code{\link[tibble]{tibble}}) with the proportion of p
 \item{n}{a positive integer indicating the total number number of responses (useful for computing proportions).}
 \item{proportion}{a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following \insertCite{gelman2020regression;textual}{multilex}'s method to account for zero- and one-inflation (see function \code{\link{prop_adj}}).}
 \item{se}{a numeric value indicating the standard error (\emph{SE}) of the estimated proportion of participants that provided a positive response, adjusted following \insertCite{gelman2020regression;textual}{multilex}'s method to account for zero- and one-inflation (see function \code{\link{prop_adj_se}}).}
-\item{ci_lower}{a numeric value indicating the lower boundary of the 95\\% confidence interval (\emph{CI}) of the estimated proportion of participants that provided a positive response, adjusted following \insertCite{gelman2020regression;textual}{bvqdev}'s method to account for zero- and one-inflation (see function \code{\link{prop_adj_ci}}).}
-\item{ci_upper}{a numeric value indicating the upper boundary of the 95\\% confidence interval (\emph{CI}) of the estimated proportion of participants that provided a positive response, adjusted following \insertCite{gelman2020regression;textual}{bvqdev}'s method to account for zero- and one-inflation (see function \code{\link{prop_adj_ci}}).}
+\item{ci_lower}{a numeric value indicating the lower boundary of the 95\\% confidence interval (\emph{CI}) of the estimated proportion of participants that provided a positive response}
+\item{ci_upper}{a numeric value indicating the upper boundary of the 95\\% confidence interval (\emph{CI}) of the estimated proportion of participants that provided a positive response}
 }
 }
 \description{
+Generate item-level norms for age, sex, language profile and item dominance
+}
+\details{
 This function generates a data frame with the estimated proportion
 of children that understand and/or produce some items for a selected age range
 and participant profiles. Estimated proportions and corresponding standard
-errors and confidence intervals are computed following
-\insertCite{gelman2020regression;textual}{bvqdev}'s adjustments to account
+errors and confidence intervals are computed adjusting
 for zero- and one-inflation (see functions \code{\link{prop_adj}},
 \code{\link{prop_adj_se}}, and \code{\link{prop_adj_ci}}).
-}
-\examples{
-bvq_norms(item = "cat_casa", type = "understands", age = c(20, 24))
-}
-\references{
-\insertRef{gelman2020regression}{bvqdev}
 }
 \author{
 Gonzalo Garcia-Castro

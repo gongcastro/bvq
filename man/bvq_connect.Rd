@@ -20,7 +20,3 @@ Authenticate in Google and formr
 \details{
 This function tries to log in to the formr API by trying to retrieve its corresponding key via the keyring package. If no key exists under the name "multilex", the user is prompted to create it first.
 }
-\examples{
-my_email <- "gonzalo.garciadecastro@upf.edu"
-bvq_connect(google_email = my_email)
-}

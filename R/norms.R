@@ -63,8 +63,6 @@
 #'      \item{ci_upper}{a numeric value indicating the upper boundary of the 95\% confidence interval (\emph{CI}) of the estimated proportion of participants that provided a positive response}
 #' }
 #' @author Gonzalo Garcia-Castro
-#' @examples
-#' bvq_norms(item = "cat_casa", type = "understands", age = c(20, 24))
 bvq_norms <- function(participants = NULL,
                       responses = NULL,
                       item = NULL,

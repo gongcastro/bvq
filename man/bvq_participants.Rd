@@ -31,7 +31,7 @@ Retrieve and update local and/or remote data from formr
 \details{
 This function generates a data frame with the information of all
 participants that have participated or are candidates to participate in any of
-the versions of MultiLex.
+the versions of BVQ
 }
 \author{
 Gonzalo Garcia-Castro
