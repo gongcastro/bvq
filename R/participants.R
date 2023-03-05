@@ -32,13 +32,10 @@ bvq_participants <- function() {
   suppressMessages({
     bvq_connect(verbose = FALSE) # get credentials to Google and formr
 
-    participants <- read_sheet("164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo", sheet = "Participants") %>%
+    participants <- read_sheet("164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo", 
+                               sheet = "Participants") %>%
       drop_na(code) %>%
-<<<<<<< HEAD
-      mutate_at(vars(date_birth, date_test, date_sent), as_date) %>%
-=======
       mutate(across(c(date_birth, date_test, date_sent), as_date)) %>%
->>>>>>> dplyr-1.0.0
       select(-link) %>%
       arrange(desc(as.numeric(gsub("BL", "", code))))
   })

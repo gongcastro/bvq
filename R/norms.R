@@ -84,16 +84,20 @@ bvq_norms <- function(participants = NULL,
         responses <- bvq_responses(participants = participants)
     }
     
-    logs <- bvq_logs(participants = participants, responses = responses)
+    logs <- bvq_logs(participants = participants, 
+                     responses = responses)
     
-    group_vars <- c("te", "item", "language", "age_bin", "type", "lp", "semantic_category", "item_dominance", "label")
+    group_vars <- c("te", "item", "language", "age_bin", "type", "lp",
+                    "semantic_category", "item_dominance", "label")
     
     data("pool")
     if (is.null(item)) item <- unique(responses$item)
     if (is.null(semantic_category)) sem_cat <- unique(pool$semantic_category)
     
     norms <- responses %>%
-        left_join(select(logs, id, time, lp), c("id", "time")) %>%
+        left_join(select(logs, id, time, lp),
+                  by = join_by(id, time),
+                  multiple = "all") %>%
         filter(item %in% .env$item,
                lp %in% .env$lp,
                between(age, .env$age[1], .env$age[2])) %>%
@@ -102,7 +106,9 @@ bvq_norms <- function(participants = NULL,
         select(id, age, sex, lp, dominance, item, understands, produces) %>%
         pivot_longer(c(understands, produces), names_to = "type", values_to = "response") %>%
         mutate(age_bin = as.numeric(cut(age, seq(0, 100, by = 2), labels = FALSE))*2) %>% 
-        left_join(select(pool, te, item, language, label, ipa, semantic_category), by = "item") %>%
+        left_join(select(pool, te, item, language, label, ipa, semantic_category), 
+                  multiple = "all",
+                  by = join_by(item)) %>%
         filter(language %in% .env$language,
                type %in% .env$type,
                semantic_category %in% sem_cat) %>%

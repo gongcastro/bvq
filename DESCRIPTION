@@ -8,7 +8,7 @@ Description: This package is intended for internal use by the mantainers of the 
 License: MIT + file LICENSE
 Imports: 
     cli,
-    dplyr,
+    dplyr (>= 1.0.0),
     formr (>= 0.9.1),
     ggplot2,
     glue,
@@ -29,7 +29,6 @@ Suggests:
     knitr,
     readxl,
     roxygen2,
-    spelling,
     testthat (>= 3.0.0)
 Depends: 
     R (>= 4.0.0),

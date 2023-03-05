@@ -55,74 +55,8 @@ bvq_responses <- function(participants = NULL,
                           longitudinal = "all",
                           verbose = TRUE) {
     
-<<<<<<< HEAD
-    responses_exists <- file.exists(system.file("responses.rds", package = "bvqdev")) # iport data
-    
-    if (!update & responses_exists) {
-        
-        last_update <- file.info(system.file("responses.rds", package = "bvqdev"))$mtime
-        if (verbose) cli_alert_info(paste0("Loading last update (", last_update, ")..."))
-        responses <- readRDS(system.file("responses.rds", package = "bvqdev"))
-        
-    } else if (update | !responses_exists) {
-        
-        if (verbose) {
-            if (!responses_exists) {
-                cli_alert_warning("Data not available. Updating data...")
-            } else if (update) {
-                cli_alert_info("Updating surveys...")
-            }
-        }
-        
-        bvq_connect(verbose = verbose) # get credentials to Google and formr
-        
-        # get participant information
-        if (is.null(participants)) participants <- bvq_participants()
-        
-        # retrieve data from formr
-        formr2 <- import_formr2(verbose = verbose) # formr2
-        formr_lockdown <- import_formr_lockdown(verbose = verbose) # formr-lockdown
-        
-        # merge data
-        suppressMessages({
-            responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
-                bind_rows() %>%
-                distinct(id, code, item, .keep_all = TRUE) %>%
-                mutate(
-                    date_birth = as_date(date_birth),
-                    time_stamp = as_date(time_stamp),
-                    version = case_when(
-                        study %in% "DevLex" ~ "DevLex",
-                        study %in% c("CBC", "Signs", "Negation", "Inhibition") ~ "CBC",
-                        TRUE ~ version
-                    ),
-                    time = ifelse(is.na(time), 1, time),
-                    dominance = case_when(
-                        doe_catalan >= doe_spanish ~ "Catalan",
-                        doe_spanish > doe_catalan ~ "Spanish"
-                    ),
-                    version = fix_version(version)
-                ) %>%
-                fix_item() %>%
-                fix_doe() %>%
-                mutate(across(starts_with("doe_"), function(x) x / 100)) %>%
-                fix_postcode() %>%
-                fix_sex() %>%
-                fix_study() %>%
-                fix_id_exp() %>%
-                drop_na(time_stamp) %>%
-                get_longitudinal(longitudinal = longitudinal) %>%
-                arrange(time_stamp)
-        })
-        
-        saveRDS(responses, file = file.path(system.file(package = "bvqdev"), "responses.rds"))
-    }
-=======
-    #### import data ----
-    
     bvq_connect(verbose = verbose) # get credentials to Google and formr
->>>>>>> dplyr-1.0.0
-    
+
     # get participant information
     if (is.null(participants)) participants <- bvq_participants()
     
@@ -163,6 +97,6 @@ bvq_responses <- function(participants = NULL,
             arrange(time_stamp)
     })
     
-
-return(responses)
+    
+    return(responses)
 }

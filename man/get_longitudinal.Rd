@@ -2,7 +2,36 @@
 % Please edit documentation in R/utils.R
 \name{get_longitudinal}
 \alias{get_longitudinal}
-\title{Deal with repeated measures}
+\title{#' Import and prepare pool
+#'
+#' @param file Path to pool.xlsx file (extdata/pool.xlsx by default)
+#' @import dplyr
+#' @importFrom readxl read_xlsx
+import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "bvqdev")) {
+x <- read_xlsx(file) \%>\%
+mutate(te = as.integer(te),
+across(c(cognate, include),
+\(x) as.logical(as.integer(x))),
+version = strsplit(version, split = ","),
+ipa_flat = gsub(
+pool$ipa \%>\%
+paste(collapse = "") \%>\%
+strsplit("") \%>\%
+unlist() \%>\%
+unique() \%>\%
+.data\link{c(3, 6, 37, 39, 44, 50)} \%>\%
+paste0("\\", .data, collapse = "|"),
+"",
+ipa
+)
+) \%>\%
+relocate(ipa_flat, .after = ipa)
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{return(x)
+}\if{html}{\out{</div>}}
+
+}
+Deal with repeated measures}
 \usage{
 get_longitudinal(x, longitudinal = "all")
 }
@@ -15,5 +44,34 @@ get_longitudinal(x, longitudinal = "all")
 A subset of the data frame \code{x} with only the selected cases, according to \code{longitudinal}.
 }
 \description{
+#' Import and prepare pool
+#'
+#' @param file Path to pool.xlsx file (extdata/pool.xlsx by default)
+#' @import dplyr
+#' @importFrom readxl read_xlsx
+import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "bvqdev")) {
+x <- read_xlsx(file) \%>\%
+mutate(te = as.integer(te),
+across(c(cognate, include),
+\(x) as.logical(as.integer(x))),
+version = strsplit(version, split = ","),
+ipa_flat = gsub(
+pool$ipa \%>\%
+paste(collapse = "") \%>\%
+strsplit("") \%>\%
+unlist() \%>\%
+unique() \%>\%
+.data\link{c(3, 6, 37, 39, 44, 50)} \%>\%
+paste0("\\", .data, collapse = "|"),
+"",
+ipa
+)
+) \%>\%
+relocate(ipa_flat, .after = ipa)
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{return(x)
+}\if{html}{\out{</div>}}
+
+}
 Deal with repeated measures
 }

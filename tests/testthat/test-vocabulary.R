@@ -8,17 +8,20 @@ n_total <- studies %>%
     group_by(version) %>%
     summarise(n_total = sum(n))
 
-vocabulary <- bvq_vocabulary(participants, responses, scale = c("count", "prop")) %>%
-    left_join(select(participants, id, time, version, randomisation)) %>%
+vocabulary <- bvq_vocabulary(participants, responses, 
+                             scale = c("count", "prop")) %>%
+    left_join(select(participants, id, time, version, randomisation),
+              multiple = "all") %>%
     drop_na(version, randomisation) %>%
     mutate(
         version = case_when(
             grepl("cbc", id) ~ "CBC",
             grepl("devlex", id) ~ "DevLex",
-            TRUE ~ paste(version, randomisation, sep = "-")
+            .default = paste(version, randomisation, sep = "-")
         )
     ) %>%
-    left_join(n_total)
+    left_join(n_total,
+              multiple = "all")
 
 test_that("vocabulary proportions are plausible", {
     expect_true(all(between(vocabulary$vocab_prop_total, 0, 1)))

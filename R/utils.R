@@ -1,26 +1,3 @@
-<<<<<<< HEAD
-#' Download formR surveys
-#' 
-#' @import cli
-#' @param surveys Name of the surveys in the formR run
-#' @param verbose Should progress messages and warnings be printed in the console
-download_surveys <- function(surveys, verbose) {
-    n <- length(surveys)
-    i <- 0
-    raw <- vector(mode = "list", length = n)
-    if (verbose) cli_progress_step(msg = "Downloaded {i}/{n} {qty(i)}survey{?s}")
-    for (i in 1:length(surveys)) {
-        raw[[i]] <- formr_raw_results(surveys[i])
-        if (verbose) cli_progress_update()
-    }
-    cli_progress_done(result = "done")
-    raw <- lapply(raw, select, -any_of("language"))
-    names(raw) <- surveys
-    return(raw)
-}
-
-=======
->>>>>>> dplyr-1.0.0
 #' Age difference in months
 #' 
 #' @param x Most recent date
@@ -338,8 +315,6 @@ prop_adj_ci <- function(x, n, .width = 0.95) {
     return(ci)
 }
 
-
-<<<<<<< HEAD
 #' Remove punctuation and fix non-ASCII characters from IPA transcriptions
 #' 
 #' @details Note that this function will effectively remove information about syllabification and stress from the phonological representations.
@@ -361,32 +336,35 @@ flatten_ipa <- function(x) {
 #' @return A character vector of the same length in which punctuation characters have been removed.
 flatten_sampa <- function(x) {
     gsub("[[:punct:]]", "", x)
-=======
-import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "multilex")) {
-    x <- readxl::read_xlsx(file) %>%
-        dplyr::mutate_at(vars(te), as.integer) %>%
-        dplyr::mutate_at(
-            dplyr::vars(cognate, include),
-            function(x) as.logical(as.integer(x))
-        ) %>%
-        dplyr::mutate_at(dplyr::vars(version), function(x) strsplit(x, split = ",")) %>%
-        mutate(
-            ipa_flat = gsub(
-                pool$ipa %>%
-                    paste(collapse = "") %>%
-                    strsplit("") %>%
-                    unlist() %>%
-                    unique() %>%
-                    .data[c(3, 6, 37, 39, 44, 50)] %>%
-                    paste0("\\", .data, collapse = "|"),
-                "",
-                ipa
-            )
-        ) %>%
-        dplyr::relocate(ipa_flat, .after = ipa)
-    return(x)
->>>>>>> dplyr-1.0.0
 }
+
+#' #' Import and prepare pool
+#' #' 
+#' #' @param file Path to pool.xlsx file (extdata/pool.xlsx by default)
+#' #' @import dplyr
+#' #' @importFrom readxl read_xlsx
+#' import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "bvqdev")) {
+#'     x <- read_xlsx(file) %>%
+#'         mutate(te = as.integer(te),
+#'                across(c(cognate, include), 
+#'                       \(x) as.logical(as.integer(x))),
+#'                version = strsplit(version, split = ","),
+#'                ipa_flat = gsub(
+#'                    pool$ipa %>%
+#'                        paste(collapse = "") %>%
+#'                        strsplit("") %>%
+#'                        unlist() %>%
+#'                        unique() %>%
+#'                        .data[c(3, 6, 37, 39, 44, 50)] %>%
+#'                        paste0("\\", .data, collapse = "|"),
+#'                    "",
+#'                    ipa
+#'                )
+#'         ) %>%
+#'         relocate(ipa_flat, .after = ipa)
+#'     
+#'     return(x)
+#' }
 
 #' Deal with repeated measures
 #' 
