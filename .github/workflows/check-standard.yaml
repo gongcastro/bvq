@@ -46,7 +46,7 @@ jobs:
         with:
           extra-packages: rcmdcheck
 
-      - uses: r-lib/actions/check-r-package@v1
+      - uses: r-lib/actions/check-r-package@v2
         env:
           GOOGLE_TOKEN: ${{ secrets.GOOGLE_TOKEN }}
           FORMR_PWD: ${{ secrets.FORMR_PWD }}
