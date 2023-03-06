@@ -6,7 +6,20 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-Development package for the Barcelona Vocabulary Questionnaire (BVQ).
+
+## Overview
+
+This package contains data from a vocabulary checklist aimed at to assessing lexical development in children growing up in Catalan/Spanish bilingual environments. The questionnaire was deployed using [formr](https://formr.org/), and the materials used to generate the items are available in the GitHub repository.
+
+This package also contains multiple functions that extract the data and generate many metrics used frequently in the language acquisition literature to examine participants’ vocabulary or to consult acquisition norms of particular words. Documentation and working examples are available in the package website.
+
+
+## Installation
+
+```r
+install.packages("remotes") # you may need to install this first
+remotes::install_github("gongcastro/multilex")
+```
 
 ## Code of Conduct
 

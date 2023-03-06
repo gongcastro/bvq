@@ -1,0 +1,13 @@
+citHeader("To cite bvqdev in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "bvq: A R package for retrieving vocabualry data from the Barcelona Vocabulary Questionnaire (BVQ)",
+  author   = personList(as.person("Gonzalo Garcia-Castro")),
+  year     = "2023",
+  snote     = "R package version 1.0.1",
+  url      = "https://gongcastro.github.io/bvqdev",
+   textVersion = paste(
+       "G. Garcia-Castro (2023). bvq: A R package for retrieving vocabualry data from the Barcelona Vocabulary Questionnaire (BVQ). https://gongcastro.github.io/bvqdev"
+  )
+)

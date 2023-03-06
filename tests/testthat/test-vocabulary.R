@@ -1,3 +1,5 @@
+Sys.getenv(FORMR_PWD)
+
 bvq_connect(verbose = FALSE)
 participants <- bvq_participants()
 responses <- bvq_responses(participants, verbose = FALSE)

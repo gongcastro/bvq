@@ -1,6 +1,6 @@
 Package: bvqdev
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: A R package for retrieving vocabualry data from the Barcelona Vocabulary Questionnaire (BVQ)
+Version: 0.1.0
 Authors@R: c(
   person("Gonzalo", "Garcia-Castro", email = "gonzalo.garciadecastro@upf.edu", role = "cre", comment = c(ORCID = "0000-0002-8553-4209")))
 Maintainer: Gonzalo Garcia-Castro <gonzalo.garciadecastro@upf.edu>
@@ -43,5 +43,5 @@ Language: en-US
 Remotes: 
     github::rubenarslan/formr
 URL: https://gongcastro.github.io/bvqdev/
-BugReports: https://github.com/gongcastro/multilex/issues
+BugReports: https://github.com/gongcastro/bvqdev/issues
 LazyData: true

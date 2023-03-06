@@ -4,7 +4,7 @@
 \name{bvqdev-package}
 \alias{bvqdev}
 \alias{bvqdev-package}
-\title{bvqdev: What the Package Does (One Line, Title Case)}
+\title{bvqdev: A R package for retrieving vocabualry data from the Barcelona Vocabulary Questionnaire (BVQ)}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
@@ -14,7 +14,7 @@ This package is intended for internal use by the mantainers of the bvq package. 
 Useful links:
 \itemize{
   \item \url{https://gongcastro.github.io/bvqdev/}
-  \item Report bugs at \url{https://github.com/gongcastro/multilex/issues}
+  \item Report bugs at \url{https://github.com/gongcastro/bvqdev/issues}
 }
 
 }

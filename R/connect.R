@@ -24,14 +24,22 @@ bvq_connect <- function(google_email = NULL,
     
     # if key does not exist and is not provided, create it
     is_key_formr_missing <- !("bvq" %in% key_list()$service)
-    if (is_key_formr_missing) key_set("bvq", formr_email)
+    if (is_key_formr_missing) {
+        pwd <- Sys.getenv("FORMR_PWD", unset = NA)
+        if (is.na(pwd)) {
+            key_set("bvq", formr_email)
+            pwd <- key_get("bvq", formr_email) 
+        }
+    } else {
+        pwd <- key_get("bvq", formr_email) 
+    }
     
     # if key exists, use it to log in
     tryCatch(
         suppressWarnings(
             formr_connect(
                 email = formr_email,
-                password = key_get("bvq", formr_email),
+                password = pwd,
                 host = "https://formr.org/"
             )
         ), 
