@@ -37,7 +37,7 @@
 #'   compute norms for: `"Bilingual"`, `"Monolingual"`, `"Other"` (defaults to all).
 #' @param sex character string indicating the sex of participants to compute
 #'   norms for. Takes `"Female"` and/or `"Male"` (defaults to both).
-#' @param category character string indicating the semantic/functional category
+#' @param semantic_category character string indicating the semantic/functional category
 #'   or categories to include items from. See available categories in the
 #'   `pool` data set by running `data("pool")`.
 #' @param .width Numeric values ranging from 0 to 1 (not included) indicating

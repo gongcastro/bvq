@@ -384,19 +384,19 @@ flatten_sampa <- function(x) {
 #'   One participant may appear several times in the data frame, with each time
 #'   with a unique value of `time`.
 #' @param longitudinal A character string indicating what subset of the
-#'   participants should be returned: `"all"` (default) returns all participants,
-#'   `"no"` remove all participants with more than one response, `"only"` returns
-#'   only participants with more than one response in the dataset (i.e.,
-#'   longitudinal participants), `"first"` returns the first response of each
-#'   participant (participants with only one appearance are included), and
-#'   `"last"` returns the last response from each participant (participants with
-#'   only one response are included).
+#'   participants should be returned: `"all"` (default) returns all
+#'   participants, `"no"` remove all participants with more than one response,
+#'   `"only"` returns only participants with more than one response in the
+#'   dataset (i.e., longitudinal participants), `"first"` returns the first
+#'   response of each participant (participants with only one appearance are
+#'   included), and `"last"` returns the last response from each participant
+#'   (participants with only one response are included).
 #' @importFrom dplyr group_by
 #' @importFrom dplyr distinct
 #' @importFrom dplyr n
 #' @importFrom dplyr filter
 #' @importFrom dplyr ungroup
-#' @return A subset of the data frame `x` with only the selected cases,
+#' @returns A subset of the data frame `x` with only the selected cases,
 #'   according to `longitudinal`.
 get_longitudinal <- function(x, longitudinal = "all") {
     

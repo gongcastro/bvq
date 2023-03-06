@@ -9,13 +9,16 @@ test_that("vocabulary proportions are plausible", {
     
     vocabulary <- vocabulary %>%
         left_join(select(participants, id, time, version, randomisation),
+                  by = join_by(id, time),
                   multiple = "all") %>%
         drop_na(version, randomisation) %>%
         mutate(version = case_when(
             grepl("cbc", id) ~ "CBC",
             grepl("devlex", id) ~ "DevLex",
             .default = paste(version, randomisation, sep = "-"))) %>%
-        left_join(n_total, multiple = "all")
+        left_join(n_total,
+                  by = join_by(version),
+                  multiple = "all")
     
     expect_true(all(between(vocabulary$vocab_prop_total, 0, 1)))
     expect_true(all(between(vocabulary$vocab_prop_dominance_l1[!is.na(vocabulary$vocab_prop_dominance_l1)], 0, 1)))

@@ -16,7 +16,7 @@ URL: https://gongcastro.github.io/bvqdev/,
     https://github.com/gongcastro/bvqdev/
 BugReports: https://github.com/gongcastro/bvqdev/issues
 Depends: 
-    R (>= 4.0.0),
+    R (>= 3.5.0),
     Rdpack
 Imports: 
     cli,

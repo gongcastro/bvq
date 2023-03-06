@@ -43,13 +43,13 @@ One participant may appear several times in the data frame, with each time
 with a unique value of \code{time}.}
 
 \item{longitudinal}{A character string indicating what subset of the
-participants should be returned: \code{"all"} (default) returns all participants,
-\code{"no"} remove all participants with more than one response, \code{"only"} returns
-only participants with more than one response in the dataset (i.e.,
-longitudinal participants), \code{"first"} returns the first response of each
-participant (participants with only one appearance are included), and
-\code{"last"} returns the last response from each participant (participants with
-only one response are included).}
+participants should be returned: \code{"all"} (default) returns all
+participants, \code{"no"} remove all participants with more than one response,
+\code{"only"} returns only participants with more than one response in the
+dataset (i.e., longitudinal participants), \code{"first"} returns the first
+response of each participant (participants with only one appearance are
+included), and \code{"last"} returns the last response from each participant
+(participants with only one response are included).}
 }
 \value{
 A subset of the data frame \code{x} with only the selected cases,

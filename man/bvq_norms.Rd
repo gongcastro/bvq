@@ -43,12 +43,12 @@ compute norms for: \code{"Bilingual"}, \code{"Monolingual"}, \code{"Other"} (def
 \item{sex}{character string indicating the sex of participants to compute
 norms for. Takes \code{"Female"} and/or \code{"Male"} (defaults to both).}
 
-\item{.width}{Numeric values ranging from 0 to 1 (not included) indicating
-the confidence level of confidence intervals (defaults to \code{0.95}).}
-
-\item{category}{character string indicating the semantic/functional category
+\item{semantic_category}{character string indicating the semantic/functional category
 or categories to include items from. See available categories in the
 \code{pool} data set by running \code{data("pool")}.}
+
+\item{.width}{Numeric values ranging from 0 to 1 (not included) indicating
+the confidence level of confidence intervals (defaults to \code{0.95}).}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} with the proportion of

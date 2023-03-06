@@ -6,23 +6,25 @@
 \title{Pool of words}
 \format{
 A data frame with 1601 rows and 20 variables:
-\describe{
-\item{item}{item label, as indicated in the formr survey spreadsheets, items are unique within and across questionnaires}
-\item{language}{language the item belongs to}
-\item{te}{index associated to translation equivalents across languages}
-\item{label}{item label, as presented to participants in the front-end of the questionnaire, some labels are not unique within or across quesitonnaires}
-\item{ipa}{phonological transcription in IPA format, extracted from \href{https://www.wiktionary.org/}{Wiktionary} or manually coded if not available}
-\item{sampa}{phonological transcription in C-SAMPA format, transcribed from \code{ipa} using the \href{https://clearpond.northwestern.edu/ipa_cpsampa.html}{CLEARPOND transcriber}}
-\item{n_lemmas}{an integer indicating the number of different lemmas showed in the item label to participants. for instance, the Spanish item \code{"spa_hierba"} was shown to in the questionnaire as \code{"hierba / césped"}. Lemma with similar roots were considered as one, such as the Spanish item \code{"spa_tonto"}, presented as \code{"tonto / tonta"} in the questionnaire.}
-\item{is_multiword}{an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item \code{"spa_cepillodientes"}} was shown as \code{"cepillo de dientes"} in the questionnaire, which includes three words.}
-\item{subtlex_lemma}{word label, as included in the corresponding version
-of SUBTLEX.} \item{wordbank_lemma}{word label, as indexed in Worbank.}
-\item{childes_lemma}{word label, as it appears in the CHILDES English
-corpora (based on \code{wordbank_lemma}).} \item{category}{semantic/functional
-category the items belongs to.} \item{class}{Funcional category (verb,
-nouns, adjective, etc.).} \item{include}{should this item be included in
-analyses?} \item{version}{what short version of the questionnaire does this
-item appear on?} \item{comments}{additional comments to the item.} }
+\itemize{
+\item item: item label, as indicated in the formr survey spreadsheets, items are unique within and across questionnaires.
+\item language: language the item belongs to.
+\item te: index associated to translation equivalents across languages.
+\item label: item label, as presented to participants in the front-end of the questionnaire, some labels are not unique within or across questionnaires.
+\item ipa: phonological transcription in IPA format, extracted from \href{https://www.wiktionary.org/}{Wiktionary} or manually coded if not available.
+\item sampa: phonological transcription in C-SAMPA format, transcribed from \code{ipa} using the \href{https://clearpond.northwestern.edu/ipa_cpsampa.html}{CLEARPOND transcriber}.
+\item n_lemmas: an integer indicating the number of different lemmas showed in the item label to participants. for instance, the Spanish item \code{"spa_hierba"} was shown to in the questionnaire as \code{"hierba / césped"}. Lemma with similar roots were considered as one, such as the Spanish item \code{"spa_tonto"}, presented as \code{"tonto / tonta"} in the questionnaire.
+\item is_multiword: an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item \code{"spa_cepillodientes"}} was shown as \code{"cepillo de dientes"} in the questionnaire, which includes three words.
+\item subtlex_lemma: word label, as included in the corresponding version.
+of SUBTLEX.
+\item wordbank_lemma: word label, as indexed in Worbank.
+\item childes_lemma: word label, as it appears in the CHILDES English
+corpora (based on \code{wordbank_lemma}).
+\item semantic_category: semantic/functional category the items belongs to.
+\item class: Functional category (verb, nouns, adjective, etc.).
+version: what short version of the questionnaire does this item appear on?
+\item include: should this item be included in analyses?
+}
 }
 \usage{
 pool
