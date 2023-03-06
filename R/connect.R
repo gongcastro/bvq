@@ -20,11 +20,6 @@ bvq_connect <- function(google_email = NULL,
     # ask for email in console is everything is NULL
     if (is.null(google_email)) google_email <- formr_email
     
-    # if key does not exist and is not provided, create it
-    if (is.na(password)) {
-        cli_abort("{.field password} is missing. Add your password to {.path .Renviron} in your base path as {.code FORMR_PWD} or pass it along the {.code password} argument")
-    }
-    
     if (!is.na(password) & !is.na(Sys.getenv("FORMR_PWD", unset = NA))) {
         cli_alert_info("Using global variable FORMR_PWD as password")
     }

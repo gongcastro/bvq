@@ -37,6 +37,7 @@ jobs:
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      FORMR_PWD: ${{ secrets.FORMR_PWD }}
       R_KEEP_PKG_SOURCE: yes
 
     steps:

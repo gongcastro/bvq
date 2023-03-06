@@ -1,4 +1,6 @@
-bvq_connect(verbose = FALSE)
+bvq_connect(verbose = FALSE, 
+            password = Sys.getenv("FORMR_PWD", unset = NA))
+
 responses <- bvq_responses(verbose = FALSE)
 
 test_that("columns are the right classes", {
