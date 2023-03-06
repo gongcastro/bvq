@@ -4,11 +4,7 @@
 \alias{bvq_connect}
 \title{Authenticate in Google and formr}
 \usage{
-bvq_connect(
-  google_email = NULL,
-  verbose = TRUE,
-  password = Sys.getenv("FORMR_PWD", unset = NA)
-)
+bvq_connect(google_email = NULL, verbose = TRUE, password = NULL)
 }
 \arguments{
 \item{google_email}{E-mail used in Google Drive account. If NULL (default), it is assumed to be the same as formr_email.}

@@ -4,16 +4,17 @@
 \name{bvqdev-package}
 \alias{bvqdev}
 \alias{bvqdev-package}
-\title{bvqdev: A R package for retrieving vocabualry data from the Barcelona Vocabulary Questionnaire (BVQ)}
+\title{bvqdev: Barcelona Vocabulary Questionnaire Database and Helper Functions}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-This package is intended for internal use by the mantainers of the bvq package. It contains functions that download the BVQ survey data from the formR servers, where the questionnaires are hosted and the data are stored, clean them, and upload them to the Universitat Pompeu Fabra servers. The final data is what users of the bvq package can retrieve.
+Download, clean, and process the Barcelona Vocabulary Questionnaire data. BVQ is a vocabulary inventory developed for assesing the vocabulary of Catalan-Spanish bilinguals infants from the Metropolitan Area of Barcelona (Spain), aged 10 to 40 months. This package includes functions to download the data from formr servers, and return the processed data in multiple formats.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://gongcastro.github.io/bvqdev/}
+  \item \url{https://github.com/gongcastro/bvqdev/}
   \item Report bugs at \url{https://github.com/gongcastro/bvqdev/issues}
 }
 

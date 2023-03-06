@@ -1,25 +1,6 @@
-library(dplyr)
-library(readxl)
-
-# uni lemmas
-worbank_lemmas <- read.delim(system.file("extdata/lemmas.txt", package = "bvqdev"), sep = "\t") %>% 
-    select(te, item, ends_with("lemma")) 
-
-# import pool
-pool <- read_xlsx(system.file("extdata/pool.xlsx", package = "bvqdev")) %>% 
-    left_join(worbank_lemmas) %>% 
-    mutate(language = ifelse(grepl("cat_", item), "Catalan", "Spanish")) %>% 
-    select(item, language, te, label, ipa, sampa, 
-           n_lemmas, is_multiword, subtlex_lemma, wordbank_lemma, 
-           childes_lemma, semantic_category, class, version, include) %>% 
-    drop_na(version) %>% 
-    mutate(
-        across(c(te, n_lemmas), as.integer),
-        across(c(is_multiword, include),as.logical),
-        version = strsplit(version, split = ",")
-    ) 
-
 test_that("pool columns are the right classes", {
+    pool <- readRDS(test_path("fixtures", "pool.rds"))
+    
     expect_true(is.character(pool$item))
     expect_true(is.character(pool$language))
     expect_true(is.integer(pool$te))
@@ -38,6 +19,8 @@ test_that("pool columns are the right classes", {
 })
 
 test_that("pool columns values are right", {
+    pool <- readRDS(test_path("fixtures", "pool.rds"))
+    
     expect_true(all(unique(pool$language) %in% c("Catalan", "Spanish")))
     expect_true(all(unique(pool$te) %in% 1:804))
     expect_true(all(unique(pool$n_lemmas) > 0))
@@ -56,7 +39,9 @@ test_that("pool columns values are right", {
 })
 
 
-dups_exist <- test_that("items are not duplicated", {
+test_that("items are not duplicated", {
+    pool <- readRDS(test_path("fixtures", "pool.rds"))
+    
     expect_false(any(duplicated(select(pool, te, item))))
 })
 

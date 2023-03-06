@@ -13,15 +13,18 @@
 #' @return Logical. TRUE if Google and formr authentication was successful, FALSE if authentication of any of the two failed.
 bvq_connect <- function(google_email = NULL,
                         verbose = TRUE,
-                        password = Sys.getenv("FORMR_PWD", unset = NA)) {
+                        password = NULL) {
     
     formr_email <- "gonzalo.garciadecastro@upf.edu"
     
     # ask for email in console is everything is NULL
     if (is.null(google_email)) google_email <- formr_email
     
-    if (!is.na(password) & !is.na(Sys.getenv("FORMR_PWD", unset = NA))) {
-        cli_alert_info("Using global variable FORMR_PWD as password")
+    if (is.null(password)) {
+        password <- Sys.getenv("FORMR_PWD", unset = NA)
+        if (is.na(password)) {
+            cli_abort("Please, provide a password")
+        }
     }
     
     # if key exists, use it to log in
@@ -38,7 +41,7 @@ bvq_connect <- function(google_email = NULL,
                 strwrap(
                     prefix = " ",
                     initial = "",
-                    "Could not connect to formR. Please check your internet connection or make sure you have set the right formR password."
+                    "Could not connect to formr. Please check your internet connection or make sure you have set the right formR password."
                 )
             )
         }
@@ -52,7 +55,8 @@ bvq_connect <- function(google_email = NULL,
         google_token <- Sys.getenv("GOOGLE_TOKEN", unset = NA)
         
         tryCatch(
-            suppressWarnings(gs4_auth(email = google_email, token = google_token)), 
+            suppressWarnings(gs4_auth(email = google_email,
+                                      token = google_token)), 
             error = function(e){
                 cli_abort(
                     strwrap(
