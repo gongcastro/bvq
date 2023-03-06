@@ -1,4 +1,4 @@
-url: ~
+url: gongcastro.github.io
 template:
   bootstrap: 5
   bootswatch: litera
@@ -37,3 +37,4 @@ reference:
     Functions to download and process data from the BVQ database
   contents: 
   - starts_with("bvq_")
+  
