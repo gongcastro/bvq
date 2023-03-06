@@ -14,7 +14,6 @@ Imports:
     glue,
     googlesheets4,
     janitor,
-    keyring,
     lifecycle,
     lubridate,
     magrittr,

@@ -4,34 +4,29 @@
 #' @importFrom googlesheets4 gs4_has_token
 #' @importFrom googlesheets4 gs4_auth
 #' @importFrom formr formr_connect
-#' @importFrom keyring key_list
-#' @importFrom keyring key_get
-#' @importFrom keyring key_set
-#' @importFrom keyring key_set_with_value
-#' @importFrom cli make_spinner
 #' @importFrom cli cli_alert_success
+#' @importFrom cli cli_abort
 #' @importFrom cli cli_text
 #' @param google_email E-mail used in Google Drive account. If NULL (default), it is assumed to be the same as formr_email.
 #' @param verbose Should progress messages and warnings be printed in the console
-#' @details This function tries to log in to the formr API by trying to retrieve its corresponding key via the keyring package. If no key exists under the name "multilex", the user is prompted to create it first.
+#' @details This function tries to log in to the formr API with the user-provided password (argument \code{password}) or retrieving it from the global environment (FORMR_PWD in .Renviron)
 #' @return Logical. TRUE if Google and formr authentication was successful, FALSE if authentication of any of the two failed.
 bvq_connect <- function(google_email = NULL,
-                        verbose = TRUE) {
+                        verbose = TRUE,
+                        password = Sys.getenv("FORMR_PWD", unset = NA)) {
+    
     formr_email <- "gonzalo.garciadecastro@upf.edu"
     
     # ask for email in console is everything is NULL
     if (is.null(google_email)) google_email <- formr_email
     
     # if key does not exist and is not provided, create it
-    is_key_formr_missing <- !("bvq" %in% key_list()$service)
-    if (is_key_formr_missing) {
-        pwd <- Sys.getenv("FORMR_PWD", unset = NA)
-        if (is.na(pwd)) {
-            key_set("bvq", formr_email)
-            pwd <- key_get("bvq", formr_email) 
-        }
-    } else {
-        pwd <- key_get("bvq", formr_email) 
+    if (is.na(password)) {
+        cli_abort("{.field password} is missing. Add your password to {.path .Renviron} in your base path as {.code FORMR_PWD} or pass it along the {.code password} argument")
+    }
+    
+    if (!is.na(password) & !is.na(Sys.getenv("FORMR_PWD", unset = NA))) {
+        cli_alert_info("Using global variable FORMR_PWD as password")
     }
     
     # if key exists, use it to log in

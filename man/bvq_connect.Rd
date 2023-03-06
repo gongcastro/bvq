@@ -4,7 +4,11 @@
 \alias{bvq_connect}
 \title{Authenticate in Google and formr}
 \usage{
-bvq_connect(google_email = NULL, verbose = TRUE)
+bvq_connect(
+  google_email = NULL,
+  verbose = TRUE,
+  password = Sys.getenv("FORMR_PWD", unset = NA)
+)
 }
 \arguments{
 \item{google_email}{E-mail used in Google Drive account. If NULL (default), it is assumed to be the same as formr_email.}
@@ -18,5 +22,5 @@ Logical. TRUE if Google and formr authentication was successful, FALSE if authen
 Authenticate in Google and formr
 }
 \details{
-This function tries to log in to the formr API by trying to retrieve its corresponding key via the keyring package. If no key exists under the name "multilex", the user is prompted to create it first.
+This function tries to log in to the formr API with the user-provided password (argument \code{password}) or retrieving it from the global environment (FORMR_PWD in .Renviron)
 }
