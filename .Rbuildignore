@@ -24,3 +24,4 @@
 ^data-raw$
 ^.covrignore$
 codecov.exe
+^inst/utils$
