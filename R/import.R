@@ -3,6 +3,7 @@
 #' @import cli
 #' @param surveys Name of the surveys in the formR run
 #' @param verbose Should progress messages and warnings be printed in the console
+#' @md
 download_surveys <- function(surveys, verbose) {
     n <- length(surveys)
     i <- 0
@@ -24,9 +25,6 @@ download_surveys <- function(surveys, verbose) {
 #' 
 #' @import dplyr
 #' @importFrom formr formr_raw_results
-#' @importFrom purrr map
-#' @importFrom purrr set_names
-#' @importFrom purrr reduce
 #' @importFrom lubridate as_datetime
 #' @importFrom lubridate time_length
 #' @importFrom tidyr drop_na
@@ -36,6 +34,7 @@ download_surveys <- function(surveys, verbose) {
 #' @importFrom cli cli_alert_success
 #' @param surveys Name of formr surveys from the bilexicon_lockdown run
 #' @param verbose Should progress messages and warnings be printed in the console
+#' @md
 import_formr_lockdown <- function(surveys = c(
     "bilexicon_lockdown_01_log",
     "bilexicon_lockdown_02_welcome",
@@ -142,9 +141,6 @@ import_formr_lockdown <- function(surveys = c(
 #' 
 #' @import dplyr
 #' @importFrom formr formr_raw_results
-#' @importFrom purrr map
-#' @importFrom purrr set_names
-#' @importFrom purrr reduce
 #' @importFrom lubridate as_datetime
 #' @importFrom tidyr drop_na
 #' @importFrom tidyr pivot_longer
@@ -153,6 +149,7 @@ import_formr_lockdown <- function(surveys = c(
 #' @importFrom cli cli_alert_success
 #' @param surveys Name of formr surveys from the bilexicon_short run
 #' @param verbose Should progress messages and warnings be printed in the console
+#' @md
 import_formr_short <- function(surveys = c(
     "bilexicon_short_01_log",
     "bilexicon_short_02_welcome",
@@ -253,9 +250,6 @@ import_formr_short <- function(surveys = c(
 #' 
 #' @import dplyr
 #' @importFrom formr formr_raw_results
-#' @importFrom purrr map
-#' @importFrom purrr set_names
-#' @importFrom purrr reduce
 #' @importFrom lubridate as_datetime
 #' @importFrom tidyr drop_na
 #' @importFrom tidyr pivot_longer

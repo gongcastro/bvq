@@ -255,26 +255,6 @@ first_non_na <- function(x) {
     ifelse(is.logical(first(x[!is.na(x)])), NA, first(x[!is.na(x)]))
 }
 
-#' Select age bins flexibly
-#' 
-#' @importFrom ggplot2 cut_width
-#' @importFrom stringr str_replace_all
-#' @importFrom stringr str_remove_all
-#' @param x Vector of ages (in months)
-#' @param width Width of the age bins (in months, defaults to 2)
-get_age_bins <- function(x, width = 2) {
-    min_age <- min(x)
-    if (width == 1) {
-        y <- factor(round(x), ordered = TRUE)
-    } else {
-        y <- cut_width(x, width = width, boundary = 1) %>%
-            str_replace_all(",", "-") %>%
-            str_remove_all(c("\\(|\\)|\\[|\\]")) %>%
-            factor(levels = unique(cut_width(x, width = width, boundary = 1)), ordered = TRUE)
-    }
-    return(y)
-}
-
 
 #' Proportion, adjusted for zero- and one- inflation
 #' 
@@ -347,55 +327,32 @@ flatten_sampa <- function(x) {
     gsub("[[:punct:]]", "", x)
 }
 
-#' #' Import and prepare pool
-#' #' 
-#' #' @param file Path to pool.xlsx file (extdata/pool.xlsx by default)
-#' #' @import dplyr
-#' #' @importFrom readxl read_xlsx
-#' import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "bvqdev")) {
-#'     x <- read_xlsx(file) %>%
-#'         mutate(te = as.integer(te),
-#'                across(c(cognate, include), 
-#'                       \(x) as.logical(as.integer(x))),
-#'                version = strsplit(version, split = ","),
-#'                ipa_flat = gsub(
-#'                    pool$ipa %>%
-#'                        paste(collapse = "") %>%
-#'                        strsplit("") %>%
-#'                        unlist() %>%
-#'                        unique() %>%
-#'                        .data[c(3, 6, 37, 39, 44, 50)] %>%
-#'                        paste0("\\", .data, collapse = "|"),
-#'                    "",
-#'                    ipa
-#'                )
-#'         ) %>%
-#'         relocate(ipa_flat, .after = ipa)
-#'     
-#'     return(x)
-#' }
 
 #' Deal with repeated measures
 #'
 #' @export get_longitudinal
+#'
 #' @param x A data frame containing a column for participants (each participant
 #'   gets a unique ID), and a column for times (a numeric value indicating how
 #'   many times each participant appears in the data frame counting this one).
 #'   One participant may appear several times in the data frame, with each time
 #'   with a unique value of `time`.
 #' @param longitudinal A character string indicating what subset of the
-#'   participants should be returned: `"all"` (default) returns all
-#'   participants, `"no"` remove all participants with more than one response,
-#'   `"only"` returns only participants with more than one response in the
-#'   dataset (i.e., longitudinal participants), `"first"` returns the first
-#'   response of each participant (participants with only one appearance are
-#'   included), and `"last"` returns the last response from each participant
-#'   (participants with only one response are included).
+#'   participants should be returned:
+#'   * `"all"` (default) returns all participants.
+#'   * `"no"` remove all participants with more than one response.
+#'   * `"only"` returns only participants with more than one response in the
+#'   dataset (i.e., longitudinal participants).
+#'   * `"first"` returns the first response of each participant (participants with only one appearance are
+#'   included).
+#'   * `"last"` returns the last response from each participant (participants with only one response are included).
+#'
 #' @importFrom dplyr group_by
 #' @importFrom dplyr distinct
 #' @importFrom dplyr n
 #' @importFrom dplyr filter
 #' @importFrom dplyr ungroup
+#' 
 #' @returns A subset of the data frame `x` with only the selected cases,
 #'   according to `longitudinal`.
 get_longitudinal <- function(x, longitudinal = "all") {

@@ -14,7 +14,7 @@ A data frame with 1601 rows and 20 variables:
 \item ipa: phonological transcription in IPA format, extracted from \href{https://www.wiktionary.org/}{Wiktionary} or manually coded if not available.
 \item sampa: phonological transcription in C-SAMPA format, transcribed from \code{ipa} using the \href{https://clearpond.northwestern.edu/ipa_cpsampa.html}{CLEARPOND transcriber}.
 \item n_lemmas: an integer indicating the number of different lemmas showed in the item label to participants. for instance, the Spanish item \code{"spa_hierba"} was shown to in the questionnaire as \code{"hierba / césped"}. Lemma with similar roots were considered as one, such as the Spanish item \code{"spa_tonto"}, presented as \code{"tonto / tonta"} in the questionnaire.
-\item is_multiword: an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item \code{"spa_cepillodientes"}} was shown as \code{"cepillo de dientes"} in the questionnaire, which includes three words.
+\item is_multiword: an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item \code{"spa_cepillodientes"} was shown as \code{"cepillo de dientes"} in the questionnaire, which includes three words.
 \item subtlex_lemma: word label, as included in the corresponding version.
 of SUBTLEX.
 \item wordbank_lemma: word label, as indexed in Worbank.
@@ -22,7 +22,7 @@ of SUBTLEX.
 corpora (based on \code{wordbank_lemma}).
 \item semantic_category: semantic/functional category the items belongs to.
 \item class: Functional category (verb, nouns, adjective, etc.).
-version: what short version of the questionnaire does this item appear on?
+\item version: what short version of the questionnaire does this item appear on?
 \item include: should this item be included in analyses?
 }
 }

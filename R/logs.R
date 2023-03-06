@@ -1,7 +1,6 @@
 #' Generate participant information and progress for each response
 #'
 #' @import dplyr
-#' @importFrom scales label_percent
 #' @importFrom lubridate as_date
 #' @importFrom lubridate today
 #' @importFrom lubridate as_datetime
@@ -30,7 +29,6 @@
 #'   participant-level information. Each row corresponds to a questionnaire
 #'   response and each column represents a variable. The output includes the
 #'   following variables:
-
 #' * id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
 #' * id_exp: a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share `id_exp` The same participant may have different `id_exp` across different studies.
 #' * id_db: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància](https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same `id_db`.
@@ -57,6 +55,7 @@
 #' * completed: a logical value that returns `TRUE` if `progress` is 1, and `FALSE` otherwise.
 #' 
 #' @author Gonzalo Garcia-Castro
+#' @md
 bvq_logs <- function(participants = NULL,
                      responses = NULL,
                      bilingual_threshold = 0.80,

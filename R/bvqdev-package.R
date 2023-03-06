@@ -3,7 +3,6 @@
 
 ## usethis namespace: start
 #' @import rlang
-#' @importFrom glue glue
 #' @importFrom lifecycle deprecated
 #' @importFrom tibble tibble
 ## usethis namespace: end

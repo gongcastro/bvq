@@ -2,36 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{get_longitudinal}
 \alias{get_longitudinal}
-\title{#' Import and prepare pool
-#'
-#' @param file Path to pool.xlsx file (extdata/pool.xlsx by default)
-#' @import dplyr
-#' @importFrom readxl read_xlsx
-import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "bvqdev")) {
-x <- read_xlsx(file) \%>\%
-mutate(te = as.integer(te),
-across(c(cognate, include),
-\(x) as.logical(as.integer(x))),
-version = strsplit(version, split = ","),
-ipa_flat = gsub(
-pool$ipa \%>\%
-paste(collapse = "") \%>\%
-strsplit("") \%>\%
-unlist() \%>\%
-unique() \%>\%
-.data\link{c(3, 6, 37, 39, 44, 50)} \%>\%
-paste0("\\", .data, collapse = "|"),
-"",
-ipa
-)
-) \%>\%
-relocate(ipa_flat, .after = ipa)
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{return(x)
-}\if{html}{\out{</div>}}
-
-}
-Deal with repeated measures}
+\title{Deal with repeated measures}
 \usage{
 get_longitudinal(x, longitudinal = "all")
 }
@@ -43,47 +14,21 @@ One participant may appear several times in the data frame, with each time
 with a unique value of \code{time}.}
 
 \item{longitudinal}{A character string indicating what subset of the
-participants should be returned: \code{"all"} (default) returns all
-participants, \code{"no"} remove all participants with more than one response,
-\code{"only"} returns only participants with more than one response in the
-dataset (i.e., longitudinal participants), \code{"first"} returns the first
-response of each participant (participants with only one appearance are
-included), and \code{"last"} returns the last response from each participant
-(participants with only one response are included).}
+participants should be returned:
+\itemize{
+\item \code{"all"} (default) returns all participants.
+\item \code{"no"} remove all participants with more than one response.
+\item \code{"only"} returns only participants with more than one response in the
+dataset (i.e., longitudinal participants).
+\item \code{"first"} returns the first response of each participant (participants with only one appearance are
+included).
+\item \code{"last"} returns the last response from each participant (participants with only one response are included).
+}}
 }
 \value{
 A subset of the data frame \code{x} with only the selected cases,
 according to \code{longitudinal}.
 }
 \description{
-#' Import and prepare pool
-#'
-#' @param file Path to pool.xlsx file (extdata/pool.xlsx by default)
-#' @import dplyr
-#' @importFrom readxl read_xlsx
-import_pool <- function(file = system.file("extdata", "pool.xlsx", package = "bvqdev")) {
-x <- read_xlsx(file) \%>\%
-mutate(te = as.integer(te),
-across(c(cognate, include),
-\(x) as.logical(as.integer(x))),
-version = strsplit(version, split = ","),
-ipa_flat = gsub(
-pool$ipa \%>\%
-paste(collapse = "") \%>\%
-strsplit("") \%>\%
-unlist() \%>\%
-unique() \%>\%
-.data\link{c(3, 6, 37, 39, 44, 50)} \%>\%
-paste0("\\", .data, collapse = "|"),
-"",
-ipa
-)
-) \%>\%
-relocate(ipa_flat, .after = ipa)
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{return(x)
-}\if{html}{\out{</div>}}
-
-}
 Deal with repeated measures
 }

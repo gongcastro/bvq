@@ -46,22 +46,24 @@
 #'   participants in the sample that understand or produce the items indicated
 #'   in `item`, along with the standard error and confidence interval of
 #'   the estimation. The output contains the following variables:
-#'   * te: an integer identifying the Translation Equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.
-#'   * item: character string indicating the item identifier (e.g., *spa_mesa*). This value is unique for each item. Responses to the same item from different participants are linked by the same `item` value.
-#'   * language: a character string indicating the language the item response belongs to: *Catalan* if item in Catalan), *Spanish* if item in Spanish.
-#'   * age_bin: an integer indicating the age group participants for which the estimates have been computed belong to (2 months-wide bins by default).
-#'   * type: a character string indicating the vocabulary type computed: `"understands"` if option *Understands* was selected, and `"produces"` if option *Understands & Says* was selected.
-#'   * lp: a character string indicating participants' language profile, classified using parental reports of language exposure (see `doe_spanish`, `"doe_catalan`, and `doe_others`), and the thresholds passed in the `bilingual_threshold` and `other_threshold`.
-#'   * semantic_category: a character string indicating the semantic/function category the item belongs to (e.g., *Vehicles*, *Actions*).
-#'   * item_dominance: a character string that takes the value *L1* if the item belongs to participants' language of most exposure, and *L2* if the item belongs to participants' language of least exposure.
-#'   * label: a character string indicating the text presented to participants in the questionnaire (replacing the `item` identifier).
-#'   * yes: a positive integer indicating the number of positive responses: `responses` is 2 (*Understands*) or 3 (*Understands & Says*) for `type` *understands*, and 3 *Understands & Says* if `type` is *produces*.
-#'   * n: a positive integer indicating the total number number of responses (useful for computing proportions).
-#'   * proportion: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj]).
-#'   * se: a numeric value indicating the standard error (*SE*) of the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj_se()].
-#'   * ci_lower: a numeric value indicating the lower boundary of the 95\% confidence interval (*CI*) of the estimated proportion of participants that provided a positive response.
-#'   * ci_upper: a numeric value indicating the upper boundary of the 95\% confidence interval (*CI*) of the estimated proportion of participants that provided a positive response.
+#' * te: an integer identifying the Translation Equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.
+#' * item: character string indicating the item identifier (e.g., *spa_mesa*). This value is unique for each item. Responses to the same item from different participants are linked by the same `item` value.
+#' * language: a character string indicating the language the item response belongs to: *Catalan* if item in Catalan), *Spanish* if item in Spanish.
+#' * age_bin: an integer indicating the age group participants for which the estimates have been computed belong to (2 months-wide bins by default).
+#' * type: a character string indicating the vocabulary type computed: `"understands"` if option *Understands* was selected, and `"produces"` if option *Understands & Says* was selected.
+#' * lp: a character string indicating participants' language profile, classified using parental reports of language exposure (see `doe_spanish`, `"doe_catalan`, and `doe_others`), and the thresholds passed in the `bilingual_threshold` and `other_threshold`.
+#' * semantic_category: a character string indicating the semantic/function category the item belongs to (e.g., *Vehicles*, *Actions*).
+#' * item_dominance: a character string that takes the value *L1* if the item belongs to participants' language of most exposure, and *L2* if the item belongs to participants' language of least exposure.
+#' * label: a character string indicating the text presented to participants in the questionnaire (replacing the `item` identifier).
+#' * yes: a positive integer indicating the number of positive responses: `responses` is 2 (*Understands*) or 3 (*Understands & Says*) for `type` *understands*, and 3 *Understands & Says* if `type` is *produces*.
+#' * n: a positive integer indicating the total number number of responses (useful for computing proportions).
+#' * proportion: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj]).
+#' * se: a numeric value indicating the standard error (*SE*) of the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj_se()].
+#' * ci_lower: a numeric value indicating the lower boundary of the 95\% confidence interval (*CI*) of the estimated proportion of participants that provided a positive response.
+#' * ci_upper: a numeric value indicating the upper boundary of the 95\% confidence interval (*CI*) of the estimated proportion of participants that provided a positive response.
+#'
 #' @author Gonzalo Garcia-Castro
+#' @md
 bvq_norms <- function(participants = NULL,
                       responses = NULL,
                       item = NULL,
@@ -84,7 +86,6 @@ bvq_norms <- function(participants = NULL,
     group_vars <- c("te", "item", "language", "age_bin", "type", "lp",
                     "semantic_category", "item_dominance", "label")
     
-    data("pool")
     if (is.null(item)) item <- unique(responses$item)
     if (is.null(semantic_category)) sem_cat <- unique(pool$semantic_category)
     
