@@ -1,6 +1,6 @@
 test_that("bvq_connect returns the correct credentials", {
-    withr::local_envvar(FORMR_PWD = Sys.getenv("FORMR_PWD", unset = NA))
-    withr::local_envvar(GOOGLE_TOKEN = Sys.getenv("GOOGLE_TOKEN", unset = NA))
+    # withr::local_envvar(FORMR_PWD = Sys.getenv("FORMR_PWD", unset = NA))
+    # withr::local_envvar(GOOGLE_TOKEN = Sys.getenv("GOOGLE_TOKEN", unset = NA))
     
     if (is.na(Sys.getenv("FORMR_PWD", unset = NA))) {
         print("FORMR_PWD is NA")
