@@ -1,4 +1,5 @@
 url: gongcastro.github.io
+
 template:
   bootstrap: 5
   bootswatch: litera
@@ -31,10 +32,4 @@ home:
   sidebar:
     structure: [links, license, community, citation, authors, dev]
     
-reference:
-- title: "Interacting with the database"
-  desc: >
-    Functions to download and process data from the BVQ database
-  contents: 
-  - starts_with("bvq_")
   
