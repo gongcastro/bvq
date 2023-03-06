@@ -62,60 +62,9 @@
 that have participated or are candidates to participate in any of the
 versions of MultiLex. Each row corresponds to a questionnaire response and
 each column represents a variable. The output includes the following
-variables:</p><dl><dt>id</dt>
-<dd><p>a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same <code>id</code>.</p></dd>
-
-<dt>id_exp</dt>
-<dd><p>a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share <code>id_exp</code> The same participant may have different <code>id_exp</code> across different studies.</p></dd>
-
-<dt>id_db</dt>
-<dd><p>a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància (https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same <code>id_db</code>.</p></dd>
-
-<dt>code</dt>
-<dd><p>a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.</p></dd>
-
-<dt>time</dt>
-<dd><p>a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.</p></dd>
-
-<dt>date_birth</dt>
-<dd><p>a date value (see lubridate package) in <code>yyyy/mm/dd</code> format indicating participants birth date.</p></dd>
-
-<dt>age_now</dt>
-<dd><p>a numeric value indicating the number of months elapsed since participants' birth date until the present day, as indicated by <code><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">lubridate::now()</a></code></p></dd>
-
-<dt>study</dt>
-<dd><p>a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.</p></dd>
-
-<dt>version</dt>
-<dd><p>a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the</p></dd>
-GitHub repository. Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).
-</dl><dl><dt>randomisation</dt>
-<dd><p>a character string indicating the specific list of
-items a participant was assigned to. Only applies in the case of short
-versions of multilex, such as BL-Short, BL-Short-2 or BL-Lockdown, where
-the list of items was partinioned into several versions.</p></dd>
-
-<dt>date_test</dt>
-<dd><p>a date value (see lubridate package) in <code>yyyy/mm/dd</code>
-format indicating the date in which the participant was tested in the
-associated study, if any</p></dd>
- <dt>date_sent</dt>
-<dd><p>a date value (see lubridate
-package) in <code>yyyy/mm/dd}</code> format indicating the date in which the
-participant was sent the questionnaire</p></dd>
- <dt>call</dt>
-<dd><p>a character string
-indicating the status of the participant's response: <em>successful</em>
-(participant completed the questionnaire), <em>sent</em> (participant has been
-sent the email but has not completed it yet), <em>pending</em> (participant is
-still to be sent the questionnaire, <em>reminded</em> (a week has elapsed since
-the participant was sent the questionnaire, and has been already reminded
-of it), or <em>stop</em> (participant has not completed the questionnaire after
-two weeks since they were sent the questionnaire).</p></dd>
- <dt>comments</dt>
-<dd><p>a
-character string indicating useful information for database management</p></dd>
- </dl></div>
+variables:</p><ul><li><p>id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same <code>id</code>.</p></li>
+</ul><p>id_exp: a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share <code>id_exp</code> The same participant may have different <code>id_exp</code> across different studies.</p>
+    </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function generates a data frame with the information of all

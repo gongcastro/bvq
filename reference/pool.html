@@ -65,38 +65,24 @@ have been manually double-checked and fixed if necessary.</p>
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>A data frame with 1601 rows and 20 variables:</p><dl><dt>item</dt>
-<dd><p>item label, as indicated in the formr survey spreadsheets, items are unique within and across questionnaires</p></dd>
-
-<dt>language</dt>
-<dd><p>language the item belongs to</p></dd>
-
-<dt>te</dt>
-<dd><p>index associated to translation equivalents across languages</p></dd>
-
-<dt>label</dt>
-<dd><p>item label, as presented to participants in the front-end of the questionnaire, some labels are not unique within or across quesitonnaires</p></dd>
-
-<dt>ipa</dt>
-<dd><p>phonological transcription in IPA format, extracted from <a href="https://www.wiktionary.org/" class="external-link">Wiktionary</a> or manually coded if not available</p></dd>
-
-<dt>sampa</dt>
-<dd><p>phonological transcription in C-SAMPA format, transcribed from <code>ipa</code> using the <a href="https://clearpond.northwestern.edu/ipa_cpsampa.html" class="external-link">CLEARPOND transcriber</a></p></dd>
-
-<dt>n_lemmas</dt>
-<dd><p>an integer indicating the number of different lemmas showed in the item label to participants. for instance, the Spanish item <code>"spa_hierba"</code> was shown to in the questionnaire as <code>"hierba / césped"</code>. Lemma with similar roots were considered as one, such as the Spanish item <code>"spa_tonto"</code>, presented as <code>"tonto / tonta"</code> in the questionnaire.</p></dd>
-
-<dt>is_multiword</dt>
-<dd><p>an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item <code>"spa_cepillodientes"</code></p></dd>
- was shown as "cepillo de dientes" in the questionnaire, which includes three words.
-</dl><p>subtlex_lemmaword label, as included in the corresponding version
-of SUBTLEX. wordbank_lemmaword label, as indexed in Worbank.
-childes_lemmaword label, as it appears in the CHILDES English
-corpora (based on <code>wordbank_lemma</code>). categorysemantic/functional
-category the items belongs to. classFuncional category (verb,
-nouns, adjective, etc.). includeshould this item be included in
-analyses? versionwhat short version of the questionnaire does this
-item appear on? commentsadditional comments to the item.</p>
+    <p>A data frame with 1601 rows and 20 variables:</p><ul><li><p>item: item label, as indicated in the formr survey spreadsheets, items are unique within and across questionnaires.</p></li>
+<li><p>language: language the item belongs to.</p></li>
+<li><p>te: index associated to translation equivalents across languages.</p></li>
+<li><p>label: item label, as presented to participants in the front-end of the questionnaire, some labels are not unique within or across questionnaires.</p></li>
+<li><p>ipa: phonological transcription in IPA format, extracted from <a href="https://www.wiktionary.org/" class="external-link">Wiktionary</a> or manually coded if not available.</p></li>
+<li><p>sampa: phonological transcription in C-SAMPA format, transcribed from <code>ipa</code> using the <a href="https://clearpond.northwestern.edu/ipa_cpsampa.html" class="external-link">CLEARPOND transcriber</a>.</p></li>
+<li><p>n_lemmas: an integer indicating the number of different lemmas showed in the item label to participants. for instance, the Spanish item <code>"spa_hierba"</code> was shown to in the questionnaire as <code>"hierba / césped"</code>. Lemma with similar roots were considered as one, such as the Spanish item <code>"spa_tonto"</code>, presented as <code>"tonto / tonta"</code> in the questionnaire.</p></li>
+<li><p>is_multiword: an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item <code>"spa_cepillodientes"</code></p></li>
+</ul><p>was shown as <code>"cepillo de dientes"</code> in the questionnaire, which includes three words.
+ subtlex_lemma: word label, as included in the corresponding version.
+of SUBTLEX.
+ wordbank_lemma: word label, as indexed in Worbank.
+ childes_lemma: word label, as it appears in the CHILDES English
+corpora (based on <code>wordbank_lemma</code>).
+ semantic_category: semantic/functional category the items belongs to.
+ class: Functional category (verb, nouns, adjective, etc.).
+version: what short version of the questionnaire does this item appear on?
+ include: should this item be included in analyses?</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
