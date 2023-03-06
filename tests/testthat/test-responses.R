@@ -1,5 +1,4 @@
-bvq_connect(verbose = FALSE, 
-            password = Sys.getenv("FORMR_PWD", unset = NA))
+bvq_connect(verbose = FALSE)
 
 responses <- bvq_responses(verbose = FALSE)
 

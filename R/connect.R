@@ -29,7 +29,7 @@ bvq_connect <- function(google_email = NULL,
         suppressWarnings(
             formr_connect(
                 email = formr_email,
-                password = pwd,
+                password = password,
                 host = "https://formr.org/"
             )
         ), 
