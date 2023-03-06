@@ -36,12 +36,24 @@ Deal with repeated measures}
 get_longitudinal(x, longitudinal = "all")
 }
 \arguments{
-\item{x}{A data frame containing a column for participants (each participant gets a unique ID), and a column for times (a numeric value indicating how many times each participant appears in the data frame counting this one). One participant may appear several times in the data frame, with each time with a unique value of \code{time}.}
+\item{x}{A data frame containing a column for participants (each participant
+gets a unique ID), and a column for times (a numeric value indicating how
+many times each participant appears in the data frame counting this one).
+One participant may appear several times in the data frame, with each time
+with a unique value of \code{time}.}
 
-\item{longitudinal}{A character string indicating what subset of the participants should be returned: "all" (defult) returns all participants, "no" remove all participants with more than one response, only" returns only participants with more than one response in the dataset (i.e., longitudinal participants), "first" returns the first response of each participant (participants with only one appearance are included), and "last" returns the last response from each participant (participants with only one response are included).}
+\item{longitudinal}{A character string indicating what subset of the
+participants should be returned: \code{"all"} (default) returns all participants,
+\code{"no"} remove all participants with more than one response, \code{"only"} returns
+only participants with more than one response in the dataset (i.e.,
+longitudinal participants), \code{"first"} returns the first response of each
+participant (participants with only one appearance are included), and
+\code{"last"} returns the last response from each participant (participants with
+only one response are included).}
 }
 \value{
-A subset of the data frame \code{x} with only the selected cases, according to \code{longitudinal}.
+A subset of the data frame \code{x} with only the selected cases,
+according to \code{longitudinal}.
 }
 \description{
 #' Import and prepare pool

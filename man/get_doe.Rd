@@ -7,9 +7,11 @@
 get_doe(.data, languages)
 }
 \arguments{
-\item{.data}{Data frame that contains each degree of exposure as columns, named \code{language_doe_*}}
+\item{.data}{Data frame that contains each degree of exposure as columns,
+named \verb{language_doe_*}.}
 
-\item{languages}{Character vector of languages to compute degree of exposure for (all others will be considered as doe_others)}
+\item{languages}{Character vector of languages to compute degree of exposure
+for (all others will be considered as \code{doe_others}).}
 }
 \description{
 Summarise language profile

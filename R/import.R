@@ -46,7 +46,7 @@ import_formr_lockdown <- function(surveys = c(
     "bilexicon_lockdown_06_words_spanish"),
     verbose = TRUE) {
     
-    participants_tmp <- get("participants", parent.frame()) |> 
+    participants_tmp <- get("participants", parent.frame()) %>% 
         select(-version)
     
     # fetch responses

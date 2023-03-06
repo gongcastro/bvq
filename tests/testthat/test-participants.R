@@ -18,7 +18,7 @@ test_that("bvq_participants columns are the right classes", {
 })
 
 test_that("participants and times are not duplicated", {
-    responses <- readRDS(test_path("fixtures", "participants.rds"))
+    participants <- readRDS(test_path("fixtures", "participants.rds"))
     
     expect_false(any(duplicated(select(participants, id, time))))
 })

@@ -7,11 +7,16 @@
 get_time_stamp(.data, cols, which = "first")
 }
 \arguments{
-\item{.data}{Data frame containing a column for the first time stamp and the last time stamp of participants' resposes the word inventory in each language (Spanish and Catalan)}
+\item{.data}{Data frame containing a column for the first time stamp and the
+last time stamp of participants' responses the word inventory in each
+language (Spanish and Catalan)}
 
-\item{cols}{Character string vector indicating the name of the columns containing the first and the last time stamps (in that order) of participants' responses to a given language inventory.}
+\item{cols}{Character string vector indicating the name of the columns
+containing the first and the last time stamps (in that order) of
+participants' responses to a given language inventory.}
 
-\item{which}{Which time stamp to consider: first (by default) or last?}
+\item{which}{Which time stamp to consider: \code{'first'} (by default) or
+\code{'last'}?}
 }
 \description{
 Get timestamps

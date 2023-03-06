@@ -32,6 +32,7 @@ test_that("columns are the right classes", {
 test_that("variables contains possible values", {
     logs <- readRDS(test_path("fixtures", "logs.rds"))
     responses <- readRDS(test_path("fixtures", "responses.rds"))
+    participants <- readRDS(test_path("fixtures", "participants.rds"))
     
     # expect_true(all(logs$id %in% participants$id))
     # expect_true(all(logs$id_exp %in% participants$id_exp))
@@ -59,6 +60,8 @@ test_that("variables contains possible values", {
 
 
 test_that("missing values are only where expected", {
+    logs <- readRDS(test_path("fixtures", "logs.rds"))
+    
     expect_false(any(is.na(logs$id)))
     expect_false(any(is.na(logs$id_exp)))
     expect_false(any(is.na(logs$id_db)))

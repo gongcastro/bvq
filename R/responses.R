@@ -67,9 +67,9 @@ bvq_responses <- function(participants = NULL,
     # merge data
     suppressMessages({
         responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
-            map(\(x) mutate(x, postcode = postcode |> 
-                                as.character() |> 
-                                str_pad(width = 5, pad = "0"))) |> 
+            map(\(x) mutate(x, postcode = postcode %>% 
+                                as.character() %>% 
+                                str_pad(width = 5, pad = "0"))) %>% 
             bind_rows() %>%
             distinct(id, code, item, .keep_all = TRUE, ) %>%
             mutate(

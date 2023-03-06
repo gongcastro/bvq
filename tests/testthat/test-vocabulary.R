@@ -1,6 +1,7 @@
 
 test_that("vocabulary proportions are plausible", {
     vocabulary <- readRDS(test_path("fixtures", "vocabulary.rds"))
+    participants <- readRDS(test_path("fixtures", "participants.rds"))
     
     n_total <- studies %>%
         distinct(version, language, .keep_all = TRUE) %>%

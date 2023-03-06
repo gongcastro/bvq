@@ -1,5 +1,5 @@
 #' Age difference in months
-#' 
+#'
 #' @param x Most recent date
 #' @param y Least recent date
 #' @importFrom lubridate time_length
@@ -11,10 +11,15 @@ diff_in_months <- function(x, y) {
 }
 
 #' Get timestamps
-#' 
-#' @param .data Data frame containing a column for the first time stamp and the last time stamp of participants' resposes the word inventory in each language (Spanish and Catalan)
-#' @param cols Character string vector indicating the name of the columns containing the first and the last time stamps (in that order) of participants' responses to a given language inventory.
-#' @param which Which time stamp to consider: first (by default) or last?
+#'
+#' @param .data Data frame containing a column for the first time stamp and the
+#'   last time stamp of participants' responses the word inventory in each
+#'   language (Spanish and Catalan)
+#' @param cols Character string vector indicating the name of the columns
+#'   containing the first and the last time stamps (in that order) of
+#'   participants' responses to a given language inventory.
+#' @param which Which time stamp to consider: `'first'` (by default) or
+#'   `'last'`?
 #' @importFrom lubridate as_datetime
 #' @export get_time_stamp
 get_time_stamp <- function(.data, cols, which = "first") {
@@ -29,10 +34,12 @@ get_time_stamp <- function(.data, cols, which = "first") {
 }
 
 #' Summarise language profile
-#' 
+#'
 #' @importFrom rlang .data
-#' @param .data Data frame that contains each degree of exposure as columns, named \code{language_doe_*}
-#' @param languages Character vector of languages to compute degree of exposure for (all others will be considered as doe_others)
+#' @param .data Data frame that contains each degree of exposure as columns,
+#'   named `language_doe_*`.
+#' @param languages Character vector of languages to compute degree of exposure
+#'   for (all others will be considered as `doe_others`).
 get_doe <- function(.data, languages) {
     apply(.data[paste0("language_doe_", languages)], 1, sum, na.rm = TRUE)
 }
@@ -65,8 +72,9 @@ fix_code <- function(x) {
 
 
 #' Fix raw codes
-#' 
-#' @param x Vector of \code{code} whose values should be fixed, based on \code{session}
+#'
+#' @param x Vector of \code{code} whose values should be fixed, based on
+#'   \code{session}
 fix_code_raw <- function(x) {
     x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "code"] <- "BL1674"
     x[x$session == "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2", "code"] <- "BL1671"
@@ -224,8 +232,9 @@ replace_special_characters <- function(x) {
 }
 
 #' Fill missing with previous row
-#' 
-#' @param x Vector whose missing values will be filled with parallel non-missing values
+#'
+#' @param x Vector whose missing values will be filled with parallel non-missing
+#'   values
 coalesce_by_column <- function(x) {
     return(x[max(which(!is.na(x)))])
 }
@@ -289,7 +298,7 @@ prop_adj_se <- function(x, n) {
 }
 
 #' Confidence interval of proportion, adjusted for zero- and one-inflation
-#' 
+#'
 #' @importFrom stats qnorm
 #' @export prop_adj_ci
 #' @param x Number of successes
@@ -305,11 +314,18 @@ prop_adj_ci <- function(x, n, .width = 0.95) {
 }
 
 #' Remove punctuation and fix non-ASCII characters from IPA transcriptions
-#' 
-#' @details Note that this function will effectively remove information about syllabification and stress from the phonological representations.
+#'
+#' @details Note that this function will effectively remove information about
+#'   syllabification and stress from the phonological representations.
 #' @export flatten_ipa
-#' @param x A character vector with at least one element that contains phonological transcriptions in International Phonology Association (IPA) format. These character strings may contain non-ASCII characters that make certain operations daunting, such as computing edit distances between transcriptions.
-#' @return A character vector of the same length in which punctuation characters have been removed and non-ASCII characters have been replaced by computer-friendly ones.
+#' @param x A character vector with at least one element that contains
+#'   phonological transcriptions in International Phonology Association (IPA)
+#'   format. These character strings may contain non-ASCII characters that make
+#'   certain operations daunting, such as computing edit distances between
+#'   transcriptions.
+#' @return A character vector of the same length in which punctuation characters
+#'   have been removed and non-ASCII characters have been replaced by
+#'   computer-friendly ones.
 flatten_ipa <- function(x) {
     unique_phonemes <- unique(unlist(strsplit(paste(x, collapse = ""), "")))
     shortlisted_phonemes <- paste0("\\", unique_phonemes[c(3, 6, 37, 39, 44, 50)] , collapse = "|")
@@ -318,11 +334,15 @@ flatten_ipa <- function(x) {
 
 
 #' Remove punctuation from SAMPA transcriptions
-#' 
-#' @details Note that this function will effectively remove information about phoneme clustering.
+#'
+#' @details Note that this function will effectively remove information about
+#'   phoneme clustering.
 #' @export flatten_sampa
-#' @param x A character vector with at least one element that contains phonological transcriptions in Speech Assessment Methods Phonetic Alphabet (SAMPA) format. 
-#' @return A character vector of the same length in which punctuation characters have been removed.
+#' @param x A character vector with at least one element that contains
+#'   phonological transcriptions in Speech Assessment Methods Phonetic Alphabet
+#'   (SAMPA) format.
+#' @return A character vector of the same length in which punctuation characters
+#'   have been removed.
 flatten_sampa <- function(x) {
     gsub("[[:punct:]]", "", x)
 }
@@ -356,22 +376,35 @@ flatten_sampa <- function(x) {
 #' }
 
 #' Deal with repeated measures
-#' 
+#'
 #' @export get_longitudinal
-#' @param x A data frame containing a column for participants (each participant gets a unique ID), and a column for times (a numeric value indicating how many times each participant appears in the data frame counting this one). One participant may appear several times in the data frame, with each time with a unique value of \code{time}.
-#' @param longitudinal A character string indicating what subset of the participants should be returned: "all" (defult) returns all participants, "no" remove all participants with more than one response, only" returns only participants with more than one response in the dataset (i.e., longitudinal participants), "first" returns the first response of each participant (participants with only one appearance are included), and "last" returns the last response from each participant (participants with only one response are included).
+#' @param x A data frame containing a column for participants (each participant
+#'   gets a unique ID), and a column for times (a numeric value indicating how
+#'   many times each participant appears in the data frame counting this one).
+#'   One participant may appear several times in the data frame, with each time
+#'   with a unique value of `time`.
+#' @param longitudinal A character string indicating what subset of the
+#'   participants should be returned: `"all"` (default) returns all participants,
+#'   `"no"` remove all participants with more than one response, `"only"` returns
+#'   only participants with more than one response in the dataset (i.e.,
+#'   longitudinal participants), `"first"` returns the first response of each
+#'   participant (participants with only one appearance are included), and
+#'   `"last"` returns the last response from each participant (participants with
+#'   only one response are included).
 #' @importFrom dplyr group_by
 #' @importFrom dplyr distinct
 #' @importFrom dplyr n
 #' @importFrom dplyr filter
 #' @importFrom dplyr ungroup
-#' @return A subset of the data frame \code{x} with only the selected cases, according to \code{longitudinal}.
+#' @return A subset of the data frame `x` with only the selected cases,
+#'   according to `longitudinal`.
 get_longitudinal <- function(x, longitudinal = "all") {
     
     longitudinal_opts <- c("all", "no", "first", "last", "only")
     
     if (!(longitudinal %in% longitudinal_opts)) {
-        cli_abort(paste0("longitudinal must be one of: ", paste0(longitudinal_opts, collapse = ", ")))
+        cli_abort(paste0("longitudinal must be one of: ", 
+                         paste0(longitudinal_opts, collapse = ", ")))
     }
     
     repeated <- distinct(x, id, time) %>%
