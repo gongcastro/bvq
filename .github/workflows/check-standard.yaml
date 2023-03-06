@@ -26,8 +26,8 @@ jobs:
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      GITHUB_PAT: ${{ secrets.GOOGLE_TOKEN }}
-      GITHUB_PAT: ${{ secrets.FORMR_PWD }}
+      GOOGLE_TOKEN: ${{ secrets.GOOGLE_TOKEN }}
+      FORMR_PWD: ${{ secrets.FORMR_PWD }}
 
       R_KEEP_PKG_SOURCE: yes
 
@@ -48,5 +48,5 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v1
         env:
-          GITHUB_PAT: ${{ secrets.GOOGLE_TOKEN }}
-          GITHUB_PAT: ${{ secrets.FORMR_PWD }}
+          GOOGLE_TOKEN: ${{ secrets.GOOGLE_TOKEN }}
+          FORMR_PWD: ${{ secrets.FORMR_PWD }}
