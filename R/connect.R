@@ -49,8 +49,10 @@ bvq_connect <- function(google_email = NULL,
     
     if (!is_key_google) {
         
+        google_token <- Sys.getenv("GOOGLE_TOKEN", unset = NA)
+        
         tryCatch(
-            suppressWarnings(gs4_auth(email = google_email)), 
+            suppressWarnings(gs4_auth(email = google_email, token = google_token)), 
             error = function(e){
                 cli_abort(
                     strwrap(
