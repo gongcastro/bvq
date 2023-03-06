@@ -193,18 +193,30 @@ Deal with repeated measures
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>A data frame containing a column for participants (each participant gets a unique ID), and a column for times (a numeric value indicating how many times each participant appears in the data frame counting this one). One participant may appear several times in the data frame, with each time with a unique value of <code>time</code>.</p></dd>
+<dd><p>A data frame containing a column for participants (each participant
+gets a unique ID), and a column for times (a numeric value indicating how
+many times each participant appears in the data frame counting this one).
+One participant may appear several times in the data frame, with each time
+with a unique value of <code>time</code>.</p></dd>
 
 
 <dt>longitudinal</dt>
-<dd><p>A character string indicating what subset of the participants should be returned: "all" (defult) returns all participants, "no" remove all participants with more than one response, only" returns only participants with more than one response in the dataset (i.e., longitudinal participants), "first" returns the first response of each participant (participants with only one appearance are included), and "last" returns the last response from each participant (participants with only one response are included).</p></dd>
+<dd><p>A character string indicating what subset of the
+participants should be returned: <code>"all"</code> (default) returns all participants,
+<code>"no"</code> remove all participants with more than one response, <code>"only"</code> returns
+only participants with more than one response in the dataset (i.e.,
+longitudinal participants), <code>"first"</code> returns the first response of each
+participant (participants with only one appearance are included), and
+<code>"last"</code> returns the last response from each participant (participants with
+only one response are included).</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A subset of the data frame <code>x</code> with only the selected cases, according to <code>longitudinal</code>.</p>
+<p>A subset of the data frame <code>x</code> with only the selected cases,
+according to <code>longitudinal</code>.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
