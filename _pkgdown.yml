@@ -22,8 +22,7 @@ navbar:
       icon: fa-twitter
       href: http://twitter.com/gongcastro
       aria-label: Twitter
-  navbar:
-    bg: #ff6361
+  bg: #ff6361
       
 footer:
   structure: 
