@@ -48,3 +48,28 @@ reference:
   contents:
   - bvq_vocabulary
   - bvq_norms
+- title: "Helper functions"
+  desc: "Additional functions to access and process the data"
+  contents:
+  - diff_in_months
+  - download_surveys
+  - fix_code
+  - fix_code_raw
+  - fix_doe
+  - fix_id_exp
+  - fix_item
+  - fix_postcode
+  - fix_sex
+  - fix_study
+  - fix_version
+  - flatten_ipa
+  - flatten_sampa
+  - get_doe
+  - get_longitudinal
+  - get_time_stamp
+  - import_formr2
+  - import_formr_lockdown
+  - import_formr_short
+  - prop_adj
+  - prop_adj_ci
+  - prop_adj_se
