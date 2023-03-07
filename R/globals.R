@@ -8,7 +8,7 @@ globalVariables(unique(c(
     # bvq_responses : <anonymous>: 
     "postcode", "verbose",
     # bvq_norms:
-    "pool", "dominance", "understands", "produces", "label", "yes", "item_dominance", "age_bin", "proportion", "se", "ci_lower", "ci_upper",
+    "pool", "dominance", "understands", "produces", "label", ".yes", "item_dominance", "age_bin", ".proportion", ".se", ".lower", ".upper",
     # bvq_vocabulary:
     "understands", "produces", "pool", "dominance", "vocab_n_total", "vocab_count_total", "vocab_count_dominance", "item_dominance", "type", "vocab_count_conceptual", "vocab_count_te",   
     # fix_doe: 

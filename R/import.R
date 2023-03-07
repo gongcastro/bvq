@@ -52,7 +52,7 @@ import_formr_lockdown <- function(
             "bilexicon_lockdown_06_words_catalan",
             "bilexicon_lockdown_06_words_spanish"
         ),
-        verbose = TRUE) {
+        ...) {
     
     participants_tmp <- get("participants", parent.frame()) %>% 
         select(-version)
