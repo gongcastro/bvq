@@ -11,6 +11,12 @@ diff_in_months(x, y)
 
 \item{y}{Least recent date}
 }
+\value{
+Absolute difference in months elapsed between \code{x} and \code{y}
+}
 \description{
-Age difference in months
+Returns the absolute difference in months elapsed between two dates, as indicated by \code{\link[lubridate:time_length]{lubridate::time_length()}}.
+}
+\examples{
+diff_in_months(as.Date("2023-02-01"), as.Date("2022-02-01"))
 }

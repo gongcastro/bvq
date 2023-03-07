@@ -9,7 +9,7 @@ bvq_logs(
   responses = NULL,
   bilingual_threshold = 0.8,
   other_threshold = 0.1,
-  verbose = TRUE
+  ...
 )
 }
 \arguments{
@@ -29,8 +29,7 @@ as \emph{Monolingual}.}
 minimum degree of exposure to languages other than Catalan and Spanish to
 consider a participant as \emph{Other}.}
 
-\item{verbose}{Should progress messages and warnings be printed in the
-console}
+\item{...}{Unused.}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} with

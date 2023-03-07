@@ -42,6 +42,8 @@
 #'   `pool` data set by running `data("pool")`.
 #' @param .width Numeric values ranging from 0 to 1 (not included) indicating
 #'   the confidence level of confidence intervals (defaults to `0.95`).
+#' @param ... Unused
+#'
 #' @returns A data frame (actually, a [tibble::tibble] with the proportion of
 #'   participants in the sample that understand or produce the items indicated
 #'   in `item`, along with the standard error and confidence interval of
@@ -73,7 +75,8 @@ bvq_norms <- function(participants = NULL,
                       lp = c("Bilingual", "Monolingual", "Other"),
                       sex = c("Female", "Male"),
                       semantic_category = NULL,
-                      .width = 0.95) {
+                      .width = 0.95,
+                      ...) {
     
     if (is.null(responses)) {
         if (is.null(participants)) participants <- bvq_participants()
@@ -105,7 +108,7 @@ bvq_norms <- function(participants = NULL,
         mutate(age_bin = as.numeric(cut(age, 
                                         seq(0, 100, by = 2),
                                         labels = FALSE))*2) %>% 
-        left_join(select(pool, te, item, language, label, ipa, semantic_category), 
+        left_join(select(pool, te, item, language, label, semantic_category), 
                   multiple = "all",
                   by = join_by(item)) %>%
         filter(language %in% .env$language,
@@ -116,16 +119,16 @@ bvq_norms <- function(participants = NULL,
             language!=dominance ~ "L2")) %>%
         drop_na(response) %>%
         group_by_at(group_vars) %>% 
-        summarise(yes = sum(response, na.rm = TRUE),
-                  n = sum(!is.na(response), na.rm = TRUE),
+        summarise(.yes = sum(response, na.rm = TRUE),
+                  .n = sum(!is.na(response), na.rm = TRUE),
                   .groups = "drop") %>%
-        mutate(proportion = prop_adj(yes, n),
-               se = prop_adj_se(yes, n),
-               ci_lower = prop_adj_ci(yes, n, .width = .width)[1],
-               ci_upper = prop_adj_ci(yes, n, .width = .width)[2]) %>%
+        mutate(.proportion = prop_adj(.yes, .n),
+               .se = prop_adj_se(.yes, .n),
+               .lower = prop_adj_ci(.yes, .n, .width = .width)[1],
+               .upper = prop_adj_ci(.yes, .n, .width = .width)[2]) %>%
         filter(type %in% .env$type) %>%
-        arrange(te, item, language, lp, item_dominance,
-                type, age_bin, proportion, yes, n, se, ci_lower, ci_upper)
+        arrange(te, item, language, lp, item_dominance, type, age_bin, 
+                .proportion, .yes, .n, .se, .lower, .upper)
     
     return(norms)
     

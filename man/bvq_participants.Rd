@@ -4,7 +4,10 @@
 \alias{bvq_participants}
 \title{Retrieve and update local and/or remote data from formr}
 \usage{
-bvq_participants()
+bvq_participants(...)
+}
+\arguments{
+\item{...}{Unused.}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble}) with all participants
@@ -31,12 +34,12 @@ associated study, if any.
 \item date_sent: a date value (see lubridate
 package) in \code{yyyy/mm/dd} format indicating the date in which the
 participant was sent the questionnaire.
-\item call: a character string indicating the status of the participant's response: \emph{successful}
-(participant completed the questionnaire), \emph{sent} (participant has been
-sent the email but has not completed it yet), \emph{pending} (participant is
-still to be sent the questionnaire, \emph{reminded} (a week has elapsed since
+\item call: a character string indicating the status of the participant's response: \code{successful}
+(participant completed the questionnaire), \code{sent} (participant has been
+sent the email but has not completed it yet), \code{pending} (participant is
+still to be sent the questionnaire, \code{reminded} (a week has elapsed since
 the participant was sent the questionnaire, and has been already reminded
-of it), or \emph{stop} (participant has not completed the questionnaire after
+of it), or \code{stop} (participant has not completed the questionnaire after
 two weeks since they were sent the questionnaire).
 \item comments: a character string indicating useful information for database management.
 }

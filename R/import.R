@@ -1,10 +1,12 @@
 #' Download formR surveys
 #' 
 #' @import cli
-#' @param surveys Name of the surveys in the formr run
-#' @param verbose Should progress messages and warnings be printed in the console
+#'
+#' @param surveys Name of the surveys in the formr run.
+#' @param ... Unused.
+#' @param author Gonzalo Garcia-Castro
 #' @md
-download_surveys <- function(surveys, verbose) {
+download_surveys <- function(surveys, ...) {
     n <- length(surveys)
     i <- 0
     raw <- vector(mode = "list", length = n)
@@ -16,7 +18,7 @@ download_surveys <- function(surveys, verbose) {
         if (interactive() & verbose) cli_progress_update()
     }
     
-    if (verbose && interactive()) {
+    if (interactive()) {
         cli_progress_done(result = "done")
     }
     raw <- lapply(raw, select, -any_of("language"))
@@ -35,8 +37,10 @@ download_surveys <- function(surveys, verbose) {
 #' @importFrom janitor clean_names
 #' @importFrom rlang .env
 #' @importFrom cli cli_alert_success
-#' @param surveys Name of formr surveys from the bilexicon_lockdown run
-#' @param verbose Should progress messages and warnings be printed in the console
+#'
+#' @param surveys Name of formr surveys from the bilexicon_lockdown run.
+#' @param ... Unused.
+#' @author Gonzalo Garcia-Castro
 #' @md
 import_formr_lockdown <- function(
         surveys = c(
@@ -54,7 +58,7 @@ import_formr_lockdown <- function(
         select(-version)
     
     # fetch responses
-    raw <- download_surveys(surveys, verbose = verbose)
+    raw <- download_surveys(surveys)
     
     # edit logs dataset
     raw[[1]] <- raw[[1]] %>%
@@ -109,42 +113,38 @@ import_formr_lockdown <- function(
         left_join(select(raw[[7]], session, created_spa = created, ended_spa = ended),
                   by = join_by(session),
                   multiple = "all") %>%
-        mutate(
-            across(
-                c(created_cat, created_spa, ended_cat, ended_spa, date_birth),
-                as_datetime
-            ),
-            across(starts_with("language_doe"), ~ ifelse(is.na(.), 0, .)),
-            version = paste0("BL-Lockdown-", version),
-            date_started = get_time_stamp(., c("ended_cat", "ended_spa"), "first"),
-            date_finished = get_time_stamp(., c("ended_cat", "ended_spa"), "last"),
-            # calculate age in months
-            age = diff_in_months(date_finished, date_birth),
-            language_doe_catalan = get_doe(., languages = .env$languages_lockdown1[grep("catalan", .env$languages_lockdown1)]),
-            language_doe_spanish = get_doe(., languages = .env$languages_lockdown1[grep("spanish", .env$languages_lockdown1)]),
-            language_doe_catalan_lockdown = get_doe(., languages = .env$languages_lockdown2[grep("catalan", .env$languages_lockdown2)]),
-            language_doe_spanish_lockdown = get_doe(., languages = .env$languages_lockdown2[grep("spanish", .env$languages_lockdown2)]),
-            language_doe_others = 100 - rowSums(across(
-                c(language_doe_catalan, language_doe_spanish)
-            ),
-            na.rm = TRUE),
-            language_doe_others_lockdown = 100 - rowSums(across(
-                c(
-                    language_doe_catalan_lockdown,
-                    language_doe_spanish_lockdown
-                )
-            ), na.rm = TRUE)
+        mutate(across(c(created_cat, created_spa, ended_cat, ended_spa, date_birth), as_datetime),
+               across(starts_with("language_doe"), ~ ifelse(is.na(.), 0, .)),
+               version = paste0("BL-Lockdown-", version),
+               date_started = get_time_stamp(., c("ended_cat", "ended_spa"), "first"),
+               date_finished = get_time_stamp(., c("ended_cat", "ended_spa"), "last"),
+               # calculate age in months
+               age = diff_in_months(date_finished, date_birth),
+               language_doe_catalan = get_doe(., languages = .env$languages_lockdown1[grep("catalan", .env$languages_lockdown1)]),
+               language_doe_spanish = get_doe(., languages = .env$languages_lockdown1[grep("spanish", .env$languages_lockdown1)]),
+               language_doe_catalan_lockdown = get_doe(., languages = .env$languages_lockdown2[grep("catalan", .env$languages_lockdown2)]),
+               language_doe_spanish_lockdown = get_doe(., languages = .env$languages_lockdown2[grep("spanish", .env$languages_lockdown2)]),
+               language_doe_others = 100 - rowSums(across(
+                   c(language_doe_catalan, language_doe_spanish)
+               ),
+               na.rm = TRUE),
+               language_doe_others_lockdown = 100 - rowSums(across(
+                   c(
+                       language_doe_catalan_lockdown,
+                       language_doe_spanish_lockdown
+                   )
+               ), na.rm = TRUE)
         ) %>%
         arrange(desc(date_finished)) %>%
         distinct(session, .keep_all = TRUE) %>%
         rename(postcode = demo_postcode,
                edu_parent1 = demo_parent1,
                edu_parent2 = demo_parent2) %>%
-        drop_na(age) 
-    select(starts_with("id"), 
-           one_of(items_to_keep), 
-           starts_with("cat_"),
-           starts_with("spa_")) %>%
+        drop_na(age) %>% 
+        select(starts_with("id"), 
+               one_of(items_to_keep), 
+               starts_with("cat_"),
+               starts_with("spa_")) %>%
         pivot_longer(cols = matches("cat_|spa_"),
                      names_to = "item",
                      values_to = "response") %>%
@@ -159,7 +159,7 @@ import_formr_lockdown <- function(
         ) %>%
         arrange(desc(date_finished))
     
-    if (verbose && interactive()) {
+    if (interactive()) {
         cli_alert_success(paste0(
             "BL-Lockdown updated: ",
             nrow(distinct(processed, code)),
@@ -181,8 +181,10 @@ import_formr_lockdown <- function(
 #' @importFrom janitor clean_names
 #' @importFrom rlang .env
 #' @importFrom cli cli_alert_success
+#'
 #' @param surveys Name of formr surveys from the bilexicon_short run
-#' @param verbose Should progress messages and warnings be printed in the console
+#' @param ... Unused.
+#' @author Gonzalo Garcia-Castro
 #' @md
 import_formr_short <- function(
         surveys = c(
@@ -193,14 +195,14 @@ import_formr_short <- function(
             "bilexicon_short_05_language",
             "bilexicon_short_06_words_catalan",
             "bilexicon_short_06_words_spanish"
-        ),
-        verbose = TRUE) {
+        ), ...) {
+    
     participants_tmp <- get("participants", parent.frame()) %>%
         filter(version %in% "BL-Short") %>%
         select(-version)
     
     # fetch responses
-    raw <- download_surveys(surveys, verbose = verbose)
+    raw <- download_surveys(surveys)
     
     # edit Spanish inventory
     raw[[7]] <- rename_all(raw[[7]], ~ gsub("cat_", "spa_", .))
@@ -305,7 +307,7 @@ import_formr_short <- function(
         arrange(desc(time_stamp)) %>%
         distinct(id, code, item, .keep_all = TRUE)
     
-    if (verbose && interactive()) {
+    if (interactive()) {
         cli_alert_success(paste0(
             "BL-Short updated: ",
             nrow(distinct(processed, code)),
@@ -326,8 +328,11 @@ import_formr_short <- function(
 #' @importFrom janitor clean_names
 #' @importFrom rlang .env
 #' @importFrom cli cli_alert_success
-#' @param surveys Name of formr surveys from the bilexicon_long2 run
-#' @param verbose Should progress messages and warnings be printed in the console
+#' 
+#' @param surveys Name of formr surveys from the bilexicon_long2 run.
+#' @param ... Unused.
+#' @author Gonzalo Garcia-Castro
+#' @md
 import_formr2 <- function(
         surveys = c(
             "bilexicon_01_log",
@@ -337,8 +342,7 @@ import_formr2 <- function(
             "bilexicon_05_language",
             "bilexicon_06_words_cat",
             "bilexicon_06_words_spa"
-        ),
-        verbose = TRUE) {
+        ), ...) {
     
     participants_tmp <- get("participants", parent.frame()) %>%
         filter(version %in% "BL-Long",
@@ -364,7 +368,7 @@ import_formr2 <- function(
     )
     
     # fetch responses
-    raw <- download_surveys(surveys, verbose = verbose)
+    raw <- download_surveys(surveys)
     
     # edit Spanish checklist
     raw[[7]] <-
@@ -443,7 +447,7 @@ import_formr2 <- function(
         arrange(desc(time_stamp)) %>%
         distinct(id, code, item, .keep_all = TRUE)
     
-    if (verbose && interactive()) {
+    if (interactive()) {
         cli_alert_success(paste0(
             "BL-Short updated: ",
             nrow(distinct(processed, code)),

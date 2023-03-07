@@ -14,7 +14,8 @@ bvq_norms(
   lp = c("Bilingual", "Monolingual", "Other"),
   sex = c("Female", "Male"),
   semantic_category = NULL,
-  .width = 0.95
+  .width = 0.95,
+  ...
 )
 }
 \arguments{
@@ -49,6 +50,8 @@ or categories to include items from. See available categories in the
 
 \item{.width}{Numeric values ranging from 0 to 1 (not included) indicating
 the confidence level of confidence intervals (defaults to \code{0.95}).}
+
+\item{...}{Unused}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} with the proportion of

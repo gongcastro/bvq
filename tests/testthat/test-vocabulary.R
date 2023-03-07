@@ -1,7 +1,8 @@
 
 test_that("vocabulary proportions are plausible", {
-    vocabulary <- readRDS(test_path("fixtures", "vocabulary.rds"))
     participants <- readRDS(test_path("fixtures", "participants.rds"))
+    responses <- readRDS(test_path("fixtures", "responses.rds"))
+    vocabulary <- bvq_vocabulary(participants, responses)
     
     n_total <- studies %>%
         distinct(version, language, .keep_all = TRUE) %>%
@@ -34,7 +35,9 @@ test_that("vocabulary proportions are plausible", {
 
 
 test_that("column classes are the right ones", {
-    vocabulary <- readRDS(test_path("fixtures", "vocabulary.rds"))
+    participants <- readRDS(test_path("fixtures", "participants.rds"))
+    responses <- readRDS(test_path("fixtures", "responses.rds"))
+    vocabulary <- bvq_vocabulary(participants, responses)
     
     expect_true(all(class(vocabulary$id) == "character"))
     expect_true(all(class(vocabulary$time) == "numeric"))

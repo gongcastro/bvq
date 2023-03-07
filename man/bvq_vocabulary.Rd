@@ -8,7 +8,7 @@ bvq_vocabulary(
   participants = NULL,
   responses = NULL,
   .by = NULL,
-  scale = "count",
+  scale = c("count", "prop"),
   ...
 )
 }

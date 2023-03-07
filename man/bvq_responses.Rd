@@ -25,7 +25,7 @@ response of each participant is included. If \code{"last"}, only the last
 response of each participant is included. If \code{"only"}, only responses with
 repeated measures are included.}
 
-\item{...}{Extra arguments passed to \link{bvq_connect}}
+\item{...}{Unused.}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} containing participant's

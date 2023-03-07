@@ -9,8 +9,11 @@ prop_adj_se(x, n)
 \arguments{
 \item{x}{Number of successes}
 
-\item{n}{Number of tries}
+\item{n}{Number of trials}
 }
 \description{
 Standard error of proportion, adjusted for zero- and one-inflation
+}
+\examples{
+prop_adj_se(4, 60)
 }

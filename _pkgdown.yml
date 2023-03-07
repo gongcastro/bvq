@@ -22,6 +22,8 @@ navbar:
       icon: fa-twitter
       href: http://twitter.com/gongcastro
       aria-label: Twitter
+  navbar:
+    bg: #ff6361
       
 footer:
   structure: 
@@ -31,3 +33,19 @@ footer:
 home:
   sidebar:
     structure: [links, license, community, citation, authors, dev]
+    
+reference:
+- title: "Retrieving raw data"
+  desc: >
+    Functions for downloading the basic datasets needed to compute vocabulary norms.
+  contents: 
+  - bvq_connect
+  - bvq_participants
+  - bvq_responses
+  - bvq_logs
+  - pool
+- title: "Computing vocabulary norms"
+  desc: "Functions for computing several indices of vocabulary size and word acquisition norms."
+  contents:
+  - bvq_vocabulary
+  - bvq_norms

@@ -53,7 +53,7 @@
 bvq_vocabulary <- function(participants = NULL,
                            responses = NULL,
                            .by = NULL,
-                           scale = "count",
+                           scale = c("count", "prop"),
                            ...) {
     
     suppressMessages({
@@ -81,10 +81,8 @@ bvq_vocabulary <- function(participants = NULL,
                          values_to = "response") %>%
             drop_na(response) %>%
             left_join(select(pool, any_of(c("item", "te", "language", .by))),
-                      by = join_by(language, item),
                       multiple = "all") %>%
             left_join(select(logs, any_of(c("id", "time", .by))),
-                      by = join_by(id, time),
                       multiple = "all") %>%
             mutate(item_dominance = ifelse(language==dominance, "L1", "L2")) %>%
             select(any_of(c("id", "time", "age", "item_dominance", "type", "te", 
@@ -92,7 +90,7 @@ bvq_vocabulary <- function(participants = NULL,
         
         # total vocabulary
         vocab_total <- vocab_base %>%
-            group_by_at(c("id", "time", "age", "type", .by)) %>%
+            group_by(pick(any_of(c("id", "time", "age", "type", .by)))) %>%
             summarise(vocab_count_total = sum(response, na.rm = TRUE),
                       vocab_n_total = n(),
                       .groups = "drop") %>%
@@ -102,10 +100,9 @@ bvq_vocabulary <- function(participants = NULL,
         
         # total vocabulary in Catalan
         vocab_total_dominance <- vocab_base %>%
-            group_by_at(c("id", "time", "age", "type", "item_dominance", .by), .drop = FALSE) %>%
             summarise(vocab_count_dominance = sum(response, na.rm = TRUE),
                       n_total = sum(!is.na(response)),
-                      .groups = "drop") %>%
+                      .by = any_of(c("id", "time", "age", "type", "item_dominance", .by))) %>%
             mutate(vocab_prop_dominance = ifelse(n_total==0, 
                                                  0, 
                                                  vocab_count_dominance/n_total)) %>%
@@ -119,21 +116,20 @@ bvq_vocabulary <- function(participants = NULL,
         
         # conceptual vocabulary
         n_total <- vocab_base %>%
-            distinct_at(c("id", "time", "age", "te", .by)) %>%
-            group_by_at(c("id", "time", "age", .by), .drop = FALSE) %>%
+            distinct(pick(any_of(c("id", "time", "age", "te", .by)))) %>%
+            group_by(pick(any_of(c("id", "time", "age", .by)))) %>%
             mutate(n_total = n()) %>%
             ungroup() %>%
-            select_at(c("id", "time", "te", .by, "n_total"))
+            select(any_of(c("id", "time", "te", .by, "n_total")))
         
         vocab_conceptual <- vocab_base %>%
             left_join(n_total,
-                      by = join_by(id, time, te),
                       multiple = "all") %>%
             filter(response) %>%
-            group_by_at(c("id", "time", "age", "type", "te", "n_total", .by), .drop = FALSE) %>%
-            summarise(n = n(), .groups = "drop") %>%
-            group_by_at(c("id", "time", "type", "age", "n_total", .by), .drop = FALSE) %>%
-            summarise(n = n(), .groups = "drop")  %>%
+            summarise(n = n(), 
+                      .by = any_of(c("id", "time", "age", "type", "te", "n_total", .by))) %>%
+            summarise(n = n(), 
+                      .by = any_of(c("id", "time", "type", "age", "n_total", .by)))  %>%
             rename(vocab_count_conceptual = n) %>%
             mutate(vocab_count_conceptual = as.integer(vocab_count_conceptual),
                    vocab_prop_conceptual = vocab_count_conceptual/n_total) %>%
@@ -145,14 +141,13 @@ bvq_vocabulary <- function(participants = NULL,
         # TE vocabulary
         vocab_te <- vocab_base %>%
             left_join(n_total,
-                      by = join_by(id, time, te),
                       multiple = "all") %>%
             filter(response) %>%
-            group_by_at(c("id", "time", "age", "type", "te", "n_total", .by), .drop = FALSE) %>%
-            summarise(n = n(), .groups = "drop") %>%
+            summarise(n = n(), 
+                      .by = any_of(c("id", "time", "age", "type", "te", "n_total", .by))) %>%
             filter(n > 1) %>%
-            group_by_at(c("id", "time", "age", "type", "n_total", .by), .drop = FALSE) %>%
-            summarise(n = n(), .groups = "drop") %>%
+            summarise(n = n(), 
+                      .by = any_of(c("id", "time", "age", "type", "n_total", .by))) %>%
             rename(vocab_count_te = n) %>%
             mutate(vocab_prop_te = vocab_count_te/n_total,
                    vocab_count_te = as.integer(vocab_count_te)) %>%
@@ -164,12 +159,10 @@ bvq_vocabulary <- function(participants = NULL,
         # merge all datasets
         vocabulary <- list(vocab_total, vocab_total_dominance, vocab_conceptual, vocab_te) %>% 
             reduce(left_join,
-                   by = c("id", "time", "age", "type", .by),
                    multiple = "all") %>%
             mutate(across(matches("conceptual|te"), 
                           function(x) ifelse(is.na(x), as.integer(0), x))) %>%
-            select_at(vars(one_of("id", "time", "age", "type", .by), 
-                           matches(scale))) %>%
+            select(any_of(c("id", "time", "age", "type", .by)), matches(scale)) %>%
             arrange(desc(id), time, type)
         
     })
@@ -177,4 +170,3 @@ bvq_vocabulary <- function(participants = NULL,
     return(vocabulary)
     
 }
-

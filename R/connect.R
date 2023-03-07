@@ -5,6 +5,7 @@
 #' (`FORMR_PWD` in .Renviron)
 #'
 #' @export bvq_connect
+#' 
 #' @importFrom googlesheets4 gs4_has_token
 #' @importFrom googlesheets4 gs4_auth
 #' @importFrom formr formr_connect
@@ -14,14 +15,11 @@
 #'
 #' @param google_email E-mail used in Google Drive account. If `NULL` (default),
 #'   it is assumed to be the same as `formr_email`.
-#' @param verbose Should progress messages and warnings be printed in the
-#'   console.
 #' @param password Character string with the password to formr (`NULL` by
 #'   default).
 #' @return Logical. `TRUE` if Google and formr authentication was successful,
 #'   `FALSE` if authentication of any of the two failed.
 bvq_connect <- function(google_email = NULL,
-                        verbose = TRUE,
                         password = NULL) {
     
     formr_email <- "gonzalo.garciadecastro@upf.edu"
@@ -76,11 +74,6 @@ bvq_connect <- function(google_email = NULL,
                 )
             }
         )
-    }
-    
-    # return success code but do not print it
-    if (interactive() && verbose && gs4_has_token()){
-        cli_alert_success("Connected to BVQ")
     }
     
     invisible(gs4_has_token())

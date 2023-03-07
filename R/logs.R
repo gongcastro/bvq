@@ -23,8 +23,7 @@
 #' @param other_threshold Numeric scalar ranging from 0 to 1 indicating the
 #'   minimum degree of exposure to languages other than Catalan and Spanish to
 #'   consider a participant as *Other*.
-#' @param verbose Should progress messages and warnings be printed in the
-#'   console
+#' @param ... Unused.
 #' @returns A data frame (actually, a [tibble::tibble] with
 #'   participant-level information. Each row corresponds to a questionnaire
 #'   response and each column represents a variable. The output includes the
@@ -60,16 +59,15 @@ bvq_logs <- function(participants = NULL,
                      responses = NULL,
                      bilingual_threshold = 0.80,
                      other_threshold = 0.10,
-                     verbose = TRUE) {
-    bvq_connect(verbose = verbose) # get credentials to Google and formr
+                     ...) {
+    bvq_connect() # get credentials to Google and formr
     
     # if participants or responses are missing from function call, generate them
     if (is.null(responses)) {
         if (is.null(participants)) {
             participants <- bvq_participants()
         }
-        responses <- bvq_responses(participants = participants, 
-                                   verbose = verbose)
+        responses <- bvq_responses(participants = participants)
     }
     
     suppressMessages({

@@ -1,21 +1,18 @@
 #' Age difference in months
 #' 
-#' Returns the difference in months elapsed between two dates, as indicated by [lubridate::time_length()].
+#' Returns the absolute difference in months elapsed between two dates, as indicated by [lubridate::time_length()].
 #'
 #' @param x Most recent date
 #' @param y Least recent date
 #' @importFrom lubridate time_length
-#' @returns The difference in months elapsed between `x` and `y`
+#' @returns Absolute difference in months elapsed between `x` and `y`
 #' 
 #' @export diff_in_months
 #' @examples
 #' diff_in_months(as.Date("2023-02-01"), as.Date("2022-02-01"))
 diff_in_months <- function(x, y) {
-    if (x < y) {
-        cli_abort("y is more recent than x")
-    }
     diff <- difftime(x, y)
-    diff <- time_length(diff, "months") 
+    diff <- abs(time_length(diff, "months"))
     diff <- ifelse(diff %in% c(-Inf, Inf), NA_real_, diff)
     return(diff)
 }
@@ -162,7 +159,7 @@ fix_sex <- function(x) {
 fix_postcode <- function(x) {
     pcd <- x$postcode
     pcd <- ifelse(nchar(pcd) < 5, paste0("0", pcd), pcd)
-    pcd <- na_if(pcd, nchar(pcd) < 5)
+    pcd <- ifelse(nchar(pcd) < 5, NA_character_, pcd)
     x$postcode <- pcd
     return(x)
 }
@@ -211,7 +208,7 @@ fix_id_exp <- function(x) {
 #' 
 #' @param x Number of successes
 #' @param n Number of tries
-#' @example prop_adj_se(4, 60)
+#' @examples prop_adj_se(4, 60)
 prop_adj <- function(x, n) {
     (x + 2) / (n + 4)
 }
@@ -222,7 +219,7 @@ prop_adj <- function(x, n) {
 #' 
 #' @param x Number of successes
 #' @param n Number of trials
-#' @example prop_adj_se(4, 60)
+#' @examples prop_adj_se(4, 60)
 prop_adj_se <- function(x, n) {
     e <- (x + 2) / (n + 4)
     sqrt(e * (1 - e) / (n + 4))
@@ -235,7 +232,7 @@ prop_adj_se <- function(x, n) {
 #' @param x Number of successes
 #' @param n Number of tries
 #' @param .width Confidence level (defaults to .95)
-#' @example prop_adj_ci(4, 60, .width = 0.89)
+#' @examples prop_adj_ci(4, 60, .width = 0.89)
 prop_adj_ci <- function(x, n, .width = 0.95) {
     e <- (x + 2) / (n + 4)
     se <- sqrt(e * (1 - e) / (n + 4))

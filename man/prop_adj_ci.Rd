@@ -16,3 +16,6 @@ prop_adj_ci(x, n, .width = 0.95)
 \description{
 Confidence interval of proportion, adjusted for zero- and one-inflation
 }
+\examples{
+prop_adj_ci(4, 60, .width = 0.89)
+}

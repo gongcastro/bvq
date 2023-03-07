@@ -13,10 +13,13 @@ import_formr_lockdown(
 )
 }
 \arguments{
-\item{surveys}{Name of formr surveys from the bilexicon_lockdown run}
+\item{surveys}{Name of formr surveys from the bilexicon_lockdown run.}
 
-\item{verbose}{Should progress messages and warnings be printed in the console}
+\item{...}{Unused.}
 }
 \description{
 Import lockdown data
+}
+\author{
+Gonzalo Garcia-Castro
 }
