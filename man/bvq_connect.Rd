@@ -4,23 +4,24 @@
 \alias{bvq_connect}
 \title{Authenticate in Google and formr}
 \usage{
-bvq_connect(google_email = NULL, verbose = TRUE)
+bvq_connect(google_email = NULL, verbose = TRUE, password = NULL)
 }
 \arguments{
-\item{google_email}{E-mail used in Google Drive account. If NULL (default), it is assumed to be the same as formr_email.}
+\item{google_email}{E-mail used in Google Drive account. If \code{NULL} (default),
+it is assumed to be the same as \code{formr_email}.}
 
-\item{verbose}{Should progress messages and warnings be printed in the console}
+\item{verbose}{Should progress messages and warnings be printed in the
+console.}
+
+\item{password}{Character string with the password to formr (\code{NULL} by
+default).}
 }
 \value{
-Logical. TRUE if Google and formr authentication was successful, FALSE if authentication of any of the two failed.
+Logical. \code{TRUE} if Google and formr authentication was successful,
+\code{FALSE} if authentication of any of the two failed.
 }
 \description{
-Authenticate in Google and formr
-}
-\details{
-This function tries to log in to the formr API by trying to retrieve its corresponding key via the keyring package. If no key exists under the name "multilex", the user is prompted to create it first.
-}
-\examples{
-my_email <- "gonzalo.garciadecastro@upf.edu"
-bvq_connect(google_email = my_email)
+This function tries to log in to the formr API with the user-provided
+password (argument \code{password}) or retrieving it from the global environment
+(\code{FORMR_PWD} in .Renviron)
 }

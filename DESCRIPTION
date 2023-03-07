@@ -1,50 +1,49 @@
 Package: bvqdev
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
-Authors@R: c(
-  person("Gonzalo", "Garcia-Castro", email = "gonzalo.garciadecastro@upf.edu", role = "cre", comment = c(ORCID = "0000-0002-8553-4209")))
+Title: Barcelona Vocabulary Questionnaire Database and Helper Functions
+Version: 0.1.0
+Authors@R: 
+    person("Gonzalo", "Garcia-Castro", , "gonzalo.garciadecastro@upf.edu", role = "cre",
+           comment = c(ORCID = "0000-0002-8553-4209"))
 Maintainer: Gonzalo Garcia-Castro <gonzalo.garciadecastro@upf.edu>
-Description: This package is intended for internal use by the mantainers of the bvq package. It contains functions that download the BVQ survey data from the formR servers, where the questionnaires are hosted and the data are stored, clean them, and upload them to the Universitat Pompeu Fabra servers. The final data is what users of the bvq package can retrieve.
+Description: Download, clean, and process the Barcelona Vocabulary
+    Questionnaire data. BVQ is a vocabulary inventory developed for
+    assesing the vocabulary of Catalan-Spanish bilinguals infants from the
+    Metropolitan Area of Barcelona (Spain), aged 10 to 40 months. This
+    package includes functions to download the data from formr servers,
+    and return the processed data in multiple formats.
 License: MIT + file LICENSE
+URL: https://gongcastro.github.io/bvqdev/,
+    https://github.com/gongcastro/bvqdev/
+BugReports: https://github.com/gongcastro/bvqdev/issues
+Depends: 
+    R (>= 3.5.0),
 Imports: 
     cli,
-    dbplyr,
-    dplyr,
+    dplyr (>= 1.0.0),
     formr (>= 0.9.1),
-    ggplot2,
-    glue,
     googlesheets4,
     janitor,
-    keyring,
     lifecycle,
     lubridate,
     magrittr,
-    purrr,
-    RMariaDB,
     rlang (>= 0.4.11),
-    scales,
     stringr,
     tibble,
-    tidyr,
+    tidyr
 Suggests: 
     covr,
     knitr,
     readxl,
     roxygen2,
-    spelling,
-    testthat (>= 3.0.0)
-Depends: 
-    R (>= 3.5.0),
-    Rdpack
-Config/testthat/edition: 3
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
-RdMacros: Rdpack
-VignetteBuilder: knitr
-Language: en-US
+    testthat (>= 3.0.0),
+    withr
+VignetteBuilder: 
+    knitr
 Remotes: 
     github::rubenarslan/formr
-URL: https://gongcastro.github.io/bvqdev/
-BugReports: https://github.com/gongcastro/multilex/issues
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
 LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

@@ -23,3 +23,5 @@
 ^codecov\.yml$
 ^data-raw$
 ^.covrignore$
+codecov.exe
+^inst/utils$

@@ -7,14 +7,21 @@
 flatten_ipa(x)
 }
 \arguments{
-\item{x}{A character vector with at least one element that contains phonological transcriptions in International Phonology Association (IPA) format. These character strings may contain non-ASCII characters that make certain operations daunting, such as computing edit distances between transcriptions.}
+\item{x}{A character vector with at least one element that contains
+phonological transcriptions in International Phonology Association (IPA)
+format. These character strings may contain non-ASCII characters that make
+certain operations daunting, such as computing edit distances between
+transcriptions.}
 }
 \value{
-A character vector of the same length in which punctuation characters have been removed and non-ASCII characters have been replaced by computer-friendly ones.
+A character vector of the same length in which punctuation characters
+have been removed and non-ASCII characters have been replaced by
+computer-friendly ones.
 }
 \description{
 Remove punctuation and fix non-ASCII characters from IPA transcriptions
 }
 \details{
-Note that this function will effectively remove information about syllabification and stress from the phonological representations.
+Note that this function will effectively remove information about
+syllabification and stress from the phonological representations.
 }

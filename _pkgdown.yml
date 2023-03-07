@@ -1,4 +1,35 @@
-url: ~
+url: gongcastro.github.io
+
 template:
   bootstrap: 5
+  bootswatch: litera
+  bslib:
+    bg: "white"
+    fg: "#ffa600"
+    primary: "#ff6361"
+    base_font: {google: "Righteous"}
+    heading_font: {google: "Righteous"}
+    code_font: {google: "JetBrains Mono"}
+    
+lang: en
 
+navbar:
+  structure:
+    left:  [intro, reference, news]
+    right: [search, github]
+  components:
+    twitter:
+      icon: fa-twitter
+      href: http://twitter.com/gongcastro
+      aria-label: Twitter
+      
+footer:
+  structure: 
+    left: developed_by
+    right: built_with
+
+home:
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
+    
+  

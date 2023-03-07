@@ -1,8 +1,6 @@
-participants <- bvq_participants()
-responses <- bvq_responses(participants, update = FALSE)
-norms <- bvq_norms(participants, responses)
-
 test_that("values have plausible values", {
+    norms <- readRDS(test_path("fixtures", "norms.rds"))
+    
     expect_true(all(between(norms$proportion, 0, 1)))
     expect_false(any(norms$yes < 0))
     expect_false(any(norms$n < 0))
@@ -15,6 +13,8 @@ test_that("values have plausible values", {
 })
 
 test_that("column classes are the right ones", {
+    norms <- readRDS(test_path("fixtures", "norms.rds"))
+    
     expect_true(all(class(norms$te) == "integer"))
     expect_true(all(class(norms$item) == "character"))
     expect_true(all(class(norms$language) == "character"))

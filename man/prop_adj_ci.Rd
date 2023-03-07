@@ -14,8 +14,5 @@ prop_adj_ci(x, n, .width = 0.95)
 \item{.width}{Confidence level (defaults to .95)}
 }
 \description{
-\insertCite{gelman2020regression}{bvqdev}
-}
-\references{
-\insertRef{gelman2020regression}{bvqdev}
+Confidence interval of proportion, adjusted for zero- and one-inflation
 }

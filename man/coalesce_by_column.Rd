@@ -7,7 +7,8 @@
 coalesce_by_column(x)
 }
 \arguments{
-\item{x}{Vector whose missing values will be filled with parallel non-missing values}
+\item{x}{Vector whose missing values will be filled with parallel non-missing
+values}
 }
 \description{
 Fill missing with previous row
