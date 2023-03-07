@@ -43,20 +43,20 @@
 #' @author Gonzalo Garcia-Castro
 #' @md
 bvq_participants <- function() {
-  suppressMessages({
-    bvq_connect(verbose = FALSE) # get credentials to Google and formr
-
-    participants <- read_sheet("164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo", 
-                               sheet = "Participants") %>%
-      drop_na(code) %>%
-      mutate(across(c(date_birth, date_test, date_sent), as_date)) %>%
-      select(-link) %>%
-      arrange(desc(as.numeric(gsub("BL", "", code))))
-  })
-  # make sure no columns are lists (probably due to inconsistent cell types)
-  if (any(map_lgl(participants, is.list))) {
-    col <- names(which(map_lgl(participants, is.list)))
-    stop(paste0("Column(s) ", col, " is a list. Check that all its values are of the same format."))
-  }
-  return(participants)
+    suppressMessages({
+        bvq_connect(verbose = FALSE) # get credentials to Google and formr
+        
+        ss <- "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo"
+        participants <- read_sheet(ss, sheet = "Participants") %>% 
+            drop_na(code) %>%
+            mutate(across(c(date_birth, date_test, date_sent), as_date)) %>% 
+            select(-link) %>%
+            arrange(desc(as.numeric(gsub("BL", "", code))))
+    })
+    # make sure no columns are lists (probably due to inconsistent cell types)
+    if (any(map_lgl(participants, is.list))) {
+        col <- names(which(map_lgl(participants, is.list)))
+        cli_abort("At last one column is a list. Check that all values are of the same format.")
+    }
+    return(participants)
 }

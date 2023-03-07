@@ -167,7 +167,7 @@ bvq_vocabulary <- function(participants = NULL,
                    by = c("id", "time", "age", "type", .by),
                    multiple = "all") %>%
             mutate(across(matches("conceptual|te"), 
-                          \(x) ifelse(is.na(x), as.integer(0), x))) %>%
+                          function(x) ifelse(is.na(x), as.integer(0), x))) %>%
             select_at(vars(one_of("id", "time", "age", "type", .by), 
                            matches(scale))) %>%
             arrange(desc(id), time, type)

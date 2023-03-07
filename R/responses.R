@@ -73,7 +73,7 @@ bvq_responses <- function(participants = NULL,
     # merge data
     suppressMessages({
         responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
-            map(\(x) mutate(x, postcode = postcode %>% 
+            map(function(x) mutate(x, postcode = postcode %>% 
                                 as.character() %>% 
                                 str_pad(width = 5, pad = "0"))) %>% 
             bind_rows() %>%
@@ -93,7 +93,7 @@ bvq_responses <- function(participants = NULL,
             ) %>%
             fix_item() %>%
             fix_doe() %>%
-            mutate(across(starts_with("doe_"), \(x) x / 100)) %>%
+            mutate(across(starts_with("doe_"), function(x) x / 100)) %>%
             fix_postcode() %>%
             fix_sex() %>%
             fix_study() %>%

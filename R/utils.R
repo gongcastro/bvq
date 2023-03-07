@@ -1,9 +1,19 @@
 #' Age difference in months
+#' 
+#' Returns the difference in months elapsed between two dates, as indicated by [lubridate::time_length()].
 #'
 #' @param x Most recent date
 #' @param y Least recent date
 #' @importFrom lubridate time_length
+#' @returns The difference in months elapsed between `x` and `y`
+#' 
+#' @export diff_in_months
+#' @examples
+#' diff_in_months(as.Date("2023-02-01"), as.Date("2022-02-01"))
 diff_in_months <- function(x, y) {
+    if (x < y) {
+        cli_abort("y is more recent than x")
+    }
     diff <- difftime(x, y)
     diff <- time_length(diff, "months") 
     diff <- ifelse(diff %in% c(-Inf, Inf), NA_real_, diff)
@@ -12,41 +22,49 @@ diff_in_months <- function(x, y) {
 
 #' Get timestamps
 #'
-#' @param .data Data frame containing a column for the first time stamp and the
+#' @param x Data frame containing a column for the first time stamp and the
 #'   last time stamp of participants' responses the word inventory in each
 #'   language (Spanish and Catalan)
 #' @param cols Character string vector indicating the name of the columns
 #'   containing the first and the last time stamps (in that order) of
 #'   participants' responses to a given language inventory.
-#' @param which Which time stamp to consider: `'first'` (by default) or
-#'   `'last'`?
+#' @param which Which time stamp to consider:
+#' * `'first'` (by default)
+#' * `'last'`
+#' 
 #' @importFrom lubridate as_datetime
-#' @export get_time_stamp
-get_time_stamp <- function(.data, cols, which = "first") {
-    d <- .data[c(cols[1], cols[2])]
-    if (which %in% "first") {
-        x <- apply(d, 1, min, na.rm = TRUE)
-    } else if (which %in% "last") {
-        x <- apply(d, 1, max, na.rm = TRUE)
-    }
-    x <- as_datetime(x)
-    suppressMessages(return(x))
+get_time_stamp <- function(x, cols, which = "first") {
+    
+    suppressMessages({
+        
+        d <- x[c(cols[1], cols[2])]
+        
+        if (which %in% "first") {
+            x <- apply(d, 1, min, na.rm = TRUE)
+        } 
+        
+        if (which %in% "last") {
+            x <- apply(d, 1, max, na.rm = TRUE)
+        }
+        
+        x <- as_datetime(x)
+    })
+    return(x)
 }
 
 #' Summarise language profile
 #'
-#' @importFrom rlang .data
-#' @param .data Data frame that contains each degree of exposure as columns,
+#' @param x Data frame that contains each degree of exposure as columns,
 #'   named `language_doe_*`.
 #' @param languages Character vector of languages to compute degree of exposure
 #'   for (all others will be considered as `doe_others`).
-get_doe <- function(.data, languages) {
-    apply(.data[paste0("language_doe_", languages)], 1, sum, na.rm = TRUE)
+get_doe <- function(x, languages) {
+    apply(x[paste0("language_doe_", languages)], 1, sum, na.rm = TRUE)
 }
 
 #' Fix variable version
 #' 
-#' @param x Vector of \code{version} whose values should be fixed
+#' @param x Vector of `version` whose values should be fixed
 fix_version <- function(x) {
     trimws(x)
 }
@@ -55,7 +73,7 @@ fix_version <- function(x) {
 #' 
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_remove_all
-#' @param x Vector of \code{code} whose values should be fixed
+#' @param x Vector of `code` whose values should be fixed
 fix_code <- function(x) {
     x <- toupper(trimws(x))
     x <- x %>%
@@ -73,8 +91,8 @@ fix_code <- function(x) {
 
 #' Fix raw codes
 #'
-#' @param x Vector of \code{code} whose values should be fixed, based on
-#'   \code{session}
+#' @param x Vector of `code` whose values should be fixed, based on
+#'   `session`
 fix_code_raw <- function(x) {
     x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "code"] <- "BL1674"
     x[x$session == "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2", "code"] <- "BL1671"
@@ -91,8 +109,9 @@ fix_code_raw <- function(x) {
 #' 
 #' @importFrom dplyr mutate
 #' @importFrom dplyr case_when
-#' @param x Vector of \code{doe} whose values should be fixed
+#' @param x Vector of `doe` whose values should be fixed
 fix_doe <- function(x) {
+    
     x %>%
         mutate(
             doe_catalan = case_when(
@@ -122,12 +141,9 @@ fix_doe <- function(x) {
 
 #' Fix sex (missing in first responses to BL-Lockdown)
 #' 
-#' @importFrom dplyr group_by
-#' @importFrom dplyr mutate
-#' @importFrom dplyr case_when
-#' @importFrom dplyr ungroup
-#' @param x Vector of \code{sex} whose values should be fixed
+#' @param x Vector of `sex` whose values should be fixed
 fix_sex <- function(x) {
+    
     x$sex <- ifelse(x$id %in% c("bilexicon_1097", 
                                 "bilexicon_1441", 
                                 "bilexicon_1124",
@@ -135,98 +151,81 @@ fix_sex <- function(x) {
                     "Female",
                     x$sex)
     
-    x$sex <- ifelse(x$id %in% c("bilexicon_1447"),
-                    "Male",
-                    x$sex)
+    x$sex <- ifelse(x$id %in% c("bilexicon_1447"), "Male", x$sex)
     
     return(x)
 }
 
 #' Fix postcode
 #' 
-#' @importFrom dplyr mutate
-#' @importFrom dplyr case_when
-#' @param x Vector of \code{postcode} whose values should be fixed
+#' @param x Vector of `postcode` whose values should be fixed
 fix_postcode <- function(x) {
-    mutate(
-        x,
-        postcode = ifelse(nchar(postcode) < 5, paste0("0", postcode), postcode),
-        postcode = ifelse(nchar(postcode) < 5, NA_character_, postcode)
-    )
+    pcd <- x$postcode
+    pcd <- ifelse(nchar(pcd) < 5, paste0("0", pcd), pcd)
+    pcd <- na_if(pcd, nchar(pcd) < 5)
+    x$postcode <- pcd
+    return(x)
 }
 
 #' Fix item
 #' 
 #' @importFrom dplyr case_when
-#' @param x Vector of \code{item} whose values should be fixed
+#' @param x Vector of `item` whose values should be fixed
 fix_item <- function(x) {
-    mutate(
-        x,
-        item = case_when(
-            item == "cat_parc" ~ "cat_parc1",
-            item == "cat_eciam" ~ "cat_enciam",
-            item == "cat_voler3" ~ "cat_voler2",
-            item == "cat_voler" ~ "cat_voler1",
-            item == "cat_despres1" ~ "cat_despres",
-            item == "cat_peix" ~ "cat_peix1",
-            item == "cat_estar" ~ "cat_estar1",
-            item == "cat_querer" ~ "cat_querer1",
-            item == "cat_estiguestequiet" ~ "cat_estiguesquiet",
-            item == "spa_nibla" ~ "spa_niebla",
-            item == "spa_ir" ~ "spa_ir1",
-            item == "spa_querer" ~ "spa_querer1",
-            item == "cat_anar" ~ "cat_anar1",
-            .default = item
-        )
-    )
+    
+    x$item[x$item=="cat_parc"]            <- "cat_parc1"
+    x$item[x$item=="cat_eciam"]           <- "cat_enciam"
+    x$item[x$item=="cat_voler3"]          <- "cat_voler2"
+    x$item[x$item=="cat_voler"]           <- "cat_voler1"
+    x$item[x$item=="cat_despres1"]        <- "cat_despres"
+    x$item[x$item=="cat_peix"]            <- "cat_peix1"
+    x$item[x$item=="cat_estar"]           <- "cat_estar1"
+    x$item[x$item=="cat_querer"]          <- "cat_querer1"
+    x$item[x$item=="cat_estiguestequiet"] <- "cat_estiguesquiet"
+    x$item[x$item=="spa_nibla"]           <- "spa_niebla"
+    x$item[x$item=="spa_ir"]              <- "spa_ir1"
+    x$item[x$item=="spa_querer"]          <- "spa_querer1"
+    x$item[x$item=="cat_anar"]            <- "cat_anar1"
+    
+    return(x)
 }
 
 
 #' Fix study
 #' 
-#' @importFrom dplyr mutate
-#' @importFrom rlang .data
 #' @param x Vector of \code{study} whose values should be fixed
 fix_study <- function(x) {
-    mutate(
-        x,
-        study = ifelse(
-            is.na(study),
-            "BiLexicon",
-            study
-        )
-    )
+    ifelse(is.na(x$study), "BiLexicon", x$study)
 }
 
 #' Fix id_exp
 #' 
-#' @importFrom dplyr mutate
-#' @importFrom dplyr case_when
-#' @param x Vector of \code{id_exp} whose values should be fixed
+#' @param x Vector of `id_exp` whose values should be fixed
 fix_id_exp <- function(x) {
-    x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
-    return(x)
+    ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
 }
 
 #' Proportion, adjusted for zero- and one- inflation
 #' 
 #' @export prop_adj
+#' 
 #' @param x Number of successes
 #' @param n Number of tries
+#' @example prop_adj_se(4, 60)
 prop_adj <- function(x, n) {
-    e <- (x + 2) / (n + 4)
-    return(e)
+    (x + 2) / (n + 4)
 }
 
 #' Standard error of proportion, adjusted for zero- and one-inflation
 #' 
 #' @export prop_adj_se
+#' 
 #' @param x Number of successes
-#' @param n Number of tries
+#' @param n Number of trials
+#' @example prop_adj_se(4, 60)
 prop_adj_se <- function(x, n) {
     e <- (x + 2) / (n + 4)
-    se <- sqrt(e * (1 - e) / (n + 4))
-    return(se)
+    sqrt(e * (1 - e) / (n + 4))
 }
 
 #' Confidence interval of proportion, adjusted for zero- and one-inflation
@@ -236,6 +235,7 @@ prop_adj_se <- function(x, n) {
 #' @param x Number of successes
 #' @param n Number of tries
 #' @param .width Confidence level (defaults to .95)
+#' @example prop_adj_ci(4, 60, .width = 0.89)
 prop_adj_ci <- function(x, n, .width = 0.95) {
     e <- (x + 2) / (n + 4)
     se <- sqrt(e * (1 - e) / (n + 4))
@@ -272,11 +272,17 @@ prop_adj_ci <- function(x, n, .width = 0.95) {
 #' 
 #' @returns A subset of the data frame `x` with only the selected cases,
 #'   according to `longitudinal`.
+#'   
+#' @examples 
+#' id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
+#' sums <- rle(sort(id))[["lengths"]]
+#' dat <- data.frame(id, time = unlist(sapply(sums, function(x) seq(1, x))))
+#' get_longitudinal(dat, "first")$id, unique(dat$id))
 get_longitudinal <- function(x, longitudinal = "all") {
     
     longitudinal_opts <- c("all", "no", "first", "last", "only")
     
-    if (!(longitudinal %in% longitudinal_opts)) {
+    if (!(longitudinal %in% longitudinal_opts) && interactive()) {
         cli_abort(paste0("longitudinal must be one of: ", 
                          paste0(longitudinal_opts, collapse = ", ")))
     }
@@ -287,23 +293,24 @@ get_longitudinal <- function(x, longitudinal = "all") {
         ungroup()
     
     if (longitudinal == "no") {
-        y <- filter(x, !(id %in% repeated$id))
-    } else if (longitudinal == "first") {
-        y <- group_by(x, id) %>%
+        x <- x[!(x$id %in% repeated$id), ]
+    }
+    
+    if (longitudinal == "first") {
+        x <- group_by(x, id) %>%
             filter(time == min(time, na.rm = TRUE)) %>%
             ungroup()
-    } else if (longitudinal == "last") {
-        y <- group_by(x, id) %>%
+    }
+    
+    if (longitudinal == "last") {
+        x <- group_by(x, id) %>%
             filter(time == max(time, na.rm = TRUE)) %>%
             ungroup()
-    } else if (longitudinal == "only") {
-        y <- filter(x, id %in% repeated$id)
-    } else {
-        y <- x
-    }
-    return(y)
+    } 
+    
+    if (longitudinal == "only") {
+        x <- x[x$id %in% repeated$id, ]
+    } 
+    
+    return(x)
 }
-
-
-
-

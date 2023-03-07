@@ -438,7 +438,7 @@ import_formr2 <- function(
                                  "Spanish"),
                sex = ifelse(sex %in% 1, "Male", "Female"),
                postcode = na_if(as.character(postcode), ""),
-               across(starts_with("edu_"), \(x) na_if(x, ""))
+               across(starts_with("edu_"), function(x) na_if(x, ""))
         ) %>%
         arrange(desc(time_stamp)) %>%
         distinct(id, code, item, .keep_all = TRUE)
