@@ -46,16 +46,10 @@
     <loc>gongcastro.github.io/reference/bvqdev-package.html</loc>
   </url>
   <url>
-    <loc>gongcastro.github.io/reference/coalesce_by_column.html</loc>
-  </url>
-  <url>
     <loc>gongcastro.github.io/reference/diff_in_months.html</loc>
   </url>
   <url>
     <loc>gongcastro.github.io/reference/download_surveys.html</loc>
-  </url>
-  <url>
-    <loc>gongcastro.github.io/reference/first_non_na.html</loc>
   </url>
   <url>
     <loc>gongcastro.github.io/reference/fix_code.html</loc>
@@ -100,9 +94,6 @@
     <loc>gongcastro.github.io/reference/get_time_stamp.html</loc>
   </url>
   <url>
-    <loc>gongcastro.github.io/reference/grapes-nin-grapes.html</loc>
-  </url>
-  <url>
     <loc>gongcastro.github.io/reference/import_formr2.html</loc>
   </url>
   <url>
@@ -128,9 +119,6 @@
   </url>
   <url>
     <loc>gongcastro.github.io/reference/prop_adj_se.html</loc>
-  </url>
-  <url>
-    <loc>gongcastro.github.io/reference/replace_special_characters.html</loc>
   </url>
   <url>
     <loc>gongcastro.github.io/reference/tidyeval.html</loc>
