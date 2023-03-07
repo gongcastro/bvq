@@ -5,11 +5,11 @@ template:
   bootswatch: litera
   bslib:
     bg: "white"
-    fg: "#ffa600"
+    fg: "black"
     primary: "#ff6361"
     base_font: {google: "Righteous"}
-    heading_font: {google: "Righteous"}
-    code_font: {google: "JetBrains Mono"}
+    heading_font: {google: "Roboto Slab"}
+    code_font: {google: "Roboto"}
     
 lang: en
 
