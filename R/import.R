@@ -1,21 +1,24 @@
 #' Download formR surveys
 #' 
 #' @import cli
-#' @param surveys Name of the surveys in the formR run
+#' @param surveys Name of the surveys in the formr run
 #' @param verbose Should progress messages and warnings be printed in the console
 #' @md
 download_surveys <- function(surveys, verbose) {
     n <- length(surveys)
     i <- 0
     raw <- vector(mode = "list", length = n)
-    if (interactive() & verbose) {
+    if (interactive() && verbose) {
         cli_progress_step(msg = "Downloaded {i}/{n} {qty(i)}survey{?s}")
     }
     for (i in 1:length(surveys)) {
         raw[[i]] <- formr_raw_results(surveys[i])
         if (interactive() & verbose) cli_progress_update()
     }
-    cli_progress_done(result = "done")
+    
+    if (verbose && interactive()) {
+        cli_progress_done(result = "done")
+    }
     raw <- lapply(raw, select, -any_of("language"))
     names(raw) <- surveys
     return(raw)
@@ -35,15 +38,17 @@ download_surveys <- function(surveys, verbose) {
 #' @param surveys Name of formr surveys from the bilexicon_lockdown run
 #' @param verbose Should progress messages and warnings be printed in the console
 #' @md
-import_formr_lockdown <- function(surveys = c(
-    "bilexicon_lockdown_01_log",
-    "bilexicon_lockdown_02_welcome",
-    "bilexicon_lockdown_03_consent",
-    "bilexicon_lockdown_04_demo",
-    "bilexicon_lockdown_05_language",
-    "bilexicon_lockdown_06_words_catalan",
-    "bilexicon_lockdown_06_words_spanish"
-)) {
+import_formr_lockdown <- function(
+        surveys = c(
+            "bilexicon_lockdown_01_log",
+            "bilexicon_lockdown_02_welcome",
+            "bilexicon_lockdown_03_consent",
+            "bilexicon_lockdown_04_demo",
+            "bilexicon_lockdown_05_language",
+            "bilexicon_lockdown_06_words_catalan",
+            "bilexicon_lockdown_06_words_spanish"
+        ),
+        verbose = TRUE) {
     
     participants_tmp <- get("participants", parent.frame()) %>% 
         select(-version)
@@ -154,7 +159,7 @@ import_formr_lockdown <- function(surveys = c(
         ) %>%
         arrange(desc(date_finished))
     
-    if (verbose && !interactive()) {
+    if (verbose && interactive()) {
         cli_alert_success(paste0(
             "BL-Lockdown updated: ",
             nrow(distinct(processed, code)),
@@ -179,16 +184,17 @@ import_formr_lockdown <- function(surveys = c(
 #' @param surveys Name of formr surveys from the bilexicon_short run
 #' @param verbose Should progress messages and warnings be printed in the console
 #' @md
-import_formr_short <- function(surveys = c(
-    "bilexicon_short_01_log",
-    "bilexicon_short_02_welcome",
-    "bilexicon_short_03_consent",
-    "bilexicon_short_04_demo",
-    "bilexicon_short_05_language",
-    "bilexicon_short_06_words_catalan",
-    "bilexicon_short_06_words_spanish"
-),
-verbose = TRUE) {
+import_formr_short <- function(
+        surveys = c(
+            "bilexicon_short_01_log",
+            "bilexicon_short_02_welcome",
+            "bilexicon_short_03_consent",
+            "bilexicon_short_04_demo",
+            "bilexicon_short_05_language",
+            "bilexicon_short_06_words_catalan",
+            "bilexicon_short_06_words_spanish"
+        ),
+        verbose = TRUE) {
     participants_tmp <- get("participants", parent.frame()) %>%
         filter(version %in% "BL-Short") %>%
         select(-version)
@@ -299,7 +305,7 @@ verbose = TRUE) {
         arrange(desc(time_stamp)) %>%
         distinct(id, code, item, .keep_all = TRUE)
     
-    if (verbose && !interactive()) {
+    if (verbose && interactive()) {
         cli_alert_success(paste0(
             "BL-Short updated: ",
             nrow(distinct(processed, code)),
@@ -322,16 +328,18 @@ verbose = TRUE) {
 #' @importFrom cli cli_alert_success
 #' @param surveys Name of formr surveys from the bilexicon_long2 run
 #' @param verbose Should progress messages and warnings be printed in the console
-import_formr2 <- function(surveys = c(
-    "bilexicon_01_log",
-    "bilexicon_02_welcome",
-    "bilexicon_03_consent",
-    "bilexicon_04_demo",
-    "bilexicon_05_language",
-    "bilexicon_06_words_cat",
-    "bilexicon_06_words_spa"
-),
-verbose = TRUE) {
+import_formr2 <- function(
+        surveys = c(
+            "bilexicon_01_log",
+            "bilexicon_02_welcome",
+            "bilexicon_03_consent",
+            "bilexicon_04_demo",
+            "bilexicon_05_language",
+            "bilexicon_06_words_cat",
+            "bilexicon_06_words_spa"
+        ),
+        verbose = TRUE) {
+    
     participants_tmp <- get("participants", parent.frame()) %>%
         filter(version %in% "BL-Long",
                randomisation %in% "2") %>%
@@ -367,8 +375,8 @@ verbose = TRUE) {
         # fix codes known to be wrong
         mutate(code = fix_code(na_if(code, "")),
                created = as_datetime(created)) %>%
-    # remove codes not included in participants
-    filter(code %in% participants_tmp$code) %>%
+        # remove codes not included in participants
+        filter(code %in% participants_tmp$code) %>%
         # get only last response of each code
         arrange(desc(created)) %>%
         distinct(code, .keep_all = TRUE) %>%
@@ -378,7 +386,7 @@ verbose = TRUE) {
         fix_code_raw()
     
     # process data
-        processed <- map(raw, select, -any_of(c("created", "modified", "ended", "expired"))) %>%
+    processed <- map(raw, select, -any_of(c("created", "modified", "ended", "expired"))) %>%
         # if a single session ID has multiple entries, select most recent
         reduce(inner_join, 
                by = join_by(session),
@@ -394,7 +402,7 @@ verbose = TRUE) {
                          created_spa = created, ended_spa = ended), 
                   by = join_by(session),
                   multiple = "all") %>%
-    filter(code %in% participants_tmp$code) %>%
+        filter(code %in% participants_tmp$code) %>%
         drop_na(created_cat, created_spa, ended_cat, ended_spa) %>%
         mutate(
             across(
@@ -424,24 +432,24 @@ verbose = TRUE) {
         pivot_longer(cols = matches("cat_|spa_"), 
                      names_to = "item",
                      values_to = "response") %>%
-    rename_all(~ gsub("language_", "", .)) %>%
+        rename_all(~ gsub("language_", "", .)) %>%
         mutate(language = ifelse(grepl("cat_", item), 
                                  "Catalan",
                                  "Spanish"),
-            sex = ifelse(sex %in% 1, "Male", "Female"),
-                postcode = na_if(as.character(postcode), ""),
-            across(starts_with("edu_"), \(x) na_if(x, ""))
+               sex = ifelse(sex %in% 1, "Male", "Female"),
+               postcode = na_if(as.character(postcode), ""),
+               across(starts_with("edu_"), \(x) na_if(x, ""))
         ) %>%
         arrange(desc(time_stamp)) %>%
         distinct(id, code, item, .keep_all = TRUE)
-        
-        if (verbose && !interactive()) {
-            cli_alert_success(paste0(
-                "BL-Short updated: ",
-                nrow(distinct(processed, code)),
-                " responses retrieved"
-            ))
-        }
+    
+    if (verbose && interactive()) {
+        cli_alert_success(paste0(
+            "BL-Short updated: ",
+            nrow(distinct(processed, code)),
+            " responses retrieved"
+        ))
+    }
     
     return(processed)
 }

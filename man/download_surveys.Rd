@@ -7,7 +7,7 @@
 download_surveys(surveys, verbose)
 }
 \arguments{
-\item{surveys}{Name of the surveys in the formR run}
+\item{surveys}{Name of the surveys in the formr run}
 
 \item{verbose}{Should progress messages and warnings be printed in the console}
 }

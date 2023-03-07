@@ -208,54 +208,6 @@ fix_id_exp <- function(x) {
     return(x)
 }
 
-#' Replace special characters
-#' 
-#' @importFrom stringr str_replace_all
-#' @importFrom rlang chr_unserialise_unicode
-#' @param x Character vector whose strings will be transformed
-replace_special_characters <- function(x) {
-    str_replace_all(
-        chr_unserialise_unicode(x),
-        c("<U+00E1>" = "a",
-          "<U+00E9>" = "e",
-          "<U+00ED>" = "i",
-          "<U+00FA>" = "u",
-          "<U+00F1>" = "n",
-          "<U+00E7>" = "c",
-          "<U+00E0>" = "a",
-          "<U+00E9>" = "e",
-          "<U+00F2>" = "o",
-          "<U+00F3>" = "o",
-          "<U+00FC>" = "u",
-          "<U+00EF>" = "i")
-    )
-}
-
-#' Fill missing with previous row
-#'
-#' @param x Vector whose missing values will be filled with parallel non-missing
-#'   values
-coalesce_by_column <- function(x) {
-    return(x[max(which(!is.na(x)))])
-}
-
-
-#' Evaluate if x is included in y
-#' 
-#' @export `%nin%`
-#' @param x Vector whose elements will be evaluated
-#' @param y Vector in which elements of \code{x} will be evaluated
-`%nin%` <- function(x, y) !(x %in% y)
-
-#' First non-non-missing value
-#' 
-#' @importFrom dplyr first
-#' @param x Vector whose NAs will be replaced with first non-NA value
-first_non_na <- function(x) {
-    ifelse(is.logical(first(x[!is.na(x)])), NA, first(x[!is.na(x)]))
-}
-
-
 #' Proportion, adjusted for zero- and one- inflation
 #' 
 #' @export prop_adj
@@ -292,41 +244,6 @@ prop_adj_ci <- function(x, n, .width = 0.95) {
     ci[2] <- ifelse(ci[2] > 1, 1, ci[2]) # truncate at 1
     return(ci)
 }
-
-#' Remove punctuation and fix non-ASCII characters from IPA transcriptions
-#'
-#' @details Note that this function will effectively remove information about
-#'   syllabification and stress from the phonological representations.
-#' @export flatten_ipa
-#' @param x A character vector with at least one element that contains
-#'   phonological transcriptions in International Phonology Association (IPA)
-#'   format. These character strings may contain non-ASCII characters that make
-#'   certain operations daunting, such as computing edit distances between
-#'   transcriptions.
-#' @return A character vector of the same length in which punctuation characters
-#'   have been removed and non-ASCII characters have been replaced by
-#'   computer-friendly ones.
-flatten_ipa <- function(x) {
-    unique_phonemes <- unique(unlist(strsplit(paste(x, collapse = ""), "")))
-    shortlisted_phonemes <- paste0("\\", unique_phonemes[c(3, 6, 37, 39, 44, 50)] , collapse = "|")
-    gsub(shortlisted_phonemes, "", x)
-}
-
-
-#' Remove punctuation from SAMPA transcriptions
-#'
-#' @details Note that this function will effectively remove information about
-#'   phoneme clustering.
-#' @export flatten_sampa
-#' @param x A character vector with at least one element that contains
-#'   phonological transcriptions in Speech Assessment Methods Phonetic Alphabet
-#'   (SAMPA) format.
-#' @return A character vector of the same length in which punctuation characters
-#'   have been removed.
-flatten_sampa <- function(x) {
-    gsub("[[:punct:]]", "", x)
-}
-
 
 #' Deal with repeated measures
 #'
@@ -370,7 +287,7 @@ get_longitudinal <- function(x, longitudinal = "all") {
         ungroup()
     
     if (longitudinal == "no") {
-        y <- filter(x, id %nin% repeated$id)
+        y <- filter(x, !(id %in% repeated$id))
     } else if (longitudinal == "first") {
         y <- group_by(x, id) %>%
             filter(time == min(time, na.rm = TRUE)) %>%

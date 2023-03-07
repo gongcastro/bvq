@@ -31,8 +31,8 @@ Imports:
     tibble,
     tidyr
 Suggests: 
-    covr,
     knitr,
+    ipa,
     readxl,
     roxygen2,
     testthat (>= 3.0.0),

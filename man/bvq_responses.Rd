@@ -8,7 +8,7 @@ bvq_responses(
   participants = NULL,
   runs = c("BL-Long2", "BL-Lockdown"),
   longitudinal = "all",
-  verbose = TRUE
+  ...
 )
 }
 \arguments{
@@ -25,8 +25,7 @@ response of each participant is included. If \code{"last"}, only the last
 response of each participant is included. If \code{"only"}, only responses with
 repeated measures are included.}
 
-\item{verbose}{Should progress messages and warnings be printed in the
-console}
+\item{...}{Extra arguments passed to \link{bvq_connect}}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} containing participant's

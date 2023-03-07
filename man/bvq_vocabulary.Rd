@@ -35,7 +35,7 @@ proportions?}
 function.}
 }
 \value{
-A dataset (actually, a \link[tibble:tibble]{tibble::tibble} with each participant's
+A dataset (actually, a \link{tibble} with each participant's
 comprehensive and/or vocabulary size in each language. This data frame
 contains the following variables:
 \itemize{

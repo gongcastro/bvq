@@ -29,7 +29,7 @@
 #'   proportions?
 #' @param ... Extra arguments that will be passed to the `bvq_responses`.
 #'   function.
-#' @returns A dataset (actually, a [tibble::tibble] with each participant's
+#' @returns A dataset (actually, a [tibble] with each participant's
 #'   comprehensive and/or vocabulary size in each language. This data frame
 #'   contains the following variables:
 #' * id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
@@ -61,7 +61,7 @@ bvq_vocabulary <- function(participants = NULL,
         bvq_connect() # get credentials to Google and formr
         
         if (!any(scale %in% c("count", "prop"))) {
-            stop("Argument scale must be 'count' and/or 'prop'")
+            stop("Argument scale must be \'count\' and/or \'prop\'")
         }
         
         if (is.null(responses)) {

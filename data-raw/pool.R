@@ -1,23 +1,26 @@
 library(dplyr)
 library(readxl)
+library(ipa)
 
 # uni lemmas
-worbank_lemmas <- read.delim("inst/extdata/lemmas.txt", sep = "\t") %>% 
+worbank_lemmas <- read.delim(system.file("extdata/lemmas.txt", package = "bvqdev"), sep = "\t") %>% 
     select(te, item, ends_with("lemma")) 
 
 # import pool
 pool <- read_xlsx("inst/extdata/pool.xlsx") %>% 
-    left_join(worbank_lemmas) %>% 
-    mutate(language = ifelse(grepl("cat_", item), "Catalan", "Spanish")) %>% 
-    select(item, language, te, label, ipa, sampa, 
+    left_join(worbank_lemmas,
+              by = join_by(item, te)) %>% 
+    mutate(language = ifelse(grepl("cat_", item),
+                             "Catalan", 
+                             "Spanish"),
+           xsampa = ipa(ipa, "xsampa")) %>% 
+    select(item, language, te, label, xsampa, 
            n_lemmas, is_multiword, subtlex_lemma, wordbank_lemma, 
            childes_lemma, semantic_category, class, version, include) %>% 
     drop_na(version) %>% 
-    mutate(
-        across(c(te, n_lemmas), as.integer),
-        across(c(is_multiword, include),as.logical),
-        version = strsplit(version, split = ",")
-    ) 
-
+    mutate(across(c(te, n_lemmas), as.integer),
+           across(c(is_multiword, include), as.logical),
+           version = strsplit(version, split = ",")) 
 # export pool database
-usethis::use_data(pool, overwrite = TRUE, internal = FALSE)
+
+usethis::use_data(pool, overwrite = TRUE, internal = FALSE, ascii = TRUE)

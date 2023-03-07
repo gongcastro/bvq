@@ -6,10 +6,10 @@ template:
   bslib:
     bg: "white"
     fg: "black"
-    primary: "#ff6361"
+    primary: "#003f5c"
     base_font: {google: "Righteous"}
     heading_font: {google: "Roboto Slab"}
-    code_font: {google: "Roboto"}
+    code_font: {google: "JetBrains Mono"}
     
 lang: en
 
