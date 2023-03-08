@@ -58,7 +58,7 @@ bvq_vocabulary <- function(participants,
     suppressMessages({
         
         if (!any(scale %in% c("count", "prop"))) {
-            stop("Argument scale must be \'count\' and/or \'prop\'")
+            cli_abort("Argument scale must be 'count' and/or 'prop'")
         }
         
         
@@ -66,8 +66,8 @@ bvq_vocabulary <- function(participants,
             filter(id %in% unique(responses$id)) # get logs
         
         vocab_base <- responses %>%
-            mutate(understands = response==2|response==3,
-                   produces = response==3) %>% 
+            mutate(understands = response %in% 2:3,
+                   produces = response %in% 3) %>% 
             select(-response) %>%
             pivot_longer(c(understands, produces), 
                          names_to = "type", 
@@ -83,10 +83,9 @@ bvq_vocabulary <- function(participants,
         
         # total vocabulary
         vocab_total <- vocab_base %>%
-            group_by(pick(any_of(c("id", "time", "age", "type", .by)))) %>%
             summarise(vocab_count_total = sum(response, na.rm = TRUE),
                       vocab_n_total = n(),
-                      .groups = "drop") %>%
+                      .by = any_of(c("id", "time", "age", "type", .by))) %>%
             mutate(vocab_prop_total = ifelse(vocab_n_total==0,
                                              0, 
                                              vocab_count_total/vocab_n_total))
@@ -125,7 +124,7 @@ bvq_vocabulary <- function(participants,
                       .by = any_of(c("id", "time", "type", "age", "n_total", .by)))  %>%
             rename(vocab_count_conceptual = n) %>%
             mutate(vocab_count_conceptual = as.integer(vocab_count_conceptual),
-                   vocab_prop_conceptual = vocab_count_conceptual/n_total) %>%
+                   vocab_prop_conceptual = vocab_count_conceptual / n_total) %>%
             select(id, time, age, type, 
                    starts_with("vocab_count"), 
                    starts_with("vocab_prop"), 
@@ -142,7 +141,7 @@ bvq_vocabulary <- function(participants,
             summarise(n = n(), 
                       .by = any_of(c("id", "time", "age", "type", "n_total", .by))) %>%
             rename(vocab_count_te = n) %>%
-            mutate(vocab_prop_te = vocab_count_te/n_total,
+            mutate(vocab_prop_te = vocab_count_te / n_total,
                    vocab_count_te = as.integer(vocab_count_te)) %>%
             select(id, time, age, type,
                    starts_with("vocab_count"),
@@ -156,10 +155,9 @@ bvq_vocabulary <- function(participants,
             mutate(across(matches("conceptual|te"), 
                           function(x) ifelse(is.na(x), as.integer(0), x))) %>%
             select(any_of(c("id", "time", "age", "type", .by)), matches(scale)) %>%
-            arrange(desc(id), time, type)
+            arrange(desc(id), time, type) 
+        
+        return(vocabulary)
         
     })
-    
-    return(vocabulary)
-    
 }
