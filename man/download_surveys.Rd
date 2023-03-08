@@ -10,9 +10,10 @@ download_surveys(surveys, ...)
 \item{surveys}{Name of the surveys in the formr run.}
 
 \item{...}{Unused.}
-
-\item{author}{Gonzalo Garcia-Castro}
 }
 \description{
 Download formR surveys
+}
+\author{
+Gonzalo Garcia-Castro
 }

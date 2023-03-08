@@ -29,7 +29,7 @@ flatten_ipa <- function(x) {
 #' 
 #' @param x A character vector with at least one element that contains
 #'   phonological transcriptions in Speech Assessment Methods Phonetic Alphabet
-#'   (SAMPA) format.
+#'   (X-SAMPA) format.
 #'   
 #' @return A character vector of the same length in which punctuation characters
 #'   have been removed.

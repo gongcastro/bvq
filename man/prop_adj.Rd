@@ -15,5 +15,5 @@ prop_adj(x, n)
 Proportion, adjusted for zero- and one- inflation
 }
 \examples{
-prop_adj_se(4, 60)
+prop_adj(4, 60)
 }
