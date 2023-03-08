@@ -68,8 +68,9 @@ estimation. The output contains the following variables:
 \item semantic_category: a character string indicating the semantic/function category the item belongs to (e.g., \code{"Vehicles"}, \code{"Actions"}).
 \item item_dominance: a character string that takes the value \code{"L1"} if the item belongs to participants' language of most exposure, and L2 if the item belongs to participants' language of least exposure.
 \item label: a character string indicating the text presented to participants in the questionnaire (replacing the \code{item} identifier).
-\item .prop: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function \link{prop_adj}).
+\item .sum: a positive integer indicating the number of positive responses: \code{responses} is 2 (Understands) or 3 (Understands & Says) for \code{type = 'understands'}, and 3 (Understands & Says) if \code{type = 'produces'}.
 \item .n: a positive integer indicating the total number number of responses (useful for computing proportions).
+\item .prop: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function \link{prop_adj}).
 }
 }
 \description{
@@ -77,8 +78,7 @@ This function generates a data frame with the estimated proportion of
 children that understand and/or produce some items for a selected age range
 and participant profiles. Estimated proportions and corresponding standard
 errors and confidence intervals are computed adjusting for zero- and
-one-inflation (see functions \code{\link[=prop_adj]{prop_adj()}}, \code{\link[=prop_adj_se]{prop_adj_se()}}, and
-\code{\link[=prop_adj_ci]{prop_adj_ci()}}).
+one-inflation (see function \code{\link[=prop_adj]{prop_adj()}}).
 }
 \author{
 Gonzalo Garcia-Castro

@@ -4,8 +4,7 @@
 #' children that understand and/or produce some items for a selected age range
 #' and participant profiles. Estimated proportions and corresponding standard
 #' errors and confidence intervals are computed adjusting for zero- and
-#' one-inflation (see functions [prop_adj()], [prop_adj_se()], and
-#' [prop_adj_ci()]).
+#' one-inflation (see function [prop_adj()]).
 #'
 #' @export bvq_norms
 #'
