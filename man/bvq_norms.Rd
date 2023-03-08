@@ -10,7 +10,7 @@ bvq_norms(
   item = NULL,
   language = c("Catalan", "Spanish"),
   type = c("understands", "produces"),
-  age = c(0, 100),
+  age = NULL,
   lp = c("Bilingual", "Monolingual", "Other"),
   sex = c("Female", "Male"),
   semantic_category = NULL,
@@ -38,14 +38,15 @@ for. Takes \code{"understands"} and/or \code{"produces"} (defaults to both).}
 participants to compute norms for.}
 
 \item{lp}{character string indicating the language profile of participants to
-compute norms for: \code{"Bilingual"}, \code{"Monolingual"}, \code{"Other"} (defaults to all).}
+compute norms for: \code{"Bilingual"}, \code{"Monolingual"}, \code{"Other"} (defaults to
+all).}
 
 \item{sex}{character string indicating the sex of participants to compute
 norms for. Takes \code{"Female"} and/or \code{"Male"} (defaults to both).}
 
-\item{semantic_category}{character string indicating the semantic/functional category
-or categories to include items from. See available categories in the
-\code{pool} data set by running \code{data("pool")}.}
+\item{semantic_category}{character string indicating the semantic/functional
+category or categories to include items from. See available categories in
+the \code{pool} data set by running \code{data("pool")}.}
 
 \item{.width}{Numeric values ranging from 0 to 1 (not included) indicating
 the confidence level of confidence intervals (defaults to \code{0.95}).}
@@ -55,24 +56,20 @@ the confidence level of confidence intervals (defaults to \code{0.95}).}
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} with the proportion of
 participants in the sample that understand or produce the items indicated
-in \code{item}, along with the standard error and confidence interval of
-the estimation. The output contains the following variables:
+in \code{item}, along with the standard error and confidence interval of the
+estimation. The output contains the following variables:
 \itemize{
 \item te: an integer identifying the Translation Equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.
-\item item: character string indicating the item identifier (e.g., \emph{spa_mesa}). This value is unique for each item. Responses to the same item from different participants are linked by the same \code{item} value.
-\item language: a character string indicating the language the item response belongs to: \emph{Catalan} if item in Catalan), \emph{Spanish} if item in Spanish.
-\item age_bin: an integer indicating the age group participants for which the estimates have been computed belong to (2 months-wide bins by default).
-\item type: a character string indicating the vocabulary type computed: \code{"understands"} if option \emph{Understands} was selected, and \code{"produces"} if option \emph{Understands & Says} was selected.
+\item item: character string indicating the item identifier (e.g., \code{spa_mesa}). This value is unique for each item. Responses to the same item from different participants are linked by the same \code{item} value.
+\item language: a character string indicating the language the item response belongs to: \code{"Catalan"} if item in Catalan), \code{"Spanish"} if item in Spanish.
+\item age: an integer indicating the age of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., \code{15.36}, it is rounded downwards using \code{\link[=floor]{floor()}}.)
+\item type: a character string indicating the vocabulary type computed: \code{"understands"} if option 'Understands' was selected, and \code{"produces"} if option 'Understands & Says' was selected.
 \item lp: a character string indicating participants' language profile, classified using parental reports of language exposure (see \code{doe_spanish}, \verb{"doe_catalan}, and \code{doe_others}), and the thresholds passed in the \code{bilingual_threshold} and \code{other_threshold}.
-\item semantic_category: a character string indicating the semantic/function category the item belongs to (e.g., \emph{Vehicles}, \emph{Actions}).
-\item item_dominance: a character string that takes the value \emph{L1} if the item belongs to participants' language of most exposure, and \emph{L2} if the item belongs to participants' language of least exposure.
+\item semantic_category: a character string indicating the semantic/function category the item belongs to (e.g., \code{"Vehicles"}, \code{"Actions"}).
+\item item_dominance: a character string that takes the value \code{"L1"} if the item belongs to participants' language of most exposure, and L2 if the item belongs to participants' language of least exposure.
 \item label: a character string indicating the text presented to participants in the questionnaire (replacing the \code{item} identifier).
-\item yes: a positive integer indicating the number of positive responses: \code{responses} is 2 (\emph{Understands}) or 3 (\emph{Understands & Says}) for \code{type} \emph{understands}, and 3 \emph{Understands & Says} if \code{type} is \emph{produces}.
-\item n: a positive integer indicating the total number number of responses (useful for computing proportions).
-\item proportion: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function \link{prop_adj}).
-\item se: a numeric value indicating the standard error (\emph{SE}) of the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function \code{\link[=prop_adj_se]{prop_adj_se()}}.
-\item ci_lower: a numeric value indicating the lower boundary of the 95\\% confidence interval (\emph{CI}) of the estimated proportion of participants that provided a positive response.
-\item ci_upper: a numeric value indicating the upper boundary of the 95\\% confidence interval (\emph{CI}) of the estimated proportion of participants that provided a positive response.
+\item .prop: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function \link{prop_adj}).
+\item .n: a positive integer indicating the total number number of responses (useful for computing proportions).
 }
 }
 \description{
@@ -80,8 +77,8 @@ This function generates a data frame with the estimated proportion of
 children that understand and/or produce some items for a selected age range
 and participant profiles. Estimated proportions and corresponding standard
 errors and confidence intervals are computed adjusting for zero- and
-one-inflation (see functions \code{\link[=prop_adj]{prop_adj()}},
-\code{\link[=prop_adj_se]{prop_adj_se()}}, and \code{\link[=prop_adj_ci]{prop_adj_ci()}}).
+one-inflation (see functions \code{\link[=prop_adj]{prop_adj()}}, \code{\link[=prop_adj_se]{prop_adj_se()}}, and
+\code{\link[=prop_adj_ci]{prop_adj_ci()}}).
 }
 \author{
 Gonzalo Garcia-Castro

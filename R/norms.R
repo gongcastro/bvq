@@ -51,18 +51,14 @@
 #' * te: an integer identifying the Translation Equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.
 #' * item: character string indicating the item identifier (e.g., `spa_mesa`). This value is unique for each item. Responses to the same item from different participants are linked by the same `item` value.
 #' * language: a character string indicating the language the item response belongs to: `"Catalan"` if item in Catalan), `"Spanish"` if item in Spanish.
-#' * age_bin: an integer indicating the age group participants for which the estimates have been computed belong to (2 months-wide bins by default).
+#' * age: an integer indicating the age of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., `15.36`, it is rounded downwards using [floor()].)
 #' * type: a character string indicating the vocabulary type computed: `"understands"` if option 'Understands' was selected, and `"produces"` if option 'Understands & Says' was selected.
 #' * lp: a character string indicating participants' language profile, classified using parental reports of language exposure (see `doe_spanish`, `"doe_catalan`, and `doe_others`), and the thresholds passed in the `bilingual_threshold` and `other_threshold`.
 #' * semantic_category: a character string indicating the semantic/function category the item belongs to (e.g., `"Vehicles"`, `"Actions"`).
 #' * item_dominance: a character string that takes the value `"L1"` if the item belongs to participants' language of most exposure, and L2 if the item belongs to participants' language of least exposure.
 #' * label: a character string indicating the text presented to participants in the questionnaire (replacing the `item` identifier).
-#' * yes: a positive integer indicating the number of positive responses: `responses` is 2 (Understands) or 3 (Understands & Says) for `type = 'understands'`, and 3 (Understands & Says) if `type = 'produces'`.
-#' * n: a positive integer indicating the total number number of responses (useful for computing proportions).
-#' * proportion: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj]).
-#' * se: a numeric value indicating the standard error (SE) of the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj_se()].
-#' * ci_lower: a numeric value indicating the lower boundary of the 95\% confidence interval (CI) of the estimated proportion of participants that provided a positive response.
-#' * ci_upper: a numeric value indicating the upper boundary of the 95\% confidence interval (CI) of the estimated proportion of participants that provided a positive response.
+#' * .prop: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj]).
+#' * .n: a positive integer indicating the total number number of responses (useful for computing proportions).
 #'
 #' @author Gonzalo Garcia-Castro
 #' @md
@@ -71,7 +67,7 @@ bvq_norms <- function(participants,
                       item = NULL,
                       language = c("Catalan", "Spanish"),
                       type = c("understands", "produces"),
-                      age = c(0, 100),
+                      age = NULL,
                       lp = c("Bilingual", "Monolingual", "Other"),
                       sex = c("Female", "Male"),
                       semantic_category = NULL,
@@ -82,11 +78,12 @@ bvq_norms <- function(participants,
     logs <- bvq_logs(participants = participants, 
                      responses = responses)
     
-    group_vars <- c("te", "item", "language", "age_bin", "type", "lp",
+    group_vars <- c("te", "item", "language", "age", "type", "lp",
                     "semantic_category", "item_dominance", "label")
     
     if (is.null(item)) item <- unique(responses$item)
     if (is.null(semantic_category)) sem_cat <- unique(pool$semantic_category)
+    if (is.null(age)) age <- floor(range(responses$age))
     
     norms <- responses %>%
         left_join(select(logs, id, time, lp),
@@ -95,15 +92,13 @@ bvq_norms <- function(participants,
         filter(item %in% .env$item,
                lp %in% .env$lp,
                between(age, .env$age[1], .env$age[2])) %>%
-        mutate(understands = response==2|response==3,
+        mutate(understands = response %in% 2:3,
                produces = response==3) %>%
         select(id, age, sex, lp, dominance, item, understands, produces) %>%
         pivot_longer(c(understands, produces),
                      names_to = "type", 
                      values_to = "response") %>%
-        mutate(age_bin = as.numeric(cut(age, 
-                                        seq(0, 100, by = 2),
-                                        labels = FALSE))*2) %>% 
+        mutate(age = floor(age)) %>% 
         left_join(select(pool, te, item, language, label, semantic_category), 
                   multiple = "all",
                   by = join_by(item)) %>%
@@ -118,13 +113,9 @@ bvq_norms <- function(participants,
         summarise(.yes = sum(response, na.rm = TRUE),
                   .n = sum(!is.na(response), na.rm = TRUE),
                   .groups = "drop") %>%
-        mutate(.proportion = prop_adj(.yes, .n),
-               .se = prop_adj_se(.yes, .n),
-               .lower = prop_adj_ci(.yes, .n, .width = .width)[1],
-               .upper = prop_adj_ci(.yes, .n, .width = .width)[2]) %>%
-        filter(type %in% .env$type) %>%
-        arrange(te, item, language, lp, item_dominance, type, age_bin, 
-                .proportion, .yes, .n, .se, .lower, .upper)
+        mutate(.prop = prop_adj(.yes, .n)) %>% 
+        arrange(te, item, language, lp, item_dominance, type, age, 
+                .prop, .n)
     
     return(norms)
     
