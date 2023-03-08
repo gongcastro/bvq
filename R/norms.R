@@ -57,8 +57,9 @@
 #' * semantic_category: a character string indicating the semantic/function category the item belongs to (e.g., `"Vehicles"`, `"Actions"`).
 #' * item_dominance: a character string that takes the value `"L1"` if the item belongs to participants' language of most exposure, and L2 if the item belongs to participants' language of least exposure.
 #' * label: a character string indicating the text presented to participants in the questionnaire (replacing the `item` identifier).
-#' * .prop: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj]).
+#' * .sum: a positive integer indicating the number of positive responses: `responses` is 2 (Understands) or 3 (Understands & Says) for `type = 'understands'`, and 3 (Understands & Says) if `type = 'produces'`.
 #' * .n: a positive integer indicating the total number number of responses (useful for computing proportions).
+#' * .prop: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj]).
 #'
 #' @author Gonzalo Garcia-Castro
 #' @md
@@ -110,12 +111,12 @@ bvq_norms <- function(participants,
             language!=dominance ~ "L2")) %>%
         drop_na(response) %>%
         group_by_at(group_vars) %>% 
-        summarise(.yes = sum(response, na.rm = TRUE),
+        summarise(.sum = sum(response, na.rm = TRUE),
                   .n = sum(!is.na(response), na.rm = TRUE),
                   .groups = "drop") %>%
-        mutate(.prop = prop_adj(.yes, .n)) %>% 
+        mutate(.prop = prop_adj(.sum, .n)) %>% 
         arrange(te, item, language, lp, item_dominance, type, age, 
-                .prop, .n)
+                .sum, .n, .prop)
     
     return(norms)
     

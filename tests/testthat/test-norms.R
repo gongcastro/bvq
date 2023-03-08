@@ -3,15 +3,10 @@ test_that("values have plausible values", {
     responses <- readRDS(test_path("fixtures", "responses.rds"))
     norms <- bvq_norms(participants, responses)
 
-    expect_true(all(between(norms$.proportion, 0, 1)))
-    expect_false(any(norms$.yes < 0))
+    expect_true(all(between(norms$.prop, 0, 1)))
+    expect_false(any(norms$.sum < 0))
     expect_false(any(norms$.n < 0))
-    expect_false(any(norms$.se < 0))
-    expect_true(all(between(norms$.lower, 0, 1)))
-    expect_false(any(norms$.lower < 0))
-    expect_true(all(between(norms$.upper, 0, 1)))
-    expect_false(any(norms$.upper < 0))
-    
+
 })
 
 test_that("column classes are the right ones", {
@@ -28,9 +23,7 @@ test_that("column classes are the right ones", {
     expect_true(all(class(norms$semantic_category) == "character"))
     expect_true(all(class(norms$item_dominance) == "character"))
     expect_true(all(class(norms$label) == "character"))
-    expect_true(all(class(norms$.yes) == "integer"))
-    expect_true(all(class(norms$.proportion) == "numeric"))
-    expect_true(all(class(norms$.se) == "numeric"))
-    expect_true(all(class(norms$.lower) == "numeric"))
-    expect_true(all(class(norms$.upper) == "numeric"))
+    expect_true(all(class(norms$.sum) == "integer"))
+    expect_true(all(class(norms$.n) == "integer"))
+    expect_true(all(class(norms$.prop) == "numeric"))
 })
