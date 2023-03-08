@@ -4,7 +4,7 @@
 #'
 #' @param surveys Name of the surveys in the formr run.
 #' @param ... Unused.
-#' @param author Gonzalo Garcia-Castro
+#' @author Gonzalo Garcia-Castro
 #' @md
 download_surveys <- function(surveys, ...) {
     n <- length(surveys)
