@@ -31,19 +31,14 @@ diff_in_months <- function(x, y) {
 #' 
 #' @importFrom lubridate as_datetime
 get_time_stamp <- function(x, cols, which = "first") {
-    
     suppressMessages({
-        
         d <- x[c(cols[1], cols[2])]
-        
         if (which %in% "first") {
             x <- apply(d, 1, min, na.rm = TRUE)
         } 
-        
         if (which %in% "last") {
             x <- apply(d, 1, max, na.rm = TRUE)
         }
-        
         x <- as_datetime(x)
     })
     return(x)
@@ -51,12 +46,11 @@ get_time_stamp <- function(x, cols, which = "first") {
 
 #' Summarise language profile
 #'
-#' @param x Data frame that contains each degree of exposure as columns,
-#'   named `language_doe_*`.
-#' @param languages Character vector of languages to compute degree of exposure
+#' @param ... Character vector of languages to compute degree of exposure
 #'   for (all others will be considered as `doe_others`).
-get_doe <- function(x, languages) {
-    apply(x[paste0("language_doe_", languages)], 1, sum, na.rm = TRUE)
+get_doe <- function(...) {
+    rowSums(across(any_of(...)), dims = 1, na.rm = TRUE)
+    # apply(data[], 1, sum, na.rm = TRUE)
 }
 
 #' Fix variable version
@@ -192,54 +186,16 @@ fix_item <- function(x) {
 #' 
 #' @param x Vector of \code{study} whose values should be fixed
 fix_study <- function(x) {
-    ifelse(is.na(x$study), "BiLexicon", x$study)
+    x$study <- ifelse(is.na(x$study), "BiLexicon", x$study)
+    return(x)
 }
 
 #' Fix id_exp
 #' 
 #' @param x Vector of `id_exp` whose values should be fixed
 fix_id_exp <- function(x) {
-    ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
-}
-
-#' Proportion, adjusted for zero- and one- inflation
-#' 
-#' @export prop_adj
-#' 
-#' @param x Number of successes
-#' @param n Number of tries
-#' @examples prop_adj_se(4, 60)
-prop_adj <- function(x, n) {
-    (x + 2) / (n + 4)
-}
-
-#' Standard error of proportion, adjusted for zero- and one-inflation
-#' 
-#' @export prop_adj_se
-#' 
-#' @param x Number of successes
-#' @param n Number of trials
-#' @examples prop_adj_se(4, 60)
-prop_adj_se <- function(x, n) {
-    e <- (x + 2) / (n + 4)
-    sqrt(e * (1 - e) / (n + 4))
-}
-
-#' Confidence interval of proportion, adjusted for zero- and one-inflation
-#'
-#' @importFrom stats qnorm
-#' @export prop_adj_ci
-#' @param x Number of successes
-#' @param n Number of tries
-#' @param .width Confidence level (defaults to .95)
-#' @examples prop_adj_ci(4, 60, .width = 0.89)
-prop_adj_ci <- function(x, n, .width = 0.95) {
-    e <- (x + 2) / (n + 4)
-    se <- sqrt(e * (1 - e) / (n + 4))
-    ci <- e + qnorm(c((1 - .width) / 2, (1 - (1 - .width) / 2))) * se
-    ci[1] <- ifelse(ci[1] < 0, 0, ci[1]) # truncate at 0
-    ci[2] <- ifelse(ci[2] > 1, 1, ci[2]) # truncate at 1
-    return(ci)
+    x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
+    return(x)
 }
 
 #' Deal with repeated measures

@@ -9,7 +9,7 @@ import_formr_lockdown(
     "bilexicon_lockdown_03_consent", "bilexicon_lockdown_04_demo",
     "bilexicon_lockdown_05_language", "bilexicon_lockdown_06_words_catalan",
     "bilexicon_lockdown_06_words_spanish"),
-  verbose = TRUE
+  ...
 )
 }
 \arguments{

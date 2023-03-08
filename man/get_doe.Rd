@@ -4,13 +4,10 @@
 \alias{get_doe}
 \title{Summarise language profile}
 \usage{
-get_doe(x, languages)
+get_doe(...)
 }
 \arguments{
-\item{x}{Data frame that contains each degree of exposure as columns,
-named \verb{language_doe_*}.}
-
-\item{languages}{Character vector of languages to compute degree of exposure
+\item{...}{Character vector of languages to compute degree of exposure
 for (all others will be considered as \code{doe_others}).}
 }
 \description{
