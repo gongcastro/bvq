@@ -17,7 +17,7 @@ test_that("column classes are the right ones", {
     expect_true(all(class(norms$te) == "integer"))
     expect_true(all(class(norms$item) == "character"))
     expect_true(all(class(norms$language) == "character"))
-    expect_true(all(class(norms$age_bin) == "numeric"))
+    expect_true(all(class(norms$age) == "numeric"))
     expect_true(all(class(norms$type) == "character"))
     expect_true(all(class(norms$lp) == "character"))
     expect_true(all(class(norms$semantic_category) == "character"))
