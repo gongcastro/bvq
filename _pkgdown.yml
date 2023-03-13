@@ -51,7 +51,7 @@ reference:
 - title: "Helper functions"
   desc: "Additional functions to access and process the data"
   contents:
-  - diff_in_months
+  - diff_intime
   - download_surveys
   - fix_code
   - fix_code_raw
