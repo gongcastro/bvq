@@ -41,7 +41,6 @@ test_that("column classes are the right ones", {
     
     expect_true(all(class(vocabulary$id) == "character"))
     expect_true(all(class(vocabulary$time) == "numeric"))
-    expect_true(all(class(vocabulary$age) == "numeric"))
     expect_true(all(class(vocabulary$type) == "character"))
     expect_true(all(class(vocabulary$vocab_count_total) == "integer"))
     expect_true(all(class(vocabulary$vocab_count_dominance_l1) == "integer"))

@@ -42,8 +42,6 @@
 #' * age: a numeric value indicating the number of months elapsed since participants' birth date until they filled in the last item of their questionnaire response.
 #' * age_today: a numeric value indicating the number of months elapsed since participants' birth date until the present day, as indicated by [lubridate::now].
 #' * months_from_last_response: a numeric value indicating the number of months elapsed since participants' last questionnaire response (as indicated  by `time_stamp`) until the present day, as indicated by [lubridate::now].
-#' * sex: a character string indicating participants' biological sex, as reported by the parents.
-#' * postcode: a character string indicating participants' household postcode.
 #' * edu_parent1: a character string indicating the educational attainment of one of the parents/caregivers.
 #' * edu_parent2: a character string indicating the educational attainment of the other parent/caregiver, if any.
 #' * dominance: a character string indicating the language of highest exposure (`"Catalan"` or `"Spanish"`), as reported by parents. If exposure is identical for both language, "Catalan" is assigned.
@@ -70,59 +68,51 @@ bvq_logs <- function(participants,
             summarise(total_items = sum(n), 
                       .by = version)
         
+        grouping_vars <- c("id_db", "date_birth", "time",
+                           "edu_parent1", "edu_parent2",
+                           "date_birth", "date_started", "date_finished", 
+                           "doe_spanish", "doe_catalan",
+                           "doe_others", "date_birth", "code", "study", 
+                           "version")
+        
+        vars <- c("code", "time", "study", "version", "age",
+                  "date_birth", "date_started", "date_finished", 
+                  "duration", "dominance", "lp", 
+                  "edu_parent1", "edu_parent2",
+                  "doe_spanish", "doe_catalan", "doe_others",
+                  "progress", "completed")
+        
         # generate logs
         logs <- responses %>%
-            mutate(
-                # define language profiles based on thresholds
-                lp = case_when(
-                    doe_catalan >= bilingual_threshold ~ "Monolingual",
-                    doe_spanish >= bilingual_threshold ~ "Monolingual",
-                    doe_others > other_threshold ~ "Other",
-                    .default = "Bilingual"
-                ),
-                # define language dominance
-                dominance = case_when(
-                    doe_catalan > doe_spanish ~ "Catalan",
-                    doe_spanish > doe_catalan ~ "Spanish",
-                    doe_catalan == doe_spanish ~ sample(c("Catalan", "Spanish"), 1)
-                )
-            ) %>%
             # total items to fill by each participant (varies across versions)
             summarise(complete_items = sum(!is.na(response)),
-                      .by = any_of(c("id_db", "date_birth", "time", "age", "sex",
-                                     "postcode", "edu_parent1", "edu_parent2",
-                                     "dominance", "lp", "doe_spanish", "doe_catalan",
-                                     "doe_others", "time_stamp", "code", "study", 
-                                     "version"))) %>%
+                      .by = one_of(grouping_vars)) %>%
             left_join(total_items,
                       by = join_by(version)) %>%
             left_join(select(participants, -c(date_birth, version)),
                       by = join_by(id_db, time, code, study)) %>%
             drop_na(id) %>%
-            # compute participant's progress trhough the questionnaire
-            mutate(across(time_stamp, as_datetime)) %>%
+            mutate(
+                # define language profiles based on thresholds
+                lp = case_when(doe_catalan >= bilingual_threshold ~ "Monolingual",
+                               doe_spanish >= bilingual_threshold ~ "Monolingual",
+                               doe_others > other_threshold ~ "Other",
+                               .default = "Bilingual"),
+                # define language dominance
+                dominance = case_when(doe_catalan > doe_spanish ~ "Catalan",
+                                      doe_spanish > doe_catalan ~ "Spanish",
+                                      doe_catalan == doe_spanish ~ sample(c("Catalan", "Spanish"), 1)),
+                age = diff_in_time(date_finished, date_birth, "months"),
+                duration = diff_in_time(date_finished, date_started, "days")
+            ) %>% 
+            # compute participant's progress through the questionnaire
             rowwise() %>%
             mutate(progress = complete_items / total_items,
                    completed = progress >= 0.95) %>%
             ungroup() %>%
-            # compute time laps between events
-            mutate(
-                across(c(date_sent, date_birth, time_stamp), as_date),
-                days_from_sent = time_length(difftime(today(), date_sent), "days"),
-                age_today = diff_in_months(today(), date_birth),
-                months_from_last_response = diff_in_months(today(), time_stamp)
-            ) %>%
             # select relevant columns and reorder them
-            select(
-                starts_with("id"),
-                any_of(c("code", "time", "study", "version",
-                         "date_sent", "time_stamp", "days_from_sent", "date_birth", 
-                         "age", "age_today", "months_from_last_response",
-                         "sex", "postcode", "edu_parent1", "edu_parent2",
-                         "dominance", "lp", "doe_spanish", "doe_catalan", "doe_others",
-                         "progress", "completed"))
-            ) %>%
-            arrange(desc(time_stamp))
+            select(starts_with("id"), one_of(vars), ) %>%
+            arrange(desc(date_finished))
     })
     
     return(logs)

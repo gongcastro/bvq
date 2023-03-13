@@ -1,8 +1,13 @@
 test_that("times are handled correctly", {
-    diff <- diff_in_months(as.Date("2023-02-01"), as.Date("2022-02-01"))
+    diff <- diff_in_time(as.Date("2023-02-01"), as.Date("2022-02-01"))
     
     expect_identical(round(diff, digits = 2), expected = 11.99)
     expect_type(diff, "double")
+    
+    diff_days <- diff_in_time(as.Date("2023-02-01"), as.Date("2022-02-01"), "days")
+    
+    expect_identical(round(diff_days, digits = 2), expected = 365)
+    expect_type(diff_days, "double")
 })
 
 test_that("get_longitudinal works correctly", {

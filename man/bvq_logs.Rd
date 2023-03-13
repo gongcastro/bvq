@@ -48,8 +48,6 @@ following variables:
 \item age: a numeric value indicating the number of months elapsed since participants' birth date until they filled in the last item of their questionnaire response.
 \item age_today: a numeric value indicating the number of months elapsed since participants' birth date until the present day, as indicated by \link[lubridate:now]{lubridate::now}.
 \item months_from_last_response: a numeric value indicating the number of months elapsed since participants' last questionnaire response (as indicated  by \code{time_stamp}) until the present day, as indicated by \link[lubridate:now]{lubridate::now}.
-\item sex: a character string indicating participants' biological sex, as reported by the parents.
-\item postcode: a character string indicating participants' household postcode.
 \item edu_parent1: a character string indicating the educational attainment of one of the parents/caregivers.
 \item edu_parent2: a character string indicating the educational attainment of the other parent/caregiver, if any.
 \item dominance: a character string indicating the language of highest exposure (\code{"Catalan"} or \code{"Spanish"}), as reported by parents. If exposure is identical for both language, "Catalan" is assigned.

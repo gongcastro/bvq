@@ -1,18 +1,19 @@
-#' Age difference in months
+#' Age difference in time
 #' 
-#' Returns the absolute difference in months elapsed between two dates, as indicated by [lubridate::time_length()].
+#' Returns the absolute difference in time elapsed between two dates, as indicated by [lubridate::time_length()].
 #'
 #' @param x Most recent date
 #' @param y Least recent date
+#' @param units Time units in which the time difference should be returned. Passed to [lubridate::time_length].
 #' @importFrom lubridate time_length
 #' @returns Absolute difference in months elapsed between `x` and `y`
 #' 
-#' @export diff_in_months
+#' @export diff_in_time
 #' @examples
-#' diff_in_months(as.Date("2023-02-01"), as.Date("2022-02-01"))
-diff_in_months <- function(x, y) {
+#' diff_in_time(as.Date("2023-02-01"), as.Date("2022-02-01"))
+diff_in_time <- function(x, y, units = "months") {
     diff <- difftime(x, y)
-    diff <- abs(time_length(diff, "months"))
+    diff <- abs(time_length(diff, units))
     diff <- ifelse(diff %in% c(-Inf, Inf), NA_real_, diff)
     return(diff)
 }

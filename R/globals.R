@@ -1,6 +1,6 @@
 globalVariables(unique(c(
     # bvq_logs: 
-    "code", "complete_items", "date_birth", "date_sent", "id_db", "language", "progress", "response", "study", "time_stamp", 
+    "code",  "date_started", "complete_items", "date_birth", "date_sent", "id_db", "language", "progress", "response", "study", "time_stamp", 
     # bvq_participants: 
     "code", "date_birth", "date_sent", "date_test", "link", 
     # bvq_responses: 

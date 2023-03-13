@@ -38,72 +38,64 @@
 #' * code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 #' * study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
 #' * version: a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the [GitHub repository](https://github.com/gongcastro/bvqdev)). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).
-#' * time_stamp: a date value (see lubridate package) in `yyyy/mm/dd` format indicating the date in which participants responded to the last item of their questionnaire response. Note: some participants took longer to complete the questionnaire since they started filling items in.
-#' * language: a character string indicating the language the item response belongs to: `"Catalan"` if item in Catalan), `"Spanish"` if item in Spanish.
 #' * item: character string indicating the item identifier (e.g., `spa_mesa`). This value is unique for each item. Responses to the same item from different participants are linked by the same `item` value.
 #' * response: integer indicating the participant's response to a give item: `1` if `"No"` (the participant does not understand or produce the word), `2` if "Understands" (the participants understands the word), or `3` if "Understands and Says" (the participant understands and produces the item).
 #' * date_birth: a date value (see lubridate package) in `yyyy/mm/dd` format indicating participants birth date.
-#' * age: a numeric value indicating the number of months elapsed since participants' birth date until they filled in the last item of their questionnaire response.
+#' * date_started: a date value (see lubridate package) in `yyyy/mm/dd` format indicating when participants logged to the questionnaire for the first time.
+#' * date_finished: a date value (see lubridate package) in `yyyy/mm/dd` format indicating when participants logged to the questionnaire for the last time.
 #' * sex: a character string indicating participants' biological sex, as reported by the parents.
-#' * postcode: a character string indicating participants' household postcode.
 #' * edu_parent1: a character string indicating the educational attainment of one of the parents/caretakers.
 #' * edu_parent2: a character string indicating the educational attainment of the other parent/caretaker, if any.
 #' * doe_spanish: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish, as estimated by parents/caretakers. This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
 #' * doe_catalan: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan, as estimated by parents/caretakers. This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Majorca or Barcelona).
 #' * doe_others: a numeric value ranging from 0 to 1 indicating participants' daily exposure to languages other than Spanish or Catalan, as estimated by parents/caretakers, aggregating participants' exposure to all those other languages (e.g., Norwegian, Arab, Swahili).
 #' * randomisation: a character string indicating the specific list of items a participant was assigned to. Only applies in the case of short versions of BVQ, such as BL-Short, BL-Short-2 or BL-Lockdown, where the list of items was partitioned into several versions.
-#' * doe_spanish_lockdown: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish during the COVID-19 lockdown, as estimated by parents/caretakers. This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
-#' * doe_catalan_lockdown: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan during the COVID-19 lockdown, as estimated by parents/caretakers. This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Majorca or Barcelona).
-#' * doe_others_lockdown: a numeric value ranging from 0 to 1 indicating participants' daily exposure to languages other than Spanish or Catalan during the COVID-19 lockdown, as estimated by parents/caretakers, aggregating participants' exposure to all those other languages (e.g., Norwegian, Arab, Swahili).
-#' * dominance: a character string indicating the language of highest exposure (`"Catalan"` or `"Spanish"`), as reported by parents. If exposure is identical for both language, `"Catalan"` is assigned.
 #'
 #' @author Gonzalo Garcia-Castro
 #' @md
 bvq_responses <- function(participants = NULL,
-                          runs = c("BL-Long2", "BL-Lockdown"), # c("Inhibition", "DevLex", "CBC", "BL-Short", "BL-Long-1", "BL-Long-2", "BL-Lockdown")
                           longitudinal = "all",
                           ...) {
     
     bvq_connect() # get credentials to Google and formr
-
+    
     # get participant information
     if (is.null(participants)) participants <- bvq_participants()
     
     # retrieve data from formr
     formr2 <- import_formr2() # formr2
     formr_lockdown <- import_formr_lockdown() # formr-lockdown
+    formr_short <- import_formr_short() # formr-lockdown
     
     # merge data
     suppressMessages({
         responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
-            map(function(x) mutate(x, postcode = postcode %>% 
-                                as.character() %>% 
-                                str_pad(width = 5, pad = "0"))) %>% 
             bind_rows() %>%
-            distinct(id, code, item, .keep_all = TRUE, ) %>%
-            mutate(
-                date_birth = as_date(date_birth),
-                time_stamp = as_date(time_stamp),
-                version = case_when(
-                    study %in% "DevLex" ~ "DevLex",
-                    study %in% c("CBC", "Signs", "Negation", "Inhibition") ~ "CBC",
-                    .default = version
-                ),
-                time = ifelse(is.na(time), 1, time),
-                dominance = case_when(doe_catalan >= doe_spanish ~ "Catalan",
-                                      doe_spanish > doe_catalan ~ "Spanish"),
-                version = fix_version(version)
+            distinct(id, code, item, .keep_all = TRUE) %>%  
+            mutate(across(c(starts_with("date_"), time_stamp), as_date),
+                   date_finished = coalesce(time_stamp, date_finished),
+                   version = case_when(
+                       study %in% "DevLex" ~ "DevLex",
+                       study %in% c("CBC", "Signs", "Negation", "Inhibition") ~ "CBC",
+                       .default = version
+                   ),
+                   time = ifelse(is.na(time), 1, time),
+                   version = fix_version(version)
             ) %>%
             fix_item() %>%
             fix_doe() %>%
             mutate(across(starts_with("doe_"), function(x) x / 100)) %>%
-            fix_postcode() %>%
             fix_sex() %>%
             fix_study() %>%
             fix_id_exp() %>%
-            drop_na(time_stamp) %>%
+            drop_na(date_finished) %>%
             get_longitudinal(longitudinal = longitudinal) %>%
-            arrange(time_stamp)
+            arrange(desc(date_finished)) %>% 
+            select(starts_with("id"), time, code, study,
+                   version, randomisation,
+                   starts_with("date_"),
+                   item, response, sex, starts_with("doe_"),
+                   starts_with("edu_"))
     })
     
     
