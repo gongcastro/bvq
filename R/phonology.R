@@ -24,6 +24,7 @@ flatten_ipa <- function(x) {
 #' @param x A character string with a phonological transcription in X-SAMPA format.
 #' @return A character string containing a phonological transcription in X-SAMPA format in which punctuation characters
 #'   have been removed.
+#' @seealso [flatten_ipa()], [ipa::xsampa()]
 #' @md
 flatten_xsampa <- function(x) {
     str_rm <- c("\\.", "\\\\", ",", "/", "?", "¿", "'", '"', "ˈ")
@@ -39,6 +40,7 @@ flatten_xsampa <- function(x) {
 #' @param x A character string with a phonological transcription in X-SAMPA.
 #' @param .sep A vector of character strings indicating the characters that will be used to separate syllables. Takes `"\\."` and `"\\\""` by default.
 #' @return A vector of characters in which each element is a syllable.
+#' @seealso [syllabify_ipa()], [ipa::ipa()], [ipa::xsampa()], [flatten_xsampa()]
 #' @md
 syllabify_xsampa <- function(x, .sep = c("\\.", "\\\"")) {
     syll <- strsplit(x, split = paste0(.sep, collapse = "|"))
@@ -53,6 +55,7 @@ syllabify_xsampa <- function(x, .sep = c("\\.", "\\\"")) {
 #' @param x A character string with a phonological transcription in IPA format.
 #' @param .sep A vector of character strings indicating the characters that will be used to separate syllables. Takes `"\\."`, `"'"` and `"ˈ"` by default.
 #' @return A vector of characters in which each element is a syllable.
+#' @seealso [syllabify_xsampa()], [ipa::xsampa()], [ipa::ipa()], [flatten_ipa()]
 #' @md
 syllabify_ipa <- function(x, .sep = c("\\.", "'", "ˈ")) {
     syll <- strsplit(x, split = paste0(.sep, collapse = "|"))
@@ -67,6 +70,7 @@ syllabify_ipa <- function(x, .sep = c("\\.", "'", "ˈ")) {
 #' @param x A vector of character strings with at least one element that contains
 #'   phonological transcriptions in X-SAMPA format.
 #' @return A logical (invisible) value indicating whether all symbols in `x` are part of the X-SAMPA alphabet.
+#' @seealso [syllabify_xsampa()], [ipa::xsampa()], [flatten_xsampa()]
 #' @md
 check_xsampa <- function(x) {
     str <- flatten_xsampa(x)

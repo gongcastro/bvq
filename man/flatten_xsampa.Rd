@@ -19,3 +19,6 @@ Remove punctuation from SAMPA transcriptions
 \details{
 Phonological transcriptions may contain symbols that separate syllables, or indicate syllable stress. This function removes them. Note that this function will effectively remove syllable and stress information.
 }
+\seealso{
+\code{\link[=flatten_ipa]{flatten_ipa()}}, \code{\link[ipa:sampa]{ipa::xsampa()}}
+}
