@@ -46,6 +46,9 @@
     <loc>/reference/bvqdev-package.html</loc>
   </url>
   <url>
+    <loc>/reference/check_xsampa.html</loc>
+  </url>
+  <url>
     <loc>/reference/diff_in_time.html</loc>
   </url>
   <url>
@@ -82,7 +85,7 @@
     <loc>/reference/flatten_ipa.html</loc>
   </url>
   <url>
-    <loc>/reference/flatten_sampa.html</loc>
+    <loc>/reference/flatten_xsampa.html</loc>
   </url>
   <url>
     <loc>/reference/get_doe.html</loc>
@@ -116,6 +119,12 @@
   </url>
   <url>
     <loc>/reference/prop_adj.html</loc>
+  </url>
+  <url>
+    <loc>/reference/syllabify_ipa.html</loc>
+  </url>
+  <url>
+    <loc>/reference/syllabify_xsampa.html</loc>
   </url>
   <url>
     <loc>/reference/tidyeval.html</loc>
