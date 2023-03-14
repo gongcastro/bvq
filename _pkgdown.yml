@@ -48,13 +48,19 @@ reference:
   contents:
   - bvq_vocabulary
   - bvq_norms
+- title: "Phonology"
+  desc: "Functions to manipulate phonological transcriptions in IPA and X-SAMPA formats."
+  - flatten_ipa
+  - flatten_xsampa
+  - syllabify_xsampa
+  - syllabify_ipa
+  - check_xsampa
 - title: "Helper functions"
   desc: "Additional functions to access and process the data"
   contents:
   - diff_in_time
   - get_longitudinal
   - prop_adj
-  
 - title: "Internals"
   desc: "Helper functions used internally"
   contents:
@@ -68,8 +74,6 @@ reference:
   - fix_sex
   - fix_study
   - fix_version
-  - flatten_ipa
-  - flatten_sampa
   - get_doe
   - get_time_stamp
   - import_formr2
