@@ -24,6 +24,7 @@ Imports:
     googlesheets4,
     ipa,
     janitor,
+    lifecycle,
     lubridate,
     magrittr,
     rlang (>= 0.4.11),
