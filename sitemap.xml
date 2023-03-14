@@ -46,7 +46,7 @@
     <loc>/reference/bvqdev-package.html</loc>
   </url>
   <url>
-    <loc>/reference/diff_in_months.html</loc>
+    <loc>/reference/diff_in_time.html</loc>
   </url>
   <url>
     <loc>/reference/download_surveys.html</loc>
@@ -110,6 +110,9 @@
   </url>
   <url>
     <loc>/reference/pool.html</loc>
+  </url>
+  <url>
+    <loc>/reference/process_survey.html</loc>
   </url>
   <url>
     <loc>/reference/prop_adj.html</loc>
