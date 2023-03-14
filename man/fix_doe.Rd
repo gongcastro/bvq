@@ -12,3 +12,6 @@ fix_doe(x)
 \description{
 Fix DOEs
 }
+\author{
+Gonzalo Garcia-Castro
+}

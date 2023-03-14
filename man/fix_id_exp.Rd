@@ -12,3 +12,6 @@ fix_id_exp(x)
 \description{
 Fix id_exp
 }
+\author{
+Gonzalo Garcia-Castro
+}

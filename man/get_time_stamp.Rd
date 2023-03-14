@@ -24,3 +24,6 @@ participants' responses to a given language inventory.}
 \description{
 Get timestamps
 }
+\author{
+Gonzalo Garcia-Castro
+}

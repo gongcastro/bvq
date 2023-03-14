@@ -13,12 +13,15 @@ import_formr_short(
 )
 }
 \arguments{
-\item{surveys}{Name of formr surveys from the bilexicon_short run}
+\item{surveys}{Name of formr surveys from the \code{bilexicon_short} run}
 
 \item{...}{Unused.}
 }
 \description{
 Import short
+}
+\seealso{
+\code{\link[=import_formr_lockdown]{import_formr_lockdown()}}, \code{\link[=import_formr_2]{import_formr_2()}}
 }
 \author{
 Gonzalo Garcia-Castro

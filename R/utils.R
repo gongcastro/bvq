@@ -7,7 +7,7 @@
 #' @param units Time units in which the time difference should be returned. Passed to [lubridate::time_length].
 #' @importFrom lubridate time_length
 #' @returns Absolute difference in months elapsed between `x` and `y`
-#' 
+#' @author Gonzalo Garcia-Castro
 #' @export diff_in_time
 #' @examples
 #' diff_in_time(as.Date("2023-02-01"), as.Date("2022-02-01"))
@@ -29,7 +29,7 @@ diff_in_time <- function(x, y, units = "months") {
 #' @param which Which time stamp to consider:
 #' * `'first'` (by default)
 #' * `'last'`
-#' 
+#' @author Gonzalo Garcia-Castro
 #' @importFrom lubridate as_datetime
 get_time_stamp <- function(x, cols, which = "first") {
     suppressMessages({
@@ -49,6 +49,7 @@ get_time_stamp <- function(x, cols, which = "first") {
 #'
 #' @param ... Character vector of languages to compute degree of exposure
 #'   for (all others will be considered as `doe_others`).
+#' @author Gonzalo Garcia-Castro
 get_doe <- function(...) {
     rowSums(across(any_of(...)), dims = 1, na.rm = TRUE)
     # apply(data[], 1, sum, na.rm = TRUE)
@@ -65,7 +66,8 @@ fix_version <- function(x) {
 #' 
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_remove_all
-#' @param x Vector of `code` whose values should be fixed
+#' @param x Vector of `code` whose values should be fixed.
+#' @author Gonzalo Garcia-Castro
 fix_code <- function(x) {
     x <- toupper(trimws(x))
     x <- x %>%
@@ -84,7 +86,8 @@ fix_code <- function(x) {
 #' Fix raw codes
 #'
 #' @param x Vector of `code` whose values should be fixed, based on
-#'   `session`
+#'   `session`ç
+#' @author Gonzalo Garcia-Castro
 fix_code_raw <- function(x) {
     x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "code"] <- "BL1674"
     x[x$session == "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2", "code"] <- "BL1671"
@@ -102,6 +105,7 @@ fix_code_raw <- function(x) {
 #' @importFrom dplyr mutate
 #' @importFrom dplyr case_when
 #' @param x Vector of `doe` whose values should be fixed
+#' @author Gonzalo Garcia-Castro
 fix_doe <- function(x) {
     
     x %>%
@@ -133,7 +137,8 @@ fix_doe <- function(x) {
 
 #' Fix sex (missing in first responses to BL-Lockdown)
 #' 
-#' @param x Vector of `sex` whose values should be fixed
+#' @param x Vector of `sex` whose values should be fixed.
+#' @author Gonzalo Garcia-Castro
 fix_sex <- function(x) {
     
     x$sex <- ifelse(x$id %in% c("bilexicon_1097", 
@@ -151,6 +156,7 @@ fix_sex <- function(x) {
 #' Fix postcode
 #' 
 #' @param x Vector of `postcode` whose values should be fixed
+#' @author Gonzalo Garcia-Castro
 fix_postcode <- function(x) {
     pcd <- x$postcode
     pcd <- ifelse(nchar(pcd) < 5, paste0("0", pcd), pcd)
@@ -186,6 +192,7 @@ fix_item <- function(x) {
 #' Fix study
 #' 
 #' @param x Vector of \code{study} whose values should be fixed
+#' @author Gonzalo Garcia-Castro
 fix_study <- function(x) {
     x$study <- ifelse(is.na(x$study), "BiLexicon", x$study)
     return(x)
@@ -194,6 +201,7 @@ fix_study <- function(x) {
 #' Fix id_exp
 #' 
 #' @param x Vector of `id_exp` whose values should be fixed
+#' @author Gonzalo Garcia-Castro
 fix_id_exp <- function(x) {
     x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
     return(x)
@@ -202,7 +210,6 @@ fix_id_exp <- function(x) {
 #' Deal with repeated measures
 #'
 #' @export get_longitudinal
-#'
 #' @param x A data frame containing a column for participants (each participant
 #'   gets a unique ID), and a column for times (a numeric value indicating how
 #'   many times each participant appears in the data frame counting this one).
@@ -217,16 +224,14 @@ fix_id_exp <- function(x) {
 #'   * `"first"` returns the first response of each participant (participants with only one appearance are
 #'   included).
 #'   * `"last"` returns the last response from each participant (participants with only one response are included).
-#'
 #' @importFrom dplyr group_by
 #' @importFrom dplyr distinct
 #' @importFrom dplyr n
 #' @importFrom dplyr filter
 #' @importFrom dplyr ungroup
-#' 
 #' @returns A subset of the data frame `x` with only the selected cases,
 #'   according to `longitudinal`.
-#'   
+#' @author Gonzalo Garcia-Castro
 #' @examples 
 #' id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
 #' sums <- rle(sort(id))[["lengths"]]

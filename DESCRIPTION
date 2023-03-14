@@ -22,8 +22,8 @@ Imports:
     dplyr (>= 1.0.0),
     formr (>= 0.9.1),
     googlesheets4,
+    ipa,
     janitor,
-    lifecycle,
     lubridate,
     magrittr,
     rlang (>= 0.4.11),
@@ -32,7 +32,6 @@ Imports:
     tidyr
 Suggests: 
     knitr,
-    ipa,
     readxl,
     roxygen2,
     testthat (>= 3.0.0),

@@ -16,3 +16,9 @@ process_survey(raw, participants_tmp, survey_name)
 \description{
 Process survey contents
 }
+\seealso{
+\code{\link[=download_surveys]{download_surveys()}}
+}
+\author{
+Gonzalo Garcia-Castro
+}

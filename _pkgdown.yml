@@ -50,6 +50,7 @@ reference:
   - bvq_norms
 - title: "Phonology"
   desc: "Functions to manipulate phonological transcriptions in IPA and X-SAMPA formats."
+  contents:
   - flatten_ipa
   - flatten_xsampa
   - syllabify_xsampa

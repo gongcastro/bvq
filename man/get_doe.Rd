@@ -13,3 +13,6 @@ for (all others will be considered as \code{doe_others}).}
 \description{
 Summarise language profile
 }
+\author{
+Gonzalo Garcia-Castro
+}

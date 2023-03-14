@@ -12,3 +12,6 @@ fix_study(x)
 \description{
 Fix study
 }
+\author{
+Gonzalo Garcia-Castro
+}

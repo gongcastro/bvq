@@ -22,3 +22,6 @@ Returns the absolute difference in time elapsed between two dates, as indicated 
 \examples{
 diff_in_time(as.Date("2023-02-01"), as.Date("2022-02-01"))
 }
+\author{
+Gonzalo Garcia-Castro
+}

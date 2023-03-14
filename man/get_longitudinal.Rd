@@ -38,3 +38,6 @@ sums <- rle(sort(id))[["lengths"]]
 dat <- data.frame(id, time = unlist(sapply(sums, function(x) seq(1, x))))
 get_longitudinal(dat, "first")
 }
+\author{
+Gonzalo Garcia-Castro
+}

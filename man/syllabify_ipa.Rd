@@ -17,3 +17,9 @@ A vector of characters in which each element is a syllable.
 \description{
 Syllabify phonological transcriptions in IPA or X-SAMPA formats.
 }
+\seealso{
+\code{\link[=syllabify_xsampa]{syllabify_xsampa()}}, \code{\link[ipa:sampa]{ipa::xsampa()}}, \code{\link[ipa:ipa]{ipa::ipa()}}, \code{\link[=flatten_ipa]{flatten_ipa()}}
+}
+\author{
+Gonzalo Garcia-Castro
+}
