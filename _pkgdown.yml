@@ -43,6 +43,8 @@ reference:
   - bvq_responses
   - bvq_logs
   - pool
+  - vowels
+  - consonants
 - title: "Computing vocabulary norms"
   desc: "Functions for computing several indices of vocabulary size and word acquisition norms."
   contents:
@@ -55,6 +57,8 @@ reference:
   - flatten_xsampa
   - syllabify_xsampa
   - syllabify_ipa
+  - syllable_str_xsampa
+  - syllable_str_ipa
   - check_xsampa
 - title: "Helper functions"
   desc: "Additional functions to access and process the data"
