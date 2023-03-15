@@ -32,7 +32,7 @@ flatten_xsampa <- function(x) {
     return(str)
 }
 
-#' Syllabify phonological transcriptions in X-SAMPA formats.
+#' Syllabify phonological transcriptions in X-SAMPA formats
 #'
 #' @export syllabify_xsampa
 #' @param x A character string with a phonological transcription in X-SAMPA.
@@ -47,7 +47,7 @@ syllabify_xsampa <- function(x, .sep = c("\\.", "\\\"")) {
     return(syll)
 }
 
-#' Syllabify phonological transcriptions in IPA or X-SAMPA formats.
+#' Syllabify phonological transcriptions in IPA or X-SAMPA formats
 #'
 #' @export syllabify_ipa
 #' @param x A character string with a phonological transcription in IPA format.
@@ -59,6 +59,49 @@ syllabify_xsampa <- function(x, .sep = c("\\.", "\\\"")) {
 syllabify_ipa <- function(x, .sep = c("\\.", "'", "ˈ")) {
     syll <- strsplit(x, split = paste0(.sep, collapse = "|"))
     syll <- lapply(syll, function(x) x[x != ""]) 
+    return(syll)
+}
+
+#' Get syllable structure from X-SAMPA phonological transcription
+#'
+#' @export syllable_str_xsampa
+#' @param x A character string with a phonological transcription in X-SAMPA format.
+#' @return A vector of characters in which each element is a syllable, in which vowels have been replaced with `"V"` and each consonants has been replaced with `"C"`. 
+#' @seealso [syllabify_xsampa()], [ipa::xsampa()], [ipa::ipa()]
+#' @author Gonzalo Garcia-Castro
+#' @md
+
+syllable_str_xsampa <- function(x, .sep = c("\\.", "\\\""))
+{
+    syll <- syllabify_xsampa(x)
+    syll <- map(syll, function(x) {
+        phon <- strsplit(x, split = "")
+        map_chr(phon, function(x) {
+            type <- ifelse(x %in% vowels$xsampa, "V", "C")
+            paste0(unlist(type), collapse = "")
+        })
+    })
+    return(syll)
+}
+
+#' Get syllable structure from IPA phonological transcription
+#'
+#' @export syllable_str_ipa
+#' @param x A character string with a phonological transcription in X-SAMPA format.
+#' @return A vector of characters in which each element is a syllable, in which vowels have been replaced with `"V"` and each consonants has been replaced with `"C"`. 
+#' @seealso [syllabify_ipa()], [ipa::ipa()], [ipa::xsampa()]
+#' @author Gonzalo Garcia-Castro
+#' @md
+syllable_str_ipa <- function(x, .sep = c("\\.", "\\\""))
+{
+    syll <- syllabify_ipa(x)
+    syll <- map(syll, function(x) {
+        phon <- strsplit(x, split = "")
+        map_chr(phon, function(x) {
+            type <- ifelse(x %in% vowels$ipa, "V", "C")
+            paste0(unlist(type), collapse = "")
+        })
+    })
     return(syll)
 }
 
@@ -81,7 +124,7 @@ check_xsampa <- function(x) {
         which_not <- str[which(!is_xsampa)]
         cli_abort("Character{?s} {which_not} {?is/are} not a X-SAMPA symbol{?s}")
     } else {
-            return(invisible(TRUE))
+        return(invisible(TRUE))
     }
     
 }

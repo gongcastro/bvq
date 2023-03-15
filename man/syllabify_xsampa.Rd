@@ -2,7 +2,7 @@
 % Please edit documentation in R/phonology.R
 \name{syllabify_xsampa}
 \alias{syllabify_xsampa}
-\title{Syllabify phonological transcriptions in X-SAMPA formats.}
+\title{Syllabify phonological transcriptions in X-SAMPA formats}
 \usage{
 syllabify_xsampa(x, .sep = c("\\\\.", "\\\\\\""))
 }
@@ -15,7 +15,7 @@ syllabify_xsampa(x, .sep = c("\\\\.", "\\\\\\""))
 A vector of characters in which each element is a syllable.
 }
 \description{
-Syllabify phonological transcriptions in X-SAMPA formats.
+Syllabify phonological transcriptions in X-SAMPA formats
 }
 \seealso{
 \code{\link[=syllabify_ipa]{syllabify_ipa()}}, \code{\link[ipa:ipa]{ipa::ipa()}}, \code{\link[ipa:sampa]{ipa::xsampa()}}, \code{\link[=flatten_xsampa]{flatten_xsampa()}}

@@ -57,6 +57,44 @@ test_that("syllabify_ipa works in X-SAMPA", {
     expect_equal(syll, corr)
 })
 
+test_that("syllable_str_xsampa works", {
+    vct <- pool$xsampa[1:10]
+    syll <- syllable_str_xsampa(vct)
+    corr <- list(c("CV", "CV", "CV", "CVC"),
+                        c("V", "CCV", "CV"),
+                        c("V", "CCV"),
+                        c("V", "CV", "CV"),
+                        c("CVC", "CV"),
+                        c("V", "CV", "CV"),
+                        c("V", "CCVC", "CCV"),
+                        c("VC", "CV", "CV", "CV"), 
+                        c("V", "CV", "CV"),
+                        c("CV", "CV"))
+    expect_length(syll, length(vct))
+    expect_type(syll, "list")
+    expect_type(syll[[1]], "character")
+    expect_equal(syll, corr)
+})
+
+test_that("syllable_str_ipa works", {
+    vct <- xsampa(pool$xsampa[1:10])
+    syll <- syllable_str_ipa(vct)
+    corr <- list(c("CV", "CV", "CV", "CVC"),
+                 c("V", "CCV", "CV"),
+                 c("V", "CCV"),
+                 c("V", "CV", "CV"),
+                 c("CVC", "CV"),
+                 c("V", "CV", "CV"),
+                 c("V", "CCVC", "CCV"),
+                 c("VC", "CV", "CV", "CV"), 
+                 c("V", "CV", "CV"),
+                 c("CV", "CV"))
+    expect_length(syll, length(vct))
+    expect_type(syll, "list")
+    expect_type(syll[[1]], "character")
+    expect_equal(syll, corr)
+})
+
 test_that("check_sampa returns TRUE when correct", {
     vct <- pool$xsampa[1:10]
     expect_invisible(check_xsampa(vct))
