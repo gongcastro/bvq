@@ -49,6 +49,9 @@
     <loc>/reference/check_xsampa.html</loc>
   </url>
   <url>
+    <loc>/reference/consonants.html</loc>
+  </url>
+  <url>
     <loc>/reference/diff_in_time.html</loc>
   </url>
   <url>
@@ -127,6 +130,15 @@
     <loc>/reference/syllabify_xsampa.html</loc>
   </url>
   <url>
+    <loc>/reference/syllable_str_ipa.html</loc>
+  </url>
+  <url>
+    <loc>/reference/syllable_str_xsampa.html</loc>
+  </url>
+  <url>
     <loc>/reference/tidyeval.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vowels.html</loc>
   </url>
 </urlset>
