@@ -29,7 +29,7 @@
 #'   vocabulary norms for: `"catalan"` and/or `"spanish"`.
 #' @param type Character string indicating the vocabulary type to compute norms
 #'   for. Takes `"understands"` and/or `"produces"` (defaults to both).
-#' @param age Numeric vector of length two (min-max) indicating the age range of
+#' @param age Numeric vector of length two (*min*-*max*) indicating the age range of
 #'   participants to compute norms for.
 #' @param lp character string indicating the language profile of participants to
 #'   compute norms for: `"Bilingual"`, `"Monolingual"`, `"Other"` (defaults to
@@ -47,7 +47,7 @@
 #'   participants in the sample that understand or produce the items indicated
 #'   in `item`, along with the standard error and confidence interval of the
 #'   estimation. The output contains the following variables:
-#' * te: an integer identifying the Translation Equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.
+#' * te: an integer identifying the translation equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.
 #' * item: character string indicating the item identifier (e.g., `spa_mesa`). This value is unique for each item. Responses to the same item from different participants are linked by the same `item` value.
 #' * language: a character string indicating the language the item response belongs to: `"Catalan"` if item in Catalan), `"Spanish"` if item in Spanish.
 #' * age: an integer indicating the age of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., `15.36`, it is rounded downwards using [floor()].)

@@ -8,6 +8,8 @@ syllable_str_ipa(x, .sep = c("\\\\.", "\\\\\\""))
 }
 \arguments{
 \item{x}{A character string with a phonological transcription in X-SAMPA format.}
+
+\item{.sep}{Character separating syllables in the input transcriptions.}
 }
 \value{
 A vector of characters in which each element is a syllable, in which vowels have been replaced with \code{"V"} and each consonants has been replaced with \code{"C"}.

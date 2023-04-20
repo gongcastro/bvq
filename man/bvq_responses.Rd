@@ -19,8 +19,6 @@ response of each participant is included. If \code{"only"}, only responses with
 repeated measures are included.}
 
 \item{...}{Unused.}
-
-\item{runs}{formr runs to update}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} containing participant's
@@ -42,8 +40,8 @@ output includes the following variables:
 \item sex: a character string indicating participants' biological sex, as reported by the parents.
 \item edu_parent1: a character string indicating the educational attainment of one of the parents/caretakers.
 \item edu_parent2: a character string indicating the educational attainment of the other parent/caretaker, if any.
-\item doe_spanish: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish, as estimated by parents/caretakers. This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
-\item doe_catalan: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan, as estimated by parents/caretakers. This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Majorca or Barcelona).
+\item doe_spanish: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
+\item doe_catalan: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Majorca or Barcelona).
 \item doe_others: a numeric value ranging from 0 to 1 indicating participants' daily exposure to languages other than Spanish or Catalan, as estimated by parents/caretakers, aggregating participants' exposure to all those other languages (e.g., Norwegian, Arab, Swahili).
 \item randomisation: a character string indicating the specific list of items a participant was assigned to. Only applies in the case of short versions of BVQ, such as BL-Short, BL-Short-2 or BL-Lockdown, where the list of items was partitioned into several versions.
 }
