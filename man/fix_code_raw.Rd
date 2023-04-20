@@ -8,8 +8,11 @@ fix_code_raw(x)
 }
 \arguments{
 \item{x}{Vector of \code{code} whose values should be fixed, based on
-\code{session}}
+\code{session}ç}
 }
 \description{
 Fix raw codes
+}
+\author{
+Gonzalo Garcia-Castro
 }

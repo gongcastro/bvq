@@ -12,3 +12,6 @@ fix_postcode(x)
 \description{
 Fix postcode
 }
+\author{
+Gonzalo Garcia-Castro
+}

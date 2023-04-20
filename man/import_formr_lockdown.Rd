@@ -9,14 +9,20 @@ import_formr_lockdown(
     "bilexicon_lockdown_03_consent", "bilexicon_lockdown_04_demo",
     "bilexicon_lockdown_05_language", "bilexicon_lockdown_06_words_catalan",
     "bilexicon_lockdown_06_words_spanish"),
-  verbose = TRUE
+  ...
 )
 }
 \arguments{
-\item{surveys}{Name of formr surveys from the bilexicon_lockdown run}
+\item{surveys}{Name of formr surveys from the \code{bilexicon_lockdown} run.}
 
-\item{verbose}{Should progress messages and warnings be printed in the console}
+\item{...}{Unused.}
 }
 \description{
 Import lockdown data
+}
+\seealso{
+\code{\link[=import_formr_short]{import_formr_short()}}, \code{\link[=import_formr_2]{import_formr_2()}}
+}
+\author{
+Gonzalo Garcia-Castro
 }

@@ -7,8 +7,11 @@
 fix_code(x)
 }
 \arguments{
-\item{x}{Vector of \code{code} whose values should be fixed}
+\item{x}{Vector of \code{code} whose values should be fixed.}
 }
 \description{
 Fix codes
+}
+\author{
+Gonzalo Garcia-Castro
 }

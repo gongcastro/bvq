@@ -1,14 +1,14 @@
-url: gongcastro.github.io
+url: ~
 
 template:
   bootstrap: 5
   bootswatch: litera
   bslib:
     bg: "white"
-    fg: "#ffa600"
-    primary: "#ff6361"
+    fg: "black"
+    primary: "#003f5c"
     base_font: {google: "Righteous"}
-    heading_font: {google: "Righteous"}
+    heading_font: {google: "Roboto Slab"}
     code_font: {google: "JetBrains Mono"}
     
 lang: en
@@ -22,6 +22,7 @@ navbar:
       icon: fa-twitter
       href: http://twitter.com/gongcastro
       aria-label: Twitter
+  bg: #ff6361
       
 footer:
   structure: 
@@ -32,4 +33,55 @@ home:
   sidebar:
     structure: [links, license, community, citation, authors, dev]
     
-  
+reference:
+- title: "Retrieving raw data"
+  desc: >
+    Functions for downloading the basic datasets needed to compute vocabulary norms.
+  contents: 
+  - bvq_connect
+  - bvq_participants
+  - bvq_responses
+  - bvq_logs
+  - pool
+  - vowels
+  - consonants
+- title: "Computing vocabulary norms"
+  desc: "Functions for computing several indices of vocabulary size and word acquisition norms."
+  contents:
+  - bvq_vocabulary
+  - bvq_norms
+- title: "Phonology"
+  desc: "Functions to manipulate phonological transcriptions in IPA and X-SAMPA formats."
+  contents:
+  - flatten_ipa
+  - flatten_xsampa
+  - syllabify_xsampa
+  - syllabify_ipa
+  - syllable_str_xsampa
+  - syllable_str_ipa
+  - check_xsampa
+- title: "Helper functions"
+  desc: "Additional functions to access and process the data"
+  contents:
+  - diff_in_time
+  - get_longitudinal
+  - prop_adj
+- title: "Internals"
+  desc: "Helper functions used internally"
+  contents:
+  - download_surveys
+  - fix_code
+  - fix_code_raw
+  - fix_doe
+  - fix_id_exp
+  - fix_item
+  - fix_postcode
+  - fix_sex
+  - fix_study
+  - fix_version
+  - get_doe
+  - get_time_stamp
+  - import_formr2
+  - import_formr_lockdown
+  - import_formr_short
+  - process_survey

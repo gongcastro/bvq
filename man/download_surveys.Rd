@@ -4,13 +4,19 @@
 \alias{download_surveys}
 \title{Download formR surveys}
 \usage{
-download_surveys(surveys, verbose)
+download_surveys(surveys, ...)
 }
 \arguments{
-\item{surveys}{Name of the surveys in the formR run}
+\item{surveys}{Name of the surveys in the formr run.}
 
-\item{verbose}{Should progress messages and warnings be printed in the console}
+\item{...}{Unused.}
 }
 \description{
 Download formR surveys
+}
+\seealso{
+\code{\link[=process_survey]{process_survey()}}
+}
+\author{
+Gonzalo Garcia-Castro
 }

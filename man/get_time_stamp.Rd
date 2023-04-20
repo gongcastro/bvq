@@ -4,10 +4,10 @@
 \alias{get_time_stamp}
 \title{Get timestamps}
 \usage{
-get_time_stamp(.data, cols, which = "first")
+get_time_stamp(x, cols, which = "first")
 }
 \arguments{
-\item{.data}{Data frame containing a column for the first time stamp and the
+\item{x}{Data frame containing a column for the first time stamp and the
 last time stamp of participants' responses the word inventory in each
 language (Spanish and Catalan)}
 
@@ -15,9 +15,15 @@ language (Spanish and Catalan)}
 containing the first and the last time stamps (in that order) of
 participants' responses to a given language inventory.}
 
-\item{which}{Which time stamp to consider: \code{'first'} (by default) or
-\code{'last'}?}
+\item{which}{Which time stamp to consider:
+\itemize{
+\item \code{'first'} (by default)
+\item \code{'last'}
+}}
 }
 \description{
 Get timestamps
+}
+\author{
+Gonzalo Garcia-Castro
 }

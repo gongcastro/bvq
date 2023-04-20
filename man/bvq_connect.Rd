@@ -4,14 +4,11 @@
 \alias{bvq_connect}
 \title{Authenticate in Google and formr}
 \usage{
-bvq_connect(google_email = NULL, verbose = TRUE, password = NULL)
+bvq_connect(google_email = NULL, password = NULL)
 }
 \arguments{
 \item{google_email}{E-mail used in Google Drive account. If \code{NULL} (default),
 it is assumed to be the same as \code{formr_email}.}
-
-\item{verbose}{Should progress messages and warnings be printed in the
-console.}
 
 \item{password}{Character string with the password to formr (\code{NULL} by
 default).}

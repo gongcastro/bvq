@@ -7,8 +7,11 @@
 fix_sex(x)
 }
 \arguments{
-\item{x}{Vector of \code{sex} whose values should be fixed}
+\item{x}{Vector of \code{sex} whose values should be fixed.}
 }
 \description{
 Fix sex (missing in first responses to BL-Lockdown)
+}
+\author{
+Gonzalo Garcia-Castro
 }

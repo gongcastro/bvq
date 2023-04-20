@@ -1,5 +1,7 @@
 test_that("columns are the right classes", {
-    logs <- readRDS(test_path("fixtures", "logs.rds"))
+    participants <- readRDS(test_path("fixtures", "participants.rds"))
+    responses <- readRDS(test_path("fixtures", "responses.rds"))
+    logs <- bvq_logs(participants, responses)
     
     expect_true(is.character(logs$id))
     expect_true(is.character(logs$id_exp))
@@ -8,15 +10,11 @@ test_that("columns are the right classes", {
     expect_true(is.numeric(logs$time))
     expect_true(is.character(logs$study))
     expect_true(is.character(logs$version))
-    expect_true(lubridate::is.Date(logs$date_sent))
-    expect_true(lubridate::is.Date(logs$time_stamp))
-    expect_true(is.numeric(logs$days_from_sent))
     expect_true(lubridate::is.Date(logs$date_birth))
+    expect_true(lubridate::is.Date(logs$date_started))
+    expect_true(lubridate::is.Date(logs$date_finished))
     expect_true(is.numeric(logs$age))
-    expect_true(is.numeric(logs$age_today))
-    expect_true(is.numeric(logs$months_from_last_response))
-    expect_true(is.character(logs$sex))
-    expect_true(is.character(logs$postcode))
+    expect_true(is.numeric(logs$duration))
     expect_true(is.character(logs$edu_parent1))
     expect_true(is.character(logs$edu_parent2))
     expect_true(is.character(logs$dominance))
@@ -28,11 +26,10 @@ test_that("columns are the right classes", {
     expect_true(is.logical(logs$completed))
 })
 
-
 test_that("variables contains possible values", {
-    logs <- readRDS(test_path("fixtures", "logs.rds"))
-    responses <- readRDS(test_path("fixtures", "responses.rds"))
     participants <- readRDS(test_path("fixtures", "participants.rds"))
+    responses <- readRDS(test_path("fixtures", "responses.rds"))
+    logs <- bvq_logs(participants, responses)
     
     # expect_true(all(logs$id %in% participants$id))
     # expect_true(all(logs$id_exp %in% participants$id_exp))
@@ -41,14 +38,10 @@ test_that("variables contains possible values", {
     expect_true(all(logs$time > 0))
     expect_true(all(logs$study %in% participants$study))
     expect_true(all(logs$version %in% responses$version))
-    expect_true(all(logs$time_stamp <= today()))
-    expect_true(all(logs$days_from_sent[!is.na(logs$days_from_sent)] >= 0))
+    expect_true(all(logs$duration[!is.na(logs$duration)] >= 0))
     expect_true(all(logs$date_birth <= today()))
+    expect_true(all(logs$date_finished <= today()))
     expect_true(all(logs$age >= 0))
-    expect_true(all(logs$age_today >= 0))
-    expect_true(all(logs$age >= 0))
-    expect_true(all(logs$months_from_last_response >= 0))
-    expect_true(all(logs$sex %in% c("Female", "Male", NA)))
     expect_true(all(logs$edu_parent1 %in% c("complementary", "noeducation", "primary", "secondary", "university", "vocational", NA)))
     expect_true(all(logs$edu_parent2 %in% c("complementary", "noeducation", "primary", "secondary", "university", "vocational", NA)))
     expect_true(all(logs$lp %in% c("Monolingual", "Bilingual", "Other")))
@@ -60,7 +53,9 @@ test_that("variables contains possible values", {
 
 
 test_that("missing values are only where expected", {
-    logs <- readRDS(test_path("fixtures", "logs.rds"))
+    participants <- readRDS(test_path("fixtures", "participants.rds"))
+    responses <- readRDS(test_path("fixtures", "responses.rds"))
+    logs <- bvq_logs(participants, responses)
     
     expect_false(any(is.na(logs$id)))
     expect_false(any(is.na(logs$id_exp)))
@@ -69,7 +64,7 @@ test_that("missing values are only where expected", {
     expect_false(any(is.na(logs$study)))
     expect_false(any(is.na(logs$version)))
     expect_false(any(is.na(logs$date_birth)))
+    expect_false(any(is.na(logs$date_finished)))
     expect_false(any(is.na(logs$age)))
-    expect_false(any(is.na(logs$age_today)))
     expect_false(any(is.na(logs$lp)))
 })
