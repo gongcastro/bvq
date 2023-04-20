@@ -24,7 +24,7 @@
 #'   [bvq_participants()].
 #' @param item Character string indicating the item to compute norms for. If
 #'   left `NULL` (default) norms will be computed for all items. You can check
-#'   the available items in the [pool] data set running `data("pool")`.
+#'   the available items in the [bvqdev::pool] data set running `data("pool")`.
 #' @param language Character string indicating the language to compute
 #'   vocabulary norms for: `"catalan"` and/or `"spanish"`.
 #' @param type Character string indicating the vocabulary type to compute norms
@@ -38,7 +38,7 @@
 #'   norms for. Takes `"Female"` and/or `"Male"` (defaults to both).
 #' @param semantic_category character string indicating the semantic/functional
 #'   category or categories to include items from. See available categories in
-#'   the `pool` data set by running `data("pool")`.
+#'   the [bvqdev::pool] data set by running `data("pool")`.
 #' @param .width Numeric values ranging from 0 to 1 (not included) indicating
 #'   the confidence level of confidence intervals (defaults to `0.95`).
 #' @param ... Unused
@@ -82,7 +82,7 @@ bvq_norms <- function(participants,
                     "semantic_category", "item_dominance", "label")
     
     if (is.null(item)) item <- unique(responses$item)
-    if (is.null(semantic_category)) sem_cat <- unique(pool$semantic_category)
+    if (is.null(semantic_category)) sem_cat <- unique(bvqdev::pool$semantic_category)
     if (is.null(age)) age <- floor(range(logs$age, na.rm = TRUE))
     
     norms <- responses %>%
@@ -99,7 +99,7 @@ bvq_norms <- function(participants,
                      names_to = "type", 
                      values_to = "response") %>%
         mutate(age = floor(age)) %>% 
-        left_join(select(pool, te, item, language, label, semantic_category), 
+        left_join(select(bvqdev::pool, te, item, language, label, semantic_category), 
                   multiple = "all",
                   by = join_by(item)) %>%
         filter(language %in% .env$language,

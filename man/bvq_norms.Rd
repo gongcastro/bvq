@@ -46,7 +46,7 @@ norms for. Takes \code{"Female"} and/or \code{"Male"} (defaults to both).}
 
 \item{semantic_category}{character string indicating the semantic/functional
 category or categories to include items from. See available categories in
-the \code{pool} data set by running \code{data("pool")}.}
+the \link{pool} data set by running \code{data("pool")}.}
 
 \item{.width}{Numeric values ranging from 0 to 1 (not included) indicating
 the confidence level of confidence intervals (defaults to \code{0.95}).}

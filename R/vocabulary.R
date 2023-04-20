@@ -20,7 +20,7 @@
 #'   data into. Vocabulary metrics will be calculated by aggregating responses
 #'   within the groups that result from the combination of crossing of the
 #'   variables provided in `.by`. This variables can refer to item properties
-#'   (see [pool], e.g., `"category"`) or to participant properties (see
+#'   (see [bvqdev::pool], e.g., `"category"`) or to participant properties (see
 #'   [bvq_logs()], e.g., `"dominance"`).
 #' @param scale A character vector that takes the value `"count"` and/or
 #'   `"prop"`. If `"count"` (default) vocabulary metrics are reported as counts
@@ -28,7 +28,7 @@
 #'   proportions?
 #' @param ... Extra arguments that will be passed to the `bvq_responses`.
 #'   function.
-#' @returns A dataset (actually, a [tibble] with each participant's
+#' @returns A dataset (actually, a [tibble::tibble] with each participant's
 #'   comprehensive and/or vocabulary size in each language. This data frame
 #'   contains the following variables:
 #' * id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
@@ -73,7 +73,7 @@ bvq_vocabulary <- function(participants,
                          names_to = "type", 
                          values_to = "response") %>%
             drop_na(response) %>%
-            inner_join(select(pool, any_of(c("item", "te", "language", .by))),
+            inner_join(select(bvqdev::pool, any_of(c("item", "te", "language", .by))),
                       multiple = "all",
                       by = join_by(item)) %>%
             inner_join(select(logs, any_of(c("id", "time", "dominance", .by))),
