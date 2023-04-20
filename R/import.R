@@ -3,6 +3,7 @@
 #' @importFrom cli cli_progress_done
 #' @importFrom cli cli_progress_step
 #' @importFrom cli cli_progress_update
+#' @importFrom cli qty
 #' 
 #' @param surveys Name of the surveys in the formr run.
 #' @param ... Unused.
@@ -10,22 +11,26 @@
 #' @seealso [process_survey()]
 #' @md
 download_surveys <- function(surveys, ...) {
+    
     n <- length(surveys)
     i <- 0
     raw <- vector(mode = "list", length = n)
+    
     if (interactive()) {
-        cli_progress_step(msg = "Downloaded {i}/{n} {qty(i)}survey{?s}")
+        step_msg <- "Downloaded {i}/{n} {qty(i)}survey{?s}"
+        cli_progress_step(msg = step_msg)
     }
+    
     for (i in 1:length(surveys)) {
         raw[[i]] <- formr_raw_results(surveys[i])
         if (interactive()) cli_progress_update()
     }
     
-    if (interactive()) {
-        cli_progress_done(result = "done")
-    }
+    if (interactive()) cli_progress_done(result = "done")
+    
     raw <- lapply(raw, select, -any_of("language"))
     names(raw) <- surveys
+    
     return(raw)
 }
 
@@ -50,8 +55,8 @@ process_survey <- function(raw, participants_tmp, survey_name)
         mutate(code = fix_code(code),
                survey_name = .env$survey_name,
                version = ifelse(survey_name=="BL-Long-2",
-                      survey_name, 
-                      paste(survey_name, str_trim(version), sep = "-"))) %>% 
+                                survey_name, 
+                                paste(survey_name, str_trim(version), sep = "-"))) %>% 
         left_join(participants_tmp, by = join_by(code)) 
     
     items_to_keep <- c("time", "code", "study", "version", "randomisation",
@@ -125,6 +130,7 @@ process_survey <- function(raw, participants_tmp, survey_name)
 #' 
 #' @md
 import_formr_lockdown <- function(
+        
         surveys = c("bilexicon_lockdown_01_log",
                     "bilexicon_lockdown_02_welcome",
                     "bilexicon_lockdown_03_consent",
@@ -212,7 +218,7 @@ import_formr_short <- function(
         # fix codes known to be wrong
         fix_code_raw()
     
-    processed <- process_survey(raw, participants_tmp = participants_tmp, survey_name = "BL-Short")
+    processed <- process_survey(raw, participants_tmp, "BL-Short")
     
     if (interactive()) {
         n_responses <- nrow(distinct(processed, code))
