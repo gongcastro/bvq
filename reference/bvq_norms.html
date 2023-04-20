@@ -106,7 +106,7 @@ for. Takes <code>"understands"</code> and/or <code>"produces"</code> (defaults t
 
 
 <dt>age</dt>
-<dd><p>Numeric vector of length two (min-max) indicating the age range of
+<dd><p>Numeric vector of length two (<em>min</em>-<em>max</em>) indicating the age range of
 participants to compute norms for.</p></dd>
 
 
@@ -124,7 +124,7 @@ norms for. Takes <code>"Female"</code> and/or <code>"Male"</code> (defaults to b
 <dt>semantic_category</dt>
 <dd><p>character string indicating the semantic/functional
 category or categories to include items from. See available categories in
-the <code>pool</code> data set by running <code>data("pool")</code>.</p></dd>
+the <a href="pool.html">pool</a> data set by running <code>data("pool")</code>.</p></dd>
 
 
 <dt>.width</dt>
@@ -143,7 +143,7 @@ the confidence level of confidence intervals (defaults to <code>0.95</code>).</p
 <p>A data frame (actually, a <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble</a> with the proportion of
 participants in the sample that understand or produce the items indicated
 in <code>item</code>, along with the standard error and confidence interval of the
-estimation. The output contains the following variables:</p><ul><li><p>te: an integer identifying the Translation Equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.</p></li>
+estimation. The output contains the following variables:</p><ul><li><p>te: an integer identifying the translation equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.</p></li>
 <li><p>item: character string indicating the item identifier (e.g., <code>spa_mesa</code>). This value is unique for each item. Responses to the same item from different participants are linked by the same <code>item</code> value.</p></li>
 <li><p>language: a character string indicating the language the item response belongs to: <code>"Catalan"</code> if item in Catalan), <code>"Spanish"</code> if item in Spanish.</p></li>
 <li><p>age: an integer indicating the age of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., <code>15.36</code>, it is rounded downwards using <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor()</a></code>.)</p></li>
