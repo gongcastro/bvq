@@ -1,9 +1,8 @@
 # bvq <a href="gongcastro.github.io/bvqdev"><img src="man/figures/logo.png" align="right" height="139" /></a>
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/gongcastro/bvqdev/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/gongcastro/bvqdev/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/gongcastro/bvqdev/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gongcastro/bvqdev?branch=main)
+[![R-CMD-check](https://github.com/gongcastro/bvq/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/gongcastro/bvq/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/gongcastro/bvq/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gongcastro/bvq?branch=main)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-![GitHub issues](https://img.shields.io/github/issues/gongcastro/bvqdev)
 <!-- badges: end -->
 
 
@@ -17,7 +16,7 @@ This package also contains multiple functions that extract the data and generate
 ## Installation
 
 ```r
-install.packages("remotes") # you may need to install this first
+install.packages("remotes") # you may need to install remotes first
 remotes::install_github("gongcastro/bvq")
 ```
 
