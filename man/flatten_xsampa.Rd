@@ -20,9 +20,6 @@ Remove punctuation from SAMPA transcriptions
 Note that this function will effectively remove information about
 syllabification and stress from the phonological representations.
 }
-\seealso{
-\code{\link[=flatten_ipa]{flatten_ipa()}}, \code{\link[ipa:sampa]{ipa::xsampa()}}
-}
 \author{
 Gonzalo Garcia-Castro
 }

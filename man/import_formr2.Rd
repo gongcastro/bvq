@@ -19,9 +19,6 @@ import_formr2(
 \description{
 Import formr 2
 }
-\seealso{
-\code{\link[=import_formr_lockdown]{import_formr_lockdown()}}, \code{\link[=import_formr_short]{import_formr_short()}}
-}
 \author{
 Gonzalo Garcia-Castro
 }

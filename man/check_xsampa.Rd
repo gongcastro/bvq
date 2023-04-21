@@ -16,9 +16,6 @@ A logical (invisible) value indicating whether all symbols in \code{x} are part 
 \description{
 Check that all characters included in X-SAMPA phonological transcriptions are part of the X-SAMPA alphabet
 }
-\seealso{
-\code{\link[=syllabify_xsampa]{syllabify_xsampa()}}, \code{\link[ipa:sampa]{ipa::xsampa()}}, \code{\link[=flatten_xsampa]{flatten_xsampa()}}
-}
 \author{
 Gonzalo Garcia-Castro
 }

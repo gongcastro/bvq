@@ -1,4 +1,4 @@
-Package: bvqdev
+Package: bvq
 Title: Barcelona Vocabulary Questionnaire Database and Helper Functions
 Version: 0.1.0
 Authors@R: 
@@ -12,9 +12,9 @@ Description: Download, clean, and process the Barcelona Vocabulary
     package includes functions to download the data from formr servers,
     and return the processed data in multiple formats.
 License: MIT + file LICENSE
-URL: https://gongcastro.github.io/bvqdev/,
-    https://github.com/gongcastro/bvqdev/
-BugReports: https://github.com/gongcastro/bvqdev/issues
+URL: https://gongcastro.github.io/bvq/,
+    https://github.com/gongcastro/bvq/
+BugReports: https://github.com/gongcastro/bvq/issues
 Depends: 
     R (>= 3.5.0),
 Imports: 

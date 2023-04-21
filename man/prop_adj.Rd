@@ -2,7 +2,7 @@
 % Please edit documentation in R/stats.R
 \name{prop_adj}
 \alias{prop_adj}
-\title{Proportion, adjusted for zero- and one- inflation}
+\title{Proportion, adjusted for zero- and one-inflation}
 \usage{
 prop_adj(x, n)
 }
@@ -12,7 +12,7 @@ prop_adj(x, n)
 \item{n}{Number of tries}
 }
 \description{
-Proportion, adjusted for zero- and one- inflation
+Proportion, adjusted for zero- and one-inflation
 }
 \examples{
 prop_adj(4, 60)

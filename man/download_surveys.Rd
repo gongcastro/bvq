@@ -14,9 +14,6 @@ download_surveys(surveys, ...)
 \description{
 Download formR surveys
 }
-\seealso{
-\code{\link[=process_survey]{process_survey()}}
-}
 \author{
 Gonzalo Garcia-Castro
 }

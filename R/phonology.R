@@ -7,7 +7,6 @@
 #' @return A character string containing a phonological transcription in IPA format in which punctuation characters
 #'   have been removed.
 #' @author Gonzalo Garcia-Castro
-#' @seealso [bvqdev::flatten_xsampa()], [ipa::ipa()]
 flatten_ipa <- function(x) {
     unique_phonemes <- unique(unlist(strsplit(paste(x, collapse = ""), "")))
     shortlisted_phonemes <- paste0("\\", 
@@ -25,7 +24,6 @@ flatten_ipa <- function(x) {
 #' @return A character string containing a phonological transcription in X-SAMPA format in which punctuation characters
 #'   have been removed.
 #' @author Gonzalo Garcia-Castro
-#' @seealso [bvqdev::flatten_ipa()], [ipa::xsampa()]
 #' @md
 flatten_xsampa <- function(x) {
     str_rm <- c("\\.", "\\\\", ",", "/", "?", "¿", "'", '"', "ˈ")
@@ -41,7 +39,6 @@ flatten_xsampa <- function(x) {
 #' @param .sep A vector of character strings indicating the characters that will be used to separate syllables. Takes `"\\."` and `"\\\""` by default.
 #' @return A vector of characters in which each element is a syllable.
 #' @author Gonzalo Garcia-Castro
-#' @seealso [bvqdev::syllabify_ipa()], [ipa::ipa()], [ipa::xsampa()], [bvqdev::flatten_xsampa()]
 #' @md
 syllabify_xsampa <- function(x, .sep = c("\\.", "\\\"")) {
     syll <- strsplit(x, split = paste0(.sep, collapse = "|"))
@@ -55,7 +52,6 @@ syllabify_xsampa <- function(x, .sep = c("\\.", "\\\"")) {
 #' @param x A character string with a phonological transcription in IPA format.
 #' @param .sep A vector of character strings indicating the characters that will be used to separate syllables. Takes `"\\."`, `"'"` and `"ˈ"` by default.
 #' @return A vector of characters in which each element is a syllable.
-#' @seealso [bvqdev::syllabify_xsampa()], [ipa::xsampa()], [ipa::ipa()], [bvqdev::flatten_ipa()]
 #' @author Gonzalo Garcia-Castro
 #' @md
 syllabify_ipa <- function(x, .sep = c("\\.", "'", "ˈ")) {
@@ -70,7 +66,6 @@ syllabify_ipa <- function(x, .sep = c("\\.", "'", "ˈ")) {
 #' @param x A character string with a phonological transcription in X-SAMPA format.
 #' @param .sep Character separating syllables in the input transcriptions.
 #' @return A vector of characters in which each element is a syllable, in which vowels have been replaced with `"V"` and each consonants has been replaced with `"C"`. 
-#' @seealso [bvqdev::syllabify_xsampa()], [ipa::xsampa()], [ipa::ipa()]
 #' @author Gonzalo Garcia-Castro
 #' @md
 syllable_str_xsampa <- function(x, .sep = c("\\.", "\\\""))
@@ -92,7 +87,6 @@ syllable_str_xsampa <- function(x, .sep = c("\\.", "\\\""))
 #' @param x A character string with a phonological transcription in X-SAMPA format.
 #' @param .sep Character separating syllables in the input transcriptions.
 #' @return A vector of characters in which each element is a syllable, in which vowels have been replaced with `"V"` and each consonants has been replaced with `"C"`. 
-#' @seealso [bvqdev::syllabify_ipa()], [ipa::ipa()], [ipa::xsampa()]
 #' @author Gonzalo Garcia-Castro
 #' @md
 syllable_str_ipa <- function(x, .sep = c("\\.", "\\\""))
@@ -116,7 +110,6 @@ syllable_str_ipa <- function(x, .sep = c("\\.", "\\\""))
 #' @param x A vector of character strings with at least one element that contains
 #'   phonological transcriptions in X-SAMPA format.
 #' @return A logical (invisible) value indicating whether all symbols in `x` are part of the X-SAMPA alphabet.
-#' @seealso [bvqdev::syllabify_xsampa()], [ipa::xsampa()], [flatten_xsampa()]
 #' @author Gonzalo Garcia-Castro
 #' @md
 check_xsampa <- function(x) {

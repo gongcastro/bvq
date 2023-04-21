@@ -17,9 +17,6 @@ A vector of characters in which each element is a syllable, in which vowels have
 \description{
 Get syllable structure from IPA phonological transcription
 }
-\seealso{
-\code{\link[=syllabify_ipa]{syllabify_ipa()}}, \code{\link[ipa:ipa]{ipa::ipa()}}, \code{\link[ipa:sampa]{ipa::xsampa()}}
-}
 \author{
 Gonzalo Garcia-Castro
 }

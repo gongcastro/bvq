@@ -1,4 +1,4 @@
-#' Proportion, adjusted for zero- and one- inflation
+#' Proportion, adjusted for zero- and one-inflation
 #' 
 #' @export prop_adj
 #' 

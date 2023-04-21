@@ -31,7 +31,7 @@ output includes the following variables:
 \item time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
 \item code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 \item study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
-\item version: a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the \href{https://github.com/gongcastro/bvqdev}{GitHub repository}). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).
+\item version: a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the \href{https://github.com/gongcastro/bvq}{GitHub repository}). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).
 \item item: character string indicating the item identifier (e.g., \code{spa_mesa}). This value is unique for each item. Responses to the same item from different participants are linked by the same \code{item} value.
 \item response: integer indicating the participant's response to a give item: \code{1} if \code{"No"} (the participant does not understand or produce the word), \code{2} if "Understands" (the participants understands the word), or \code{3} if "Understands and Says" (the participant understands and produces the item).
 \item date_birth: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating participants birth date.
@@ -51,8 +51,7 @@ This function generates a data frame with participant's responses to each
 item, along with some session-specific metadata. It takes \code{participants}
 (the output of \code{\link[=bvq_participants]{bvq_participants()}}) and \code{runs} (a character vector that can
 take zero, one, or multiple of the following values: \code{"formr2"},
-\code{"formr-short"}, \code{"formr-lockdown"}) as arguments. Only responses from the
-versions indicated in \code{runs} input will be updated.
+\code{"formr-short"}, \code{"formr-lockdown"}) as arguments.
 }
 \author{
 Gonzalo Garcia-Castro

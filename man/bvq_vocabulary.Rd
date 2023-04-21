@@ -15,7 +15,7 @@ bvq_vocabulary(participants, responses, .by = NULL, .scale = "prop", ...)
 data into. Vocabulary metrics will be calculated by aggregating responses
 within the groups that result from the combination of crossing of the
 variables provided in \code{.by}. This variables can refer to item properties
-(see \link{pool}, e.g., \code{"category"}) or to participant properties (see
+(see \link[bvqdev:pool]{bvqdev::pool}, e.g., \code{"category"}) or to participant properties (see
 \code{\link[=bvq_logs]{bvq_logs()}}, e.g., \code{"dominance"}).}
 
 \item{.scale}{A character vector that takes the value \code{"count"} and/or
