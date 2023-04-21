@@ -20,9 +20,6 @@ Remove punctuation and fix non-ASCII characters from IPA transcriptions
 Note that this function will effectively remove information about
 syllabification and stress from the phonological representations.
 }
-\seealso{
-\code{\link[=flatten_xsampa]{flatten_xsampa()}}, \code{\link[ipa:ipa]{ipa::ipa()}}
-}
 \author{
 Gonzalo Garcia-Castro
 }

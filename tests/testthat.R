@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(bvqdev)
+library(bvq)
 
-test_check("bvqdev")
+test_check("bvq")

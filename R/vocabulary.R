@@ -82,12 +82,14 @@ bvq_vocabulary <- function(participants,
                          names_to = "type", 
                          values_to = "response") %>%
             drop_na(response) %>%
-            inner_join(select(bvqdev::pool, any_of(c("item", "te", "language", .by))),
+            inner_join(select(bvq::pool, any_of(c("item", "te", "language", .by))),
                        multiple = "all",
-                       by = join_by(item)) %>%
+                       by = join_by(item),
+                       relationship = "many-to-many") %>%
             inner_join(select(logs, any_of(c("id", "time", "dominance", .by))),
                        multiple = "all",
-                       by = join_by(id, time)) %>%
+                       by = join_by(id, time),
+                       relationship = "many-to-many") %>%
             mutate(item_dominance = ifelse(language==dominance, "L1", "L2")) %>%
             select(any_of(c("id", "time", "dominance", "item_dominance", "type", 
                             "te", "item", .by, "response")))

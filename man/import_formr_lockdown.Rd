@@ -20,9 +20,6 @@ import_formr_lockdown(
 \description{
 Import lockdown data
 }
-\seealso{
-\code{\link[=import_formr_short]{import_formr_short()}}, \code{\link[=import_formr_2]{import_formr_2()}}
-}
 \author{
 Gonzalo Garcia-Castro
 }
