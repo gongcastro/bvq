@@ -25,6 +25,9 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/bvq-package.html</loc>
+  </url>
+  <url>
     <loc>/reference/bvq_connect.html</loc>
   </url>
   <url>
@@ -41,9 +44,6 @@
   </url>
   <url>
     <loc>/reference/bvq_vocabulary.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bvqdev-package.html</loc>
   </url>
   <url>
     <loc>/reference/check_xsampa.html</loc>
