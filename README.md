@@ -1,4 +1,4 @@
-# bvq <a href="gongcastro.github.io/bvq"><img src="man/figures/logo.png" align="right" height="139" /></a>
+# bvq <a href="https://gongcastro.github.io/bvq"><img src="man/figures/logo.png" align="right" height="139" /></a>
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/gongcastro/bvq/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/gongcastro/bvq/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/gongcastro/bvq/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gongcastro/bvq?branch=main)
