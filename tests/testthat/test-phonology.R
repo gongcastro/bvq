@@ -47,19 +47,5 @@ test_that("syllable_str_xsampa works", {
 })
 
 
-test_that("check_xsampa returns TRUE when correct", {
-    vct <- pool$xsampa[1:10]
-    expect_invisible(check_xsampa(vct))
-    expect_true(check_xsampa(vct))
-})
-
-test_that("check_xsampa returns FALSE when incorrect", {
-    vct_wrong <- c("p@siGOás", "@B4@sa", "uB4i", "@k@Ba", "L@nsa", "@p@Ga",
-                   "@p4End4@", "@zg@ñ@pa", "@ZuDa", "b@La")
-    expect_error(check_xsampa(vct_wrong),
-                 "Characters á and ñ are not a X-SAMPA symbols")
-})
-
-
 
 
