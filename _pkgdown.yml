@@ -53,13 +53,9 @@ reference:
 - title: "Phonology"
   desc: "Functions to manipulate phonological transcriptions in IPA and X-SAMPA formats."
   contents:
-  - flatten_ipa
   - flatten_xsampa
   - syllabify_xsampa
-  - syllabify_ipa
   - syllable_str_xsampa
-  - syllable_str_ipa
-  - check_xsampa
 - title: "Helper functions"
   desc: "Additional functions to access and process the data"
   contents:
