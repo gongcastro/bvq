@@ -6,7 +6,7 @@ Authors@R:
            comment = c(ORCID = "0000-0002-8553-4209"))
 Maintainer: Gonzalo Garcia-Castro <gonzalo.garciadecastro@upf.edu>
 Description: Download, clean, and process the Barcelona Vocabulary
-    Questionnaire data. BVQ is a vocabulary inventory developed for
+    Questionnaire (BVQ) data. BVQ is a vocabulary inventory developed for
     assesing the vocabulary of Catalan-Spanish bilinguals infants from the
     Metropolitan Area of Barcelona (Spain), aged 10 to 40 months. This
     package includes functions to download the data from formr servers,
