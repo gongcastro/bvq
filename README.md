@@ -9,12 +9,20 @@
 
 ## Overview
 
-This package contains data from a vocabulary checklist aimed at to assessing lexical development in children growing up in Catalan/Spanish bilingual environments. The questionnaire was deployed using [formr](https://formr.org/), and the materials used to generate the items are available in the GitHub repository.
+This package contains data from a Barcelona Vocabulary Questionnaire (BVQ), a vocabulary checklist aimed at to assessing lexical development in children growing up in Catalan-Spanish bilingual environments. The questionnaire was deployed using [formr](https://formr.org/), and the materials used to generate the items are available in the GitHub repository.
 
-This package also contains multiple functions that extract the data and generate many metrics used frequently in the language acquisition literature to examine participants’ vocabulary or to consult acquisition norms of particular words. Documentation and working examples are available in the package website.
+This package also contains multiple functions that extract the data and generate many metrics used frequently in the language acquisition literature to examine participants’ vocabulary or to consult acquisition norms of particular words. Documentation and working examples are available in the [package website](https://gongcastro.github.io/bvq).
 
 
 ## Installation
+
+From [r-universe](https://gongcastro.r-universe.dev/bvq) :rocket::
+
+```r
+install.packages('bvq', repos = c('https://gongcastro.r-universe.dev',  'https://cloud.r-project.org'))
+```
+
+From the GitHub repository:
 
 ```r
 install.packages("remotes") # you may need to install remotes first
