@@ -2,7 +2,7 @@
 % Please edit documentation in R/phonology.R
 \name{flatten_xsampa}
 \alias{flatten_xsampa}
-\title{Remove punctuation from SAMPA transcriptions}
+\title{Remove punctuation from X-SAMPA transcriptions}
 \usage{
 flatten_xsampa(x)
 }
@@ -14,7 +14,7 @@ A character string containing a phonological transcription in X-SAMPA format in 
 have been removed.
 }
 \description{
-Remove punctuation from SAMPA transcriptions
+Remove punctuation from X-SAMPA transcriptions
 }
 \details{
 Note that this function will effectively remove information about

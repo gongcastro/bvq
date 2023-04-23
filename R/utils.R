@@ -251,9 +251,7 @@ get_longitudinal <- function(x, longitudinal = "all") {
         filter(n() > 1) %>%
         ungroup()
     
-    if (longitudinal == "no") {
-        x <- x[!(x$id %in% repeated$id), ]
-    }
+    if (longitudinal == "no") x <- x[!(x$id %in% repeated$id), ]
     
     if (longitudinal == "first") {
         x <- group_by(x, id) %>%
@@ -267,9 +265,7 @@ get_longitudinal <- function(x, longitudinal = "all") {
             ungroup()
     } 
     
-    if (longitudinal == "only") {
-        x <- x[x$id %in% repeated$id, ]
-    } 
+    if (longitudinal == "only") x <- x[x$id %in% repeated$id, ]
     
     return(x)
 }

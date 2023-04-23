@@ -2,8 +2,8 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @import rlang
 #' @importFrom lifecycle deprecated
 #' @importFrom tibble tibble
+#' @import rlang
 ## usethis namespace: end
 NULL
