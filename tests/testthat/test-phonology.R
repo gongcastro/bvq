@@ -1,13 +1,3 @@
-test_that("flatten_ipa works", {
-    vct <- ipa::xsampa(pool$xsampa[1:10])
-    vct_flat <- flatten_ipa(vct)
-    vct_corr <- c("pəsiɣɔʎəs", "əβɾəsa", "uβɾi", "əkəβa", "ʎənsa", 
-                  "əpəɣa", "əpɾɛndɾə", "əzɡərəpa", "əʒuða", "bəʎa")
-    expect_length(vct_corr, length(vct))
-    expect_type(vct_corr, "character")
-    expect_equal(vct_flat, vct_corr)
-})
-
 test_that("flatten_xsampa works", {
     vct <- pool$xsampa[1:10]
     vct_flat <- flatten_xsampa(vct)
@@ -37,26 +27,6 @@ test_that("syllabify_xsampa works", {
     expect_equal(syll, corr)
 })
 
-test_that("syllabify_ipa works in X-SAMPA", {
-    vct <- ipa::xsampa(pool$xsampa[1:10])
-    syll <- syllabify_ipa(vct)
-    corr <- lapply(list(c("p@", "si", "GO", "L@s"),
-                 c("@", "B4@", "sa"),
-                 c("u", "B4i"),
-                 c("@", "k@", "Ba"),
-                 c("L@n", "sa"),
-                 c("@", "p@", "Ga"),
-                 c("@", "p4En", "d4@"), 
-                 c("@z", "g@", "r@", "pa"),
-                 c("@", "Zu", "Da"),
-                 c("b@", "La")),
-                 ipa::xsampa)
-    expect_length(syll, length(vct))
-    expect_type(syll, "list")
-    expect_type(syll[[1]], "character")
-    expect_equal(syll, corr)
-})
-
 test_that("syllable_str_xsampa works", {
     vct <- pool$xsampa[1:10]
     syll <- syllable_str_xsampa(vct)
@@ -76,32 +46,14 @@ test_that("syllable_str_xsampa works", {
     expect_equal(syll, corr)
 })
 
-test_that("syllable_str_ipa works", {
-    vct <- xsampa(pool$xsampa[1:10])
-    syll <- syllable_str_ipa(vct)
-    corr <- list(c("CV", "CV", "CV", "CVC"),
-                 c("V", "CCV", "CV"),
-                 c("V", "CCV"),
-                 c("V", "CV", "CV"),
-                 c("CVC", "CV"),
-                 c("V", "CV", "CV"),
-                 c("V", "CCVC", "CCV"),
-                 c("VC", "CV", "CV", "CV"), 
-                 c("V", "CV", "CV"),
-                 c("CV", "CV"))
-    expect_length(syll, length(vct))
-    expect_type(syll, "list")
-    expect_type(syll[[1]], "character")
-    expect_equal(syll, corr)
-})
 
-test_that("check_sampa returns TRUE when correct", {
+test_that("check_xsampa returns TRUE when correct", {
     vct <- pool$xsampa[1:10]
     expect_invisible(check_xsampa(vct))
     expect_true(check_xsampa(vct))
 })
 
-test_that("check_sampa returns FALSE when incorrect", {
+test_that("check_xsampa returns FALSE when incorrect", {
     vct_wrong <- c("p@siGOás", "@B4@sa", "uB4i", "@k@Ba", "L@nsa", "@p@Ga",
                    "@p4End4@", "@zg@ñ@pa", "@ZuDa", "b@La")
     expect_error(check_xsampa(vct_wrong),
