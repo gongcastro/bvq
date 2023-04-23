@@ -46,9 +46,6 @@
     <loc>/reference/bvq_vocabulary.html</loc>
   </url>
   <url>
-    <loc>/reference/check_xsampa.html</loc>
-  </url>
-  <url>
     <loc>/reference/consonants.html</loc>
   </url>
   <url>
@@ -83,9 +80,6 @@
   </url>
   <url>
     <loc>/reference/fix_version.html</loc>
-  </url>
-  <url>
-    <loc>/reference/flatten_ipa.html</loc>
   </url>
   <url>
     <loc>/reference/flatten_xsampa.html</loc>
@@ -124,13 +118,7 @@
     <loc>/reference/prop_adj.html</loc>
   </url>
   <url>
-    <loc>/reference/syllabify_ipa.html</loc>
-  </url>
-  <url>
     <loc>/reference/syllabify_xsampa.html</loc>
-  </url>
-  <url>
-    <loc>/reference/syllable_str_ipa.html</loc>
   </url>
   <url>
     <loc>/reference/syllable_str_xsampa.html</loc>
