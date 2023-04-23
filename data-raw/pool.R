@@ -1,11 +1,10 @@
 ## code to prepare `pool` dataset goes here
 library(dplyr)
 library(readxl)
-library(ipa)
 
 # uni lemmas
 worbank_lemmas <- read.delim(system.file("extdata/lemmas.txt",
-                                         package = "bvqdev"),
+                                         package = "bvq"),
                              sep = "\t",
                              quote = "") %>% 
     select(te, item, ends_with("lemma")) 
@@ -25,7 +24,10 @@ pool <- read_xlsx("inst/extdata/pool.xlsx") %>%
     mutate(across(c(te, n_lemmas), as.integer),
            across(c(is_multiword, include), as.logical),
            version = strsplit(version, split = ",")) 
-# export pool database
 
-usethis::use_data(pool, overwrite = TRUE, internal = FALSE, ascii = TRUE)
+# export for future testing
+saveRDS(pool, test_path("fixtures", "pool.rds"))
+
+# export pool database
+usethis::use_data(pool, overwrite = TRUE, internal = FALSE)
 

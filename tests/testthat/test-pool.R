@@ -5,8 +5,7 @@ test_that("pool columns are the right classes", {
     expect_true(is.character(pool$language))
     expect_true(is.integer(pool$te))
     expect_true(is.character(pool$label))
-    expect_true(is.character(pool$ipa))
-    expect_true(is.character(pool$sampa))
+    expect_true(is.character(pool$xsampa))
     expect_true(is.integer(pool$n_lemmas))
     expect_true(is.logical(pool$is_multiword))
     expect_true(is.character(pool$subtlex_lemma))
@@ -18,7 +17,7 @@ test_that("pool columns are the right classes", {
     expect_true(is.logical(pool$include))
 })
 
-test_that("pool columns values are right", {
+test_that("pool column values are right", {
     pool <- readRDS(test_path("fixtures", "pool.rds"))
     
     expect_true(all(unique(pool$language) %in% c("Catalan", "Spanish")))
