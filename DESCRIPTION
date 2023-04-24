@@ -33,6 +33,7 @@ Imports:
 Suggests: 
     knitr,
     readxl,
+    rmarkdown,
     roxygen2,
     testthat (>= 3.0.0),
     withr

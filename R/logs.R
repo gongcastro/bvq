@@ -54,13 +54,17 @@
 #' 
 #' @author Gonzalo Garcia-Castro
 #' @md
-bvq_logs <- function(participants,
-                     responses,
+bvq_logs <- function(participants = NULL,
+                     responses = NULL,
                      bilingual_threshold = 0.80,
                      other_threshold = 0.10,
                      ...) {
     
     suppressMessages({
+        
+        # get participant information
+        if (is.null(participants)) participants <- bvq_participants()
+        if (is.null(responses)) responses <- bvq_responses(participants)
         
         # get n items answered by participants (depends on the questionnaire version)
         total_items <- studies %>%
