@@ -16,7 +16,7 @@ frontness_levels <- c("Back" = 0,
                       "Front" = 2)
 
 vowels <- read_xlsx(system.file("extdata/vowels.xlsx", 
-                                package = "bvqdev")) %>% 
+                                package = "bvq")) %>% 
     mutate(openness = factor(openness, 
                              levels = openness_levels,
                              labels = names(openness_levels)),
@@ -26,8 +26,11 @@ vowels <- read_xlsx(system.file("extdata/vowels.xlsx",
     rename(xsampa = phoneme) %>% 
     mutate(across(-xsampa, as.factor),
            across(c(openness, frontness), 
-                  function(x) strsplit(as.character(x), ", ")),
-           ipa = xsampa(xsampa)) %>% 
-    relocate(xsampa, ipa, openness, frontness)
+                  function(x) strsplit(as.character(x), ", "))) %>% 
+    relocate(xsampa, openness, frontness)
 
-usethis::use_data(vowels, overwrite = TRUE)
+# export for future testing
+saveRDS(vowels, test_path("fixtures", "vowels.rds"))
+
+# export database
+usethis::use_data(vowels, overwrite = TRUE, internal = FALSE)

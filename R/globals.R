@@ -145,8 +145,6 @@ utils::globalVariables(unique(c(
     # import_pool: 
     "cognate", 
     "include",
-    "ipa", 
-    "ipa_flat", 
     "te",
     # vowels
     "vowels"

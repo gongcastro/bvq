@@ -3,12 +3,11 @@
 \docType{data}
 \name{consonants}
 \alias{consonants}
-\title{Inventory and classification of consonants in X-SAMPA and IPA formats.}
+\title{Inventory and classification of consonants in X-SAMPA format.}
 \format{
 A data frame with 65 rows and 5 variables:
 \itemize{
 \item xsampa: phoneme symbol in \href{https://en.wikipedia.org/wiki/X-SAMPA}{X-SAMPA} format
-\item ipa: phoneme symbol in \href{https://en.wikipedia.org/wiki/International_Phonetic_Alphabet}{IPA} format
 \item place: place of articulation (broad classification): \code{"Coronal"}, \code{"Dorsal"}, \code{"Labial"}, or \code{"Pharyngeal"}. "Location along the vocal tract where its production occurs.
 \item place_2: place of articulation (fine classification): \code{"Nasal"}, \code{"Plosive"}, \code{"Fricative"}, \code{"Approximant"}, \code{"Trill"}, \code{"Flap"}, \code{"Lateral Fricative"}, \code{"Lateral Approximant"}, or \code{"Lateral Flat"}
 \item manner: manner of articulation: \code{"Bilabial"}, \code{"Labio-dental"}, \code{"Dental"}, \code{"Alveolar"}, \code{"Post-alveolar"}, \code{"Retroflex"}, \code{"Palatal"}, \code{"Velar"}, \code{"Uvular"}, \code{"Epiglotal"}, \code{"Glotal"}. Configuration and interaction of the articulators (speech organs such as the tongue, lips, and palate) when making a speech sound.
@@ -22,6 +21,6 @@ https://en.wikipedia.org/wiki/X-SAMPA
 consonants
 }
 \description{
-A dataset containing most consonant phonemes identified by the \href{https://en.wikipedia.org/wiki/International_Phonetic_Association}{International Phonetic Association} (IPA). Phonemes are classified across three dimensions: place of articulation, manner of articulation, and voicing. Each phoneme is assigned a symbol in X-SAMPA and IPA format.
+A dataset containing most consonant phonemes identified by the \href{https://en.wikipedia.org/wiki/International_Phonetic_Association}{International Phonetic Association} (IPA). Phonemes are classified across three dimensions: place of articulation, manner of articulation, and voicing. Each phoneme is assigned a symbol in X-SAMPA format.
 }
 \keyword{datasets}
