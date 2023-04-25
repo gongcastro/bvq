@@ -60,7 +60,7 @@ bvq_connect <- function(google_email = NULL,
         gs4_auth_configure(api_key = Sys.getenv("GOOGLE_API_KEY", unset = NA))
         token_scope <- "https://www.googleapis.com/auth/spreadsheets.readonly"
         token <- token_fetch(token_scope)
-        gs4_auth(email = google_email, token = token)
+        gs4_auth(email = google_email, token = token, use_oob = TRUE)
 
         # tryCatch(
         #     suppressWarnings(gs4_auth(email = google_email,
