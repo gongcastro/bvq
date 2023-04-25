@@ -20,7 +20,7 @@
 #'   data into. Vocabulary metrics will be calculated by aggregating responses
 #'   within the groups that result from the combination of crossing of the
 #'   variables provided in `.by`. This variables can refer to item properties
-#'   (see [bvqdev::pool], e.g., `"category"`) or to participant properties (see
+#'   (see [bvq::pool], e.g., `"category"`) or to participant properties (see
 #'   [bvq_logs()], e.g., `"dominance"`).
 #' @param .scale A character vector that takes the value `"count"` and/or
 #'   `"prop"`. If `"prop"` (default), vocabulary metrics are calculated as
