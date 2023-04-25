@@ -58,8 +58,10 @@ bvq_connect <- function(google_email = NULL,
     if (!gs4_has_token()) {
         options(gargle_oauth_email = google_email)
         gs4_auth_configure(api_key = Sys.getenv("GOOGLE_API_KEY", unset = NA))
+        gs4_deauth()
         token_scope <- "https://www.googleapis.com/auth/spreadsheets.readonly"
-        token <- token_fetch(token_scope)
+        token <- token_fetch(token_scope,
+                             email = google_email)
         gs4_auth(email = google_email,
                  token = token, 
                  use_oob = TRUE, 
