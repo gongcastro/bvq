@@ -21,6 +21,7 @@ Imports:
     cli,
     dplyr (>= 1.0.0),
     formr (>= 0.9.1),
+    gargle,
     googlesheets4,
     janitor,
     lifecycle,
