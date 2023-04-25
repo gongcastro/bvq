@@ -25,3 +25,4 @@
 ^.covrignore$
 codecov.exe
 ^inst/utils$
+^\.secrets$
