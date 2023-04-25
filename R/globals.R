@@ -1,4 +1,4 @@
-globalVariables(unique(c(
+utils::globalVariables(unique(c(
     # bvq_logs: 
     "code",
     "date_started",

@@ -15,9 +15,9 @@ that have participated or are candidates to participate in any of the
 versions of BVQ Each row corresponds to a questionnaire response and each
 column represents a variable. The output includes the following variables:
 \itemize{
-\item id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.
+\item id: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància (https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.
+\item id_bvq: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same \code{id_bvq}.
 \item id_exp: a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share \code{id_exp}. The same participant may have different \code{id_exp} across different studies.
-\item id_db: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància (https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{id_db}.
 \item code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 \item time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
 \item date_birth: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating participants birth date.
@@ -41,7 +41,6 @@ still to be sent the questionnaire, \code{reminded} (a week has elapsed since
 the participant was sent the questionnaire, and has been already reminded
 of it), or \code{stop} (participant has not completed the questionnaire after
 two weeks since they were sent the questionnaire).
-\item comments: a character string indicating useful information for database management.
 }
 }
 \description{

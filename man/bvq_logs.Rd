@@ -35,9 +35,7 @@ participant-level information. Each row corresponds to a questionnaire
 response and each column represents a variable. The output includes the
 following variables:
 \itemize{
-\item id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.
-\item id_exp: a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share \code{id_exp} The same participant may have different \code{id_exp} across different studies.
-\item id_db: a character string with five digits indicating a participant's identifier in the database from the \href{https://www.upf.edu/web/cbclab}{Laboratori de Recerca en Infància} at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{id_db}.
+\item id: a character string with five digits indicating a participant's identifier in the database from the \href{https://www.upf.edu/web/cbclab}{Laboratori de Recerca en Infància} at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.
 \item code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 \item time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
 \item study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
@@ -55,7 +53,6 @@ following variables:
 \item doe_spanish: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish, as estimated by parents/caregivers. This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
 \item doe_catalan: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan, as estimated by parents/caregivers. This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Mallorca or Barcelona).
 \item doe_others: a numeric value ranging from 0 to 1 indicating participants' daily exposure to languages other than Spanish or Catalan, as estimated by parents/caregivers, aggregating participants' exposure to all those other languages (e.g., Norwegian, Arab, Swahili).
-\item progress: a numeric value ranging from 0 to 1 indicating participants' progress filling the questionnaire. A value of \code{0} indicates that the participant has not filled in any item yet. A value of \code{0.5} indicates that the participant is halfway through the questionnaire. A value of \code{1} indicates that the participant has completed all items.
 \item completed: a logical value that returns \code{TRUE} if \code{progress} is 1, and \code{FALSE} otherwise.
 }
 }

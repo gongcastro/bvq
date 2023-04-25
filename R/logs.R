@@ -29,9 +29,7 @@
 #'   participant-level information. Each row corresponds to a questionnaire
 #'   response and each column represents a variable. The output includes the
 #'   following variables:
-#' * id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
-#' * id_exp: a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share `id_exp` The same participant may have different `id_exp` across different studies.
-#' * id_db: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància](https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same `id_db`.
+#' * id: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància](https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
 #' * code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 #' * time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
 #' * study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
@@ -49,7 +47,6 @@
 #' * doe_spanish: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish, as estimated by parents/caregivers. This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
 #' * doe_catalan: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan, as estimated by parents/caregivers. This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Mallorca or Barcelona).
 #' * doe_others: a numeric value ranging from 0 to 1 indicating participants' daily exposure to languages other than Spanish or Catalan, as estimated by parents/caregivers, aggregating participants' exposure to all those other languages (e.g., Norwegian, Arab, Swahili).
-#' * progress: a numeric value ranging from 0 to 1 indicating participants' progress filling the questionnaire. A value of `0` indicates that the participant has not filled in any item yet. A value of `0.5` indicates that the participant is halfway through the questionnaire. A value of `1` indicates that the participant has completed all items.
 #' * completed: a logical value that returns `TRUE` if `progress` is 1, and `FALSE` otherwise.
 #' 
 #' @author Gonzalo Garcia-Castro
@@ -68,7 +65,7 @@ bvq_logs <- function(participants,
             summarise(total_items = sum(n), 
                       .by = version)
         
-        grouping_vars <- c("id_db", "date_birth", "time",
+        grouping_vars <- c("id", "date_birth", "time",
                            "edu_parent1", "edu_parent2",
                            "date_birth", "date_started", "date_finished", 
                            "doe_spanish", "doe_catalan",
@@ -79,8 +76,7 @@ bvq_logs <- function(participants,
                   "date_birth", "date_started", "date_finished", 
                   "duration", "dominance", "lp", 
                   "edu_parent1", "edu_parent2",
-                  "doe_spanish", "doe_catalan", "doe_others",
-                  "progress", "completed")
+                  "doe_spanish", "doe_catalan", "doe_others", "completed")
         
         # generate logs
         logs <- responses %>%
@@ -90,7 +86,7 @@ bvq_logs <- function(participants,
             left_join(total_items,
                       by = join_by(version)) %>%
             left_join(select(participants, -c(date_birth, version)),
-                      by = join_by(id_db, time, code, study)) %>%
+                      by = join_by(id, time, code, study)) %>%
             drop_na(id) %>%
             mutate(
                 # define language profiles based on thresholds
@@ -111,7 +107,7 @@ bvq_logs <- function(participants,
                    completed = progress >= 0.95) %>%
             ungroup() %>%
             # select relevant columns and reorder them
-            select(starts_with("id"), one_of(vars), ) %>%
+            select(id, one_of(vars)) %>%
             arrange(desc(date_finished))
     })
     
