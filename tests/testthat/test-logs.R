@@ -4,8 +4,6 @@ test_that("columns are the right classes", {
     logs <- bvq_logs(participants, responses)
     
     expect_true(is.character(logs$id))
-    expect_true(is.character(logs$id_exp))
-    expect_true(is.character(logs$id_db))
     expect_true(is.character(logs$code))
     expect_true(is.numeric(logs$time))
     expect_true(is.character(logs$study))
@@ -22,7 +20,6 @@ test_that("columns are the right classes", {
     expect_true(is.numeric(logs$doe_spanish))
     expect_true(is.numeric(logs$doe_catalan))
     expect_true(is.numeric(logs$doe_others))
-    expect_true(is.numeric(logs$progress))
     expect_true(is.logical(logs$completed))
 })
 
@@ -58,8 +55,6 @@ test_that("missing values are only where expected", {
     logs <- bvq_logs(participants, responses)
     
     expect_false(any(is.na(logs$id)))
-    expect_false(any(is.na(logs$id_exp)))
-    expect_false(any(is.na(logs$id_db)))
     expect_false(any(is.na(logs$time)))
     expect_false(any(is.na(logs$study)))
     expect_false(any(is.na(logs$version)))

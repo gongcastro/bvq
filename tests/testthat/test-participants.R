@@ -3,7 +3,7 @@ test_that("bvq_participants columns are the right classes", {
     
     expect_true(is.character(participants$id))
     expect_true(is.character(participants$id_exp))
-    expect_true(is.character(participants$id_db))
+    expect_true(is.character(participants$id_bvq))
     expect_true(is.character(participants$code))
     expect_true(is.numeric(participants$time))
     expect_true(lubridate::is.Date(participants$date_birth))
@@ -14,7 +14,6 @@ test_that("bvq_participants columns are the right classes", {
     expect_true(lubridate::is.Date(participants$date_test))
     expect_true(lubridate::is.Date(participants$date_sent))
     expect_true(is.character(participants$call))
-    expect_true(is.character(participants$comments))
 })
 
 test_that("participants and times are not duplicated", {

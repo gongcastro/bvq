@@ -17,9 +17,9 @@
 #'   that have participated or are candidates to participate in any of the
 #'   versions of BVQ Each row corresponds to a questionnaire response and each
 #'   column represents a variable. The output includes the following variables:
-#' * id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
+#' * id: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància (https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
+#' * id_bvq: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same `id_bvq`.
 #' * id_exp: a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share `id_exp`. The same participant may have different `id_exp` across different studies.
-#' * id_db: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància (https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same `id_db`.
 #' * code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 #' * time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
 #' * date_birth: a date value (see lubridate package) in `yyyy/mm/dd` format indicating participants birth date.
@@ -43,7 +43,6 @@
 #'   the participant was sent the questionnaire, and has been already reminded
 #'   of it), or `stop` (participant has not completed the questionnaire after
 #'   two weeks since they were sent the questionnaire).
-#' * comments: a character string indicating useful information for database management.
 #'
 #' @author Gonzalo Garcia-Castro
 #' @md
@@ -55,10 +54,13 @@ bvq_participants <- function(...) {
         ss <- "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo"
         participants <- read_sheet(ss, sheet = "Participants") %>% 
             drop_na(code) %>%
-            mutate(across(c(date_birth, date_test, date_sent), as_date)) %>% 
-            select(-link) %>%
+            mutate(across(c(date_birth, date_test, date_sent), as_date),
+                   across(include, as.logical)) %>% 
+            filter(include) %>% 
+            select(-c(link, comments, include)) %>%
             arrange(desc(as.numeric(gsub("BL", "", code))))
     })
+    
     # make sure no columns are lists (probably due to inconsistent cell types)
     if (any(map_lgl(participants, is.list))) {
         col <- names(which(map_lgl(participants, is.list)))

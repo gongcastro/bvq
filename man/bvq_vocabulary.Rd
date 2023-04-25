@@ -15,7 +15,7 @@ bvq_vocabulary(participants, responses, .by = NULL, .scale = "prop", ...)
 data into. Vocabulary metrics will be calculated by aggregating responses
 within the groups that result from the combination of crossing of the
 variables provided in \code{.by}. This variables can refer to item properties
-(see \link[bvqdev:pool]{bvqdev::pool}, e.g., \code{"category"}) or to participant properties (see
+(see \link{pool}, e.g., \code{"category"}) or to participant properties (see
 \code{\link[=bvq_logs]{bvq_logs()}}, e.g., \code{"dominance"}).}
 
 \item{.scale}{A character vector that takes the value \code{"count"} and/or
@@ -31,7 +31,7 @@ A dataset (actually, a \link[tibble:tibble]{tibble::tibble} with each participan
 comprehensive and/or vocabulary size in each language. This data frame
 contains the following variables:
 \itemize{
-\item id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.
+\item id: a character string with five digits indicating a participant's identifier in the database from the \href{https://www.upf.edu/web/cbclab}{Laboratori de Recerca en Infància} at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.
 \item time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
 \item age: a numeric value indicating the number of months elapsed since participants' birth date until they filled in the last item of their questionnaire response.
 \item type: a character string indicating the vocabulary type computed: \code{"understands"} if option "Understands" was selected, and \code{"produces"} if option "Understands & Says" was selected.

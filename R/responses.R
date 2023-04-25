@@ -28,9 +28,7 @@
 #' @returns A data frame (actually, a [tibble::tibble] containing participant's
 #'   responses to each item, along with some session-specific metadata. The
 #'   output includes the following variables:
-#' * id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
-#' * id_exp: a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share `id_exp`. The same participant may have different `id_exp` across different studies.
-#' * id_db: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància](https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same `id_db`.
+#' * id: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància](https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
 #' * time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
 #' * code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 #' * study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
@@ -66,6 +64,9 @@ bvq_responses <- function(participants = NULL,
     
     # merge data
     suppressMessages({
+        
+        cbc_studies <- c("CBC", "Signs", "Negation", "Inhibition")
+        
         responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
             bind_rows() %>%
             distinct(id, code, item, .keep_all = TRUE) %>%  
@@ -73,7 +74,7 @@ bvq_responses <- function(participants = NULL,
                    date_finished = coalesce(time_stamp, date_finished),
                    version = case_when(
                        study %in% "DevLex" ~ "DevLex",
-                       study %in% c("CBC", "Signs", "Negation", "Inhibition") ~ "CBC",
+                       study %in% cbc_studies ~ "CBC",
                        .default = version
                    ),
                    time = ifelse(is.na(time), 1, time),
@@ -88,7 +89,7 @@ bvq_responses <- function(participants = NULL,
             drop_na(date_finished) %>%
             get_longitudinal(longitudinal = longitudinal) %>%
             arrange(desc(date_finished)) %>% 
-            select(starts_with("id"), time, code, study,
+            select(id, time, code, study,
                    version, randomisation,
                    starts_with("date_"),
                    item, response, sex, starts_with("doe_"),

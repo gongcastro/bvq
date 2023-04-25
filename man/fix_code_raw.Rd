@@ -7,8 +7,7 @@
 fix_code_raw(x)
 }
 \arguments{
-\item{x}{Vector of \code{code} whose values should be fixed, based on
-\code{session}ç}
+\item{x}{Vector of \code{code} whose values should be fixed, based on \code{session}.}
 }
 \description{
 Fix raw codes

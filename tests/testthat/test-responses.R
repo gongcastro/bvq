@@ -2,8 +2,6 @@ test_that("columns are the right classes", {
     responses <- readRDS(test_path("fixtures", "responses.rds"))
     
     expect_true(is.character(responses$id))
-    expect_true(is.character(responses$id_exp))
-    expect_true(is.character(responses$id_db))
     expect_true(is.numeric(responses$time))
     expect_true(is.character(responses$code))
     expect_true(is.character(responses$study))
@@ -33,6 +31,7 @@ test_that("all participants have at least one non-missing response", {
         group_by(id, time) %>%
         summarise(not_missing = sum(!is.na(response)), .groups = "drop") %>%
         pull(not_missing)
+    
     expect_false(all(non_missing_responses))
 })
 

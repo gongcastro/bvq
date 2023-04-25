@@ -79,14 +79,14 @@ fix_code <- function(x) {
               "BLBL" = "BL")
         )
     x <- ifelse(!grepl("BL", x), paste0("BL", x), x)
+    
     return(x)
 }
 
 
 #' Fix raw codes
 #'
-#' @param x Vector of `code` whose values should be fixed, based on
-#'   `session`ç
+#' @param x Vector of `code` whose values should be fixed, based on `session`.
 #' @author Gonzalo Garcia-Castro
 fix_code_raw <- function(x) {
     x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "code"] <- "BL1674"
@@ -111,16 +111,16 @@ fix_doe <- function(x) {
     x %>%
         mutate(
             doe_catalan = case_when(
-                id_db == "54469" & time == 2 ~ 0,
-                id_db == "57157" & time == 1 ~ 80,
-                id_db == "57046" & time == 1 ~ 50,
+                id == "54469" & time == 2 ~ 0,
+                id == "57157" & time == 1 ~ 80,
+                id == "57046" & time == 1 ~ 50,
                 code == "BL1582" ~ 30,
                 code == "BL1295" ~ 10,
                 code == "BL1252" ~ 90,
                 .default = doe_catalan
             ),
             doe_spanish = case_when(
-                id_db == "57046" & time == 1 ~ 50,
+                id == "57046" & time == 1 ~ 50,
                 code == "BL896" ~ 75,
                 .default = doe_spanish
             ),
@@ -141,14 +141,14 @@ fix_doe <- function(x) {
 #' @author Gonzalo Garcia-Castro
 fix_sex <- function(x) {
     
-    x$sex <- ifelse(x$id %in% c("bilexicon_1097", 
-                                "bilexicon_1441", 
-                                "bilexicon_1124",
-                                "bilexicon_1448"),
+    x$sex <- ifelse(x$id_bvq %in% c("bilexicon_1097", 
+                                    "bilexicon_1441", 
+                                    "bilexicon_1124",
+                                    "bilexicon_1448"),
                     "Female",
                     x$sex)
     
-    x$sex <- ifelse(x$id %in% c("bilexicon_1447"), "Male", x$sex)
+    x$sex <- ifelse(x$id_bvq %in% c("bilexicon_1447"), "Male", x$sex)
     
     return(x)
 }
@@ -158,10 +158,12 @@ fix_sex <- function(x) {
 #' @param x Vector of `postcode` whose values should be fixed
 #' @author Gonzalo Garcia-Castro
 fix_postcode <- function(x) {
+    
     pcd <- x$postcode
     pcd <- ifelse(nchar(pcd) < 5, paste0("0", pcd), pcd)
     pcd <- ifelse(nchar(pcd) < 5, NA_character_, pcd)
     x$postcode <- pcd
+    
     return(x)
 }
 
@@ -269,3 +271,5 @@ get_longitudinal <- function(x, longitudinal = "all") {
     
     return(x)
 }
+
+
