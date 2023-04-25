@@ -60,6 +60,7 @@ bvq_connect <- function(google_email = NULL,
     if (!is_key_google) {
         
         gs4_auth(email = google_email,
+                 use_oob = TRUE,
                  token = Sys.getenv("GOOGLE_TOKEN", unset = NA))
 
         # tryCatch(
