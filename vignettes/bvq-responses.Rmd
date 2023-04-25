@@ -24,9 +24,6 @@ The function `bvq_responses()` retrieves participants' responses to the Barcelon
 
 ```{r responses, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 # connect to the formr API
-cat(paste0("GOOGLE_TOKEN: ", !is.na(Sys.getenv("GOOGLE_TOKEN", unset = NA))))
-cat(paste0("FORMR_PWD: ", !is.na(Sys.getenv("FORMR_PWD", unset = NA))))
-
 bvq_connect()
 
 responses <- bvq_responses() 
