@@ -81,7 +81,7 @@ items filled by the participant in the response <code>vocab_n</code>).</p>
 data into. Vocabulary metrics will be calculated by aggregating responses
 within the groups that result from the combination of crossing of the
 variables provided in <code>.by</code>. This variables can refer to item properties
-(see bvqdev::pool, e.g., <code>"category"</code>) or to participant properties (see
+(see <a href="pool.html">pool</a>, e.g., <code>"category"</code>) or to participant properties (see
 <code><a href="bvq_logs.html">bvq_logs()</a></code>, e.g., <code>"dominance"</code>).</p></dd>
 
 
@@ -103,7 +103,7 @@ function.</p></dd>
 
 <p>A dataset (actually, a <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble</a> with each participant's
 comprehensive and/or vocabulary size in each language. This data frame
-contains the following variables:</p><ul><li><p>id: a character string indicating a participant's identifier. This value is always the same for each participant, so that different responses from the same participant share the same <code>id</code>.</p></li>
+contains the following variables:</p><ul><li><p>id: a character string with five digits indicating a participant's identifier in the database from the <a href="https://www.upf.edu/web/cbclab" class="external-link">Laboratori de Recerca en Infància</a> at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same <code>id</code>.</p></li>
 <li><p>time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.</p></li>
 <li><p>age: a numeric value indicating the number of months elapsed since participants' birth date until they filled in the last item of their questionnaire response.</p></li>
 <li><p>type: a character string indicating the vocabulary type computed: <code>"understands"</code> if option "Understands" was selected, and <code>"produces"</code> if option "Understands &amp; Says" was selected.</p></li>
