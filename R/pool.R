@@ -15,7 +15,7 @@
 #' * is_multiword: an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item `"spa_cepillodientes"` was shown as `"cepillo de dientes"` in the questionnaire, which includes three words.
 #' * subtlex_lemma: word label, as included in the corresponding version.
 #'   of SUBTLEX.
-#' * wordbank_lemma: word label, as indexed in Worbank.
+#' * wordbank_lemma: word label, as indexed in Wordbank.
 #' * childes_lemma: word label, as it appears in the CHILDES English
 #'   corpora (based on `wordbank_lemma`).
 #' * semantic_category: semantic/functional category the items belongs to.
