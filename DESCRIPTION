@@ -39,7 +39,6 @@ Imports:
     lubridate,
     magrittr,
     rlang,
-    stringr,
     tibble,
     tidyr
 Suggests: 

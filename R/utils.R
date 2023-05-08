@@ -64,20 +64,13 @@ fix_version <- function(x) {
 
 #' Fix codes
 #' 
-#' @importFrom stringr str_replace_all
-#' @importFrom stringr str_remove_all
 #' @param x Vector of `code` whose values should be fixed.
 #' @author Gonzalo Garcia-Castro
 fix_code <- function(x) {
     x <- toupper(trimws(x))
-    x <- x %>%
-        str_remove_all(".*BL") %>%
-        str_replace_all(
-            c("O" = "0",
-              "l" = "L",
-              "I" = "L",
-              "BLBL" = "BL")
-        )
+    x <- gsub(".*BL", "", x) 
+    x <- gsub("O", "0", x)
+    x <- gsub("I", "L", x)
     x <- ifelse(!grepl("BL", x), paste0("BL", x), x)
     
     return(x)

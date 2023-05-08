@@ -10,7 +10,6 @@
 #' @importFrom lubridate as_date
 #' @importFrom formr formr_connect
 #' @importFrom stats time
-#' @importFrom stringr str_pad
 #' 
 #' @export bvq_responses
 #' 
@@ -82,7 +81,8 @@ bvq_responses <- function(participants = NULL,
             ) %>%
             fix_item() %>%
             fix_doe() %>%
-            mutate(across(starts_with("doe_"), function(x) x / 100)) %>%
+            mutate(across(starts_with("doe_"), 
+                          function(x) x / 100)) %>%
             fix_sex() %>%
             fix_study() %>%
             fix_id_exp() %>%
@@ -92,7 +92,8 @@ bvq_responses <- function(participants = NULL,
             select(id, time, code, study,
                    version, randomisation,
                    starts_with("date_"),
-                   item, response, sex, starts_with("doe_"),
+                   item, response, sex,
+                   starts_with("doe_"),
                    starts_with("edu_"))
     })
     
