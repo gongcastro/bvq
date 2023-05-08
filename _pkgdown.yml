@@ -7,7 +7,7 @@ template:
     bg: "white"
     fg: "black"
     primary: "#003f5c"
-    base_font: {google: "Righteous"}
+    base_font: {google: "Roboto Slab"}
     heading_font: {google: "Roboto Slab"}
     code_font: {google: "JetBrains Mono"}
     
