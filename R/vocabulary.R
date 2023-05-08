@@ -60,18 +60,19 @@ bvq_vocabulary <- function(participants,
             cli_abort("Argument .scale must be 'count' and/or 'prop'")
         }
         
-        # check if all .by are colnames
-        is_by_colname <- .by %in% c(colnames(participants), colnames(responses))
-        if (!all(is_by_colname)) {
-            which_missing <- .by[which(is_by_colname)]
-            cli_msg <- "`.by` contains element {which_missing}, which is not
-                        a variable in `participants` or `responses`"
-            cli_abort(cli_msg)
-        }
-        
         # get logs
         logs <- bvq_logs(participants, responses) %>%
             filter(id %in% unique(responses$id)) 
+        
+        # check if all .by are colnames
+        possible_colnames <- unlist(map(list(responses, logs, pool), colnames))
+        is_by_colname <- .by %in% possible_colnames
+        if (!all(is_by_colname)) {
+            which_missing <- .by[which(is_by_colname)]
+            cli_msg <- "`.by` contains element {which_missing}, which is not
+                        a variable in `logs`, `pool`, or `responses`"
+            cli_abort(cli_msg)
+        }
         
         # get main dataset
         vocab_base <- responses %>%
@@ -129,7 +130,7 @@ bvq_vocabulary <- function(participants,
             filter(response) %>% 
             left_join(n_total, 
                       multiple = "all", 
-                      by = join_by(id, time)) %>%
+                      by = join_by(id, time, !!!.by)) %>%
             pivot_wider(names_from = item_dominance,
                         values_from = response,
                         values_fn = sum,
@@ -146,7 +147,7 @@ bvq_vocabulary <- function(participants,
             mutate(concept_count = as.integer(concept_count),
                    concept_prop = ifelse(n_total==0, 0, concept_count/n_total)) %>%
             select(id, time, type, concept_count, concept_prop, any_of(.by))
-
+        
         # TE vocabulary
         vocab_te <- vocab_by_te_base %>%
             mutate(across(c(L1, L2), function(x) x > 0),
@@ -158,7 +159,7 @@ bvq_vocabulary <- function(participants,
             mutate(te_count = as.integer(te_count),
                    te_prop = ifelse(n_total==0, 0, te_count/n_total)) %>%
             select(id, time, type, te_count, te_prop, any_of(.by))
-            
+        
         
         # merge all datasets
         which_col_not <- c("count", "prop")[which(!(c("count", "prop") %in% .scale))]
@@ -166,7 +167,7 @@ bvq_vocabulary <- function(participants,
         vocabulary <- list(vocab_total, vocab_total_dominance, vocab_conceptual, vocab_te) %>% 
             reduce(left_join,
                    multiple = "all", 
-                   by = join_by(id, time, type)) %>%
+                   by = join_by(id, time, type, !!!.by)) %>%
             mutate(across(matches("concept|te"), 
                           function(x) ifelse(is.na(x), as.integer(0), x))) %>%
             select(any_of(c("id", "time", "age", "type", .by)), matches(.scale)) %>%
