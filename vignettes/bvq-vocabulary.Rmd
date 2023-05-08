@@ -17,12 +17,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 The `bvq_vocabulary()` function allows to extract vocabulary sizes for individual responses to any of the questionnaires. It takes the output of the `bvq_responses()` function as an argument, and returns several measures of vocabulary size base on such dataset.
 
 To compute vocabulary size, we first need to run `bvq_responses()` (although it this argument is not provided, `bvq_responses()` is run under the hood):
 
-```{r responses, echo=TRUE, eval = FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(bvq)
+
 participants <- bvq_participants()
 responses <- bvq_responses(participants = participants)
 
@@ -52,14 +53,14 @@ Vocabulary sizes are, by default, computed in two different scales:
 
 The scale returned by `bvq_vocabulary()` can be modified with the `.scale` argument, which takes `"prop"` for proportions (default), and `"count"` for counts. Both can be computed using `.scale = c("prop", "count")`. For instance we can get vocabulary sizes as proportions running:
 
-```{r}
+```{r props, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 bvq_vocabulary(participants, responses, .scale = "prop")
 ```
 
 
 To get vocabulary sizes as counts, we can run this instead:
 
-```{r}
+```{r counts, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 bvq_vocabulary(participants, responses, .scale = "count")
 ```
 
