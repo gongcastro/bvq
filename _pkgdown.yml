@@ -15,7 +15,7 @@ lang: en
 
 navbar:
   structure:
-    left:  [intro, reference, articles, news]
+    left:  [intro, reference, vignettes, news]
     right: [search, github]
   components:
     articles:
