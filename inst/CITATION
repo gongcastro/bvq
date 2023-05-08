@@ -1,13 +1,26 @@
-citHeader("To cite bvqdev in publications use:")
+citHeader("To cite bvq in publications use:")
 
 citEntry(
   entry    = "Manual",
-  title    = "bvq: A R package for retrieving vocabualry data from the Barcelona Vocabulary Questionnaire (BVQ)",
-  author   = personList(as.person("Gonzalo Garcia-Castro")),
+  title    = "bvq: Barcelona Vocabulary Questionnaire Database and Helper Functions",
+  author   = personList(c(
+    person(given = "Gonzalo", family = "Garcia-Castro", 
+           email = "gongarciacastro@gmail.com",
+           role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0002-8553-4209")),
+    person(given = "Daniela S. ", family = "Ávila-Varela",
+           email = "avila.varela.daniela@gmail.com", 
+           role = "aut",
+           comment = c(ORCID = "0000-0002-3518-8117")),
+    person(given = "Nuria", 
+           family = "Sebastian-Galles", 
+           email = "nuria.sebastian@upf.edu", 
+           role = "ctb",
+           comment = c(ORCID = "0000-0001-6938-2498")))),
   year     = "2023",
-  snote     = "R package version 1.0.1",
+  snote     = "R package version 0.3.0",
   url      = "https://gongcastro.github.io/bvq",
    textVersion = paste(
-       "G. Garcia-Castro (2023). bvq: A R package for retrieving vocabualry data from the Barcelona Vocabulary Questionnaire (BVQ). https://gongcastro.github.io/bvq"
+       "G. Garcia-Castro, D. S. Ávila-Varela, N. Sebastian-Galles (2023). bvq: Barcelona Vocabulary Questionnaire Database and Helper Functions. https://gongcastro.github.io/bvq"
   )
 )

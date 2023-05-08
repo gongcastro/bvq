@@ -1,8 +1,8 @@
 ---
-title: "Vocabulary sizes: `bvq_vocabulary()`"
+title: "Vocabulary sizes"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vocabulary sizes: `bvq_vocabulary()`}
+  %\VignetteIndexEntry{Vocabulary sizes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,11 +16,12 @@ knitr::opts_chunk$set(
 
 The `bvq_vocabulary()` function allows to extract vocabulary sizes for individual responses to any of the questionnaires. It takes the output of the `bvq_responses()` function as an argument, and returns several measures of vocabulary size base on such dataset.
 
-To compute vocabulary size, we first need to run `bvq_responses()` (although it this argument is not provided, `bvq_responses()` is run under the hood):
+To compute vocabulary size, we first need to run `bvq_responses()` (although if this argument is not provided, `bvq_responses()` is run under the hood):
 
 ```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 library(bvq)
 
+# vocabularies will be computed from these datasets
 participants <- bvq_participants()
 responses <- bvq_responses(participants = participants)
 

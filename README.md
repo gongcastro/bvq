@@ -19,7 +19,7 @@ This package also contains multiple functions that extract the data and generate
 From [r-universe](https://gongcastro.r-universe.dev/bvq) :rocket::
 
 ```r
-install.packages('bvq', repos = c('https://gongcastro.r-universe.dev',  'https://cloud.r-project.org'))
+install.packages('bvq', repos = 'https://gongcastro.r-universe.dev')
 ```
 
 From the GitHub repository:
