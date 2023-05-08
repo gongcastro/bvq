@@ -2,7 +2,7 @@
 title: "Connecting to the database: `bvq_connect()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{connect}
+  %\VignetteIndexEntry{Connecting to the database: `bvq_connect()`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

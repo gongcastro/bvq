@@ -33,3 +33,5 @@ docs
 inst/*.rds
 inst/doc
 .secrets
+/doc/
+/Meta/

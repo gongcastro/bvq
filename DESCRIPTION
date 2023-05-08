@@ -48,9 +48,11 @@ Suggests:
     rmarkdown,
     roxygen2,
     testthat (>= 3.0.0),
+    ggplot2 (>= 3.4.2),
     withr
 VignetteBuilder: 
-    knitr
+    knitr,
+    ggplot2
 Remotes: 
     github::rubenarslan/formr
 Config/testthat/edition: 3

@@ -2,14 +2,13 @@
 title: "Vocabulary sizes: `bvq_vocabulary()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vocabulary sizes: bvq_vocabulary}
+  %\VignetteIndexEntry{Vocabulary sizes: `bvq_vocabulary()`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-    purl = NOT_CRAN,
     collapse = TRUE,
     comment = "#>"
 )

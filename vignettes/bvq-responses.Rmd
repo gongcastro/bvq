@@ -2,7 +2,7 @@
 title: "Retrieving raw responses: `bvq_responses()` and bvq_logs()"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{bvq-responses}
+  %\VignetteIndexEntry{Retrieving raw responses: `bvq_responses()` and bvq_logs()}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
