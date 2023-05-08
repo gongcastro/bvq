@@ -57,30 +57,20 @@ bvq_connect <- function(google_email = NULL,
     
     # check if Google credentials exists, ask for them if not
     if (!gs4_has_token()) {
-        options(gargle_oauth_email = google_email)
-        gs4_auth_configure(api_key = Sys.getenv("GOOGLE_API_KEY", unset = NA))
-        gs4_deauth()
-        token_scope <- "https://www.googleapis.com/auth/spreadsheets.readonly"
-        token <- token_fetch(token_scope,
-                             email = google_email)
-        gs4_auth(email = google_email,
-                 token = token, 
-                 use_oob = TRUE, 
-                 scopes = token_scope)
 
-        # tryCatch(
-        #     suppressWarnings(gs4_auth(email = google_email,
-        #                               token = Sys.getenv("GOOGLE_TOKEN", unset = NA))), 
-        #     error = function(e){
-        #         cli_abort(
-        #             strwrap(
-        #                 prefix = " ",
-        #                 initial = "",
-        #                 "Could not connect to Google. Please check your internet connection or grant the necessary permissions."
-        #             )
-        #         )
-        #     }
-        # )
+        tryCatch(
+            suppressWarnings(gs4_auth(email = google_email,
+                                      token = Sys.getenv("GOOGLE_TOKEN", unset = NA))),
+            error = function(e){
+                cli_abort(
+                    strwrap(
+                        prefix = " ",
+                        initial = "",
+                        "Could not connect to Google. Please check your internet connection or grant the necessary permissions."
+                    )
+                )
+            }
+        )
     }
     
     invisible(gs4_has_token())

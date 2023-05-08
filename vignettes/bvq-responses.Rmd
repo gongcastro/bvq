@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
 library(bvq)
 library(tidyr)
 library(dplyr)
@@ -22,10 +22,7 @@ library(dplyr)
 
 The function `bvq_responses()` retrieves participants' responses to the Barcelona Vocabulary Questionnaire (BVQ) using the [formr API](https://formr.org/documentation), and returns them along participant- and item-level information. This function returns a tidy data frame in which each row is one participant's response to an individual item. 
 
-```{r responses, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-# connect to the formr API
-bvq_connect()
-
+```{r responses, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 responses <- bvq_responses() 
 
 # select relevant variables
@@ -34,17 +31,29 @@ responses %>%
     drop_na(response) # drop unanswered items
 ```
 
+```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+responses <- readRDS(file.path("fixtures", "responses.rds"))
+participants <- readRDS(file.path("fixtures", "participants.rds"))
+
+(responses)
+```
 
 This dataset is the base for many analyses of interest, like participants' vocabulary size, word prevalence, or modelling item-level probability of acquisition. This package offers several functions to do this (e.g., `bvq_vocabulary()`, `bvq_norms()`), but one could already do this from this dataset.
 
 Additional participant-level properties like language profile variables can be extracted using the `bvq_logs()` function.
 
-```{r logs}
+```{r logs, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 logs <- bvq_logs(responses = responses)
 
 logs %>% 
     select(id, time, age, lp, 
            starts_with("doe_"))
+```
+
+```{r load-logs, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+logs <- readRDS(file.path("fixtures", "logs.rds"))
+
+(logs)
 ```
 
 Item-level properties can be consulted in the `pool` dataset (See ?pool):
@@ -57,7 +66,7 @@ pool
 
 Several participants have filled the questionnaire more than once. All questionnaire responses included in any dataset returned by any function in BVQ have an associated `time` value. This variable indexes how many times that specific participant has filled the questionnaire (any version), including their last response. This allows to track each participant's responses across time and perform longitudinal analyses.
 
-By default, `bvq_responses()` retrieves all responses. This behaviour can be changed using the `longitudinal` argument. This argument takes one of the following character strings:
+By default, `bvq_responses()` retrieves all responses. Using `get_longitudinal()`, we can filter what cases we want to keep. The argument `longitudinal ` takes one of the following character strings:
 
 * `"all"`: all responses are returned
 * `"no"`: participants with more than one response to the questionnaire (any version) are excluded from the output
@@ -68,17 +77,11 @@ By default, `bvq_responses()` retrieves all responses. This behaviour can be cha
 Setting `longitudinal = "only"` is especially useful to perform repeated measures analyses. For example:
 
 ```{r responses-longitudinal, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-bvq_responses(longitudinal = "only") %>% 
+responses %>% 
+    get_longitudinal("only") %>% 
     select(id, time, item, response, randomisation,
            starts_with("date_")) %>% 
     drop_na(response)
-```
-
-We can also apply the `get_longitudinal()` function on the outcome of `bvq_responses()` to do the same:
-
-```{r responses-longitudinal-fun, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-responses %>% 
-    get_longitudinal("only")
 ```
 
 ### Please note

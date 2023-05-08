@@ -1,9 +1,20 @@
 Package: bvq
 Title: Barcelona Vocabulary Questionnaire Database and Helper Functions
 Version: 0.2.0
-Authors@R: 
-    person("Gonzalo", "Garcia-Castro", , "gonzalo.garciadecastro@upf.edu", role = "cre",
-           comment = c(ORCID = "0000-0002-8553-4209"))
+Authors@R: c(
+    person(given = "Gonzalo", family = "Garcia-Castro", 
+           email = "gongarciacastro@gmail.com",
+           role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0002-8553-4209")),
+    person(given = "Daniela S. ", family = "Ávila-Varela",
+           email = "avila.varela.daniela@gmail.com", 
+           role = "aut",
+           comment = c(ORCID = "0000-0002-3518-8117")),
+    person(given = "Nuria", 
+           family = "Sebastian-Galles", 
+           email = "nuria.sebastian@upf.edu", 
+           role = "ctb",
+           comment = c(ORCID = "0000-0001-6938-2498")))
 Maintainer: Gonzalo Garcia-Castro <gonzalo.garciadecastro@upf.edu>
 Description: Download, clean, and process the Barcelona Vocabulary
     Questionnaire (BVQ) data. BVQ is a vocabulary inventory developed for

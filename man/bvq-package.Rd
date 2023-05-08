@@ -20,7 +20,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Gonzalo Garcia-Castro \email{gonzalo.garciadecastro@upf.edu} (\href{https://orcid.org/0000-0002-8553-4209}{ORCID})
+\strong{Maintainer}: Gonzalo Garcia-Castro \email{gongarciacastro@gmail.com} (\href{https://orcid.org/0000-0002-8553-4209}{ORCID})
+
+Authors:
+\itemize{
+  \item Daniela S.  Ávila-Varela \email{avila.varela.daniela@gmail.com} (\href{https://orcid.org/0000-0002-3518-8117}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Nuria Sebastian-Galles \email{nuria.sebastian@upf.edu} (\href{https://orcid.org/0000-0001-6938-2498}{ORCID}) [contributor]
+}
 
 }
 \keyword{internal}
