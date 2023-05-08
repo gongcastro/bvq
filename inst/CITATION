@@ -10,6 +10,6 @@ citEntry(
   snote     = "R package version 0.2.1",
   url      = "https://gongcastro.github.io/bvq",
    textVersion = paste(
-       "G. Garcia-Castro (2023). bvq: Barcelona Vocabulary Questionnaire Database and Helper Functions. https://gongcastro.github.io/bvq"
+       "G. Garcia-Castro, D. S. Ávila-Varela, N. Sebastian-Galles (2023). bvq: Barcelona Vocabulary Questionnaire Database and Helper Functions. https://gongcastro.github.io/bvq"
   )
 )
