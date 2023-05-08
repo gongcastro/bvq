@@ -18,7 +18,7 @@ citEntry(
            role = "ctb",
            comment = c(ORCID = "0000-0001-6938-2498")))),
   year     = "2023",
-  snote     = "R package version 0.2.1",
+  snote     = "R package version 0.3.0",
   url      = "https://gongcastro.github.io/bvq",
    textVersion = paste(
        "G. Garcia-Castro, D. S. Ávila-Varela, N. Sebastian-Galles (2023). bvq: Barcelona Vocabulary Questionnaire Database and Helper Functions. https://gongcastro.github.io/bvq"

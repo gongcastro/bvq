@@ -1,3 +1,10 @@
+# bvq 0.3.0
+
+* Add vignettes for `bvq_connect()`, `bvq_responses()`, `bvq_vocabulary()`, and `bvq_norms()`
+* Fix citation
+* Fix `.by` argument in `bvq_vocabulary()`
+* Change base font in site
+
 # bvq 0.2.0
 
 * Package name changes from {bvqdev} to {bvq}

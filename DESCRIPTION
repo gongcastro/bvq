@@ -1,6 +1,6 @@
 Package: bvq
 Title: Barcelona Vocabulary Questionnaire Database and Helper Functions
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c(
     person(given = "Gonzalo", family = "Garcia-Castro", 
            email = "gongarciacastro@gmail.com",
