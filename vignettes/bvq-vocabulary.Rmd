@@ -92,30 +92,6 @@ bvq_vocabulary(participants, responses,
 ```
 
 
-With the previous dataset, we can make a plot like the following:
 
-```{r plot, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-library(ggplot2)
-
-dataset <- bvq_vocabulary(participants, responses, 
-                          .by = c("age", "lp", "class"))
-
-dataset %>% 
-    filter(lp != "Other") %>% 
-    ggplot(aes(age, total_prop, 
-               colour = interaction(lp, type, sep = " - "))) +
-    facet_wrap(~class) +
-    geom_point(size = 0.5, alpha = 1/5) +
-    geom_smooth(method = "glm", 
-                method.args = list(family = "binomial"), 
-                se = FALSE) +
-    labs(x = "Age (months)",
-         y = "Vocabulary size",
-         title = "Vocabulary size by grammatical class") +
-    scale_colour_manual(values = c("#003f5c", "#58508d", "#ff6361", "#ffa600")) +
-    theme_minimal() +
-    theme(legend.position = "top",
-          legend.title = element_blank())
-```
 
 
