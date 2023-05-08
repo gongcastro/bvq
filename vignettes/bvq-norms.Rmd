@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>"
 )
+data("pool", package = "bvq")
 ```
 
 The function `bvq_norms()` computes the proportion of children in the sample that understand or produce each item, sometimes called "word prevalence". This function returns the estimated probability of an average participant understanding or producing each word. The `bvq_norms()` function allows to condition this probability on the age, language profile or language dominance of participants, among other variables. Proportions are adjusted for zero- and one-inflation following Gelman, Hill, and Vehtari (2020).
@@ -23,10 +24,9 @@ library(bvq)
 head(pool)
 ```
 
-Let's go through an example of how to use the `bvq_norms` function for a specific set of items. 
+Let's go through an example of how to use the `bvq_norms()` function for a specific set of items. 
 
 ```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-library(bvq)
 
 # norms will be computed from these datasets
 participants <- bvq_participants()
@@ -96,11 +96,9 @@ ggplot(norms,
     scale_y_continuous(limits = c(0, 1)) +
     scale_colour_manual(values = c("#003f5c", "#ff6361")) +
     theme_minimal() +
-    theme(
-        axis.line = element_line(colour = "black"),
-        legend.position = "top",
-        panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank()
-    )
+    theme(axis.line = element_line(colour = "black"),
+          legend.position = "top",
+          panel.grid.major.x = element_blank(),
+          panel.grid.minor.x = element_blank())
 
 ```

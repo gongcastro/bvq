@@ -1,8 +1,8 @@
 ---
-title: "Connecting to the database: `bvq_connect()`"
+title: "Connecting to the database"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Connecting to the database: `bvq_connect()`}
+  %\VignetteIndexEntry{Connecting to the database}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
