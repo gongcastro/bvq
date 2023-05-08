@@ -8,6 +8,9 @@
 #' 
 #' @importFrom googlesheets4 gs4_has_token
 #' @importFrom googlesheets4 gs4_auth
+#' @importFrom googlesheets4 gs4_auth_configure
+#' @importFrom googlesheets4 gs4_deauth
+#' @importFrom gargle token_fetch
 #' @importFrom formr formr_connect
 #' @importFrom cli cli_alert_success
 #' @importFrom cli cli_abort
@@ -37,11 +40,9 @@ bvq_connect <- function(google_email = NULL,
     # if key exists, use it to log in
     tryCatch(
         suppressWarnings(
-            formr_connect(
-                email = formr_email,
+            formr_connect(email = formr_email,
                 password = password,
-                host = "https://formr.org/"
-            )
+                host = "https://formr.org/")
         ), 
         error = function(e){
             cli_abort(
@@ -55,15 +56,11 @@ bvq_connect <- function(google_email = NULL,
     )
     
     # check if Google credentials exists, ask for them if not
-    is_key_google <- gs4_has_token()
-    
-    if (!is_key_google) {
-        
-        google_token <- Sys.getenv("GOOGLE_TOKEN", unset = NA)
-        
+    if (!gs4_has_token()) {
+
         tryCatch(
             suppressWarnings(gs4_auth(email = google_email,
-                                      token = google_token)), 
+                                      token = Sys.getenv("GOOGLE_TOKEN", unset = NA))),
             error = function(e){
                 cli_abort(
                     strwrap(

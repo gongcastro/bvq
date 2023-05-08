@@ -1,0 +1,104 @@
+---
+title: "Word acquisition norms: `bvq_norms()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Word acquisition norms: `bvq_norms()`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+
+The function `bvq_norms()` computes the proportion of children in the sample that understand or produce each item. This function returns the estimated probability of an average participant to understand or produce each item, and allows to condition this probability to the age, language profile or language dominance of participants. Proportions are adjusted for zero- and one-inflation following Gelman, Hill, and Vehtari (2020).
+
+If argument `item` is left NULL (default), proportions are computed for all items (currently `nrow(pool)`). This may take time. If you need to compute norms for specific items, you can provide the item identifiers in the `item` argument. Available items can be consulted in the `pool` data set:
+
+```{r pool, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(bvq)
+head(pool)
+```
+
+Let's go through an example of how to use the `bvq_norms` function for a specific set of items. 
+
+```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(bvq)
+
+participants <- bvq_participants()
+responses <- bvq_responses(participants = participants)
+
+my_items <- c("cat_gos", "cat_gat")
+
+norms <- bvq_norms(
+    participants = participants,
+    responses = responses,
+    item = my_items,
+    # get data for production
+    type = "produces", 
+    # get data for participants aged 1 to 45 months
+    age = c(1, 45), 
+    # get data for bilinguals (exclude monolinguals and others)
+    lp = "Bilingual"
+)
+```
+
+```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(bvq)
+responses <- readRDS(file.path("fixtures", "responses.rds"))
+participants <- readRDS(file.path("fixtures", "participants.rds"))
+
+my_items <- c("cat_gos", "cat_gat")
+
+norms <- bvq_norms(
+    participants = participants,
+    responses = responses,
+    # get info from casa and abric items
+    item = my_items,
+    # get data for production
+    type = "produces", 
+    # get data for participants aged 1 to 45 months
+    age = c(1, 45), 
+    # get data for bilinguals (exclude monolinguals and others)
+    lp = "Bilingual"
+)
+
+(norms)
+```
+
+Visualised, these data look like this:
+
+```{r plot, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(ggplot2)
+
+ggplot(norms, 
+       aes(age, .prop,
+           colour = item_dominance,
+           fill = item_dominance,
+           shape = item_dominance)) +
+    facet_grid(~item) +
+    geom_hline(yintercept = 0.5,
+               linetype = "dashed") +
+    geom_smooth(method = "glm", 
+                method.args = list(family = "binomial"), 
+                se = FALSE) +
+    geom_point() +
+    labs(x = "Age (months)", 
+         y = "Proportion", 
+         colour = "Item dominance",
+         fill = "Item dominance",  
+         shape = "Item dominance") +
+    scale_y_continuous(limits = c(0, 1)) +
+    scale_colour_manual(values = c("#003f5c", "#ff6361")) +
+    theme_minimal() +
+    theme(
+        axis.line = element_line(colour = "black"),
+        legend.position = "top",
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()
+    )
+
+```

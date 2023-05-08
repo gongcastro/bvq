@@ -1,0 +1,97 @@
+---
+title: "Vocabulary sizes: `bvq_vocabulary()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vocabulary sizes: `bvq_vocabulary()`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+
+The `bvq_vocabulary()` function allows to extract vocabulary sizes for individual responses to any of the questionnaires. It takes the output of the `bvq_responses()` function as an argument, and returns several measures of vocabulary size base on such dataset.
+
+To compute vocabulary size, we first need to run `bvq_responses()` (although it this argument is not provided, `bvq_responses()` is run under the hood):
+
+```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(bvq)
+
+participants <- bvq_participants()
+responses <- bvq_responses(participants = participants)
+
+bvq_vocabulary(participants, responses)
+```
+
+```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(bvq)
+responses <- readRDS(file.path("fixtures", "responses.rds"))
+participants <- readRDS(file.path("fixtures", "participants.rds"))
+
+(responses)
+```
+
+
+The `bvq_vocabulary()` computes four measures of vocabulary size.
+
+* **Total** (`total_*`): total number of item the child was reported to know, summing both languages together.
+* **L1** (`l1_*`): number of word the child was reported to know in their dominant language (e.g., Catalan words for a child whose language of most exposure is Catalan).
+* **L2** (`l2_*`): number of word the child was reported to know in their non-dominant language (e.g., Spanish words for a child whose language of most exposure is Catalan)
+* **Conceptual** (`concept_*`): number of concepts the child know at least one word for, regardless of the language the word belongs to.
+* **TE** (`te_*`): number of translation equivalents the child knows, i.e., or how many concepts the child know one word in each language for.
+
+Vocabulary sizes are, by default, computed in two different scales:
+
+* **Proportion** (`*_prop`): proportion of the items the child was reported to known, from the total of items that were included in the questionnaire, and caregivers answered to.
+* **Counts** (`*_count`): sum of the total number of items the child was reported to know.
+
+The scale returned by `bvq_vocabulary()` can be modified with the `.scale` argument, which takes `"prop"` for proportions (default), and `"count"` for counts. Both can be computed using `.scale = c("prop", "count")`. For instance we can get vocabulary sizes as proportions running:
+
+```{r props, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+bvq_vocabulary(participants, responses, .scale = "prop")
+```
+
+
+To get vocabulary sizes as counts, we can run this instead:
+
+```{r counts, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+bvq_vocabulary(participants, responses, .scale = "count")
+```
+
+Finally, two types of vocabulary sizes are computed:
+
+* **Comprehension** (`understands`): number of items the child understands.
+* **Production**: (`produces`) number of items the child says.
+
+These two measures are returned in the long format under the `type` column.
+
+
+## Conditional vocabulary size: the `.by` argument
+
+We can also compute vocabulary sizes conditional to some variables at the item or participant level, such as semantic/functional category (`category`), cognate status (`cognate`) or language profile (`lp`), using the argument `.by`. Just take a look at the variables included in the data frame returned by `bvq_logs()` or in the `pool` dataset. For each participant, vocabulary sizes are computed for each level or combination of levels of the variables included in the `.by` argument. You can use this argument to preserve participant-level information in the output data frame. For instance, we can keep information about the language profile (`lp`) of the participant:
+
+```{r by-lp, echo=TRUE, eval = FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+bvq_vocabulary(participants, responses, .by = "lp")
+```
+
+We can also can also preserve information about the items, like the semantic/functional category of the words (`semantic_category`). In this case, the vocabulary sizes will be computed for each level of the `semantic_category` variable:
+
+```{r by-semantic-category, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+bvq_vocabulary(participants, responses, .by = "semantic_category")
+```
+
+Finally, we can preserve more than one variable, including combinations of participant-level and item-level variables, such as language profile (`lp`), age (`age`) and grammatical class (`class`):
+
+```{r by-mult, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+bvq_vocabulary(participants, responses, 
+               .by = c("age", "lp", "semantic_category"))
+```
+
+
+
+
+

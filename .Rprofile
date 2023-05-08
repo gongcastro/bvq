@@ -51,6 +51,8 @@ if(interactive()) {
                  function(x, y = names(x)) {
                      paths <- paste0(testthat::test_path("fixtures", y), ".rds")
                      saveRDS(x, paths)
+                     paths <- paste0("vignettes/fixtures/", y, ".rds")
+                     saveRDS(x, paths)
                  })
         })
     } 

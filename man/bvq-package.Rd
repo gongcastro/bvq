@@ -6,7 +6,9 @@
 \alias{bvq-package}
 \title{bvq: Barcelona Vocabulary Questionnaire Database and Helper Functions}
 \description{
-Download, clean, and process the Barcelona Vocabulary Questionnaire data. BVQ is a vocabulary inventory developed for assesing the vocabulary of Catalan-Spanish bilinguals infants from the Metropolitan Area of Barcelona (Spain), aged 10 to 40 months. This package includes functions to download the data from formr servers, and return the processed data in multiple formats.
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
+Download, clean, and process the Barcelona Vocabulary Questionnaire (BVQ) data. BVQ is a vocabulary inventory developed for assesing the vocabulary of Catalan-Spanish bilinguals infants from the Metropolitan Area of Barcelona (Spain), aged 10 to 40 months. This package includes functions to download the data from formr servers, and return the processed data in multiple formats.
 }
 \seealso{
 Useful links:
@@ -18,7 +20,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Gonzalo Garcia-Castro \email{gonzalo.garciadecastro@upf.edu} (\href{https://orcid.org/0000-0002-8553-4209}{ORCID})
+\strong{Maintainer}: Gonzalo Garcia-Castro \email{gongarciacastro@gmail.com} (\href{https://orcid.org/0000-0002-8553-4209}{ORCID})
+
+Authors:
+\itemize{
+  \item Daniela S.  Ávila-Varela \email{avila.varela.daniela@gmail.com} (\href{https://orcid.org/0000-0002-3518-8117}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Nuria Sebastian-Galles \email{nuria.sebastian@upf.edu} (\href{https://orcid.org/0000-0001-6938-2498}{ORCID}) [contributor]
+}
 
 }
 \keyword{internal}
