@@ -1,8 +1,8 @@
 ---
-title: "Retrieving raw responses: `bvq_responses()` and bvq_logs()"
+title: "Retrieving raw data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Retrieving raw responses: `bvq_responses()` and bvq_logs()}
+  %\VignetteIndexEntry{Retrieving raw data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

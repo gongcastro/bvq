@@ -18,6 +18,16 @@ navbar:
     left:  [intro, reference, articles, news]
     right: [search, github]
   components:
+    articles:
+      menu:
+      - text: "Connecting to the database"
+        href: vignettes/bvq-responses.html
+      - text: "Retrieving raw data"
+        href: vignettes/bvq-responses.html
+      - text: "Vocabulary sizes"
+        href: vignettes/bvq-vocabulary.html
+      - text: "Word acquisition norms"
+        href: vignettes/bvq-norms.html
     twitter:
       icon: fa-twitter
       href: http://twitter.com/gongcastro
