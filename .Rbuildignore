@@ -26,4 +26,5 @@
 codecov.exe
 ^inst/utils$
 ^\.secrets$
-vignettes/fixtures/.rds$
+^vignettes/fixtures/.rds$
+^tests$
