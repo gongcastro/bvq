@@ -8,8 +8,6 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
-
 knitr::opts_chunk$set(
     purl = NOT_CRAN,
     collapse = TRUE,
@@ -31,6 +29,7 @@ bvq_vocabulary(participants, responses)
 ```
 
 ```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(bvq)
 responses <- readRDS(file.path("fixtures", "responses.rds"))
 participants <- readRDS(file.path("fixtures", "participants.rds"))
 
