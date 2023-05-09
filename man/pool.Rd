@@ -16,7 +16,7 @@ A data frame with 1601 rows and 20 variables:
 \item is_multiword: an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item \code{"spa_cepillodientes"} was shown as \code{"cepillo de dientes"} in the questionnaire, which includes three words.
 \item subtlex_lemma: word label, as included in the corresponding version.
 of SUBTLEX.
-\item wordbank_lemma: word label, as indexed in Worbank.
+\item wordbank_lemma: word label, as indexed in Wordbank.
 \item childes_lemma: word label, as it appears in the CHILDES English
 corpora (based on \code{wordbank_lemma}).
 \item semantic_category: semantic/functional category the items belongs to.

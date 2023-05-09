@@ -1,7 +1,8 @@
 
+participants <- readRDS(test_path("fixtures", "participants.rds"))
+responses <- readRDS(test_path("fixtures", "responses.rds"))
+
 test_that("vocabulary proportions are plausible", {
-    participants <- readRDS(test_path("fixtures", "participants.rds"))
-    responses <- readRDS(test_path("fixtures", "responses.rds"))
     vocabulary <- bvq_vocabulary(participants,
                                  responses, 
                                  .scale = c("prop", "count"))
@@ -35,13 +36,8 @@ test_that("vocabulary proportions are plausible", {
     expect_false(any(vocabulary$te_count[!is.na(vocabulary$te_count)] < 0))
 })
 
-
 test_that("column classes are the right ones", {
-    participants <- readRDS(test_path("fixtures", "participants.rds"))
-    responses <- readRDS(test_path("fixtures", "responses.rds"))
-    vocabulary <- bvq_vocabulary(participants,
-                                 responses, 
-                                 .scale = c("prop", "count"))
+    vocabulary <- bvq_vocabulary(participants, responses, .scale = c("prop", "count"))
     
     expect_true(all(class(vocabulary$id) == "character"))
     expect_true(all(class(vocabulary$time) == "numeric"))
