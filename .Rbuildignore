@@ -28,3 +28,4 @@ codecov.exe
 ^\.secrets$
 ^vignettes/fixtures/.rds$
 ^tests$
+^\.covrignore$
