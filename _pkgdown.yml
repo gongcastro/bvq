@@ -19,6 +19,7 @@ navbar:
     right: [search, github]
   components:
     articles:
+    - title: "Articles"
       menu:
       - text: "Connecting to the database"
         href: vignettes/bvq-responses.html
