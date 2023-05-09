@@ -36,15 +36,15 @@ home:
 articles:
   - title: "Articles"
     navbar: ~
-      contents:
-      - text: "Connecting to the database"
-        href: vignettes/bvq-responses.html
-      - text: "Retrieving raw data"
-        href: vignettes/bvq-responses.html
-      - text: "Vocabulary sizes"
-        href: vignettes/bvq-vocabulary.html
-      - text: "Word acquisition norms"
-        href: vignettes/bvq-norms.html
+    contents:
+    - text: "Connecting to the database"
+      href: vignettes/bvq-responses.html
+    - text: "Retrieving raw data"
+      href: vignettes/bvq-responses.html
+    - text: "Vocabulary sizes"
+      href: vignettes/bvq-vocabulary.html
+    - text: "Word acquisition norms"
+      href: vignettes/bvq-norms.html
 
 reference:
 - title: "Retrieving raw data"
