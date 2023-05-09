@@ -140,7 +140,7 @@ check_arg_te <- function(te, item)
             return(item)
         }
     } else if (is.numeric(te)) {
-        te_in_pool <- te %in% unique(pool_tmp$te)
+        te_in_pool <- te %in% unique(pool$te)
         if (!all(te_in_pool)) {
             te_not_in_pool <- paste0(te[which(!te_in_pool)], collapse = ", ")
             cli_abort("te{?s} {te_not_in_pool} does not exist in pool")
