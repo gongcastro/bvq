@@ -26,7 +26,7 @@ utils::globalVariables(unique(c(
     "postcode", 
     "verbose",
     # bvq_norms:
-    "pool", 
+    "pool_tmp", 
     "dominance", 
     "understands", 
     "produces", 

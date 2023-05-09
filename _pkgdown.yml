@@ -15,10 +15,10 @@ lang: en
 
 navbar:
   structure:
-    left:  [intro, reference, vignettes, news]
+    left:  [intro, reference, articles, news]
     right: [search, github]
   components:
-    vignettes:
+    articles:
       menu:
       - text: "Connecting to the database"
         href: vignettes/bvq-responses.html
@@ -75,6 +75,7 @@ reference:
 - title: "Internals"
   desc: "Helper functions used internally"
   contents:
+  - check_arg_te
   - download_surveys
   - fix_code
   - fix_code_raw

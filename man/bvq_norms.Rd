@@ -11,7 +11,6 @@ bvq_norms(
   item = NULL,
   age = NULL,
   .by = NULL,
-  .width = 0.95,
   ...
 )
 }
@@ -36,10 +35,14 @@ the available items in the \link{pool} data set running \code{data("pool")}.}
 \item{age}{Numeric vector of length two (\emph{min}-\emph{max}) indicating the age range of
 participants to compute norms for.}
 
-\item{...}{Unused}
+\item{.by}{A character vector that takes the name of the variable(s) to group
+data into. Norms will be calculated by aggregating responses
+within the groups that result from the combination of crossing of the
+variables provided in \code{.by}. These variables can refer to item properties
+(see \link{pool}, e.g., \code{"semantic_category"}) or to participant properties (see
+\code{\link[=bvq_logs]{bvq_logs()}}, e.g., \code{"lp"}).}
 
-\item{type}{Character string indicating the vocabulary type to compute norms
-for. Takes \code{"understands"} and/or \code{"produces"} (defaults to both).}
+\item{...}{Unused}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} with the proportion of

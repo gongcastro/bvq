@@ -26,10 +26,14 @@
 #' @param item Character string indicating the item to compute norms for. If
 #'   left `NULL` (default) norms will be computed for all items. You can check
 #'   the available items in the [bvq::pool] data set running `data("pool")`.
-#' @param type Character string indicating the vocabulary type to compute norms
-#'   for. Takes `"understands"` and/or `"produces"` (defaults to both).
 #' @param age Numeric vector of length two (*min*-*max*) indicating the age range of
 #'   participants to compute norms for.
+#' @param .by A character vector that takes the name of the variable(s) to group
+#'   data into. Norms will be calculated by aggregating responses
+#'   within the groups that result from the combination of crossing of the
+#'   variables provided in `.by`. These variables can refer to item properties
+#'   (see [bvq::pool], e.g., `"semantic_category"`) or to participant properties (see
+#'   [bvq_logs()], e.g., `"lp"`).
 #' @param ... Unused
 #'
 #' @returns A data frame (actually, a [tibble::tibble] with the proportion of
@@ -55,7 +59,6 @@ bvq_norms <- function(participants,
                       item = NULL,
                       age = NULL,
                       .by = NULL,
-                      .width = 0.95,
                       ...) {
     
     group_vars <- c("te", "item", "label", "age", "type", "item_dominance", .by)
@@ -120,6 +123,15 @@ bvq_norms <- function(participants,
 #' 
 #' @importFrom cli  cli_alert_warning
 #' 
+#' @param te Translation equivalent for which the norms should be computed.
+#'  * If NULL (default), norms are computed exclusively for the items indicated in `item`.
+#'  * If TRUE, norms are computed for both the item indicated in the `item` argument, and for its translation.
+#'  * If FALSE, norms are computed exclusively for the items indicated in `item` (same as NULL)
+#'  * If numeric vector, norms are computed for all items corresponding to the translation equivalents indicated in this argument.
+#' @param item Character string indicating the item to compute norms for. If
+#'   left `NULL` (default) norms will be computed for all items. You can check
+#'   the available items in the [bvq::pool] data set running `data("pool")`.
+#'   
 check_arg_te <- function(te, item) 
 {
     if (is.logical(te)) {
@@ -151,120 +163,3 @@ check_arg_te <- function(te, item)
     }
     return(item)
 }
-
-
-# 
-# bvq_norms_old <- function(participants,
-#                       responses,
-#                       item = NULL,
-#                       language = c("Catalan", "Spanish"),
-#                       type = c("understands", "produces"),
-#                       age = NULL,
-#                       lp = c("Bilingual", "Monolingual", "Other"),
-#                       sex = c("Female", "Male"),
-#                       semantic_category = NULL,
-#                       .width = 0.95,
-#                       ...) {
-#     
-#     # get logs
-#     logs <- bvq_logs(participants = participants, 
-#                      responses = responses)
-#     
-#     group_vars <- c("te", "item", "language", "age", "type", "lp", "dominance",
-#                     "semantic_category", "item_dominance", "label")
-#     
-#     if (is.null(item)) item <- unique(responses$item)
-#     if (is.null(semantic_category)) sem_cat <- unique(bvq::pool$semantic_category)
-#     if (is.null(age)) age <- floor(range(logs$age, na.rm = TRUE))
-#     
-#     norms <- responses %>%
-#         left_join(select(logs, id, time, lp, age, dominance),
-#                   by = join_by(id, time),
-#                   multiple = "all") %>%
-#         filter(item %in% .env$item,
-#                lp %in% .env$lp,
-#                between(age, .env$age[1], .env$age[2])) %>%
-#         mutate(understands = response > 1,
-#                produces = response==3) %>%
-#         select(id, age, sex, lp, dominance, item, understands, produces) %>% 
-#         pivot_longer(c(understands, produces),
-#                      names_to = "type", 
-#                      values_to = "response") %>%
-#         mutate(age = floor(age)) %>% 
-#         left_join(select(bvq::pool, te, item, language, label, semantic_category), 
-#                   relationship = "many-to-many",
-#                   by = join_by(item)) %>%
-#         filter(language %in% .env$language,
-#                type %in% .env$type,
-#                semantic_category %in% sem_cat) %>%
-#         mutate(item_dominance = case_when(
-#             language==dominance ~ "L1",
-#             language!=dominance ~ "L2")) %>%
-#         drop_na(response) %>%
-#         summarise(.sum = sum(response, na.rm = TRUE),
-#                   .n = sum(!is.na(response), na.rm = TRUE),
-#                   .by = any_of(group_vars)) %>%
-#         mutate(.prop = prop_adj(.sum, .n)) %>% 
-#         arrange(te, item, language, lp, item_dominance, type, age, 
-#                 .sum, .n, .prop)
-#     
-#     return(norms)
-#     
-# }
-# 
-# 
-# 
-# microbenchmark::microbenchmark(new = {
-# bvq_norms(participants = participants, 
-#           responses = responses,
-#           item = "cat_gat",
-#             age = c(10, 25))
-#     },
-#     old = {
-#         responses %>%
-#             left_join(select(logs_tmp, id, time, lp, age, dominance),
-#                       by = join_by(id, time),
-#                       multiple = "all") %>%
-#             filter(item %in% .env$item,
-#                    lp %in% .env$lp,
-#                    between(age, .env$age[1], .env$age[2])) %>%
-#             mutate(understands = response > 1,
-#                    produces = response==3) %>%
-#             select(id, age, sex, lp, dominance, item, understands, produces) %>%
-#             pivot_longer(c(understands, produces),
-#                          names_to = "type",
-#                          values_to = "response") %>%
-#             mutate(age = floor(age)) %>%
-#             left_join(select(bvq::pool, te, item, language, label, semantic_category),
-#                       relationship = "many-to-many",
-#                       by = join_by(item)) %>%
-#             filter(language %in% .env$language,
-#                    type %in% .env$type,
-#                    semantic_category %in% sem_cat) %>%
-#             mutate(item_dominance = case_when(
-#                 language==dominance ~ "L1",
-#                 language!=dominance ~ "L2")) %>%
-#             drop_na(response) %>%
-#             summarise(.sum = sum(response, na.rm = TRUE),
-#                       .n = sum(!is.na(response), na.rm = TRUE),
-#                       .by = any_of(group_vars)) %>%
-#             mutate(.prop = prop_adj(.sum, .n)) %>%
-#             arrange(te, item, language, lp, item_dominance, type, age,
-#                     .sum, .n, .prop)
-# 
-#     }
-# )
-# 
-
-
-
-
-
-
-
-
-
-
-
-
-
