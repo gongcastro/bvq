@@ -71,4 +71,6 @@ sticker(hex_plot,
         s_height = 1.7,
         filename = "man/figures/logo.png")
 
+usethis::use_logo("man/figures/logo.png")
+
 
