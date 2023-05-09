@@ -1,6 +1,7 @@
+participants <- readRDS(test_path("fixtures", "participants.rds"))
+
 test_that("bvq_participants columns are the right classes", {
-    participants <- readRDS(test_path("fixtures", "participants.rds"))
-    
+
     expect_true(is.character(participants$id))
     expect_true(is.character(participants$id_exp))
     expect_true(is.character(participants$id_bvq))
@@ -17,8 +18,6 @@ test_that("bvq_participants columns are the right classes", {
 })
 
 test_that("participants and times are not duplicated", {
-    participants <- readRDS(test_path("fixtures", "participants.rds"))
-    
     expect_false(any(duplicated(select(participants, id, time))))
 })
 

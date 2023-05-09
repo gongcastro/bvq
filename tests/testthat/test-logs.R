@@ -1,8 +1,8 @@
+participants <- readRDS(test_path("fixtures", "participants.rds"))
+responses <- readRDS(test_path("fixtures", "responses.rds"))
+logs <- bvq_logs(participants, responses)
+
 test_that("columns are the right classes", {
-    participants <- readRDS(test_path("fixtures", "participants.rds"))
-    responses <- readRDS(test_path("fixtures", "responses.rds"))
-    logs <- bvq_logs(participants, responses)
-    
     expect_true(is.character(logs$id))
     expect_true(is.character(logs$code))
     expect_true(is.numeric(logs$time))
@@ -24,10 +24,6 @@ test_that("columns are the right classes", {
 })
 
 test_that("variables contains possible values", {
-    participants <- readRDS(test_path("fixtures", "participants.rds"))
-    responses <- readRDS(test_path("fixtures", "responses.rds"))
-    logs <- bvq_logs(participants, responses)
-    
     # expect_true(all(logs$id %in% participants$id))
     # expect_true(all(logs$id_exp %in% participants$id_exp))
     # expect_true(all(logs$id_db %in% participants$id_db))
@@ -50,10 +46,6 @@ test_that("variables contains possible values", {
 
 
 test_that("missing values are only where expected", {
-    participants <- readRDS(test_path("fixtures", "participants.rds"))
-    responses <- readRDS(test_path("fixtures", "responses.rds"))
-    logs <- bvq_logs(participants, responses)
-    
     expect_false(any(is.na(logs$id)))
     expect_false(any(is.na(logs$time)))
     expect_false(any(is.na(logs$study)))

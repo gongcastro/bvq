@@ -8,13 +8,9 @@
 #' 
 #' @importFrom googlesheets4 gs4_has_token
 #' @importFrom googlesheets4 gs4_auth
-#' @importFrom googlesheets4 gs4_auth_configure
-#' @importFrom googlesheets4 gs4_deauth
-#' @importFrom gargle token_fetch
 #' @importFrom formr formr_connect
 #' @importFrom cli cli_alert_success
 #' @importFrom cli cli_abort
-#' @importFrom cli cli_text
 #'
 #' @param google_email E-mail used in Google Drive account. If `NULL` (default),
 #'   it is assumed to be the same as `formr_email`.

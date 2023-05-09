@@ -15,7 +15,7 @@ Authors@R: c(
            email = "nuria.sebastian@upf.edu", 
            role = "ctb",
            comment = c(ORCID = "0000-0001-6938-2498")))
-Maintainer: Gonzalo Garcia-Castro <gonzalo.garciadecastro@upf.edu>
+Maintainer: Gonzalo Garcia-Castro <gongarciacastro@gmail.com>
 Description: Download, clean, and process the Barcelona Vocabulary
     Questionnaire (BVQ) data. BVQ is a vocabulary inventory developed for
     assesing the vocabulary of Catalan-Spanish bilinguals infants from the
@@ -32,7 +32,6 @@ Imports:
     cli,
     dplyr (>= 1.0.0),
     formr (>= 0.9.1),
-    gargle,
     googlesheets4,
     janitor,
     lifecycle,

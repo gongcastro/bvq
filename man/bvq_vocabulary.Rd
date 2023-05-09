@@ -14,9 +14,9 @@ bvq_vocabulary(participants, responses, .by = NULL, .scale = "prop", ...)
 \item{.by}{A character vector that takes the name of the variable(s) to group
 data into. Vocabulary metrics will be calculated by aggregating responses
 within the groups that result from the combination of crossing of the
-variables provided in \code{.by}. This variables can refer to item properties
-(see \link{pool}, e.g., \code{"category"}) or to participant properties (see
-\code{\link[=bvq_logs]{bvq_logs()}}, e.g., \code{"dominance"}).}
+variables provided in \code{.by}. These variables can refer to item properties
+(see \link{pool}, e.g., \code{"semantic_category"}) or to participant properties (see
+\code{\link[=bvq_logs]{bvq_logs()}}, e.g., \code{"lp"}).}
 
 \item{.scale}{A character vector that takes the value \code{"count"} and/or
 \code{"prop"}. If \code{"prop"} (default), vocabulary metrics are calculated as

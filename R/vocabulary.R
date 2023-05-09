@@ -19,9 +19,9 @@
 #' @param .by A character vector that takes the name of the variable(s) to group
 #'   data into. Vocabulary metrics will be calculated by aggregating responses
 #'   within the groups that result from the combination of crossing of the
-#'   variables provided in `.by`. This variables can refer to item properties
-#'   (see [bvq::pool], e.g., `"category"`) or to participant properties (see
-#'   [bvq_logs()], e.g., `"dominance"`).
+#'   variables provided in `.by`. These variables can refer to item properties
+#'   (see [bvq::pool], e.g., `"semantic_category"`) or to participant properties (see
+#'   [bvq_logs()], e.g., `"lp"`).
 #' @param .scale A character vector that takes the value `"count"` and/or
 #'   `"prop"`. If `"prop"` (default), vocabulary metrics are calculated as
 #'   proportions. If `"count"`, vocabulary metrics are reported as counts
