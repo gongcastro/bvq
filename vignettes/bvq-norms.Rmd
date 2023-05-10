@@ -70,8 +70,7 @@ bvq_norms(
     item = my_items,
     te = TRUE,
     age = c(15, 16)
-) %>% 
-    filter(type=="produces")
+) 
 ```
 
 We can even indicate a specific translation equivalent in the `te` argument to retrieve its norms, while leaving the argument `item` blank:
