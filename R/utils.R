@@ -245,6 +245,7 @@ fix_id_exp <- function(x) { # nocov start
 #' sums <- rle(sort(id))[["lengths"]]
 #' dat <- data.frame(id, time = unlist(sapply(sums, function(x) seq(1, x))))
 #' get_longitudinal(dat, "first")
+#' get_longitudinal(dat, "only")
 get_longitudinal <- function(x, longitudinal = "all") {
     
     longitudinal_opts <- c("all", "no", "first", "last", "only")
