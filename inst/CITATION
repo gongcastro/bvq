@@ -3,7 +3,7 @@ citHeader("To cite bvq in publications use:")
 citEntry(
   entry    = "Manual",
   title    = "bvq: Barcelona Vocabulary Questionnaire Database and Helper Functions",
-  author   = personList(c(
+  author   = c(
     person(given = "Gonzalo", family = "Garcia-Castro", 
            email = "gongarciacastro@gmail.com",
            role = c("cre", "aut"),
@@ -16,7 +16,7 @@ citEntry(
            family = "Sebastian-Galles", 
            email = "nuria.sebastian@upf.edu", 
            role = "ctb",
-           comment = c(ORCID = "0000-0001-6938-2498")))),
+           comment = c(ORCID = "0000-0001-6938-2498"))),
   year     = "2023",
   snote     = "R package version 0.3.0",
   url      = "https://gongcastro.github.io/bvq",
