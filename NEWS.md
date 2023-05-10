@@ -1,3 +1,10 @@
+# bvq 0.3.1
+
+* Refactor `get_time_stamp()` and `get_doe()` to use tidyselect
+* Add examples and tests for `get_time_stamp()` and `get_doe()`
+* Add documentation for new version of `bvq_norms()` in its vignette
+* Use .covrignore
+
 # bvq 0.3.0
 
 * Add vignettes for `bvq_connect()`, `bvq_responses()`, `bvq_vocabulary()`, and `bvq_norms()`
