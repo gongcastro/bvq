@@ -1,6 +1,6 @@
 Package: bvq
 Title: Barcelona Vocabulary Questionnaire Database and Helper Functions
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
     person(given = "Gonzalo", family = "Garcia-Castro", 
            email = "gongarciacastro@gmail.com",
@@ -49,8 +49,7 @@ Suggests:
     ggplot2 (>= 3.4.2),
     withr
 VignetteBuilder: 
-    knitr,
-    ggplot2
+    knitr
 Remotes: 
     github::rubenarslan/formr
 Config/testthat/edition: 3

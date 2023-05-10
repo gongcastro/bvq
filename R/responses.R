@@ -77,14 +77,14 @@ bvq_responses <- function(participants = NULL,
                        .default = version
                    ),
                    time = ifelse(is.na(time), 1, time),
-                   version = fix_version(version)
+                   version = trimws(version, whitespace = "[\\h\\v]"),
             ) %>%
             fix_item() %>%
             fix_doe() %>%
             mutate(across(starts_with("doe_"), 
                           function(x) x / 100)) %>%
             fix_sex() %>%
-            fix_study() %>%
+            mutate(study = ifelse(is.na(study), "BiLexicon", study)) %>% 
             fix_id_exp() %>%
             drop_na(date_finished) %>%
             get_longitudinal(longitudinal = longitudinal) %>%

@@ -63,33 +63,28 @@ process_survey <- function(raw, participants_tmp, survey_name)
                        "edu_parent1", "edu_parent2", "language_doe_catalan",
                        "language_doe_spanish", "language_doe_others")
     
-    # define language of interest
-    if (survey_name == "BL-Lockdown") {
-        langs <- languages_lockdown1
-    } else if (survey_name == "BL-Short") {
-        langs <- languages_short
-    } else if (survey_name == "BL-Long-2") {
-        langs <- languages2
-    }
-    
-    lang_cols <- list(catalan = langs[grep("catalan", langs)],
-                      spanish = langs[grep("spanish", langs)]) %>% 
-        map(function(x) paste0("language_doe_", x))
-    
     # process data
     processed <- raw_tmp %>% 
+        select(-matches("lockdown")) %>% 
         left_join(words_cat, by = join_by(session), multiple = "all") %>%
         left_join(words_spa, by = join_by(session), multiple = "all") %>%
         filter(code %in% participants_tmp$code) %>%
         drop_na(created_cat, created_spa, ended_cat, ended_spa) %>% 
-        mutate(across(c(matches("created_|ended_"), date_birth), as_datetime),
-               across(starts_with("language_doe"), function(x) ifelse(is.na(x), 0, x)),
+        mutate(across(c(matches("created_|ended_"), date_birth),
+                      as_datetime),
+               across(starts_with("language_doe"), 
+                      function(x) ifelse(is.na(x), 0, x)),
                survey_name = .env$survey_name,
-               date_started = get_time_stamp(., c("ended_cat", "ended_spa"), "first"),
-               date_finished = get_time_stamp(., c("ended_cat", "ended_spa"), "last"),
-               language_doe_catalan = get_doe(lang_cols$catalan),
-               language_doe_spanish = get_doe(lang_cols$spanish),
-               language_doe_others = 100 - rowSums(across(c(language_doe_catalan, language_doe_spanish)), na.rm = TRUE)) %>% 
+               date_started = get_time_stamp(ended_cat,
+                                             ended_spa,
+                                             which = "first"),
+               date_finished = get_time_stamp(ended_cat, 
+                                              ended_spa,
+                                              which = "last"),
+               language_doe_catalan = get_doe(matches("catalan")),
+               language_doe_spanish = get_doe(matches("spanish")),
+               language_doe_others = 100 - rowSums(across(c(language_doe_catalan,
+                                                            language_doe_spanish)))) %>% 
         arrange(desc(date_finished)) %>%
         distinct(session, .keep_all = TRUE) %>%
         rename(edu_parent1 = demo_parent1,
@@ -103,8 +98,9 @@ process_survey <- function(raw, participants_tmp, survey_name)
                      values_to = "response") %>%
         rename_with(function(x) gsub("language_", "", x), everything()) %>%
         mutate(language = ifelse(grepl("cat_", item), "Catalan", "Spanish"),
-               sex = ifelse(sex == 1, "Male", "Female"),
-               across(starts_with("edu_"), function(x) na_if(x, ""))) %>% # no included in this version
+               sex = ifelse(sex==1, "Male", "Female"),
+               across(starts_with("edu_"),
+                      function(x) na_if(x, ""))) %>%
         arrange(desc(date_finished)) %>% 
         distinct(id, code, item, .keep_all = TRUE)
     

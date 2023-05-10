@@ -20,46 +20,68 @@ diff_in_time <- function(x, y, units = "months") {
 
 #' Get timestamps
 #'
-#' @param x Data frame containing a column for the first time stamp and the
-#'   last time stamp of participants' responses the word inventory in each
-#'   language (Spanish and Catalan)
-#' @param cols Character string vector indicating the name of the columns
-#'   containing the first and the last time stamps (in that order) of
+#' @param ... Columns containing the first and the last time stamps (in that order) of
 #'   participants' responses to a given language inventory.
 #' @param which Which time stamp to consider:
 #' * `'first'` (by default)
 #' * `'last'`
+#' 
+#' @returns A datetime vector with the first or last of each time stamp
+#' 
 #' @author Gonzalo Garcia-Castro
 #' @importFrom lubridate as_datetime
-get_time_stamp <- function(x, cols, which = "first") {
-    suppressMessages({
-        d <- x[c(cols[1], cols[2])]
-        if (which %in% "first") {
-            x <- apply(d, 1, min, na.rm = TRUE)
-        } 
-        if (which %in% "last") {
-            x <- apply(d, 1, max, na.rm = TRUE)
-        }
-        x <- as_datetime(x)
-    })
+#' @importFrom dplyr across
+#' @export
+#' 
+#' @examples
+#' library(dplyr)
+#' x <- data.frame(start = as.Date(c("2023-02-01", "2023-02-20")),
+#'                 finish = as.Date(c("2023-03-15", "2023-02-21")))
+#' 
+#' y <- mutate(x, 
+#'             time_stamp_default = get_time_stamp(start, finish), 
+#'             time_stamp_first = get_time_stamp(start, finish, which = "first"), 
+#'             time_stamp_last = get_time_stamp(start, finish, which = "last"))
+#' (y)
+#' 
+get_time_stamp <- function(..., which = "first") {
+    
+    if (!(which=="first" || which=="last")) {
+        cli_abort("`which` must be 'first' or 'last'")
+    }
+    
+    if (which=="first") fun <- min else fun <- max
+    x <- as_datetime(apply(across(c(...)), 1, fun, na.rm = TRUE))
+    
     return(x)
 }
 
 #' Summarise language profile
 #'
-#' @param ... Character vector of languages to compute degree of exposure
+#' @param ... Columns with the degree of exposures to be summed up
 #'   for (all others will be considered as `doe_others`).
 #' @author Gonzalo Garcia-Castro
-get_doe <- function(...) {
-    rowSums(across(any_of(...)), dims = 1, na.rm = TRUE)
-    # apply(data[], 1, sum, na.rm = TRUE)
-}
-
-#' Fix variable version
 #' 
-#' @param x Vector of `version` whose values should be fixed
-fix_version <- function(x) {
-    trimws(x)
+#' @returns A numeric vector with the row-wise sums of the columns specified in `...`. 
+#' 
+#' @importFrom dplyr across
+#' @export
+#' 
+#' @examples
+#' library(dplyr)
+#' x <- data.frame(doe_cat_1 = seq(0, 1, 0.1),
+#'                 doe_cat_2 = c(0, rep(c(0.1, 0), each = 5)),
+#'                 doe_spa_1 = c(0, rep(c(0.1, 0), each = 5)),
+#'                 doe_spa_2 = c(1, 0.7, 0.6, 0.5, 0.3, 0.1, 0.4, 0.3, 0.2, 0.1, 0))
+#'                 
+#' y <- mutate(x,
+#'             doe_other = 1-get_doe(matches("cat|spa")),
+#'             doe_cat = get_doe(doe_cat_1, doe_cat_2),
+#'             doe_spa = get_doe(matches("spa")))
+#' 
+#' (y)
+get_doe <- function(...) {
+    rowSums(across(c(...)), dims = 1, na.rm = TRUE)
 }
 
 #' Fix codes
@@ -81,7 +103,7 @@ fix_code <- function(x) {
 #'
 #' @param x Vector of `code` whose values should be fixed, based on `session`.
 #' @author Gonzalo Garcia-Castro
-fix_code_raw <- function(x) {
+fix_code_raw <- function(x) { # nocov start
     x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "code"] <- "BL1674"
     x[x$session == "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2", "code"] <- "BL1671"
     x[x$session == "TW8vSEn7YTtbZoe9BaEtRgwNvryWTwSv49dLKb5W0_6bFL306Eiw0Ehg72Q9nqLx", "code"] <- "BL1672"
@@ -91,7 +113,7 @@ fix_code_raw <- function(x) {
     x[x$session == "dU5CZLLkvmY7SDpe8d0jFQO3xzpmeS0lCOFF_ErjETC1tyyYbv3ZhyaDmlfdJwHc", "code"] <- "BL1876"
     x[x$session == "L4F1jd13H4wyFf6QYGy8hfSURneFr-zfzMn1YFFeBTbTZWWjxYPRbC-rPY6U1qdr", "code"] <- "remove"
     return(x)
-}
+} # nocov end
 
 #' Fix DOEs
 #' 
@@ -99,7 +121,7 @@ fix_code_raw <- function(x) {
 #' @importFrom dplyr case_when
 #' @param x Vector of `doe` whose values should be fixed
 #' @author Gonzalo Garcia-Castro
-fix_doe <- function(x) {
+fix_doe <- function(x) { # nocov start
     
     x %>%
         mutate(
@@ -126,13 +148,13 @@ fix_doe <- function(x) {
                 .default = doe_others
             )
         )
-}
+} # nocov end
 
 #' Fix sex (missing in first responses to BL-Lockdown)
 #' 
 #' @param x Vector of `sex` whose values should be fixed.
 #' @author Gonzalo Garcia-Castro
-fix_sex <- function(x) {
+fix_sex <- function(x) { # nocov start
     
     x$sex <- ifelse(x$id_bvq %in% c("bilexicon_1097", 
                                     "bilexicon_1441", 
@@ -144,13 +166,13 @@ fix_sex <- function(x) {
     x$sex <- ifelse(x$id_bvq %in% c("bilexicon_1447"), "Male", x$sex)
     
     return(x)
-}
+} # nocov end
 
 #' Fix postcode
 #' 
 #' @param x Vector of `postcode` whose values should be fixed
 #' @author Gonzalo Garcia-Castro
-fix_postcode <- function(x) {
+fix_postcode <- function(x) { 
     
     pcd <- x$postcode
     pcd <- ifelse(nchar(pcd) < 5, paste0("0", pcd), pcd)
@@ -164,7 +186,7 @@ fix_postcode <- function(x) {
 #' 
 #' @importFrom dplyr case_when
 #' @param x Vector of `item` whose values should be fixed
-fix_item <- function(x) {
+fix_item <- function(x) { # nocov start
     
     x$item[x$item=="cat_parc"]            <- "cat_parc1"
     x$item[x$item=="cat_eciam"]           <- "cat_enciam"
@@ -181,26 +203,17 @@ fix_item <- function(x) {
     x$item[x$item=="cat_anar"]            <- "cat_anar1"
     
     return(x)
-}
+} # nocov end
 
-
-#' Fix study
-#' 
-#' @param x Vector of \code{study} whose values should be fixed
-#' @author Gonzalo Garcia-Castro
-fix_study <- function(x) {
-    x$study <- ifelse(is.na(x$study), "BiLexicon", x$study)
-    return(x)
-}
 
 #' Fix id_exp
 #' 
 #' @param x Vector of `id_exp` whose values should be fixed
 #' @author Gonzalo Garcia-Castro
-fix_id_exp <- function(x) {
+fix_id_exp <- function(x) { # nocov start
     x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
     return(x)
-}
+} # nocov end
 
 #' Deal with repeated measures
 #'
@@ -232,6 +245,7 @@ fix_id_exp <- function(x) {
 #' sums <- rle(sort(id))[["lengths"]]
 #' dat <- data.frame(id, time = unlist(sapply(sums, function(x) seq(1, x))))
 #' get_longitudinal(dat, "first")
+#' get_longitudinal(dat, "only")
 get_longitudinal <- function(x, longitudinal = "all") {
     
     longitudinal_opts <- c("all", "no", "first", "last", "only")
