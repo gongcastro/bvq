@@ -15,9 +15,9 @@ knitr::opts_chunk$set(
 data("pool", package = "bvq")
 ```
 
-The function `bvq_norms()` computes the proportion of children in the sample that understand or produce each item, sometimes called "word prevalence". This function returns the estimated probability of an average participant understanding or producing each word. The `bvq_norms()` function allows to condition this probability on the age, language profile or language dominance of participants, among other variables. Proportions are adjusted for zero- and one-inflation following Gelman, Hill, and Vehtari (2020).
+The function `bvq_norms()` computes the proportion of children in the sample that understand or produce each item, sometimes called **word prevalence**. This function returns the estimated probability of an average participant understanding or producing each word. The `bvq_norms()` function allows to condition this probability on the age, language profile or language dominance of participants, among other variables. Proportions are adjusted for zero- and one-inflation following Gelman, Hill, and Vehtari (2020).
 
-If argument `item` is left NULL (default), proportions are computed for all items (currently `r nrow(pool)`). This may take time. If you need to compute norms for specific items, you can provide the item identifiers in the `item` argument. Available items can be consulted in the `pool` data set:
+If argument `item` is left NULL (default), proportions are computed for all items (currently `r format(nrow(pool), big.mark = ",")`). This may take time. If you need to compute norms for specific items, you can provide the item identifiers in the `item` argument. Available items can be consulted in the `pool` data set:
 
 ```{r pool, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 library(bvq)
@@ -27,7 +27,6 @@ head(pool)
 Let's go through an example of how to use the `bvq_norms()` function for a specific set of items. 
 
 ```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-
 # norms will be computed from these datasets
 participants <- bvq_participants()
 responses <- bvq_responses(participants = participants)
@@ -39,12 +38,7 @@ norms <- bvq_norms(
     participants = participants,
     responses = responses,
     item = my_items,
-    # get data for production
-    type = "produces", 
-    # get data for participants aged 1 to 45 months
-    age = c(1, 45), 
-    # get data for bilinguals (exclude monolinguals and others)
-    lp = "Bilingual"
+    age = c(12, 35)
 )
 ```
 
@@ -58,47 +52,34 @@ my_items <- c("cat_gos", "cat_gat")
 norms <- bvq_norms(
     participants = participants,
     responses = responses,
-    # get info from casa and abric items
     item = my_items,
-    # get data for production
-    type = "produces", 
-    # get data for participants aged 1 to 45 months
-    age = c(1, 45), 
-    # get data for bilinguals (exclude monolinguals and others)
-    lp = "Bilingual"
+    age = c(1, 45)
 )
 
 (norms)
 ```
 
-Visualised, these data look like this:
+If we want to retrieve the acquisition norms of our item of interest, but also those of its translation equivalent, we can use the argument `te`. This argument can take the value `TRUE` if we want to also include the norms of the translation of the items specified in the `item` argument. For example:
 
-```{r plot, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-library(ggplot2)
+```{r te-item, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+my_items <- c("cat_gos", "cat_gat")
 
-ggplot(norms, 
-       aes(age, .prop,
-           colour = item_dominance,
-           fill = item_dominance,
-           shape = item_dominance)) +
-    facet_grid(~item) +
-    geom_hline(yintercept = 0.5,
-               linetype = "dashed") +
-    geom_smooth(method = "glm", 
-                method.args = list(family = "binomial"), 
-                se = FALSE) +
-    geom_point() +
-    labs(x = "Age (months)", 
-         y = "Proportion", 
-         colour = "Item dominance",
-         fill = "Item dominance",  
-         shape = "Item dominance") +
-    scale_y_continuous(limits = c(0, 1)) +
-    scale_colour_manual(values = c("#003f5c", "#ff6361")) +
-    theme_minimal() +
-    theme(axis.line = element_line(colour = "black"),
-          legend.position = "top",
-          panel.grid.major.x = element_blank(),
-          panel.grid.minor.x = element_blank())
+bvq_norms(
+    participants = participants,
+    responses = responses,
+    item = my_items,
+    te = TRUE,
+    age = c(15, 16)
+) 
+```
 
+We can even indicate a specific translation equivalent in the `te` argument to retrieve its norms, while leaving the argument `item` blank:
+
+```{r te, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+bvq_norms(
+    participants = participants,
+    responses = responses,
+    te = 175,
+    age = c(25, 29)
+)
 ```

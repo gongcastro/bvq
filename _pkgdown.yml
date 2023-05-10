@@ -74,8 +74,6 @@ reference:
   - fix_item
   - fix_postcode
   - fix_sex
-  - fix_study
-  - fix_version
   - get_doe
   - get_time_stamp
   - import_formr2

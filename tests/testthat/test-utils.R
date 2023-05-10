@@ -10,6 +10,45 @@ test_that("times are handled correctly", {
     expect_type(diff_days, "double")
 })
 
+test_that("get_time_stamp works", {
+    x <- data.frame(start = as.Date(c("2023-02-01", "2023-02-20")),
+                    finish = as.Date(c("2023-03-15", "2023-02-21")))
+    
+    y <- mutate(x,
+                time_stamp_default = get_time_stamp(start, finish),
+                time_stamp_first = get_time_stamp(start, finish, which = "first"),
+                time_stamp_last = get_time_stamp(start, finish, which = "last"))
+    expect_error(mutate(x, 
+                        time_stamp_default = get_time_stamp(start, 
+                                                            finish,
+                                                            which = "XXXX")))
+    expect_type(y$time_stamp_default, "double")
+    expect_type(y$time_stamp_first, "double")
+    expect_type(y$time_stamp_last, "double")
+    
+    expect_equal(y$time_stamp_default, as_datetime(x$start))
+    expect_equal(y$time_stamp_first, as_datetime(x$start))
+    expect_equal(y$time_stamp_last, as_datetime(x$finish))
+})
+
+test_that("get_doe works", {
+    x <- data.frame(doe_cat_1 = seq(0, 1, 0.1),
+                    doe_cat_2 = c(0, rep(c(0.1, 0), each = 5)),
+                    doe_spa_1 = c(0, rep(c(0.1, 0), each = 5)),
+                    doe_spa_2 = c(1, 0.7, 0.6, 0.5, 0.3, 0.1, 0.4, 0.3, 0.2, 0.1, 0))
+    
+    y <- mutate(x,
+                doe_other = 1-get_doe(matches("cat|spa")),
+                doe_cat = get_doe(doe_cat_1, doe_cat_2),
+                doe_spa = get_doe(matches("spa")))
+                
+    expect_true(all(vapply(y, class, "character")=="numeric"))
+    expect_true(all(sapply(y, \(x) (x>=0) & (x <= 1))))
+    expect_equal(y$doe_other, 1-rowSums(x))
+    expect_equal(y$doe_cat, rowSums(x[, c("doe_cat_1", "doe_cat_2")]))
+    expect_equal(y$doe_spa, rowSums(x[, c("doe_spa_1", "doe_spa_2")]))
+})
+
 test_that("get_longitudinal works correctly", {
     id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
     sums <- rle(sort(id))[["lengths"]]
