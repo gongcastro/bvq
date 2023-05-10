@@ -4,15 +4,10 @@
 \alias{get_time_stamp}
 \title{Get timestamps}
 \usage{
-get_time_stamp(x, cols, which = "first")
+get_time_stamp(..., which = "first")
 }
 \arguments{
-\item{x}{Data frame containing a column for the first time stamp and the
-last time stamp of participants' responses the word inventory in each
-language (Spanish and Catalan)}
-
-\item{cols}{Character string vector indicating the name of the columns
-containing the first and the last time stamps (in that order) of
+\item{...}{Columns containing the first and the last time stamps (in that order) of
 participants' responses to a given language inventory.}
 
 \item{which}{Which time stamp to consider:
@@ -21,8 +16,23 @@ participants' responses to a given language inventory.}
 \item \code{'last'}
 }}
 }
+\value{
+A datetime vector with the first or last of each time stamp
+}
 \description{
 Get timestamps
+}
+\examples{
+library(dplyr)
+x <- data.frame(start = as.Date(c("2023-02-01", "2023-02-20")),
+                finish = as.Date(c("2023-03-15", "2023-02-21")))
+
+y <- mutate(x, 
+            time_stamp_default = get_time_stamp(start, finish), 
+            time_stamp_first = get_time_stamp(start, finish, which = "first"), 
+            time_stamp_last = get_time_stamp(start, finish, which = "last"))
+(y)
+
 }
 \author{
 Gonzalo Garcia-Castro
