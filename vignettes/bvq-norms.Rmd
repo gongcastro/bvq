@@ -81,6 +81,5 @@ bvq_norms(
     responses = responses,
     te = 175,
     age = c(25, 29)
-) %>% 
-    filter(item_dominance=="L1")
+)
 ```
