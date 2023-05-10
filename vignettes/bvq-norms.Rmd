@@ -27,7 +27,6 @@ head(pool)
 Let's go through an example of how to use the `bvq_norms()` function for a specific set of items. 
 
 ```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-
 # norms will be computed from these datasets
 participants <- bvq_participants()
 responses <- bvq_responses(participants = participants)
@@ -62,7 +61,7 @@ norms <- bvq_norms(
 
 If we want to retrieve the acquisition norms of our item of interest, but also those of its translation equivalent, we can use the argument `te`. This argument can take the value `TRUE` if we want to also include the norms of the translation of the items specified in the `item` argument. For example:
 
-```{r load-responses, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r te-item, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 my_items <- c("cat_gos", "cat_gat")
 
 bvq_norms(
@@ -77,8 +76,7 @@ bvq_norms(
 
 We can even indicate a specific translation equivalent in the `te` argument to retrieve its norms, while leaving the argument `item` blank:
 
-```{r load-responses, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-
+```{r te, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 bvq_norms(
     participants = participants,
     responses = responses,
