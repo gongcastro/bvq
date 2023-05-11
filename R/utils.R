@@ -88,12 +88,19 @@ get_doe <- function(...) {
 #' 
 #' @param x Vector of `code` whose values should be fixed.
 #' @author Gonzalo Garcia-Castro
+#' 
+#' @examples
+#' code_vctr <- c("BL0123", "bl0123", "Bl0123", "BLBL0123",
+#'                 "bi0123", "blo123", "B0123", "BI0123",
+#'                 " BL0123")
+#'                 
+#' fix_code(code_vctr)
 fix_code <- function(x) {
     x <- toupper(trimws(x))
-    x <- gsub(".*BL", "", x) 
     x <- gsub("O", "0", x)
     x <- gsub("I", "L", x)
-    x <- ifelse(!grepl("BL", x), paste0("BL", x), x)
+    x <- gsub("[^\\d]+", "", x, perl=TRUE)
+    x <- paste0("BL", x)
     
     return(x)
 }
@@ -163,24 +170,11 @@ fix_sex <- function(x) { # nocov start
                     "Female",
                     x$sex)
     
-    x$sex <- ifelse(x$id_bvq %in% c("bilexicon_1447"), "Male", x$sex)
+    x$sex <- ifelse(x$id_bvq=="bilexicon_1447", "Male", x$sex)
     
     return(x)
 } # nocov end
 
-#' Fix postcode
-#' 
-#' @param x Vector of `postcode` whose values should be fixed
-#' @author Gonzalo Garcia-Castro
-fix_postcode <- function(x) { 
-    
-    pcd <- x$postcode
-    pcd <- ifelse(nchar(pcd) < 5, paste0("0", pcd), pcd)
-    pcd <- ifelse(nchar(pcd) < 5, NA_character_, pcd)
-    x$postcode <- pcd
-    
-    return(x)
-}
 
 #' Fix item
 #' 
@@ -232,11 +226,9 @@ fix_id_exp <- function(x) { # nocov start
 #'   * `"first"` returns the first response of each participant (participants with only one appearance are
 #'   included).
 #'   * `"last"` returns the last response from each participant (participants with only one response are included).
-#' @importFrom dplyr group_by
 #' @importFrom dplyr distinct
 #' @importFrom dplyr n
 #' @importFrom dplyr filter
-#' @importFrom dplyr ungroup
 #' @returns A subset of the data frame `x` with only the selected cases,
 #'   according to `longitudinal`.
 #' @author Gonzalo Garcia-Castro
@@ -244,6 +236,9 @@ fix_id_exp <- function(x) { # nocov start
 #' id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
 #' sums <- rle(sort(id))[["lengths"]]
 #' dat <- data.frame(id, time = unlist(sapply(sums, function(x) seq(1, x))))
+#' 
+#' (dat)
+#' 
 #' get_longitudinal(dat, "first")
 #' get_longitudinal(dat, "only")
 get_longitudinal <- function(x, longitudinal = "all") {
@@ -251,30 +246,16 @@ get_longitudinal <- function(x, longitudinal = "all") {
     longitudinal_opts <- c("all", "no", "first", "last", "only")
     
     if (!(longitudinal %in% longitudinal_opts) && interactive()) {
-        cli_abort(paste0("longitudinal must be one of: ", 
-                         paste0(longitudinal_opts, collapse = ", ")))
+        long_colapsed <- paste0(longitudinal_opts, collapse = ", ")
+        cli_abort(paste0("longitudinal must be one of: ", long_colapsed))
     }
     
-    repeated <- distinct(x, id, time) %>%
-        group_by(id) %>%
-        filter(n() > 1) %>%
-        ungroup()
+    repeated <- filter(distinct(x, id, time), n() > 1, .by = id) 
     
-    if (longitudinal == "no") x <- x[!(x$id %in% repeated$id), ]
-    
-    if (longitudinal == "first") {
-        x <- group_by(x, id) %>%
-            filter(time == min(time, na.rm = TRUE)) %>%
-            ungroup()
-    }
-    
-    if (longitudinal == "last") {
-        x <- group_by(x, id) %>%
-            filter(time == max(time, na.rm = TRUE)) %>%
-            ungroup()
-    } 
-    
-    if (longitudinal == "only") x <- x[x$id %in% repeated$id, ]
+    if (longitudinal == "no") x <- filter(x, !(id %in% repeated$id))
+    if (longitudinal == "first") x <- filter(x, time==min(time), .by = id)
+    if (longitudinal == "last") x <- filter(x, time==max(time), .by = id) 
+    if (longitudinal == "only") x <- filter(x, id %in% repeated$id)
     
     return(x)
 }

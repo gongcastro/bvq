@@ -26,8 +26,7 @@
 #'   `"prop"`. If `"prop"` (default), vocabulary metrics are calculated as
 #'   proportions. If `"count"`, vocabulary metrics are reported as counts
 #'   (number of words). 
-#' @param ... Extra arguments that will be passed to the `bvq_responses`.
-#'   function.
+#' @param ... Extra arguments that will be passed to [bvq::bvq_responses()]`.
 #' @returns A dataset (actually, a [tibble::tibble] with each participant's
 #'   comprehensive and/or vocabulary size in each language. This data frame
 #'   contains the following variables:
@@ -170,8 +169,8 @@ bvq_vocabulary <- function(participants,
                    by = join_by(id, time, type, !!!.by)) %>%
             mutate(across(matches("concept|te"), 
                           function(x) ifelse(is.na(x), as.integer(0), x))) %>%
-            select(any_of(c("id", "time", "age", "type", .by)), matches(.scale)) %>%
-            select(-ends_with(which_col_not))
+            select(any_of(c("id", "time", "age", "type", .by)),
+                   matches(.scale), (-ends_with(which_col_not)))
         
         return(vocabulary)
         
