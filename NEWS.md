@@ -4,6 +4,8 @@
 * Add examples and tests for `get_time_stamp()` and `get_doe()`
 * Add documentation for new version of `bvq_norms()` in its vignette
 * Use .covrignore
+* Replace `group_by()`/`ungroup()` for experimental argument `.by` in dplyr functions
+
 
 # bvq 0.3.0
 

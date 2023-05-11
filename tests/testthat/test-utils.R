@@ -41,7 +41,7 @@ test_that("get_doe works", {
                 doe_other = 1-get_doe(matches("cat|spa")),
                 doe_cat = get_doe(doe_cat_1, doe_cat_2),
                 doe_spa = get_doe(matches("spa")))
-                
+    
     expect_true(all(vapply(y, class, "character")=="numeric"))
     expect_true(all(sapply(y, \(x) (x>=0) & (x <= 1))))
     expect_equal(y$doe_other, 1-rowSums(x))
@@ -49,7 +49,7 @@ test_that("get_doe works", {
     expect_equal(y$doe_spa, rowSums(x[, c("doe_spa_1", "doe_spa_2")]))
 })
 
-test_that("get_longitudinal works correctly", {
+test_that("get_longitudinal works", {
     id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
     sums <- rle(sort(id))[["lengths"]]
     dat <- data.frame(id, time = unlist(sapply(sums, function(x) seq(1, x))))
@@ -62,3 +62,13 @@ test_that("get_longitudinal works correctly", {
     expect_identical(get_longitudinal(dat, "last")$id, unique(dat$id))
     
 })
+
+
+test_that("fix_code works", {
+    code_vctr <- c("BL0123", "bl0123", "Bl0123", "BLBL0123",
+                   "bi0123", "blo123", "B0123", "BI0123",
+                   " BL0123")
+    
+    expect_equal(unique(fix_code(code_vctr)), "BL0123")
+})
+

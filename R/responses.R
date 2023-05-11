@@ -51,52 +51,33 @@ bvq_responses <- function(participants = NULL,
                           longitudinal = "all",
                           ...) {
     
-    bvq_connect() # get credentials to Google and formr
-    
-    # get participant information
-    if (is.null(participants)) participants <- bvq_participants()
-    
     # retrieve data from formr
     formr2 <- import_formr2() # formr2
     formr_lockdown <- import_formr_lockdown() # formr-lockdown
     formr_short <- import_formr_short() # formr-lockdown
     
-    # merge data
-    suppressMessages({
-        
-        cbc_studies <- c("CBC", "Signs", "Negation", "Inhibition")
-        
-        responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
-            bind_rows() %>%
-            distinct(id, code, item, .keep_all = TRUE) %>%  
-            mutate(across(c(starts_with("date_"), time_stamp), as_date),
-                   date_finished = coalesce(time_stamp, date_finished),
-                   version = case_when(
-                       study %in% "DevLex" ~ "DevLex",
-                       study %in% cbc_studies ~ "CBC",
-                       .default = version
-                   ),
-                   time = ifelse(is.na(time), 1, time),
-                   version = trimws(version, whitespace = "[\\h\\v]"),
-            ) %>%
-            fix_item() %>%
-            fix_doe() %>%
-            mutate(across(starts_with("doe_"), 
-                          function(x) x / 100)) %>%
-            fix_sex() %>%
-            mutate(study = ifelse(is.na(study), "BiLexicon", study)) %>% 
-            fix_id_exp() %>%
-            drop_na(date_finished) %>%
-            get_longitudinal(longitudinal = longitudinal) %>%
-            arrange(desc(date_finished)) %>% 
-            select(id, time, code, study,
-                   version, randomisation,
-                   starts_with("date_"),
-                   item, response, sex,
-                   starts_with("doe_"),
-                   starts_with("edu_"))
-    })
-    
+    responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
+        bind_rows() %>%
+        distinct(id, code, item, .keep_all = TRUE) %>%  
+        mutate(across(c(starts_with("date_"), time_stamp), as_date),
+               date_finished = coalesce(time_stamp, date_finished),
+               time = ifelse(is.na(time), 1, time),
+               version = trimws(version, whitespace = "[\\h\\v]")) %>%
+        fix_item() %>%
+        fix_doe() %>%
+        mutate(across(starts_with("doe_"), function(x) x / 100)) %>%
+        fix_sex() %>%
+        mutate(study = ifelse(is.na(study), "BiLexicon", study)) %>% 
+        fix_id_exp() %>%
+        drop_na(date_finished) %>%
+        get_longitudinal(longitudinal = longitudinal) %>%
+        arrange(desc(date_finished)) %>% 
+        select(id, time, code, study,
+               version, randomisation,
+               starts_with("date_"),
+               item, response, sex,
+               starts_with("doe_"),
+               starts_with("edu_"))
     
     return(responses)
 }
