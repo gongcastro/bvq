@@ -164,5 +164,4 @@ bvq_vocabulary <- function(participants,
         select(-ends_with(which_col_not))
     
     return(vocabulary)
-    
 }
