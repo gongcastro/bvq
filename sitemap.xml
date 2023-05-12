@@ -61,6 +61,9 @@
     <loc>/reference/bvq_vocabulary.html</loc>
   </url>
   <url>
+    <loc>/reference/check_arg_dots.html</loc>
+  </url>
+  <url>
     <loc>/reference/check_arg_te.html</loc>
   </url>
   <url>
@@ -86,9 +89,6 @@
   </url>
   <url>
     <loc>/reference/fix_item.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fix_postcode.html</loc>
   </url>
   <url>
     <loc>/reference/fix_sex.html</loc>
@@ -137,6 +137,18 @@
   </url>
   <url>
     <loc>/reference/tidyeval.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vocab_concept.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vocab_dominance.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vocab_te.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vocab_total.html</loc>
   </url>
   <url>
     <loc>/reference/vowels.html</loc>
