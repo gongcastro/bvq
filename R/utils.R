@@ -96,7 +96,7 @@ fix_code <- function(x) { # nocov start
     x <- paste0("BL", x)
     
     return(x)
-} # nocov start
+} # nocov end
 
 
 #' Fix raw codes
@@ -197,7 +197,8 @@ fix_item <- function(x) { # nocov start
 #' 
 #' @param x Vector of `id_exp` whose values should be fixed
 #' @author Gonzalo Garcia-Castro
-fix_id_exp <- function(x) { # nocov start
+fix_id_exp <- function(x) 
+{ # nocov start
     x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
     return(x)
 } # nocov end
@@ -234,7 +235,8 @@ fix_id_exp <- function(x) { # nocov start
 #' 
 #' get_longitudinal(dat, "first")
 #' get_longitudinal(dat, "only")
-get_longitudinal <- function(x, longitudinal = "all") {
+get_longitudinal <- function(x, longitudinal = "all")
+{
     
     longitudinal_opts <- c("all", "no", "first", "last", "only")
     

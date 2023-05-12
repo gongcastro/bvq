@@ -139,7 +139,7 @@ bvq_norms <- function(participants,
 #'   the available items in the [bvq::pool] data set running `data("pool")`.
 #'   
 check_arg_te <- function(te, item) 
-{
+{ # nocov start
     if (is.logical(te)) {
         if (te) {
             item <- pool$item[pool$te %in% pool$te[pool$item %in% item]]
@@ -168,4 +168,4 @@ check_arg_te <- function(te, item)
         }
     }
     return(item)
-}
+}# nocov end

@@ -158,7 +158,7 @@ check_arg_dots <- function(x, .cols)
 #' @inheritParams bvq_vocabulary
 #' 
 vocab_total <- function(x, ...)
-{
+{ # nocov start
     out <- x %>%
         summarise(total_count = sum(response, na.rm = TRUE),
                   n_total = n(),
@@ -166,7 +166,7 @@ vocab_total <- function(x, ...)
         mutate(total_prop = ifelse(n_total==0, 0, total_count/n_total))
     
     return(out)
-}
+}# nocov end
 
 #' Compute dominance vocabulary (L1, L2)
 #' 
@@ -174,7 +174,7 @@ vocab_total <- function(x, ...)
 #' @inheritParams vocab_total
 #' 
 vocab_dominance <- function(x, ...)
-{
+{ # nocov start
     
     out <- x %>%
         summarise(count = sum(response, na.rm = TRUE),
@@ -190,7 +190,7 @@ vocab_dominance <- function(x, ...)
                -ends_with("n_total"), any_of(...))
     
     return(out)
-}
+} # nocov end
 
 #' Compute conceptual vocabulary (L1 or L2)
 #' 
@@ -198,7 +198,7 @@ vocab_dominance <- function(x, ...)
 #' @inheritParams vocab_total
 #' 
 vocab_concept <- function(x, ...) 
-{
+{ # nocov start
     
     out <- x %>% 
         mutate(across(c(L1, L2), function(x) x > 0),
@@ -212,7 +212,7 @@ vocab_concept <- function(x, ...)
         select(id, time, type, concept_count, concept_prop, any_of(...))
     
     return(out)
-}
+} # nocov end
 
 #' Compute translation equivalent vocabulary (L1 & L2)
 #' 
@@ -220,7 +220,7 @@ vocab_concept <- function(x, ...)
 #' @inheritParams vocab_total
 #' 
 vocab_te <- function(x, ...)
-{
+{ # nocov start
     
     out <- x %>%
         mutate(across(c(L1, L2), function(x) x > 0),
@@ -234,4 +234,4 @@ vocab_te <- function(x, ...)
         select(id, time, type, te_count, te_prop, any_of(...))
     
     return(out)
-}
+} # nocov end

@@ -46,7 +46,8 @@
 #'
 #' @author Gonzalo Garcia-Castro
 #' @md
-bvq_participants <- function(...) {
+bvq_participants <- function(...)
+{
     suppressMessages({
         
         bvq_connect() # get credentials to Google and formr
