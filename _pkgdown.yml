@@ -73,7 +73,6 @@ reference:
   - fix_doe
   - fix_id_exp
   - fix_item
-  - fix_postcode
   - fix_sex
   - get_doe
   - get_time_stamp
@@ -81,3 +80,7 @@ reference:
   - import_formr_lockdown
   - import_formr_short
   - process_survey
+  - vocab_total
+  - vocab_dominance
+  - vocab_concept
+  - vocab_te
