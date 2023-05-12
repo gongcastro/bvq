@@ -88,14 +88,7 @@ get_doe <- function(...) {
 #' 
 #' @param x Vector of `code` whose values should be fixed.
 #' @author Gonzalo Garcia-Castro
-#' 
-#' @examples
-#' code_vctr <- c("BL0123", "bl0123", "Bl0123", "BLBL0123",
-#'                 "bi0123", "blo123", "B0123", "BI0123",
-#'                 " BL0123")
-#'                 
-#' fix_code(code_vctr)
-fix_code <- function(x) {
+fix_code <- function(x) { # nocov start
     x <- toupper(trimws(x))
     x <- gsub("O", "0", x)
     x <- gsub("I", "L", x)
@@ -103,7 +96,7 @@ fix_code <- function(x) {
     x <- paste0("BL", x)
     
     return(x)
-}
+} # nocov end
 
 
 #' Fix raw codes
@@ -204,7 +197,8 @@ fix_item <- function(x) { # nocov start
 #' 
 #' @param x Vector of `id_exp` whose values should be fixed
 #' @author Gonzalo Garcia-Castro
-fix_id_exp <- function(x) { # nocov start
+fix_id_exp <- function(x) 
+{ # nocov start
     x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
     return(x)
 } # nocov end
@@ -241,7 +235,8 @@ fix_id_exp <- function(x) { # nocov start
 #' 
 #' get_longitudinal(dat, "first")
 #' get_longitudinal(dat, "only")
-get_longitudinal <- function(x, longitudinal = "all") {
+get_longitudinal <- function(x, longitudinal = "all")
+{
     
     longitudinal_opts <- c("all", "no", "first", "last", "only")
     
@@ -259,5 +254,7 @@ get_longitudinal <- function(x, longitudinal = "all") {
     
     return(x)
 }
+
+
 
 

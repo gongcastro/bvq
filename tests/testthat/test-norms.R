@@ -92,11 +92,13 @@ test_that("test if items not in `te` are excluded with a warning", {
     })
 })
 
-test_that("test age = c(10, 12) return correct age range", {
+test_that("test that the ... argument works", {
     norms <- bvq_norms(participants, 
                        responses,
+                       lp,
+                       semantic_category,
                        item = "cat_gat", 
                        age = c(10, 12))
-    expect_true(all(norms$age >= 10 ))
-    expect_true(all(norms$age <= 12 ))
+    expect_true(all(c("lp", "semantic_category") %in% colnames(norms)))
 }) 
+

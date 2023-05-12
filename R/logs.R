@@ -55,7 +55,8 @@ bvq_logs <- function(participants = NULL,
                      responses = NULL,
                      bilingual_threshold = 0.80,
                      other_threshold = 0.10,
-                     ...) {
+                     ...) 
+{
     
     # get participant information
     if (is.null(participants)) participants <- bvq_participants()

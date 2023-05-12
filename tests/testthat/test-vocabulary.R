@@ -54,3 +54,13 @@ test_that("column classes are the right ones", {
     expect_true(all(class(vocabulary$te_prop) == "numeric"))
 })
 
+test_that("the ... argument works", {
+    vocabulary <- bvq_vocabulary(participants, responses, lp, semantic_category)
+    
+    expect_true(all(c("lp", "semantic_category") %in% colnames(vocabulary)))
+    expect_error(bvq_vocabulary(participants, responses, lp, XXXX))
+    
+})
+
+
+
