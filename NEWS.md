@@ -1,6 +1,13 @@
+# bvq 0.3.2
+
+* Refactor `bvq_vocabulary()` and `bvq_norms()` to use rlang and the dynamic dots (`...`) (#20) operator
+* Refactor `bvq_vocabulary()` breaking it up into smaller helper functions
+* Update documentation
+
+
 # bvq 0.3.1
 
-* Refactor `get_time_stamp()` and `get_doe()` to use tidyselect
+* Refactor `get_time_stamp()` and `get_doe()` to use rlang
 * Add examples and tests for `get_time_stamp()` and `get_doe()`
 * Add documentation for new version of `bvq_norms()` in its vignette
 * Use .covrignore

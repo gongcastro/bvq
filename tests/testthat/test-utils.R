@@ -1,4 +1,5 @@
 test_that("times are handled correctly", {
+    
     diff <- diff_in_time(as.Date("2023-02-01"), as.Date("2022-02-01"))
     
     expect_identical(round(diff, digits = 2), expected = 11.99)
@@ -11,6 +12,7 @@ test_that("times are handled correctly", {
 })
 
 test_that("get_time_stamp works", {
+    
     x <- data.frame(start = as.Date(c("2023-02-01", "2023-02-20")),
                     finish = as.Date(c("2023-03-15", "2023-02-21")))
     
@@ -32,6 +34,7 @@ test_that("get_time_stamp works", {
 })
 
 test_that("get_doe works", {
+    
     x <- data.frame(doe_cat_1 = seq(0, 1, 0.1),
                     doe_cat_2 = c(0, rep(c(0.1, 0), each = 5)),
                     doe_spa_1 = c(0, rep(c(0.1, 0), each = 5)),
@@ -50,6 +53,7 @@ test_that("get_doe works", {
 })
 
 test_that("get_longitudinal works", {
+    
     id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
     sums <- rle(sort(id))[["lengths"]]
     dat <- data.frame(id, time = unlist(sapply(sums, function(x) seq(1, x))))
@@ -65,6 +69,7 @@ test_that("get_longitudinal works", {
 
 
 test_that("fix_code works", {
+    
     code_vctr <- c("BL0123", "bl0123", "Bl0123", "BLBL0123",
                    "bi0123", "blo123", "B0123", "BI0123",
                    " BL0123")

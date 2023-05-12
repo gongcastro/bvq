@@ -88,14 +88,7 @@ get_doe <- function(...) {
 #' 
 #' @param x Vector of `code` whose values should be fixed.
 #' @author Gonzalo Garcia-Castro
-#' 
-#' @examples
-#' code_vctr <- c("BL0123", "bl0123", "Bl0123", "BLBL0123",
-#'                 "bi0123", "blo123", "B0123", "BI0123",
-#'                 " BL0123")
-#'                 
-#' fix_code(code_vctr)
-fix_code <- function(x) {
+fix_code <- function(x) { # nocov start
     x <- toupper(trimws(x))
     x <- gsub("O", "0", x)
     x <- gsub("I", "L", x)
@@ -103,7 +96,7 @@ fix_code <- function(x) {
     x <- paste0("BL", x)
     
     return(x)
-}
+} # nocov start
 
 
 #' Fix raw codes
@@ -261,18 +254,5 @@ get_longitudinal <- function(x, longitudinal = "all") {
 }
 
 
-#' Check argument `.by`
-#' 
-check_arg_by <- function(x, .cols) { # nocov start
-    
-    is_valid <- x %in% .cols
-    
-    if (!all(is_valid)) {
-        which_missing <- x[which(is_valid)]
-        cli_msg <- "`.by` contains element {which_missing}, which is not
-                        a variable in `logs`, `pool`, or `responses`"
-        cli_abort(cli_msg)
-    }
-    
-} # nocov end
+
 
