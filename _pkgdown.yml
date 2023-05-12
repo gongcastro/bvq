@@ -79,6 +79,7 @@ reference:
   desc: "Helper functions used internally"
   contents:
   - check_arg_te
+  - check_arg_by
   - download_surveys
   - fix_code
   - fix_code_raw

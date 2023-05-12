@@ -280,3 +280,18 @@ get_longitudinal <- function(x, longitudinal = "all") {
 }
 
 
+#' Check argument `.by`
+#' 
+check_arg_by <- function(x, .cols) { # nocov start
+    
+    is_valid <- x %in% .cols
+    
+    if (!all(is_valid)) {
+        which_missing <- x[which(is_valid)]
+        cli_msg <- "`.by` contains element {which_missing}, which is not
+                        a variable in `logs`, `pool`, or `responses`"
+        cli_abort(cli_msg)
+    }
+    
+} # nocov end
+

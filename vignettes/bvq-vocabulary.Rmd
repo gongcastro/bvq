@@ -71,25 +71,24 @@ Finally, two types of vocabulary sizes are computed:
 These two measures are returned in the long format under the `type` column.
 
 
-## Conditional vocabulary size: the `.by` argument
+## Conditional vocabulary size: the `...` extra arguments
 
-We can also compute vocabulary sizes conditional to some variables at the item or participant level, such as semantic/functional category (`category`), cognate status (`cognate`) or language profile (`lp`), using the argument `.by`. Just take a look at the variables included in the data frame returned by `bvq_logs()` or in the `pool` dataset. For each participant, vocabulary sizes are computed for each level or combination of levels of the variables included in the `.by` argument. You can use this argument to preserve participant-level information in the output data frame. For instance, we can keep information about the language profile (`lp`) of the participant:
+We can also compute vocabulary sizes conditional to some variables at the item or participant level, such as semantic/functional (`semantic_category`) or language profile (`lp`), using the argument `...` argument. Just take a look at the variables included in the data frame returned by `bvq_logs()` or in the `pool` dataset. For each participant, vocabulary sizes are computed for each level or combination of levels of the variables included in the columns included in `...`. You can use this argument to preserve participant-level information in the output data frame. For instance, we can keep information about the language profile (`lp`) of the participant:
 
 ```{r by-lp, echo=TRUE, eval = FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-bvq_vocabulary(participants, responses, .by = "lp")
+bvq_vocabulary(participants, responses, lp)
 ```
 
 We can also can also preserve information about the items, like the semantic/functional category of the words (`semantic_category`). In this case, the vocabulary sizes will be computed for each level of the `semantic_category` variable:
 
 ```{r by-semantic-category, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-bvq_vocabulary(participants, responses, .by = "semantic_category")
+bvq_vocabulary(participants, responses, semantic_category)
 ```
 
 Finally, we can preserve more than one variable, including combinations of participant-level and item-level variables, such as language profile (`lp`), age (`age`) and grammatical class (`class`):
 
 ```{r by-mult, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-bvq_vocabulary(participants, responses, 
-               .by = c("age", "lp", "semantic_category"))
+bvq_vocabulary(participants, responses, age, lp, semantic_category)
 ```
 
 
