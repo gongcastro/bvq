@@ -140,15 +140,15 @@ consulted in the <code>pool</code> data set:</p>
 <span><span class="co">#&gt;       te item    label   age type     item_dominance  .sum    .n .prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   173 cat_gat gat       7 produces L1                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   173 cat_gat gat      10 produces L1                 0     7 0.182</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   173 cat_gat gat      11 produces L1                 0     3 0.286</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   173 cat_gat gat      12 produces L1                 0     8 0.167</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   173 cat_gat gat      13 produces L1                 0     9 0.154</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   173 cat_gat gat      14 produces L1                 0     9 0.154</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   173 cat_gat gat      10 produces L1                 0     9 0.154</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   173 cat_gat gat      11 produces L1                 0     5 0.222</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   173 cat_gat gat      12 produces L1                 0    10 0.143</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   173 cat_gat gat      13 produces L1                 0    10 0.143</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   173 cat_gat gat      14 produces L1                 0    12 0.125</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   173 cat_gat gat      15 produces L1                 1     9 0.231</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   173 cat_gat gat      16 produces L1                 3    14 0.278</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   173 cat_gat gat      16 produces L1                 4    16 0.3  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   173 cat_gat gat      17 produces L1                 1     6 0.3  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   173 cat_gat gat      18 produces L1                 1    12 0.188</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   173 cat_gat gat      18 produces L1                 1    15 0.158</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 230 more rows</span></span></span></code></pre>
 <p>If we want to retrieve the acquisition norms of our item of interest,
 but also those of its translation equivalent, we can use the argument
@@ -192,16 +192,16 @@ argument <code>item</code> blank:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 40 × 9</span></span></span>
 <span><span class="co">#&gt;       te item    label   age type        item_dominance  .sum    .n .prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   175 cat_cuc cuc      25 produces    L1                15    26 0.567</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   175 cat_cuc cuc      26 produces    L1                11    20 0.542</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   175 cat_cuc cuc      27 produces    L1                 5    10 0.5  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   175 cat_cuc cuc      28 produces    L1                12    16 0.7  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   175 cat_cuc cuc      29 produces    L1                 8     9 0.769</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   175 cat_cuc cuc      25 understands L1                22    26 0.8  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   175 cat_cuc cuc      26 understands L1                16    20 0.75 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   175 cat_cuc cuc      27 understands L1                 7    10 0.643</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   175 cat_cuc cuc      28 understands L1                13    16 0.75 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   175 cat_cuc cuc      29 understands L1                 9     9 0.846</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   175 cat_cuc cuc      25 produces    L1                17    31 0.543</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   175 cat_cuc cuc      26 produces    L1                12    22 0.538</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   175 cat_cuc cuc      27 produces    L1                 5    11 0.467</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   175 cat_cuc cuc      28 produces    L1                14    20 0.667</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   175 cat_cuc cuc      29 produces    L1                 8    11 0.667</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   175 cat_cuc cuc      25 understands L1                24    31 0.743</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   175 cat_cuc cuc      26 understands L1                18    22 0.769</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   175 cat_cuc cuc      27 understands L1                 8    11 0.667</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   175 cat_cuc cuc      28 understands L1                16    20 0.75 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   175 cat_cuc cuc      29 understands L1                11    11 0.867</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 30 more rows</span></span></span></code></pre></div>
 <p>We may be interested in computing the acquisition norms of some items
 of interest, while preserving some participant-level or item-level
@@ -222,16 +222,16 @@ interest to the arguments (<code>lp</code>, in this case):</p>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   591 cat_casa casa     22 produces    L1             Other     1     1 0.6  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   591 cat_casa casa     22 produces    L1             Mono…     4     6 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   591 cat_casa casa     22 produces    L1             Bili…     6    11 0.533</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   591 cat_casa casa     22 produces    L1             Bili…     5     7 0.636</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   591 cat_casa casa     22 understands L1             Other     1     1 0.6  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   591 cat_casa casa     22 understands L1             Mono…     5     6 0.7  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   591 cat_casa casa     22 understands L1             Bili…    11    11 0.867</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   591 cat_casa casa     22 produces    L2             Bili…     0     3 0.286</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   591 cat_casa casa     22 produces    L2             Other     1     2 0.5  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   591 cat_casa casa     22 produces    L2             Mono…     1     2 0.5  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   591 cat_casa casa     22 understands L1             Bili…     7     7 0.818</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   591 cat_casa casa     22 produces    L2             Other     1     2 0.5  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   591 cat_casa casa     22 produces    L2             Mono…     1     2 0.5  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   591 cat_casa casa     22 produces    L2             Bili…     1     7 0.273</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   591 cat_casa casa     22 understands L2             Other     1     2 0.5  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>   591 cat_casa casa     22 understands L2             Mono…     2     2 0.667</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>   591 cat_casa casa     22 understands L2             Bili…     3     3 0.714</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>   591 cat_casa casa     22 understands L2             Bili…     7     7 0.818</span></span></code></pre></div>
 <p>To can get acquisition norms for the combination of multiple
 variables of interest. For instance, we can get the acquisition norms
 above, disaggregated by <code>lp</code> and <code>dominance</code>:</p>
