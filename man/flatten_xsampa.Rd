@@ -20,6 +20,14 @@ Remove punctuation from X-SAMPA transcriptions
 Note that this function will effectively remove information about
 syllabification and stress from the phonological representations.
 }
+\examples{
+\dontrun{
+vct <- pool$xsampa[1:10]
+
+flatten_xsampa(vct)
+}
+
+}
 \author{
 Gonzalo Garcia-Castro
 }

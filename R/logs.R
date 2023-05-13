@@ -50,6 +50,14 @@
 #' * completed: a logical value that returns `TRUE` if `progress` is 1, and `FALSE` otherwise.
 #'
 #' @author Gonzalo Garcia-Castro
+#' 
+#' @examples
+#' \dontrun{
+#' responses <- bvq_responses()
+#' 
+#' logs <- bvq_logs(responses = responses)
+#' }
+#' 
 #' @md
 bvq_logs <- function(participants = NULL,
                      responses = NULL,

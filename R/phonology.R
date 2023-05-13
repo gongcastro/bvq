@@ -12,6 +12,13 @@
 #'   
 #' @author Gonzalo Garcia-Castro
 #' 
+#' @examples
+#' \dontrun{
+#' vct <- pool$xsampa[1:10]
+#' 
+#' flatten_xsampa(vct)
+#' }
+#' 
 #' @md
 flatten_xsampa <- function(x) {
   str_rm <- c("\\.", "\\\\", ",", "/", "?", "'", '"')
@@ -31,6 +38,13 @@ flatten_xsampa <- function(x) {
 #' 
 #' @author Gonzalo Garcia-Castro
 #' 
+#' @examples
+#' \dontrun{
+#' vct <- pool$xsampa[1:10]
+#' 
+#' syllabify_xsampa(vct)
+#' }
+#' 
 #' @md
 syllabify_xsampa <- function(x, .sep = c("\\.", "\\\"")) {
   syll <- strsplit(x, split = paste0(.sep, collapse = "|"))
@@ -48,6 +62,13 @@ syllabify_xsampa <- function(x, .sep = c("\\.", "\\\"")) {
 #' @return A vector of characters in which each element is a syllable, in which vowels have been replaced with `"V"` and each consonants has been replaced with `"C"`.
 #' 
 #' @author Gonzalo Garcia-Castro
+#' 
+#' @examples
+#' \dontrun{
+#' vct <- pool$xsampa[1:10]
+#' 
+#' syllable_str_xsampa(vct)
+#' }
 #' 
 #' @md
 syllable_str_xsampa <- function(x, .sep = c("\\.", "\\\"")) {

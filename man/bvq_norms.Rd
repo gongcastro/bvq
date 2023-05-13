@@ -60,6 +60,30 @@ and participant profiles. Estimated proportions and corresponding standard
 errors and confidence intervals are computed adjusting for zero- and
 one-inflation (see function \code{\link[=prop_adj]{prop_adj()}}).
 }
+\examples{
+\dontrun{
+responses <- bvq_responses()
+
+bvq_norms(
+    participants = participants,
+    responses = responses,
+    item = "cat_casa",
+    age = c(22, 22),
+    lp
+)
+    
+my_items <- c("cat_gos", "cat_gat")
+
+bvq_norms(
+    participants = participants,
+    responses = responses,
+    item = my_items,
+    te = TRUE,
+    age = c(15, 16)
+)    
+}
+
+}
 \author{
 Gonzalo Garcia-Castro
 }

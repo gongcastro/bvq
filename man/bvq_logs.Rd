@@ -64,6 +64,14 @@ identified with the same \code{id}. The variable \code{time} indexes how
 many times a participant has been sent the questionnaire, independently of
 whether a response was obtained from them later.
 }
+\examples{
+\dontrun{
+responses <- bvq_responses()
+
+logs <- bvq_logs(responses = responses)
+}
+
+}
 \author{
 Gonzalo Garcia-Castro
 }

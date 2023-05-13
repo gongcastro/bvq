@@ -50,7 +50,32 @@
 #' * .n: a positive integer indicating the total number number of responses (useful for computing proportions).
 #' * .prop: a numeric value ranging from 0 to 1 (both included) indicating the estimated proportion of participants that provided a positive response, adjusted following Gelman et al.'s method to account for zero- and one-inflation (see function [prop_adj]).
 #' Additionally, any variables specified in the `.by` argument are preserved as grouping variables.
+#' 
 #' @author Gonzalo Garcia-Castro
+#' 
+#' @examples
+#' \dontrun{
+#' responses <- bvq_responses()
+#' 
+#' bvq_norms(
+#'     participants = participants,
+#'     responses = responses,
+#'     item = "cat_casa",
+#'     age = c(22, 22),
+#'     lp
+#' )
+#'     
+#' my_items <- c("cat_gos", "cat_gat")
+#' 
+#' bvq_norms(
+#'     participants = participants,
+#'     responses = responses,
+#'     item = my_items,
+#'     te = TRUE,
+#'     age = c(15, 16)
+#' )    
+#' }
+#' 
 #' @md
 bvq_norms <- function(participants,
                       responses,

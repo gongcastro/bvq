@@ -45,7 +45,7 @@ contains the following variables:
 \item concept_prop: numeric value ranging from 0 to 1 (both included) indicating the proportion of of translation equivalents (a.k.a. cross-language synonyms or doublets) in which at least one of the items was selected as "Understands" or "Understands and Says". This is a measure of the number of lexicalised concepts.
 \item te_prop: numeric value ranging from 0 to 1 (both included) indicating the proportion of of translation equivalents (aka. cross-language synonyms or doublets) in which both items were selected as "Understands" or "Understands and Says". This is a measure of the number of lexicalised concepts.
 The specific subset of columns returned by \code{\link[=bvq_vocabulary]{bvq_vocabulary()}} depends
-on the elements of \code{.by} and \code{.scale}.
+on the elements of \code{...} and \code{.scale}.
 }
 }
 \description{
@@ -53,6 +53,18 @@ This function generates a data frame with the vocabulary of each participant
 (keeping longitudinal data from the same participant in different rows).
 Comprehensive and productive vocabulary sizes are computed as raw counts
 (\verb{*_count}) and as proportions \verb{*_prop}.
+}
+\examples{
+\dontrun{
+responses <- bvq_responses()
+
+bvq_vocabulary(responses = responses, lp)
+
+bvq_vocabulary(responses = responses,
+               lp, semantic_category)
+
+}
+
 }
 \author{
 Gonzalo Garcia-Castro

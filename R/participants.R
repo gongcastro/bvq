@@ -47,6 +47,12 @@
 #'       two weeks since they were sent the questionnaire.
 #'
 #' @author Gonzalo Garcia-Castro
+#' 
+#' @examples
+#' \dontrun{
+#' bvq_participants()
+#' }
+#' 
 #' @md
 bvq_participants <- function(...) {
     suppressMessages({

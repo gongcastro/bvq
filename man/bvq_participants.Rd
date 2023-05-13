@@ -52,6 +52,12 @@ This function generates a data frame with the information of all participants
 that have participated or are candidates to participate in any of the
 versions of BVQ.
 }
+\examples{
+\dontrun{
+bvq_participants()
+}
+
+}
 \author{
 Gonzalo Garcia-Castro
 }

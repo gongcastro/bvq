@@ -45,11 +45,20 @@
 #' * randomisation: a character string indicating the specific list of items a participant was assigned to. Only applies in the case of short versions of BVQ, such as BL-Short, BL-Short-2 or BL-Lockdown, where the list of items was partitioned into several versions.
 #'
 #' @author Gonzalo Garcia-Castro
+#' 
+#' @examples
+#' \dontrun{
+#' bvq_responses()
+#' }
+#' 
 #' @md
-bvq_responses <- function(participants = NULL,
+bvq_responses <- function(participants,
                           longitudinal = "all",
                           ...)
 {
+    
+    if (missing(participants)) participants <- bvq_participants()
+    
     # retrieve data from formr
     formr2 <- import_formr2(participants) # formr2
     formr_lockdown <- import_formr_lockdown(participants) # formr-lockdown

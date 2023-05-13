@@ -19,6 +19,10 @@
 #'   
 #' @return Logical. `TRUE` if Google and formr authentication was successful,
 #'   `FALSE` if authentication of any of the two failed.
+#' 
+#' @examples
+#' \dontrun{bvq_connect()}
+#' 
 bvq_connect <- function(google_email = NULL,
                         password = NULL) {
   formr_email <- "gonzalo.garciadecastro@upf.edu"
