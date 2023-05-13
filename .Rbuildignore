@@ -30,3 +30,4 @@ codecov.exe
 ^tests$
 ^\.covrignore$
 ^.covrignore$
+^codemeta.json$

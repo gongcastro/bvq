@@ -16,4 +16,5 @@ Proportion, adjusted for zero- and one-inflation
 }
 \examples{
 prop_adj(4, 60)
+
 }

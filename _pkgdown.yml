@@ -59,28 +59,9 @@ reference:
 - title: "Helper functions"
   desc: "Additional functions to access and process the data"
   contents:
-  - diff_in_time
   - get_longitudinal
   - prop_adj
 - title: "Internals"
   desc: "Helper functions used internally"
   contents:
-  - check_arg_te
-  - check_arg_dots
-  - download_surveys
-  - fix_code
-  - fix_code_raw
-  - fix_doe
-  - fix_id_exp
-  - fix_item
-  - fix_sex
   - get_doe
-  - get_time_stamp
-  - import_formr2
-  - import_formr_lockdown
-  - import_formr_short
-  - process_survey
-  - vocab_total
-  - vocab_dominance
-  - vocab_concept
-  - vocab_te

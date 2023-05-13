@@ -9,8 +9,8 @@ vignette: >
 
 ```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 knitr::opts_chunk$set(
-    collapse = TRUE,
-    comment = "#>"
+  collapse = TRUE,
+  comment = "#>"
 )
 data("pool", package = "bvq")
 ```
@@ -35,10 +35,10 @@ responses <- bvq_responses(participants = participants)
 my_items <- c("cat_gos", "cat_gat")
 
 norms <- bvq_norms(
-    participants = participants,
-    responses = responses,
-    item = my_items,
-    age = c(12, 35)
+  participants = participants,
+  responses = responses,
+  item = my_items,
+  age = c(12, 35)
 )
 ```
 
@@ -50,10 +50,10 @@ participants <- readRDS(file.path("fixtures", "participants.rds"))
 my_items <- c("cat_gos", "cat_gat")
 
 norms <- bvq_norms(
-    participants = participants,
-    responses = responses,
-    item = my_items,
-    age = c(1, 45)
+  participants = participants,
+  responses = responses,
+  item = my_items,
+  age = c(1, 45)
 )
 
 (norms)
@@ -65,22 +65,22 @@ If we want to retrieve the acquisition norms of our item of interest, but also t
 my_items <- c("cat_gos", "cat_gat")
 
 bvq_norms(
-    participants = participants,
-    responses = responses,
-    item = my_items,
-    te = TRUE,
-    age = c(15, 16)
-) 
+  participants = participants,
+  responses = responses,
+  item = my_items,
+  te = TRUE,
+  age = c(15, 16)
+)
 ```
 
 We can even indicate a specific translation equivalent in the `te` argument to retrieve its norms, while leaving the argument `item` blank:
 
 ```{r te, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 bvq_norms(
-    participants = participants,
-    responses = responses,
-    te = 175,
-    age = c(25, 29)
+  participants = participants,
+  responses = responses,
+  te = 175,
+  age = c(25, 29)
 )
 ```
 
@@ -90,11 +90,11 @@ We may be interested in computing the acquisition norms of some items of interes
 
 ```{r dots-lp, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 bvq_norms(
-    participants = participants,
-    responses = responses,
-    item = "cat_casa",
-    age = c(22, 22),
-    lp
+  participants = participants,
+  responses = responses,
+  item = "cat_casa",
+  age = c(22, 22),
+  lp
 )
 ```
 
@@ -103,12 +103,12 @@ To can get acquisition norms for the combination of multiple variables of intere
 
 ```{r dots-dominance, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 bvq_norms(
-    participants = participants,
-    responses = responses,
-    item = "cat_casa",
-    age = c(22, 22),
-    lp,
-    dominance
+  participants = participants,
+  responses = responses,
+  item = "cat_casa",
+  age = c(22, 22),
+  lp,
+  dominance
 )
 ```
 

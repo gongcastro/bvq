@@ -42,7 +42,7 @@
 #' * te: an integer identifying the translation equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.
 #' * item: character string indicating the item identifier (e.g., `spa_mesa`). This value is unique for each item. Responses to the same item from different participants are linked by the same `item` value.
 #' * language: a character string indicating the language the item response belongs to: `"Catalan"` if item in Catalan), `"Spanish"` if item in Spanish.
-#' * age: an numeric vector of length two indicating the age range of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., `15.36`, it is rounded downwards using [floor()].)
+#' * age: an numeric vector of length 1 or 2 indicating the age range of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., `15.36`, it is rounded downwards using [floor()].)
 #' * type: a character string indicating the vocabulary type computed: `"understands"` if option 'Understands' was selected, and `"produces"` if option 'Understands & Says' was selected.
 #' * item_dominance: a character string that takes the value `"L1"` if the item belongs to participants' language of most exposure, and L2 if the item belongs to participants' language of least exposure.
 #' * label: a character string indicating the text presented to participants in the questionnaire (replacing the `item` identifier).
@@ -57,22 +57,24 @@ bvq_norms <- function(participants,
                       ...,
                       te = NULL,
                       item = NULL,
-                      age = NULL)
-{
-    
+                      age = NULL) {
     if (is_missing(participants)) participants <- bvq_participants()
     if (is_missing(responses)) responses <- bvq_responses(participants)
     
     # collect ... into a character vector for `any_of`
-    dots_vctr <- as.character(match.call(expand.dots = FALSE)$`...`)  
+    dots_vctr <- as.character(match.call(expand.dots = FALSE)$`...`)
     
-    group_vars <- c("te", "item", "label", "age", "type",
-                    "item_dominance", dots_vctr)
+    group_vars <- c(
+        "te", "item", "label", "age", "type",
+        "item_dominance", dots_vctr
+    )
     
     # retrieve participants and logs -------------------------------------------
-    logs_tmp <- bvq_logs(participants = participants, 
-                         responses = responses) %>% 
-        select(id, time, dominance, any_of(group_vars)) %>% 
+    logs_tmp <- bvq_logs(
+        participants = participants,
+        responses = responses
+    ) %>%
+        select(id, time, dominance, any_of(group_vars)) %>%
         mutate(age = floor(age))
     
     pool_tmp <- select(bvq::pool, language, any_of(group_vars))
@@ -81,11 +83,11 @@ bvq_norms <- function(participants,
     
     if (is.null(item)) {
         item <- unique(responses$item)
-    } else{
+    } else {
         item_in_pool <- item %in% unique(pool_tmp$item)
         if (!all(item_in_pool)) {
             item_not_in_pool <- paste0(item[which(!item_in_pool)], collapse = ", ")
-            cli_abort("item `{item_not_in_pool}` does not exist in pool")
+            cli_abort("item(?s) `{item_not_in_pool}` {?does/do} not exist in pool")
         }
     }
     
@@ -93,42 +95,49 @@ bvq_norms <- function(participants,
     
     item <- check_arg_te(te, item)
     
-    if (length(age) != 2 || !is.numeric(age)) {
-        cli_abort("`age` must be a numeric vector of length 2")
-    } 
+    if (length(age) < 1 || length(age) > 2|| !is.numeric(age)) {
+        cli_abort("`age` must be a numeric vector of length  1 or 2")
+    }
     
     # compute norms ------------------------------------------------------------
     
     norms <- responses %>%
         left_join(logs_tmp, by = join_by(id, time), multiple = "all") %>%
-        filter(item %in% .env$item,
-               !is.na(response),
-               age >= .env$age[1],
-               age <= .env$age[2]) %>% 
-        mutate(understands = response > 1,
-               produces = response==3) %>% 
-        select(-response) %>% 
+        filter(
+            item %in% .env$item,
+            !is.na(response),
+            age >= min(.env$age),
+            age <= max(.env$age)
+        ) %>%
+        mutate(
+            understands = response > 1,
+            produces = response == 3
+        ) %>%
+        select(-response) %>%
         pivot_longer(c(understands, produces),
-                     names_to = "type", 
-                     values_to = "response") %>%
-        left_join(pool_tmp, 
+                     names_to = "type",
+                     values_to = "response"
+        ) %>%
+        left_join(pool_tmp,
                   relationship = "many-to-many",
-                  by = join_by(item)) %>%
-        mutate(item_dominance = ifelse(language==dominance, "L1", "L2")) %>%
-        summarise(.sum = sum(response, na.rm = TRUE),
-                  .n = n(),
-                  .by = any_of(group_vars)) %>%
-        mutate(.prop = prop_adj(.sum, .n)) %>% 
-        arrange(te, item, item_dominance, type, age, .sum, .n, .prop) 
+                  by = join_by(item)
+        ) %>%
+        mutate(item_dominance = ifelse(language == dominance, "L1", "L2")) %>%
+        summarise(
+            .sum = sum(response, na.rm = TRUE),
+            .n = n(),
+            .by = any_of(group_vars)
+        ) %>%
+        mutate(.prop = prop_adj(.sum, .n)) %>%
+        arrange(te, item, item_dominance, type, age, .sum, .n, .prop)
     
     return(norms)
-    
 }
 
 #' Check argument `te` in [bvq::bvq_norms()] function
-#' 
+#'
 #' @importFrom cli  cli_alert_warning
-#' 
+#'
 #' @param te Translation equivalent for which the norms should be computed.
 #'  * If NULL (default), norms are computed exclusively for the items indicated in `item`.
 #'  * If TRUE, norms are computed for both the item indicated in the `item` argument, and for its translation.
@@ -138,8 +147,10 @@ bvq_norms <- function(participants,
 #'   left `NULL` (default) norms will be computed for all items. You can check
 #'   the available items in the [bvq::pool] data set running `data("pool")`.
 #'   
-check_arg_te <- function(te, item) 
-{ # nocov start
+#' @noRd
+#' @keywords internal
+#' 
+check_arg_te <- function(te, item) { # nocov start
     if (is.logical(te)) {
         if (te) {
             item <- pool$item[pool$te %in% pool$te[pool$item %in% item]]
@@ -148,24 +159,24 @@ check_arg_te <- function(te, item)
     } else if (is.numeric(te)) {
         te_in_pool <- te %in% unique(pool$te)
         if (!all(te_in_pool)) {
-            te_not_in_pool <- paste0(te[which(!te_in_pool)], collapse = ", ")
-            cli_abort("te{?s} {te_not_in_pool} does not exist in pool")
+            te_not_in_pool <- te[which(!te_in_pool)]
+            cli_abort("te{?s} {te_not_in_pool} {?does/do} not exist in pool")
         } else {
             items_not_in_te <- item %in% pool$item[pool$te %in% te]
             if (!all(items_not_in_te)) {
-                which_items_not_in_te <- paste0(item[which(!items_not_in_te)], collapse = ", ")
-                cli_alert_warning("Item{?s} '{which_items_not_in_te}' was not included in the specified `te`.
-                                  Its norms will not be returned.
-                                  To compute the norms for all `items` and their translations, set `te = TRUE`.")
-                
+                which_items_not_in_te <- item[which(!items_not_in_te)]
+                error_msg <- "Item{?s} '{which_items_not_in_te}' {?was/were} not included in `te`. \\
+                Its norms will not be returned. To compute the norms for all `items` \\
+                and their translations, set {.code te = TRUE}."
+                cli_alert_warning(error_msg)
             }
             item <- pool$item[pool$te %in% te]
             return(item)
         }
     } else {
         if (!is.null(te)) {
-            cli_abort("`te` must be logical or integer")
+            cli_abort("`te` must have class {.cls logical} or {.cls integer}")
         }
     }
     return(item)
-}# nocov end
+} # nocov end
