@@ -2,8 +2,8 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/gongcastro/bvq/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/gongcastro/bvq/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/gongcastro/bvq/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gongcastro/bvq?branch=main)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 ![r-universe](https://gongcastro.r-universe.dev/badges/bvq)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 
