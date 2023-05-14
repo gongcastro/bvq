@@ -51,7 +51,7 @@ The `bvq_vocabulary()` function allows to extract vocabulary sizes for individua
 
 To compute vocabulary size, we first need to run `bvq_responses()` (although if this argument is not provided, `bvq_responses()` is run under the hood):
 
-```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r vobcabulary, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 bvq_vocabulary(responses = responses,
                .scale = "prop", # to return estimates as proportions
                lp # to keep participants' language profile
@@ -62,7 +62,7 @@ bvq_vocabulary(responses = responses,
 
 The function `bvq_norms()` computes the proportion of children in the sample that understand or produce each item, sometimes called **word prevalence**. This function returns the estimated probability of an average participant understanding or producing each word. The `bvq_norms()` function allows to condition this probability on the age, language profile or language dominance of participants, among other variables. Proportions are adjusted for zero- and one-inflation following Gelman, Hill, and Vehtari (2020).
 
-```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r norms, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 # items we want to compute norms for
 bvq_norms(responses = responses,
           item = c("cat_gos", "cat_gat"),
