@@ -7,6 +7,9 @@
     <loc>/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
+    <loc>/CONTRIBUTING.html</loc>
+  </url>
+  <url>
     <loc>/LICENSE-text.html</loc>
   </url>
   <url>
@@ -61,37 +64,7 @@
     <loc>/reference/bvq_vocabulary.html</loc>
   </url>
   <url>
-    <loc>/reference/check_arg_dots.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_arg_te.html</loc>
-  </url>
-  <url>
     <loc>/reference/consonants.html</loc>
-  </url>
-  <url>
-    <loc>/reference/diff_in_time.html</loc>
-  </url>
-  <url>
-    <loc>/reference/download_surveys.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fix_code.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fix_code_raw.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fix_doe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fix_id_exp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fix_item.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fix_sex.html</loc>
   </url>
   <url>
     <loc>/reference/flatten_xsampa.html</loc>
@@ -103,18 +76,6 @@
     <loc>/reference/get_longitudinal.html</loc>
   </url>
   <url>
-    <loc>/reference/get_time_stamp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/import_formr2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/import_formr_lockdown.html</loc>
-  </url>
-  <url>
-    <loc>/reference/import_formr_short.html</loc>
-  </url>
-  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -122,9 +83,6 @@
   </url>
   <url>
     <loc>/reference/pool.html</loc>
-  </url>
-  <url>
-    <loc>/reference/process_survey.html</loc>
   </url>
   <url>
     <loc>/reference/prop_adj.html</loc>
@@ -137,18 +95,6 @@
   </url>
   <url>
     <loc>/reference/tidyeval.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vocab_concept.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vocab_dominance.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vocab_te.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vocab_total.html</loc>
   </url>
   <url>
     <loc>/reference/vowels.html</loc>

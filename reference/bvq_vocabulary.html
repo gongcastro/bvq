@@ -121,13 +121,27 @@ contains the following variables:</p><ul><li><p>id: a character string with five
 <li><p>concept_prop: numeric value ranging from 0 to 1 (both included) indicating the proportion of of translation equivalents (a.k.a. cross-language synonyms or doublets) in which at least one of the items was selected as "Understands" or "Understands and Says". This is a measure of the number of lexicalised concepts.</p></li>
 <li><p>te_prop: numeric value ranging from 0 to 1 (both included) indicating the proportion of of translation equivalents (aka. cross-language synonyms or doublets) in which both items were selected as "Understands" or "Understands and Says". This is a measure of the number of lexicalised concepts.
 The specific subset of columns returned by <code>bvq_vocabulary()</code> depends
-on the elements of <code>.by</code> and <code>.scale</code>.</p></li>
+on the elements of <code>...</code> and <code>.scale</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Gonzalo Garcia-Castro</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">responses</span> <span class="op">&lt;-</span> <span class="fu"><a href="bvq_responses.html">bvq_responses</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">bvq_vocabulary</span><span class="op">(</span>responses <span class="op">=</span> <span class="va">responses</span>, <span class="va">lp</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">bvq_vocabulary</span><span class="op">(</span>responses <span class="op">=</span> <span class="va">responses</span>,</span></span>
+<span class="r-in"><span>               <span class="va">lp</span>, <span class="va">semantic_category</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

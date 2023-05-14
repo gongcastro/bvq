@@ -124,7 +124,7 @@ in <code>item</code>, or the translation equivalents indicated in <code>te</code
 The output contains the following variables:</p><ul><li><p>te: an integer identifying the translation equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.</p></li>
 <li><p>item: character string indicating the item identifier (e.g., <code>spa_mesa</code>). This value is unique for each item. Responses to the same item from different participants are linked by the same <code>item</code> value.</p></li>
 <li><p>language: a character string indicating the language the item response belongs to: <code>"Catalan"</code> if item in Catalan), <code>"Spanish"</code> if item in Spanish.</p></li>
-<li><p>age: an numeric vector of length two indicating the age range of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., <code>15.36</code>, it is rounded downwards using <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor()</a></code>.)</p></li>
+<li><p>age: an numeric vector of length 1 or 2 indicating the age range of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., <code>15.36</code>, it is rounded downwards using <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor()</a></code>.)</p></li>
 <li><p>type: a character string indicating the vocabulary type computed: <code>"understands"</code> if option 'Understands' was selected, and <code>"produces"</code> if option 'Understands &amp; Says' was selected.</p></li>
 <li><p>item_dominance: a character string that takes the value <code>"L1"</code> if the item belongs to participants' language of most exposure, and L2 if the item belongs to participants' language of least exposure.</p></li>
 <li><p>label: a character string indicating the text presented to participants in the questionnaire (replacing the <code>item</code> identifier).</p></li>
@@ -138,6 +138,32 @@ Additionally, any variables specified in the <code>.by</code> argument are prese
     <p>Gonzalo Garcia-Castro</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">responses</span> <span class="op">&lt;-</span> <span class="fu"><a href="bvq_responses.html">bvq_responses</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">bvq_norms</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    participants <span class="op">=</span> <span class="va">participants</span>,</span></span>
+<span class="r-in"><span>    responses <span class="op">=</span> <span class="va">responses</span>,</span></span>
+<span class="r-in"><span>    item <span class="op">=</span> <span class="st">"cat_casa"</span>,</span></span>
+<span class="r-in"><span>    age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">22</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="va">lp</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span>    </span></span>
+<span class="r-in"><span><span class="va">my_items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat_gos"</span>, <span class="st">"cat_gat"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">bvq_norms</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    participants <span class="op">=</span> <span class="va">participants</span>,</span></span>
+<span class="r-in"><span>    responses <span class="op">=</span> <span class="va">responses</span>,</span></span>
+<span class="r-in"><span>    item <span class="op">=</span> <span class="va">my_items</span>,</span></span>
+<span class="r-in"><span>    te <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>    age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">16</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span>    </span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
