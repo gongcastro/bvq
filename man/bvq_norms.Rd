@@ -43,7 +43,7 @@ The output contains the following variables:
 \item te: an integer identifying the translation equivalent (a.k.a., pair of cross-language synonyms, doublets) the item belongs to.
 \item item: character string indicating the item identifier (e.g., \code{spa_mesa}). This value is unique for each item. Responses to the same item from different participants are linked by the same \code{item} value.
 \item language: a character string indicating the language the item response belongs to: \code{"Catalan"} if item in Catalan), \code{"Spanish"} if item in Spanish.
-\item age: an numeric vector of length two indicating the age range of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., \code{15.36}, it is rounded downwards using \code{\link[=floor]{floor()}}.)
+\item age: an numeric vector of length 1 or 2 indicating the age range of participants (in months) for which the estimates should be computed. If a non-integer is provided (e.g., \code{15.36}, it is rounded downwards using \code{\link[=floor]{floor()}}.)
 \item type: a character string indicating the vocabulary type computed: \code{"understands"} if option 'Understands' was selected, and \code{"produces"} if option 'Understands & Says' was selected.
 \item item_dominance: a character string that takes the value \code{"L1"} if the item belongs to participants' language of most exposure, and L2 if the item belongs to participants' language of least exposure.
 \item label: a character string indicating the text presented to participants in the questionnaire (replacing the \code{item} identifier).
@@ -59,6 +59,30 @@ children that understand and/or produce some items for a selected age range
 and participant profiles. Estimated proportions and corresponding standard
 errors and confidence intervals are computed adjusting for zero- and
 one-inflation (see function \code{\link[=prop_adj]{prop_adj()}}).
+}
+\examples{
+\dontrun{
+responses <- bvq_responses()
+
+bvq_norms(
+    participants = participants,
+    responses = responses,
+    item = "cat_casa",
+    age = c(22, 22),
+    lp
+)
+    
+my_items <- c("cat_gos", "cat_gat")
+
+bvq_norms(
+    participants = participants,
+    responses = responses,
+    item = my_items,
+    te = TRUE,
+    age = c(15, 16)
+)    
+}
+
 }
 \author{
 Gonzalo Garcia-Castro

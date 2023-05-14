@@ -11,9 +11,13 @@ prop_adj(x, n)
 
 \item{n}{Number of tries}
 }
+\value{
+A numeric scalar.
+}
 \description{
 Proportion, adjusted for zero- and one-inflation
 }
 \examples{
 prop_adj(4, 60)
+
 }
