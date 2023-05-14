@@ -8,8 +8,7 @@ bvq_logs(
   participants = NULL,
   responses = NULL,
   bilingual_threshold = 0.8,
-  other_threshold = 0.1,
-  ...
+  other_threshold = 0.1
 )
 }
 \arguments{

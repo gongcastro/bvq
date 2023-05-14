@@ -63,12 +63,12 @@
 #' 
 #' @md
 #' 
-bvq_vocabulary <- function(participants,
-                           responses,
+bvq_vocabulary <- function(participants = NULL,
+                           responses = NULL,
                            ...,
                            .scale = "prop") {
-    if (missing(participants)) participants <- bvq_participants()
-    if (missing(responses)) responses <- bvq_responses(participants)
+    if (is.null(participants)) participants <- bvq_participants()
+    if (is.null(responses)) responses <- bvq_responses(participants)
     
     # get logs
     logs <- bvq_logs(participants, responses) %>%
@@ -171,7 +171,7 @@ check_arg_dots <- function(x, .cols) { # nocov start
     
     if (!all(is_valid)) {
         which_missing <- x[which(is_valid)]
-        cli_msg <- "{.code .by} contains element{?s} {which_missing}, which {?is/are} \\
+        cli_msg <- "{.code ...} contains element{?s} {which_missing}, which {?is/are} \
     not a variable in `logs`, `pool`, or `responses`"
         cli_abort(cli_msg)
     }
@@ -211,11 +211,12 @@ vocab_dominance <- function(x, ...) { # nocov start
     out <- x %>%
         summarise(
             count = sum(response, na.rm = TRUE),
-            n_total = sum(!is.na(response)),
+            n_total = n(),
             .by = c(id, time, type, item_dominance, any_of(...))
         ) %>%
-        mutate(prop = ifelse(n_total == 0, 0, count / n_total)) %>%
+        mutate(prop = ifelse(n_total == 0, 0, count / n_total)) %>% 
         pivot_wider(
+            id_cols = c(id, time, type, any_of(...)),
             names_from = item_dominance,
             values_from = c(n_total, matches("count|prop")),
             names_glue = "{item_dominance}_{.value}",

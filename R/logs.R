@@ -24,7 +24,6 @@
 #' @param other_threshold Numeric scalar ranging from 0 to 1 indicating the
 #'   minimum degree of exposure to languages other than Catalan and Spanish to
 #'   consider a participant as *Other*.
-#' @param ... Unused.
 #' @returns A data frame (actually, a [tibble::tibble] with
 #'   participant-level information. Each row corresponds to a questionnaire
 #'   response and each column represents a variable. The output includes the
@@ -62,9 +61,7 @@
 bvq_logs <- function(participants = NULL,
                      responses = NULL,
                      bilingual_threshold = 0.80,
-                     other_threshold = 0.10,
-                     ...) {
-  # get participant information
+                     other_threshold = 0.10) {
   if (is.null(participants)) participants <- bvq_participants()
   if (is.null(responses)) responses <- bvq_responses(participants)
 

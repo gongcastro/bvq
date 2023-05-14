@@ -77,14 +77,14 @@
 #' }
 #' 
 #' @md
-bvq_norms <- function(participants,
-                      responses,
+bvq_norms <- function(participants = NULL,
+                      responses = NULL,
                       ...,
                       te = NULL,
                       item = NULL,
                       age = NULL) {
-    if (is_missing(participants)) participants <- bvq_participants()
-    if (is_missing(responses)) responses <- bvq_responses(participants)
+    if (is.null(participants)) participants <- bvq_participants()
+    if (is.null(responses)) responses <- bvq_responses(participants)
     
     # collect ... into a character vector for `any_of`
     dots_vctr <- as.character(match.call(expand.dots = FALSE)$`...`)

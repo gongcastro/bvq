@@ -5,12 +5,13 @@ title: "Introduction to bvq"
 The function `bvq_responses()` retrieves participants' responses to the Barcelona Vocabulary Questionnaire (BVQ) using the [formr API](https://formr.org/documentation), and returns them along participant- and item-level information. This function returns a tidy data frame in which each row is one participant's response to an individual item. 
 
 ```{r responses, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-responses <- bvq_responses()
+participants <- bvq_participants()
+responses <- bvq_responses(participants)
 
 # select relevant variables
 responses %>%
     select(id, time, item, response, randomisation) %>%
-    drop_na(response) # drop unanswered items
+    filter(!is.na(response)) # drop unanswered items
 ```
 
 ```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
@@ -25,7 +26,7 @@ participants <- readRDS(file.path("fixtures", "participants.rds"))
 Participant-level properties like language profile variables can be extracted using the `bvq_logs()` function.
 
 ```{r logs, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-bvq_logs(responses = responses) %>% 
+bvq_logs(participants, responses) %>% 
     select(id, time, age, lp, starts_with("doe_"))
 ```
 
@@ -38,7 +39,7 @@ logs <- readRDS(file.path("fixtures", "logs.rds")) %>%
 
 # Item properties
 
-Item-level properties can be consulted in the `pool` data frame (See ?pool):
+Item-level properties can be consulted in the `pool` data frame (see `?pool`):
 
 ```{r pool}
 data("pool")
@@ -52,9 +53,10 @@ The `bvq_vocabulary()` function allows to extract vocabulary sizes for individua
 To compute vocabulary size, we first need to run `bvq_responses()` (although if this argument is not provided, `bvq_responses()` is run under the hood):
 
 ```{r vobcabulary, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-bvq_vocabulary(responses = responses,
-               .scale = "prop", # to return estimates as proportions
-               lp # to keep participants' language profile
+bvq_vocabulary(participants, 
+               responses,
+               lp, # to keep participants' language profile
+               .scale = "prop" # to return estimates as proportions
 )
 ```
 
@@ -64,9 +66,9 @@ The function `bvq_norms()` computes the proportion of children in the sample tha
 
 ```{r norms, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 # items we want to compute norms for
-bvq_norms(responses = responses,
+bvq_norms(participants,
+          responses,
           item = c("cat_gos", "cat_gat"),
           age = c(12, 35)
 )
 ```
-

@@ -85,7 +85,7 @@ process_survey <- function(raw, participants_tmp, survey_name) {
         left_join(words_cat, by = join_by(session), multiple = "all") %>%
         left_join(words_spa, by = join_by(session), multiple = "all") %>%
         filter(code %in% participants_tmp$code,
-               if_any(matches("created_|ended_"), is.na)) %>% 
+               !if_any(matches("created_|ended_"), is.na)) %>% 
         mutate(
             across(
                 c(matches("created_|ended_"), date_birth),
