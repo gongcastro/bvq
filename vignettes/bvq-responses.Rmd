@@ -64,6 +64,7 @@ Item-level properties can be consulted in the `pool` dataset (See ?pool):
 data("pool")
 pool
 ```
+
 ## Longitudinal responses
 
 Several participants have filled the questionnaire more than once. All questionnaire responses included in any dataset returned by any function in BVQ have an associated `time` value. This variable indexes how many times that specific participant has filled the questionnaire (any version), including their last response. This allows to track each participant's responses across time and perform longitudinal analyses.

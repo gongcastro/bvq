@@ -198,7 +198,7 @@ import_formr_lockdown <- function(participants,
     
     if (interactive()) {
         n_responses <- nrow(distinct(processed, code))
-        msg <- "{version} updated: {n_responses} response(?s) retrieved"
+        msg <- "{version} updated: {n_responses} response{?s} retrieved"
         cli_alert_success(msg)
     }
     
@@ -272,7 +272,7 @@ import_formr_short <- function(participants,
     
     if (interactive()) {
         n_responses <- nrow(distinct(processed, code))
-        msg <- "{version} updated: {n_responses} response(?s) retrieved"
+        msg <- "{version} updated: {n_responses} response{?s} retrieved"
         cli_alert_success(msg)
     }
     
