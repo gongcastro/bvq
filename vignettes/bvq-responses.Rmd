@@ -32,8 +32,10 @@ responses %>%
 ```
 
 ```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-responses <- readRDS(file.path("fixtures", "responses.rds"))
-participants <- readRDS(file.path("fixtures", "participants.rds"))
+responses <- readRDS(system.file("fixtures/responses.rds", 
+                                 package = "bvq"))
+participants <- readRDS(system.file("fixtures/participants.rds", 
+                                    package = "bvq"))
 
 (responses)
 ```
@@ -50,12 +52,6 @@ logs %>%
     id, time, age, lp,
     starts_with("doe_")
   )
-```
-
-```{r load-logs, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-logs <- readRDS(file.path("fixtures", "logs.rds"))
-
-(logs)
 ```
 
 Item-level properties can be consulted in the `pool` dataset (See ?pool):
