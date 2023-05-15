@@ -1,14 +1,13 @@
-test_that("vowels columns are the right classes", {
-  pool <- readRDS(test_path("fixtures", "vowels.rds"))
+vowels <- readRDS(system.file("fixtures/vowels.rds", 
+                              package = "bvq"))
 
+test_that("vowels columns are the right classes", {
   expect_type(vowels$xsampa, "character")
   expect_type(vowels$openness, "list")
   expect_type(vowels$frontness, "list")
 })
 
 test_that("vowels column values are right", {
-  vowels <- readRDS(test_path("fixtures", "vowels.rds"))
-
   vowels_vct <- c(
     "i", "y", "1", "}", "M", "u", "I", "Y", "I\\", "U\\",
     "U", "e", "2", "\\@", "8", "7", "o", "e_o", "2_o", "@",
@@ -29,7 +28,5 @@ test_that("vowels column values are right", {
 })
 
 test_that("vowels are not duplicated", {
-  pool <- readRDS(test_path("fixtures", "vowels.rds"))
-
   expect_false(any(duplicated(vowels$xsampa)))
 })
