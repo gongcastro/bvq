@@ -25,8 +25,6 @@ as \emph{Monolingual}.}
 \item{other_threshold}{Numeric scalar ranging from 0 to 1 indicating the
 minimum degree of exposure to languages other than Catalan and Spanish to
 consider a participant as \emph{Other}.}
-
-\item{...}{Unused.}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} with

@@ -50,25 +50,14 @@
 #'   
 #' @author Gonzalo Garcia-Castro
 #' 
-#' @examples
-#' \dontrun{
-#' responses <- bvq_responses()
-#' 
-#' bvq_vocabulary(responses = responses, lp)
-#' 
-#' bvq_vocabulary(responses = responses,
-#'                lp, semantic_category)
-#' 
-#' }
-#' 
 #' @md
 #' 
-bvq_vocabulary <- function(participants = NULL,
-                           responses = NULL,
+bvq_vocabulary <- function(participants,
+                           responses,
                            ...,
                            .scale = "prop") {
-    if (is.null(participants)) participants <- bvq_participants()
-    if (is.null(responses)) responses <- bvq_responses(participants)
+    if (missing(participants)) participants <- bvq_participants()
+    if (missing(responses)) responses <- bvq_responses(participants)
     
     # get logs
     logs <- bvq_logs(participants, responses) %>%
@@ -211,12 +200,11 @@ vocab_dominance <- function(x, ...) { # nocov start
     out <- x %>%
         summarise(
             count = sum(response, na.rm = TRUE),
-            n_total = n(),
+            n_total = sum(!is.na(response)),
             .by = c(id, time, type, item_dominance, any_of(...))
         ) %>%
-        mutate(prop = ifelse(n_total == 0, 0, count / n_total)) %>% 
+        mutate(prop = ifelse(n_total == 0, 0, count / n_total)) %>%
         pivot_wider(
-            id_cols = c(id, time, type, any_of(...)),
             names_from = item_dominance,
             values_from = c(n_total, matches("count|prop")),
             names_glue = "{item_dominance}_{.value}",
