@@ -1,5 +1,7 @@
-participants <- readRDS(test_path("fixtures", "participants.rds"))
-responses <- readRDS(test_path("fixtures", "responses.rds"))
+responses <- readRDS(system.file("fixtures/responses.rds", 
+                                 package = "bvq"))
+participants <- readRDS(system.file("fixtures/participants.rds", 
+                                    package = "bvq"))
 
 test_that("vocabulary proportions are plausible", {
   vocabulary <- bvq_vocabulary(participants,

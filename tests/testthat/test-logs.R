@@ -1,5 +1,7 @@
-participants <- readRDS(test_path("fixtures", "participants.rds"))
-responses <- readRDS(test_path("fixtures", "responses.rds"))
+responses <- readRDS(system.file("fixtures/responses.rds", 
+                                 package = "bvq"))
+participants <- readRDS(system.file("fixtures/participants.rds", 
+                                    package = "bvq"))
 logs <- bvq_logs(participants, responses)
 
 test_that("columns are the right classes", {

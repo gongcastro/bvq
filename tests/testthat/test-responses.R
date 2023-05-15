@@ -1,4 +1,5 @@
-responses <- readRDS(test_path("fixtures", "responses.rds"))
+responses <- readRDS(system.file("fixtures/responses.rds", 
+                                 package = "bvq"))
 
 test_that("columns are the right classes", {
   expect_true(is.character(responses$id))
