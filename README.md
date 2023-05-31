@@ -5,7 +5,6 @@
 ![r-universe](https://gongcastro.r-universe.dev/badges/bvq)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![pkgcheck](https://github.com/gongcastro/bvq/workflows/pkgcheck/badge.svg)](https://github.com/<org>/<repo>/actions?query=workflow%3Apkgcheck)
-
 <!-- badges: end -->
 
 ## Overview
