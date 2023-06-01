@@ -45,6 +45,9 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="../articles/bvq.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item dropdown">
@@ -108,7 +111,7 @@ dataset.</p>
 <span><span class="va">responses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bvq_responses.html">bvq_responses</a></span><span class="op">(</span>participants <span class="op">=</span> <span class="va">participants</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/bvq_vocabulary.html">bvq_vocabulary</a></span><span class="op">(</span><span class="va">participants</span>, <span class="va">responses</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 934,992 × 17</span></span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 942,907 × 17</span></span></span>
 <span><span class="co">#&gt;    id     time code   study        version randomisation date_birth date_started</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 59175     1 BL1886 CognatePrim… BL-Loc… C             2021-02-17 2022-10-31  </span></span>
@@ -121,7 +124,7 @@ dataset.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 59175     1 BL1886 CognatePrim… BL-Loc… C             2021-02-17 2022-10-31  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 59175     1 BL1886 CognatePrim… BL-Loc… C             2021-02-17 2022-10-31  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 59175     1 BL1886 CognatePrim… BL-Loc… C             2021-02-17 2022-10-31  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 934,982 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 942,897 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: date_finished &lt;date&gt;, item &lt;chr&gt;, response &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   sex &lt;chr&gt;, doe_catalan &lt;dbl&gt;, doe_spanish &lt;dbl&gt;, doe_others &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   edu_parent1 &lt;chr&gt;, edu_parent2 &lt;chr&gt;</span></span></span></code></pre>
@@ -164,7 +167,7 @@ with the <code>.scale</code> argument, which takes <code>"prop"</code>
 for proportions (default), and <code>"count"</code> for counts. Both can
 be computed using <code>.scale = c("prop", "count")</code>. For instance
 we can get vocabulary sizes as proportions running:</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,172 × 8</span></span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,182 × 8</span></span></span>
 <span><span class="co">#&gt;    id     time type        total_prop l1_prop l2_prop concept_prop te_prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 59175     1 understands     0.457    0.493  0.418         0.511  0.368 </span></span>
@@ -177,9 +180,9 @@ we can get vocabulary sizes as proportions running:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58176     2 produces        0.508    0.510  0.506         0.629  0.383 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 58701     1 understands     0.539    0.613  0.466         0.703  0.371 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 58701     1 produces        0.080<span style="text-decoration: underline;">3</span>   0.115  0.046<span style="text-decoration: underline;">0</span>        0.134  0.025<span style="text-decoration: underline;">7</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,162 more rows</span></span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,172 more rows</span></span></span></code></pre>
 <p>To get vocabulary sizes as counts, we can run this instead:</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,172 × 8</span></span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,182 × 8</span></span></span>
 <span><span class="co">#&gt;    id     time type        total_count l1_count l2_count concept_count te_count</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 59175     1 understands         325      182      143           189      136</span></span>
@@ -192,7 +195,7 @@ we can get vocabulary sizes as proportions running:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58176     2 produces            354      178      176           220      134</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 58701     1 understands         376      214      162           246      130</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 58701     1 produces             56       40       16            47        9</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,162 more rows</span></span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,172 more rows</span></span></span></code></pre>
 <p>Finally, two types of vocabulary sizes are computed:</p>
 <ul>
 <li>
@@ -228,7 +231,7 @@ will be computed for each level of the <code>semantic_category</code>
 variable:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/bvq_vocabulary.html">bvq_vocabulary</a></span><span class="op">(</span><span class="va">participants</span>, <span class="va">responses</span>, <span class="va">semantic_category</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 30,332 × 9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 30,592 × 9</span></span></span>
 <span><span class="co">#&gt;    id     time type    semantic_category total_prop l1_prop l2_prop concept_prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 59175     1 unders… Adventures            0.3      0.3    0.3          0.3   </span></span>
@@ -241,7 +244,7 @@ variable:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 59175     1 produc… Parts of things       0        0      0            0     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 59175     1 unders… Question words        0.125    0.125  0.125        0.125 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 59175     1 produc… Question words        0        0      0            0     </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 30,322 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 30,582 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: te_prop &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>Finally, we can preserve more than one variable, including
 combinations of participant-level and item-level variables, such as
@@ -249,7 +252,7 @@ language profile (<code>lp</code>), age (<code>age</code>) and
 grammatical class (<code>class</code>):</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/bvq_vocabulary.html">bvq_vocabulary</a></span><span class="op">(</span><span class="va">participants</span>, <span class="va">responses</span>, <span class="va">age</span>, <span class="va">lp</span>, <span class="va">semantic_category</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 30,332 × 11</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 30,592 × 11</span></span></span>
 <span><span class="co">#&gt;    id     time type       age lp    semantic_category total_prop l1_prop l2_prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 59175     1 underst…  20.4 Bili… Adventures            0.3      0.3    0.3   </span></span>
@@ -262,7 +265,7 @@ grammatical class (<code>class</code>):</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 59175     1 produces  20.4 Bili… Parts of things       0        0      0     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 59175     1 underst…  20.4 Bili… Question words        0.125    0.125  0.125 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 59175     1 produces  20.4 Bili… Question words        0        0      0     </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 30,322 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 30,582 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: concept_prop &lt;dbl&gt;, te_prop &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
   </main>

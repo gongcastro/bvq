@@ -45,6 +45,9 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="../articles/bvq.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
 <li class="active nav-item dropdown">
@@ -108,7 +111,7 @@ individual item.</p>
 <span><span class="va">responses</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">time</span>, <span class="va">item</span>, <span class="va">response</span>, <span class="va">randomisation</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span> <span class="co"># drop unanswered items</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 934,992 × 17</span></span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 942,907 × 17</span></span></span>
 <span><span class="co">#&gt;    id     time code   study        version randomisation date_birth date_started</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 59175     1 BL1886 CognatePrim… BL-Loc… C             2021-02-17 2022-10-31  </span></span>
@@ -121,7 +124,7 @@ individual item.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 59175     1 BL1886 CognatePrim… BL-Loc… C             2021-02-17 2022-10-31  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 59175     1 BL1886 CognatePrim… BL-Loc… C             2021-02-17 2022-10-31  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 59175     1 BL1886 CognatePrim… BL-Loc… C             2021-02-17 2022-10-31  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 934,982 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 942,897 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: date_finished &lt;date&gt;, item &lt;chr&gt;, response &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   sex &lt;chr&gt;, doe_catalan &lt;dbl&gt;, doe_spanish &lt;dbl&gt;, doe_others &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   edu_parent1 &lt;chr&gt;, edu_parent2 &lt;chr&gt;</span></span></span></code></pre>
@@ -141,26 +144,9 @@ function.</p>
 <span>    <span class="va">id</span>, <span class="va">time</span>, <span class="va">age</span>, <span class="va">lp</span>,</span>
 <span>    <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"doe_"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 591 × 18</span></span></span>
-<span><span class="co">#&gt;    id    code    time study  version   age date_birth date_started date_finished</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 59175 BL1886     1 Cogna… BL-Loc…  20.4 2021-02-17 2022-10-31   2022-10-31   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 59385 BL1885     1 Cogna… BL-Loc…  22.2 2020-12-18 2022-10-26   2022-10-26   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 58136 BL1877     1 Cogna… BL-Loc…  32.0 2020-02-24 2022-10-24   2022-10-26   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 58176 BL1884     2 Cogna… BL-Loc…  31.7 2020-03-04 2022-10-25   2022-10-25   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 58701 BL1871     1 Seman… BL-Loc…  21.7 2020-12-19 2022-10-10   2022-10-11   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 58088 BL1876     2 Cogna… BL-Loc…  31.9 2020-02-11 2022-10-09   2022-10-09   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 58265 BL1873     1 Cogna… BL-Loc…  29.3 2020-04-30 2022-10-09   2022-10-09   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58298 BL1879     2 Cogna… BL-Loc…  29.4 2020-04-27 2022-10-08   2022-10-08   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 58139 BL1881     1 Cogna… BL-Loc…  31.4 2020-02-25 2022-10-08   2022-10-08   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 58420 BL1875     1 Cogna… BL-Loc…  31.4 2020-02-25 2022-10-08   2022-10-08   </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 581 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: duration &lt;dbl&gt;, dominance &lt;chr&gt;, lp &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   edu_parent1 &lt;chr&gt;, edu_parent2 &lt;chr&gt;, doe_spanish &lt;dbl&gt;, doe_catalan &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   doe_others &lt;dbl&gt;, completed &lt;lgl&gt;</span></span></span></code></pre>
 <p>Item-level properties can be consulted in the <code>pool</code>
 dataset (See ?pool):</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"pool"</span><span class="op">)</span></span>
 <span><span class="va">pool</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,590 × 14</span></span></span>
@@ -213,7 +199,7 @@ the questionnaire more than once are returned.</li>
 </ul>
 <p>Setting <code>longitudinal = "only"</code> is especially useful to
 perform repeated measures analyses. For example:</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 128,888 × 8</span></span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 130,306 × 8</span></span></span>
 <span><span class="co">#&gt;    id     time item           response randomisation date_birth date_started</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 58088     2 cat_astronauta        2 B             2020-02-11 2022-10-09  </span></span>
@@ -226,7 +212,7 @@ perform repeated measures analyses. For example:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58088     2 cat_com               2 B             2020-02-11 2022-10-09  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 58088     2 cat_ara               3 B             2020-02-11 2022-10-09  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 58088     2 cat_anar2             2 B             2020-02-11 2022-10-09  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 128,878 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 130,296 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: date_finished &lt;date&gt;</span></span></span></code></pre>
 <div class="section level3">
 <h3 id="please-note">Please note<a class="anchor" aria-label="anchor" href="#please-note"></a>
