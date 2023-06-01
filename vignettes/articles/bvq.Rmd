@@ -20,8 +20,10 @@ responses %>%
 ```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 library(bvq)
 library(dplyr)
-responses <- readRDS(file.path("vignettes", "fixtures", "responses.rds"))
-participants <- readRDS(file.path("vignettes", "fixtures", "participants.rds"))
+responses <- readRDS(system.file("fixtures/responses.rds", 
+                                 package = "bvq"))
+participants <- readRDS(system.file("fixtures/responses.rds", 
+                                 package = "bvq"))
 
 (responses)
 ```
