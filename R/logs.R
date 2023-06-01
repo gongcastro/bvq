@@ -62,73 +62,71 @@ bvq_logs <- function(participants = NULL,
                      responses = NULL,
                      bilingual_threshold = 0.80,
                      other_threshold = 0.10) {
-  if (is.null(participants)) participants <- bvq_participants()
-  if (is.null(responses)) responses <- bvq_responses(participants)
-
-  # get n items answered by participants (depends on the questionnaire version)
-  total_items <- studies %>%
-    distinct(version, language, n) %>%
-    summarise(
-      total_items = sum(n),
-      .by = version
+    if (is.null(participants)) participants <- bvq_participants()
+    if (is.null(responses)) responses <- bvq_responses(participants)
+    
+    # get n items answered by participants (depends on the questionnaire version)
+    total_items <- studies %>%
+        distinct(version, language, n) %>%
+        summarise(
+            total_items = sum(n),
+            .by = version
+        )
+    
+    grouping_vars <- c(
+        "id", "date_birth", "time",
+        "edu_parent1", "edu_parent2",
+        "date_birth", "date_started", "date_finished",
+        "doe_spanish", "doe_catalan",
+        "doe_others", "date_birth", "code", "study",
+        "version"
     )
-
-  grouping_vars <- c(
-    "id", "date_birth", "time",
-    "edu_parent1", "edu_parent2",
-    "date_birth", "date_started", "date_finished",
-    "doe_spanish", "doe_catalan",
-    "doe_others", "date_birth", "code", "study",
-    "version"
-  )
-
-  vars <- c(
-    "code", "time", "study", "version", "age",
-    "date_birth", "date_started", "date_finished",
-    "duration", "dominance", "lp",
-    "edu_parent1", "edu_parent2",
-    "doe_spanish", "doe_catalan", "doe_others", "completed"
-  )
-
-  # generate logs
-  logs <- responses %>%
-    # total items to fill by each participant (varies across versions)
-    summarise(
-      complete_items = sum(!is.na(response)),
-      .by = one_of(grouping_vars)
-    ) %>%
-    left_join(total_items,
-      by = join_by(version)
-    ) %>%
-    left_join(select(participants, -c(date_birth, version)),
-      by = join_by(id, time, code, study)
-    ) %>%
-    filter(!is.na(id)) %>%
-    mutate(
-      # define language profiles based on thresholds
-      lp = case_when(
-        doe_catalan >= bilingual_threshold ~ "Monolingual",
-        doe_spanish >= bilingual_threshold ~ "Monolingual",
-        doe_others > other_threshold ~ "Other",
-        .default = "Bilingual"
-      ),
-      # define language dominance
-      dominance = case_when(
-        doe_catalan > doe_spanish ~ "Catalan",
-        doe_spanish > doe_catalan ~ "Spanish",
-        doe_catalan == doe_spanish ~ sample(c("Catalan", "Spanish"), 1)
-      ),
-      age = diff_in_time(date_finished, date_birth, "months"),
-      duration = diff_in_time(date_finished, date_started, "days")
-    ) %>%
-    # compute participant's progress through the questionnaire
-    mutate(
-      progress = complete_items / total_items,
-      completed = progress >= 0.95
-    ) %>%
-    # select relevant columns and reorder them
-    select(id, one_of(vars)) %>%
-    arrange(desc(date_finished))
-
-  return(logs)
+    
+    vars <- c(
+        "code", "time", "study", "version", "age",
+        "date_birth", "date_started", "date_finished",
+        "duration", "dominance", "lp",
+        "edu_parent1", "edu_parent2",
+        "doe_spanish", "doe_catalan", "doe_others", "completed"
+    )
+    
+    # generate logs
+    logs <- responses %>%
+        # total items to fill by each participant (varies across versions)
+        summarise(
+            complete_items = sum(!is.na(response)),
+            .by = one_of(grouping_vars)
+        ) %>%
+        left_join(total_items,
+                  by = join_by(version)) %>%
+        left_join(select(participants, -c(date_birth, version)),
+                  by = join_by(id, time, code, study)) %>%
+        filter(!is.na(id)) %>% 
+        mutate(
+            # define language profiles based on thresholds
+            lp = case_when(
+                doe_catalan >= bilingual_threshold ~ "Monolingual",
+                doe_spanish >= bilingual_threshold ~ "Monolingual",
+                doe_others > other_threshold ~ "Other",
+                .default = "Bilingual"
+            ),
+            # define language dominance
+            dominance = case_when(
+                doe_catalan > doe_spanish ~ "Catalan",
+                doe_spanish > doe_catalan ~ "Spanish",
+                doe_catalan == doe_spanish ~ sample(c("Catalan", "Spanish"), 1)
+            ),
+            age = diff_in_time(date_finished, date_birth, "months"),
+            duration = diff_in_time(date_finished, date_started, "days")
+        ) %>%
+        # compute participant's progreslos through the questionnaire
+        mutate(
+            progress = complete_items / total_items,
+            completed = progress >= 0.95
+        ) %>%
+        # select relevant columns and reorder them
+        select(id, one_of(vars)) %>%
+        arrange(desc(date_finished))
+    
+    return(logs)
 }

@@ -22,7 +22,7 @@ library(bvq)
 library(dplyr)
 responses <- readRDS(system.file("fixtures/responses.rds", 
                                  package = "bvq"))
-participants <- readRDS(system.file("fixtures/responses.rds", 
+participants <- readRDS(system.file("fixtures/participants.rds", 
                                  package = "bvq"))
 
 (responses)
