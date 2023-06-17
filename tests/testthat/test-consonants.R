@@ -17,9 +17,9 @@ test_that("consonants column values are right", {
         "b_d", "t", "d", "t`", "d`", "c", "J\\", "k", "g", "q",
         "G\\", ">\\", "?", "p\\", "B", "f", "v", "T", "D", "s",
         "z", "S", "Z", "s`", "z`", "C", "j\\", "x", "G", "X",
-        "R", "X\\", "?\\", "H\\", "<\\", "h", "h\\", "B_o", "v\\", "r\\",
-        "r\\`", "j", "M\\", "B\\", "r", "R\\", "4", "r`", "K", "K\\",
-        "l", "l`", "L", "L\\", "l\\"
+        "R", "X\\", "?\\", "H\\", "<\\", "h", "h\\", "B_o",
+        "v\\", "r\\", "r\\`", "j", "M\\", "B\\", "r", "R\\", "4",
+        "r`", "K", "K\\", "l", "l`", "L", "L\\", "l\\"
     )
     
     place_vct <- c("Labial", "Coronal", "Dorsal", "Laryngeal")
@@ -38,11 +38,11 @@ test_that("consonants column values are right", {
     
     voicing_vct <- c("Voiced", "Voiceless", NA)
     
-    expect_true(all(unique(unlist(consonants$xsampa)) %in% consonants_vct))
-    expect_true(all(unique(unlist(consonants$place)) %in% place_vct))
-    expect_true(all(unique(unlist(consonants$place_2)) %in% place_2_vct))
-    expect_true(all(unique(unlist(consonants$manner)) %in% manner_vct))
-    expect_true(all(unique(unlist(consonants$voicing)) %in% voicing_vct))
+    expect_in(unique(unlist(consonants$xsampa)), consonants_vct)
+    expect_in(unique(unlist(consonants$place)), place_vct)
+    expect_in(unique(unlist(consonants$place_2)), place_2_vct)
+    expect_in(unique(unlist(consonants$manner)), manner_vct)
+    expect_in(unique(unlist(consonants$voicing)),voicing_vct)
 })
 
 test_that("consonants are not duplicated", {
