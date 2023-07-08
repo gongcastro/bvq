@@ -4,7 +4,6 @@
 #' that have participated or are candidates to participate in any of the
 #' versions of BVQ.
 #'
-#' @import dplyr
 #' @importFrom cli cli_abort
 #' @importFrom googlesheets4 read_sheet
 #'
