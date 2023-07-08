@@ -5,7 +5,6 @@
 #' versions of BVQ.
 #'
 #' @import dplyr
-#' @importFrom lubridate as_date
 #' @importFrom cli cli_abort
 #' @importFrom googlesheets4 read_sheet
 #'
@@ -55,25 +54,33 @@
 #' 
 #' @md
 bvq_participants <- function(...) {
+    bvq_connect() # get credentials to Google and formr
+    
+    # download Sheets
     suppressMessages({
-        bvq_connect() # get credentials to Google and formr
-        
         ss <- "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo"
-        participants <- read_sheet(ss, sheet = "Participants") %>%
-            mutate(
-                across(c(date_birth, date_test, date_sent), as_date),
-                across(include, as.logical)
-            ) %>%
-            filter(!is.na(code), include) %>%
-            select(-c(link, comments, include)) %>%
-            arrange(desc(as.numeric(gsub("BL", "", code))))
+        x <- googlesheets4::read_sheet(ss, sheet = "Participants")
     })
     
-    # make sure no columns are lists (probably due to inconsistent cell types)
-    is_col_list <- vapply(participants, is.list, logical(1))
+    # change classes
+    cols.dates <- grepl("date_", names(x))
+    x[, cols.dates] <- lapply(x[, cols.dates], as.Date)
+    x[, "include"] <- lapply(x[, "include"], as.logical)
+    
+    # filter rows
+    cols.keep <- !(names(x) %in% c("link", "comments", "include"))
+    x <- subset(x, !is.na(x$code) & x$include, cols.keep)
+    
+    # reorder rows
+    code.sorted <- as.numeric(gsub("BL", "", x$code))
+    x <- x[order(code.sorted, decreasing = TRUE), , drop = FALSE]
+    
+    # make sure no columns are lists
+    # (probably due to inconsistent cell types)
+    is_col_list <- vapply(x, is.list, logical(1))
     if (any(is_col_list)) { 
         col <- names(which(is_col_list))
         cli_abort("{col} {?has/have} class {.cls list}")
     }
-    return(participants)
+    return(x)
 }
