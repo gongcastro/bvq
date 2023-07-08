@@ -62,10 +62,12 @@ bvq_connect <- function(google_email = NULL,
     # check if Google credentials exists, ask for them if not
     if (!gs4_has_token()) {
         tryCatch(
-            suppressWarnings(gs4_auth(
-                email = google_email,
-                token = Sys.getenv("GOOGLE_TOKEN", unset = NA)
-            )),
+            suppressWarnings({
+                googlesheets4::gs4_auth(
+                    email = google_email,
+                    token = Sys.getenv("GOOGLE_TOKEN", unset = NA)
+                )
+            }),
             error = function(e) {
                 cli_abort(
                     strwrap(
@@ -80,5 +82,5 @@ bvq_connect <- function(google_email = NULL,
         )
     }
     
-    invisible(gs4_has_token())
+    invisible(googlesheets4::gs4_has_token())
 }
