@@ -1,10 +1,12 @@
+responses <- readRDS(system.file("fixtures/responses.rds",
+                                 package = "bvq"))
 
-participants <- readRDS(test_path("fixtures", "participants.rds"))
-responses <- readRDS(test_path("fixtures", "responses.rds"))
+participants <- readRDS(system.file("fixtures/participants.rds",
+                                    package = "bvq"))
 
 test_that("vocabulary proportions are plausible", {
     vocabulary <- bvq_vocabulary(participants,
-                                 responses, 
+                                 responses,
                                  .scale = c("prop", "count"))
     
     n_total <- studies %>%
@@ -12,14 +14,17 @@ test_that("vocabulary proportions are plausible", {
         summarise(n_total = sum(n), .by = version)
     
     vocabulary <- vocabulary %>%
-        left_join(select(participants, id, time, version, randomisation),
-                  by = join_by(id, time),
-                  multiple = "all") %>%
-        drop_na(version, randomisation) %>%
+        left_join(
+            select(participants, id, time, version, randomisation),
+            by = join_by(id, time),
+            multiple = "all"
+        ) %>%
+        filter(!is.na(version),!is.na(randomisation)) %>%
         mutate(version = case_when(
             grepl("cbc", id) ~ "CBC",
             grepl("devlex", id) ~ "DevLex",
-            .default = paste(version, randomisation, sep = "-"))) %>%
+            .default = paste(version, randomisation, sep = "-")
+        )) %>%
         left_join(n_total,
                   by = join_by(version),
                   multiple = "all")
@@ -37,7 +42,8 @@ test_that("vocabulary proportions are plausible", {
 })
 
 test_that("column classes are the right ones", {
-    vocabulary <- bvq_vocabulary(participants, responses, .scale = c("prop", "count"))
+    vocabulary <-
+        bvq_vocabulary(participants, responses, .scale = c("prop", "count"))
     
     expect_true(all(class(vocabulary$id) == "character"))
     expect_true(all(class(vocabulary$time) == "numeric"))
@@ -54,13 +60,10 @@ test_that("column classes are the right ones", {
     expect_true(all(class(vocabulary$te_prop) == "numeric"))
 })
 
-test_that("... columns are preserved", {
-    vocabulary <- bvq_vocabulary(participants, responses, lp, semantic_category)
+test_that("the ... argument works", {
+    vocabulary <-
+        bvq_vocabulary(participants, responses, lp, semantic_category)
     
-    expect_true(all(c("lp", "semantic_category") %in% colnames(vocabulary)))
+    expect_in(c("lp", "semantic_category"), colnames(vocabulary))
     expect_error(bvq_vocabulary(participants, responses, lp, XXXX))
-    
 })
-
-
-

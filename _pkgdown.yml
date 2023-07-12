@@ -32,19 +32,6 @@ footer:
 home:
   sidebar:
     structure: [links, license, community, citation, authors, dev]
-    
-articles:
-  - title: "Articles"
-    navbar: ~
-      contents:
-      - text: "Connecting to the database"
-        href: vignettes/bvq-responses.html
-      - text: "Retrieving raw data"
-        href: vignettes/bvq-responses.html
-      - text: "Vocabulary sizes"
-        href: vignettes/bvq-vocabulary.html
-      - text: "Word acquisition norms"
-        href: vignettes/bvq-norms.html
 
 reference:
 - title: "Retrieving raw data"
@@ -54,13 +41,13 @@ reference:
   - bvq_connect
   - bvq_participants
   - bvq_responses
-  - bvq_logs
   - pool
   - vowels
   - consonants
 - title: "Computing vocabulary norms"
-  desc: "Functions for computing several indices of vocabulary size and word acquisition norms."
+  desc: "Functions for computing participant information, vocabulary size, and word acquisition norms."
   contents:
+  - bvq_logs
   - bvq_vocabulary
   - bvq_norms
 - title: "Phonology"
@@ -72,25 +59,10 @@ reference:
 - title: "Helper functions"
   desc: "Additional functions to access and process the data"
   contents:
-  - diff_in_time
   - get_longitudinal
   - prop_adj
 - title: "Internals"
   desc: "Helper functions used internally"
   contents:
-  - check_arg_te
-  - check_arg_by
-  - download_surveys
-  - fix_code
-  - fix_code_raw
-  - fix_doe
-  - fix_id_exp
-  - fix_item
-  - fix_postcode
-  - fix_sex
   - get_doe
-  - get_time_stamp
-  - import_formr2
-  - import_formr_lockdown
-  - import_formr_short
-  - process_survey
+  

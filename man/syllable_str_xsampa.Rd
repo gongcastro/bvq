@@ -17,6 +17,14 @@ A vector of characters in which each element is a syllable, in which vowels have
 \description{
 Get syllable structure from X-SAMPA phonological transcription
 }
+\examples{
+\dontrun{
+vct <- pool$xsampa[1:10]
+
+syllable_str_xsampa(vct)
+}
+
+}
 \author{
 Gonzalo Garcia-Castro
 }

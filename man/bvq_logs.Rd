@@ -8,8 +8,7 @@ bvq_logs(
   participants = NULL,
   responses = NULL,
   bilingual_threshold = 0.8,
-  other_threshold = 0.1,
-  ...
+  other_threshold = 0.1
 )
 }
 \arguments{
@@ -26,8 +25,6 @@ as \emph{Monolingual}.}
 \item{other_threshold}{Numeric scalar ranging from 0 to 1 indicating the
 minimum degree of exposure to languages other than Catalan and Spanish to
 consider a participant as \emph{Other}.}
-
-\item{...}{Unused.}
 }
 \value{
 A data frame (actually, a \link[tibble:tibble]{tibble::tibble} with
@@ -63,6 +60,14 @@ and each column is a variable. The same participant will always be
 identified with the same \code{id}. The variable \code{time} indexes how
 many times a participant has been sent the questionnaire, independently of
 whether a response was obtained from them later.
+}
+\examples{
+\dontrun{
+responses <- bvq_responses()
+
+logs <- bvq_logs(responses = responses)
+}
+
 }
 \author{
 Gonzalo Garcia-Castro

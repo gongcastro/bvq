@@ -1,4 +1,5 @@
-responses <- readRDS(test_path("fixtures", "responses.rds"))
+responses <- readRDS(system.file("fixtures/responses.rds",
+                                 package = "bvq"))
 
 test_that("columns are the right classes", {
     expect_true(is.character(responses$id))
@@ -19,7 +20,7 @@ test_that("columns are the right classes", {
 })
 
 test_that("responses have the right values", {
-    expect_true(all(responses$response %in% c(2, 1, 3, NA)))
+    expect_in(unique(responses$response), c(2, 1, 3, NA))
 })
 
 test_that("all participants have at least one non-missing response", {
@@ -29,4 +30,3 @@ test_that("all participants have at least one non-missing response", {
         pull(not_missing)
     expect_false(all(non_missing_responses))
 })
-

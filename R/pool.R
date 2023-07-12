@@ -10,7 +10,7 @@
 #' * language: language the item belongs to.
 #' * te: index associated to translation equivalents across languages.
 #' * label: item label, as presented to participants in the front-end of the questionnaire, some labels are not unique within or across questionnaires.
-#' * xsampa: phonological transcription in X-SAMPA format, transcribed from `ipa` using the [ipa::ipa] function.
+#' * xsampa: phonological transcription in X-SAMPA format.
 #' * n_lemmas: an integer indicating the number of different lemmas showed in the item label to participants. for instance, the Spanish item `"spa_hierba"` was shown to in the questionnaire as `"hierba / césped"`. Lemma with similar roots were considered as one, such as the Spanish item `"spa_tonto"`, presented as `"tonto / tonta"` in the questionnaire.
 #' * is_multiword: an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item `"spa_cepillodientes"` was shown as `"cepillo de dientes"` in the questionnaire, which includes three words.
 #' * subtlex_lemma: word label, as included in the corresponding version.

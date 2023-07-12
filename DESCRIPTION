@@ -1,6 +1,6 @@
 Package: bvq
 Title: Barcelona Vocabulary Questionnaire Database and Helper Functions
-Version: 0.3.1
+Version: 0.3.2
 Authors@R: c(
     person(given = "Gonzalo", family = "Garcia-Castro", 
            email = "gongarciacastro@gmail.com",
@@ -19,7 +19,7 @@ Maintainer: Gonzalo Garcia-Castro <gongarciacastro@gmail.com>
 Description: Download, clean, and process the Barcelona Vocabulary
     Questionnaire (BVQ) data. BVQ is a vocabulary inventory developed for
     assesing the vocabulary of Catalan-Spanish bilinguals infants from the
-    Metropolitan Area of Barcelona (Spain), aged 10 to 40 months. This
+    Metropolitan Area of Barcelona (Spain). This
     package includes functions to download the data from formr servers,
     and return the processed data in multiple formats.
 License: MIT + file LICENSE
@@ -29,17 +29,17 @@ BugReports: https://github.com/gongcastro/bvq/issues
 Depends: 
     R (>= 3.5.0),
 Imports: 
-    cli,
-    dplyr (>= 1.1.2),
+    cli (>= 3.6.1),
+    dplyr (>= 1.1.0),
     formr (>= 0.9.1),
-    googlesheets4,
-    janitor,
-    lifecycle,
-    lubridate,
-    magrittr,
-    rlang,
-    tibble,
-    tidyr
+    googlesheets4 (>= 1.0.0),
+    janitor (>= 2.2.0),
+    lifecycle (>= 1.0.3),
+    lubridate (>= 1.8.0),
+    magrittr (>= 2.0.3),
+    rlang (>= 1.1.1),
+    tibble (>= 3.2.1),
+    tidyr (>= 1.2.0)
 Suggests: 
     knitr,
     readxl,

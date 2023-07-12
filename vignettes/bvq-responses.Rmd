@@ -9,8 +9,8 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-    collapse = TRUE,
-    comment = "#>"
+  collapse = TRUE,
+  comment = "#>"
 )
 ```
 
@@ -23,17 +23,19 @@ library(dplyr)
 The function `bvq_responses()` retrieves participants' responses to the Barcelona Vocabulary Questionnaire (BVQ) using the [formr API](https://formr.org/documentation), and returns them along participant- and item-level information. This function returns a tidy data frame in which each row is one participant's response to an individual item. 
 
 ```{r responses, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-responses <- bvq_responses() 
+responses <- bvq_responses()
 
 # select relevant variables
-responses %>% 
-    select(id, time, item, response, randomisation) %>% 
-    drop_na(response) # drop unanswered items
+responses %>%
+  select(id, time, item, response, randomisation) %>%
+  drop_na(response) # drop unanswered items
 ```
 
 ```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-responses <- readRDS(file.path("fixtures", "responses.rds"))
-participants <- readRDS(file.path("fixtures", "participants.rds"))
+responses <- readRDS(system.file("fixtures/responses.rds", 
+                                 package = "bvq"))
+participants <- readRDS(system.file("fixtures/participants.rds", 
+                                    package = "bvq"))
 
 (responses)
 ```
@@ -45,15 +47,11 @@ Additional participant-level properties like language profile variables can be e
 ```{r logs, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 logs <- bvq_logs(responses = responses)
 
-logs %>% 
-    select(id, time, age, lp, 
-           starts_with("doe_"))
-```
-
-```{r load-logs, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-logs <- readRDS(file.path("fixtures", "logs.rds"))
-
-(logs)
+logs %>%
+  select(
+    id, time, age, lp,
+    starts_with("doe_")
+  )
 ```
 
 Item-level properties can be consulted in the `pool` dataset (See ?pool):
@@ -62,6 +60,7 @@ Item-level properties can be consulted in the `pool` dataset (See ?pool):
 data("pool")
 pool
 ```
+
 ## Longitudinal responses
 
 Several participants have filled the questionnaire more than once. All questionnaire responses included in any dataset returned by any function in BVQ have an associated `time` value. This variable indexes how many times that specific participant has filled the questionnaire (any version), including their last response. This allows to track each participant's responses across time and perform longitudinal analyses.
@@ -77,11 +76,13 @@ By default, `bvq_responses()` retrieves all responses. Using `get_longitudinal()
 Setting `longitudinal = "only"` is especially useful to perform repeated measures analyses. For example:
 
 ```{r responses-longitudinal, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-responses %>% 
-    get_longitudinal("only") %>% 
-    select(id, time, item, response, randomisation,
-           starts_with("date_")) %>% 
-    drop_na(response)
+responses %>%
+  get_longitudinal("only") %>%
+  select(
+    id, time, item, response, randomisation,
+    starts_with("date_")
+  ) %>%
+  drop_na(response)
 ```
 
 ### Please note

@@ -17,6 +17,14 @@ A vector of characters in which each element is a syllable.
 \description{
 Syllabify phonological transcriptions in X-SAMPA formats
 }
+\examples{
+\dontrun{
+vct <- pool$xsampa[1:10]
+
+syllabify_xsampa(vct)
+}
+
+}
 \author{
 Gonzalo Garcia-Castro
 }

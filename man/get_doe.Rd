@@ -18,15 +18,18 @@ Summarise language profile
 }
 \examples{
 library(dplyr)
-x <- data.frame(doe_cat_1 = seq(0, 1, 0.1),
-                doe_cat_2 = c(0, rep(c(0.1, 0), each = 5)),
-                doe_spa_1 = c(0, rep(c(0.1, 0), each = 5)),
-                doe_spa_2 = c(1, 0.7, 0.6, 0.5, 0.3, 0.1, 0.4, 0.3, 0.2, 0.1, 0))
-                
+x <- data.frame(
+  doe_cat_1 = seq(0, 1, 0.1),
+  doe_cat_2 = c(0, rep(c(0.1, 0), each = 5)),
+  doe_spa_1 = c(0, rep(c(0.1, 0), each = 5)),
+  doe_spa_2 = c(1, 0.7, 0.6, 0.5, 0.3, 0.1, 0.4, 0.3, 0.2, 0.1, 0)
+)
+
 y <- mutate(x,
-            doe_other = 1-get_doe(matches("cat|spa")),
-            doe_cat = get_doe(doe_cat_1, doe_cat_2),
-            doe_spa = get_doe(matches("spa")))
+  doe_other = 1 - get_doe(matches("cat|spa")),
+  doe_cat = get_doe(doe_cat_1, doe_cat_2),
+  doe_spa = get_doe(matches("spa"))
+)
 
 (y)
 }

@@ -1,5 +1,7 @@
-participants <- readRDS(test_path("fixtures", "participants.rds"))
-responses <- readRDS(test_path("fixtures", "responses.rds"))
+responses <- readRDS(system.file("fixtures/responses.rds",
+                                 package = "bvq"))
+participants <- readRDS(system.file("fixtures/participants.rds",
+                                    package = "bvq"))
 logs <- bvq_logs(participants, responses)
 
 test_that("columns are the right classes", {
@@ -24,20 +26,30 @@ test_that("columns are the right classes", {
 })
 
 test_that("variables contains possible values", {
+    edu_levels <- c(
+        "complementary",
+        "noeducation",
+        "primary",
+        "secondary",
+        "university",
+        "vocational",
+        NA
+    )
+    
     # expect_true(all(logs$id %in% participants$id))
     # expect_true(all(logs$id_exp %in% participants$id_exp))
     # expect_true(all(logs$id_db %in% participants$id_db))
-    expect_true(all(logs$code %in% participants$code))
+    expect_in(logs$code, participants$code)
     expect_true(all(logs$time > 0))
-    expect_true(all(logs$study %in% participants$study))
-    expect_true(all(logs$version %in% responses$version))
+    expect_in(logs$study, participants$study)
+    expect_in(logs$version, responses$version)
     expect_true(all(logs$duration[!is.na(logs$duration)] >= 0))
     expect_true(all(logs$date_birth <= today()))
     expect_true(all(logs$date_finished <= today()))
     expect_true(all(logs$age >= 0))
-    expect_true(all(logs$edu_parent1 %in% c("complementary", "noeducation", "primary", "secondary", "university", "vocational", NA)))
-    expect_true(all(logs$edu_parent2 %in% c("complementary", "noeducation", "primary", "secondary", "university", "vocational", NA)))
-    expect_true(all(logs$lp %in% c("Monolingual", "Bilingual", "Other")))
+    expect_in(logs$edu_parent1, edu_levels)
+    expect_in(logs$edu_parent2, edu_levels)
+    expect_in(logs$lp, c("Monolingual", "Bilingual", "Other"))
     expect_true(all(between(logs$doe_catalan, 0, 1)))
     expect_true(all(between(logs$doe_spanish, 0, 1)))
     expect_true(all(between(logs$doe_others, 0, 1)))

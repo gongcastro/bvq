@@ -22,3 +22,7 @@ This function tries to log in to the formr API with the user-provided
 password (argument \code{password}) or retrieving it from the global environment
 (\code{FORMR_PWD} in .Renviron)
 }
+\examples{
+\dontrun{bvq_connect()}
+
+}

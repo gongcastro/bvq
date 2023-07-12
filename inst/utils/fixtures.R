@@ -8,12 +8,12 @@ make_fixtures <- function() {
     obj_lst <- lst(participants, responses, logs, vocabulary, norms, pool)
     
     invisible({
-        map2(obj_lst, names(obj_lst),
-             function(x, y = names(x)) {
-                 paths <- paste0(testthat::test_path("fixtures", y), ".rds")
+        mapply(function(x, y = names(x)) {
+                 paths <- file.path(system.file(package = "bvq"), 
+                                    "fixtures",
+                                    paste0(y, ".rds"))
                  saveRDS(x, paths)
-                 paths <- paste0("vignettes/fixtures/", y, ".rds")
                  saveRDS(x, paths)
-             })
+             }, obj_lst, names(obj_lst))
     })
 } 

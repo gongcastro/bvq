@@ -11,7 +11,7 @@ A data frame with 1601 rows and 20 variables:
 \item language: language the item belongs to.
 \item te: index associated to translation equivalents across languages.
 \item label: item label, as presented to participants in the front-end of the questionnaire, some labels are not unique within or across questionnaires.
-\item xsampa: phonological transcription in X-SAMPA format, transcribed from \code{ipa} using the \link[ipa:ipa]{ipa::ipa} function.
+\item xsampa: phonological transcription in X-SAMPA format.
 \item n_lemmas: an integer indicating the number of different lemmas showed in the item label to participants. for instance, the Spanish item \code{"spa_hierba"} was shown to in the questionnaire as \code{"hierba / césped"}. Lemma with similar roots were considered as one, such as the Spanish item \code{"spa_tonto"}, presented as \code{"tonto / tonta"} in the questionnaire.
 \item is_multiword: an logical indicating  whether the item included a multi-word phrase as presented in the questionnaire. For instance the Spanish item \code{"spa_cepillodientes"} was shown as \code{"cepillo de dientes"} in the questionnaire, which includes three words.
 \item subtlex_lemma: word label, as included in the corresponding version.
