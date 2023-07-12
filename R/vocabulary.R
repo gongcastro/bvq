@@ -43,7 +43,7 @@
 #' * l2_prop: numeric value ranging from 0 to 1 (both included) indicating the proportion of of items selected as "Understands" or "Understands and Says" in the non-dominant language (L2).
 #' * concept_prop: numeric value ranging from 0 to 1 (both included) indicating the proportion of of translation equivalents (a.k.a. cross-language synonyms or doublets) in which at least one of the items was selected as "Understands" or "Understands and Says". This is a measure of the number of lexicalised concepts.
 #' * te_prop: numeric value ranging from 0 to 1 (both included) indicating the proportion of of translation equivalents (aka. cross-language synonyms or doublets) in which both items were selected as "Understands" or "Understands and Says". This is a measure of the number of lexicalised concepts.
-#'   The specific subset of columns returned by [bvq::bvq_vocabulary()] depends on the elements of `.by` and `.scale`.
+#'   The specific subset of columns returned by [bvq::bvq_vocabulary()] depends on the elements of `...` and `.scale`.
 #' @author Gonzalo Garcia-Castro
 #' @md
 bvq_vocabulary <- function(participants,
