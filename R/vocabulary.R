@@ -67,7 +67,7 @@ bvq_vocabulary <- function(participants,
     dots_vctr <- as.character(match.call(expand.dots = FALSE)$`...`)
     
     # check if all extra ... are valid column names
-    possible_colnames <- unlist(lapply(list(responses, logs, pool), colnames))
+    possible_colnames <- unlist(lapply(list(responses, logs, bvq::pool), colnames))
     check_arg_dots(dots_vctr, .cols = possible_colnames)
     
     if (!any(.scale %in% c("count", "prop"))) {
