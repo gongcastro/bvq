@@ -61,8 +61,10 @@ test_that("column classes are the right ones", {
 })
 
 test_that("the ... argument works", {
-    vocabulary <-
-        bvq_vocabulary(participants, responses, lp, semantic_category)
+    vocabulary <- bvq_vocabulary(participants, 
+                                 responses, 
+                                 lp, 
+                                 semantic_category)
     
     expect_in(c("lp", "semantic_category"), colnames(vocabulary))
     expect_error(bvq_vocabulary(participants, responses, lp, XXXX))
