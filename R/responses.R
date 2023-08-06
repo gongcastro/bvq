@@ -6,7 +6,6 @@
 #' take zero, one, or multiple of the following values: `"formr2"`,
 #' `"formr-short"`, `"formr-lockdown"`) as arguments.
 #' @import dplyr
-#' @importFrom lubridate as_date
 #' @importFrom formr formr_connect
 #' @importFrom stats time
 #'
@@ -50,14 +49,14 @@ bvq_responses <- function(participants = NULL)
     if (is.null(participants)) participants <- bvq_participants()
     
     # retrieve data from formr
-    formr2 <- import_formr2(participants) # formr2
-    formr_lockdown <- import_formr_lockdown(participants) # formr-lockdown
-    formr_short <- import_formr_short(participants) # formr-lockdown
+    formr.long <- collect_survey("long", participants) # formr2
+    formr.lockdown <- collect_survey("lockdown", participants) # formr-lockdown
+    formr.short <- collect_survey("short", participants) # formr-lockdown
     
-    responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
+    responses <- list(formr1, formr.long, formr.short, formr.lockdown) %>%
         bind_rows() %>%
         distinct(id, code, item, .keep_all = TRUE) %>%
-        mutate(across(c(starts_with("date_"), time_stamp), as_date),
+        mutate(across(c(starts_with("date_"), time_stamp), as.Date),
                date_finished = coalesce(time_stamp, date_finished),
                time = ifelse(is.na(time), 1, time),
                version = trimws(version, whitespace = "[\\h\\v]")

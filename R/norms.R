@@ -83,6 +83,7 @@ bvq_norms <- function(participants = NULL,
                       te = NULL,
                       item = NULL,
                       age = NULL) {
+    
     if (is.null(participants)) participants <- bvq_participants()
     if (is.null(responses)) responses <- bvq_responses(participants)
     

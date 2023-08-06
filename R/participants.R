@@ -20,7 +20,7 @@
 #' * id_exp: a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share `id_exp`. The same participant may have different `id_exp` across different studies.
 #' * code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 #' * time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
-#' * date_birth: a date value (see lubridate package) in `yyyy/mm/dd` format indicating participants birth date.
+#' * date_birth: a date value in `yyyy/mm/dd` format indicating participants birth date.
 #' * age_now: a numeric value indicating the number of months elapsed since participants' birth date until the present day, as indicated by [lubridate::now()].
 #' * study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
 #' * version: a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the [GitHub repository](https://github.com/gongcastro/multilex). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).
@@ -73,6 +73,9 @@ bvq_participants <- function(...) {
     # reorder rows
     code.sorted <- as.numeric(gsub("BL", "", x$code))
     x <- x[order(code.sorted, decreasing = TRUE), , drop = FALSE]
+    
+    # fix version values
+    x$version <- gsub("bl-", "", tolower(x$version))    
     
     # make sure no columns are lists
     # (probably due to inconsistent cell types)
