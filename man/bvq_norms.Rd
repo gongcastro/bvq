@@ -10,7 +10,7 @@ bvq_norms(
   ...,
   te = NULL,
   item = NULL,
-  age = NULL
+  age = c(0, 100)
 )
 }
 \arguments{
