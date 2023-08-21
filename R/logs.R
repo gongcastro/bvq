@@ -49,14 +49,14 @@
 #' * completed: a logical value that returns `TRUE` if `progress` is 1, and `FALSE` otherwise.
 #'
 #' @author Gonzalo Garcia-Castro
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' responses <- bvq_responses()
-#' 
+#'
 #' logs <- bvq_logs(responses = responses)
 #' }
-#' 
+#'
 #' @md
 bvq_logs <- function(participants = NULL,
                      responses = NULL,
@@ -64,7 +64,7 @@ bvq_logs <- function(participants = NULL,
                      other_threshold = 0.10) {
     if (is.null(participants)) participants <- bvq_participants()
     if (is.null(responses)) responses <- bvq_responses(participants)
-    
+
     # get n items answered by participants (depends on the questionnaire version)
     total_items <- studies %>%
         distinct(version, language, n) %>%
@@ -72,7 +72,7 @@ bvq_logs <- function(participants = NULL,
             total_items = sum(n),
             .by = version
         )
-    
+
     grouping_vars <- c(
         "id", "date_birth", "time",
         "edu_parent1", "edu_parent2",
@@ -81,7 +81,7 @@ bvq_logs <- function(participants = NULL,
         "doe_others", "date_birth", "code", "study",
         "version"
     )
-    
+
     vars <- c(
         "code", "time", "study", "version", "age",
         "date_birth", "date_started", "date_finished",
@@ -89,7 +89,7 @@ bvq_logs <- function(participants = NULL,
         "edu_parent1", "edu_parent2",
         "doe_spanish", "doe_catalan", "doe_others", "completed"
     )
-    
+
     # generate logs
     logs <- responses %>%
         # total items to fill by each participant (varies across versions)
@@ -98,10 +98,12 @@ bvq_logs <- function(participants = NULL,
             .by = one_of(grouping_vars)
         ) %>%
         left_join(total_items,
-                  by = join_by(version)) %>%
+            by = join_by(version)
+        ) %>%
         left_join(select(participants, -c(date_birth, version)),
-                  by = join_by(id, time, code, study)) %>%
-        filter(!is.na(id)) %>% 
+            by = join_by(id, time, code, study)
+        ) %>%
+        filter(!is.na(id)) %>%
         mutate(
             # define language profiles based on thresholds
             lp = case_when(
@@ -127,6 +129,6 @@ bvq_logs <- function(participants = NULL,
         # select relevant columns and reorder them
         select(id, one_of(vars)) %>%
         arrange(desc(date_finished))
-    
+
     return(logs)
 }
