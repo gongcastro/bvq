@@ -4,9 +4,6 @@
     <loc>/404.html</loc>
   </url>
   <url>
-    <loc>/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
     <loc>/CONTRIBUTING.html</loc>
   </url>
   <url>
@@ -67,12 +64,6 @@
     <loc>/reference/bvq_vocabulary.html</loc>
   </url>
   <url>
-    <loc>/reference/consonants.html</loc>
-  </url>
-  <url>
-    <loc>/reference/flatten_xsampa.html</loc>
-  </url>
-  <url>
     <loc>/reference/get_doe.html</loc>
   </url>
   <url>
@@ -91,15 +82,6 @@
     <loc>/reference/prop_adj.html</loc>
   </url>
   <url>
-    <loc>/reference/syllabify_xsampa.html</loc>
-  </url>
-  <url>
-    <loc>/reference/syllable_str_xsampa.html</loc>
-  </url>
-  <url>
     <loc>/reference/tidyeval.html</loc>
-  </url>
-  <url>
-    <loc>/reference/vowels.html</loc>
   </url>
 </urlset>
