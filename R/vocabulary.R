@@ -53,9 +53,9 @@
 #' @md
 #' 
 bvq_vocabulary <- function(participants,
-                                responses,
-                                ...,
-                                .scale = "prop") {
+                           responses,
+                           ...,
+                           .scale = "prop") {
     if (missing(participants)) participants <- bvq_participants()
     if (missing(responses)) responses <- bvq_responses(participants)
     
@@ -141,18 +141,21 @@ bvq_vocabulary <- function(participants,
     which_col_not <- c("count", "prop")[which(!(c("count", "prop") %in% .scale))]
     
     vocabulary <- list(total, dominance, concept, te) 
-    vocabulary <- purrr::reduce(vocabulary,
-                                dplyr::left_join,
-                                multiple = "all",
-                                by = join_by(id, time, type, ...)) 
-    cols.integer <- grepl("concept|te", names(vocabulary))
+    vocabulary <- reduce(vocabulary,
+                         dplyr::left_join,
+                         multiple = "all",
+                         by = join_by(id, time, type, ...)) 
+    cols.integer <- names(vocabulary)[grepl("concept|te", names(vocabulary))]
     vocabulary[, cols.integer] <- lapply(vocabulary[, cols.integer],
                                          function(x) {
                                              ifelse(is.na(x), as.integer(0), x)
                                          })
-    cols.scale <- names(vocabulary)[endsWith(names(vocabulary), .scale)]
-    cols.keep <- names(vocabulary) %in% c("id", "time", "type",
-                                          dots_vctr, cols.scale)
+    cols.scale <- names(vocabulary)[grepl(paste(.scale, collapse = "|"),
+                                          names(vocabulary))]
+    cols.keep <- c("id", "time", "type",
+                   dots_vctr,
+                   cols.scale[cols.scale %in% cols.scale[grepl("prop$", cols.scale)]],
+                   cols.scale[cols.scale %in% cols.scale[grepl("count$", cols.scale)]])
     vocabulary <- vocabulary[, cols.keep]
     vocabulary <- vocabulary[, !(names(vocabulary) %in% which_col_not)]
     vocabulary <- tibble::as_tibble(vocabulary)

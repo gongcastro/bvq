@@ -26,7 +26,7 @@ download_surveys <- function(surveys, ...) {
     }
     
     for (i in seq_along(surveys)) {
-        raw[[i]] <- formr_raw_results(surveys[i])
+        raw[[i]] <- formr::formr_raw_results(surveys[i])
         if (interactive()) cli_progress_update()
     }
     
