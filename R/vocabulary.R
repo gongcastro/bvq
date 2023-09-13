@@ -120,7 +120,6 @@ bvq_vocabulary <- function(participants,
     # compute TE-wise denominator
     base_te <- base[base$response, ]
     base_te <- dplyr::left_join(base_te, base_n,
-                                multiple = "all",
                                 by = join_by(id, time, ...))
     
     base_te <- tidyr::pivot_wider(
@@ -151,7 +150,7 @@ bvq_vocabulary <- function(participants,
                                          function(x) {
                                              ifelse(is.na(x), as.integer(0), x)
                                          })
-    cols.scale <- names(vocabulary)[grepl(.scale, names(vocabulary))]
+    cols.scale <- names(vocabulary)[endsWith(names(vocabulary), .scale)]
     cols.keep <- names(vocabulary) %in% c("id", "time", "type",
                                           dots_vctr, cols.scale)
     vocabulary <- vocabulary[, cols.keep]
