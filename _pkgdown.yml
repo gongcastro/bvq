@@ -42,20 +42,12 @@ reference:
   - bvq_participants
   - bvq_responses
   - pool
-  - vowels
-  - consonants
 - title: "Computing vocabulary norms"
   desc: "Functions for computing participant information, vocabulary size, and word acquisition norms."
   contents:
   - bvq_logs
   - bvq_vocabulary
   - bvq_norms
-- title: "Phonology"
-  desc: "Functions to manipulate phonological transcriptions in IPA and X-SAMPA formats."
-  contents:
-  - flatten_xsampa
-  - syllabify_xsampa
-  - syllable_str_xsampa
 - title: "Helper functions"
   desc: "Additional functions to access and process the data"
   contents:
