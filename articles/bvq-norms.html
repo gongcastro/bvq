@@ -142,16 +142,16 @@ consulted in the <code>pool</code> data set:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 240 × 9</span></span></span>
 <span><span class="co">#&gt;       te item    label          age type        item_dominance  .sum    .n .prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   195 cat_gos gos / gosset    40 understands L1                 2     2 0.667</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   195 cat_gos gos / gosset    39 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   195 cat_gos gos / gosset    39 understands L2                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   195 cat_gos gos / gosset    38 understands L1                 2     2 0.667</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   195 cat_gos gos / gosset    38 understands L2                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 cat_gos gos / gosset    37 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 cat_gos gos / gosset    36 understands L1                 8     9 0.769</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 cat_gos gos / gosset    36 understands L2                 2     2 0.667</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 cat_gos gos / gosset    35 understands L1                15    15 0.895</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 cat_gos gos / gosset    35 understands L2                 8     8 0.833</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   195 cat_gos gos / gosset    40 understands L1                 1     1 0.6  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   195 cat_gos gos / gosset    40 understands L2                 1     1 0.6  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   195 cat_gos gos / gosset    39 understands L2                 2     2 0.667</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   195 cat_gos gos / gosset    38 understands L2                 3     3 0.714</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   195 cat_gos gos / gosset    37 understands L1                 1     1 0.6  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 cat_gos gos / gosset    36 understands L1                 6     6 0.8  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 cat_gos gos / gosset    36 understands L2                 4     5 0.667</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 cat_gos gos / gosset    35 understands L2                13    13 0.882</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 cat_gos gos / gosset    35 understands L1                10    10 0.857</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 cat_gos gos / gosset    34 understands L1                 2     2 0.667</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 230 more rows</span></span></span></code></pre>
 <p>If we want to retrieve the acquisition norms of our item of interest,
 but also those of its translation equivalent, we can use the argument
@@ -223,16 +223,16 @@ interest to the arguments (<code>lp</code>, in this case):</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 10</span></span></span>
 <span><span class="co">#&gt;       te item     label   age type        item_dominance lp     .sum    .n .prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   591 cat_casa casa     22 understands L2             Bili…     7     7 0.818</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   591 cat_casa casa     22 understands L2             Bili…     3     3 0.714</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   591 cat_casa casa     22 understands L2             Mono…     2     2 0.667</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   591 cat_casa casa     22 understands L1             Mono…     5     6 0.7  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   591 cat_casa casa     22 understands L1             Bili…     7     7 0.818</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   591 cat_casa casa     22 understands L1             Bili…    11    11 0.867</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   591 cat_casa casa     22 understands L2             Other     1     2 0.5  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   591 cat_casa casa     22 understands L1             Other     1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   591 cat_casa casa     22 produces    L2             Bili…     1     7 0.273</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   591 cat_casa casa     22 produces    L2             Bili…     0     3 0.286</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   591 cat_casa casa     22 produces    L2             Mono…     1     2 0.5  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   591 cat_casa casa     22 produces    L1             Mono…     4     6 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   591 cat_casa casa     22 produces    L1             Bili…     5     7 0.636</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   591 cat_casa casa     22 produces    L1             Bili…     6    11 0.533</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>   591 cat_casa casa     22 produces    L2             Other     1     2 0.5  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>   591 cat_casa casa     22 produces    L1             Other     1     1 0.6</span></span></code></pre></div>
 <p>To can get acquisition norms for the combination of multiple
