@@ -5,9 +5,6 @@
 #' (the output of [bvq::bvq_participants()]) and `runs` (a character vector that can
 #' take zero, one, or multiple of the following values: `"formr2"`,
 #' `"formr-short"`, `"formr-lockdown"`) as arguments.
-#' @import dplyr
-#' @importFrom lubridate as_date
-#' @importFrom formr formr_connect
 #' @importFrom stats time
 #'
 #' @export bvq_responses
@@ -50,34 +47,48 @@ bvq_responses <- function(participants = NULL)
     if (is.null(participants)) participants <- bvq_participants()
     
     # retrieve data from formr
-    formr2 <- import_formr2(participants) # formr2
-    formr_lockdown <- import_formr_lockdown(participants) # formr-lockdown
-    formr_short <- import_formr_short(participants) # formr-lockdown
+    formr.long <- collect_survey("long", participants) # formr2
+    formr.lockdown <- collect_survey("lockdown", participants) # formr-lockdown
+    formr.short <- collect_survey("short", participants) # formr-lockdown
     
-    responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
-        bind_rows() %>%
-        distinct(id, code, item, .keep_all = TRUE) %>%
-        mutate(across(c(starts_with("date_"), time_stamp), as_date),
-               date_finished = coalesce(time_stamp, date_finished),
-               time = ifelse(is.na(time), 1, time),
-               version = trimws(version, whitespace = "[\\h\\v]")
-        ) %>%
-        fix_item() %>%
-        fix_doe() %>%
-        mutate(across(starts_with("doe_"), function(x) x / 100)) %>%
-        fix_sex() %>%
-        mutate(study = ifelse(is.na(study), "BiLexicon", study)) %>%
-        fix_id_exp() %>%
-        filter(!is.na(date_finished)) %>%
-        arrange(desc(date_finished)) %>%
-        select(
-            id, time, code, study,
-            version, randomisation,
-            starts_with("date_"),
-            item, response, sex,
-            starts_with("doe_"),
-            starts_with("edu_")
-        )
+    # merge dataframes
+    formr.list <- list(formr1, formr.long, formr.short, formr.lockdown)
+    responses <- do.call(rbind, formr.list)  
+    
+    # remove duplicated combinations of id, code, and item
+    responses <- responses[!duplicated(responses[c("id", "code", "item")]), , drop = FALSE]
+    
+    # fix date columns
+    date.cols <-  grepl("^date_", colnames(responses))
+    responses[, date.cols] <- lapply(responses[, date.cols], as.Date, origin = c("1970-01-01"))
+    
+    # fix other variables
+    responses$time <- ifelse(is.na(responses$time), 1, responses$time)
+    responses$version <- trimws(responses$version, whitespace = "[\\h\\v]")
+    responses <- fix_item(responses)
+    responses <- fix_doe(responses)
+    responses <- fix_sex(responses)
+    responses$study <- ifelse(is.na(responses$study), "BiLexicon", responses$study)
+    responses <- fix_id_exp(responses)
+    
+    # fix degree of exposure columns
+    doe.cols <- grepl("^doe_", colnames(responses))
+    responses[, doe.cols] <- lapply(responses[, doe.cols], function(x) x / 100)
+    
+    # remove rows with missing date_finished and reorder
+    responses <- responses[!is.na(responses$date_finished), ]
+    
+    # reorder dataframe and select columns
+    responses <- responses[order(responses$date_finished, decreasing = TRUE), , drop = FALSE]
+    cols.keep <- c(
+        "id", "time", "code", "study", 
+        "version", "randomisation", 
+        colnames(responses)[grepl("^date_", colnames(responses))],
+        "item", "response", "sex",
+        colnames(responses)[grepl("^doe_", colnames(responses))],
+        colnames(responses)[grepl("^edu_", colnames(responses))]
+    )
+    responses <- responses[, cols.keep]
     
     return(responses)
 }

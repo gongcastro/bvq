@@ -82,27 +82,26 @@ bvq_norms <- function(participants = NULL,
                       ...,
                       te = NULL,
                       item = NULL,
-                      age = NULL) {
+                      age = c(0, 100)) {
+    
     if (is.null(participants)) participants <- bvq_participants()
     if (is.null(responses)) responses <- bvq_responses(participants)
     
     # collect ... into a character vector for `any_of`
     dots_vctr <- as.character(match.call(expand.dots = FALSE)$`...`)
     
-    group_vars <- c(
-        "te", "item", "label", "age", "type",
-        "item_dominance", dots_vctr
-    )
+    group_vars <- c("te", "item", "label", "age", "type", "item_dominance", dots_vctr)
     
     # retrieve participants and logs -------------------------------------------
-    logs_tmp <- bvq_logs(
-        participants = participants,
-        responses = responses
-    ) %>%
-        select(id, time, dominance, any_of(group_vars)) %>%
-        mutate(age = floor(age))
     
-    pool_tmp <- select(bvq::pool, language, any_of(group_vars))
+    logs_tmp <- bvq_logs(participants = participants, responses = responses)
+    cols.keep <-  colnames(logs_tmp) %in% c("id", "time", "dominance", group_vars)
+    logs_tmp <- logs_tmp[, cols.keep]
+    logs_tmp$age <- floor(logs_tmp$age)
+    logs_tmp <- logs_tmp[logs_tmp$age >= min(age) & logs_tmp$age <= max(age), ]
+    
+    cols.keep <- colnames(bvq::pool) %in% c("language", group_vars)
+    pool_tmp <- bvq::pool[, cols.keep]
     
     # check arguments ----------------------------------------------------------
     
@@ -126,35 +125,32 @@ bvq_norms <- function(participants = NULL,
     
     # compute norms ------------------------------------------------------------
     
-    norms <- responses %>%
-        left_join(logs_tmp, by = join_by(id, time), multiple = "all") %>%
-        filter(
-            item %in% .env$item,
-            !is.na(response),
-            age >= min(.env$age),
-            age <= max(.env$age)
-        ) %>%
-        mutate(
-            understands = response > 1,
-            produces = response == 3
-        ) %>%
-        select(-response) %>%
-        pivot_longer(c(understands, produces),
-                     names_to = "type",
-                     values_to = "response"
-        ) %>%
-        left_join(pool_tmp,
-                  relationship = "many-to-many",
-                  by = join_by(item)
-        ) %>%
-        mutate(item_dominance = ifelse(language == dominance, "L1", "L2")) %>%
-        summarise(
-            .sum = sum(response, na.rm = TRUE),
-            .n = n(),
-            .by = any_of(group_vars)
-        ) %>%
-        mutate(.prop = prop_adj(.sum, .n)) %>%
-        arrange(te, item, item_dominance, type, age, .sum, .n, .prop)
+    responses_tmp <- responses[responses$item %in% item &
+                                   !is.na(responses$response), ]
+    responses_tmp$understands <- responses_tmp$response > 1
+    responses_tmp$produces <- responses_tmp$response > 2
+    responses_tmp <- responses_tmp[, colnames(responses_tmp)!="response"]
+    responses_tmp <- tidyr::pivot_longer(responses_tmp,
+                                         c(understands, produces),
+                                         names_to = "type",
+                                         values_to = "response")
+    
+    
+    norms <- merge(responses_tmp, logs_tmp) 
+    norms <- merge(norms, pool_tmp, all.x = TRUE)
+    
+    norms$item_dominance <- ifelse(norms$language==norms$dominance, "L1", "L2")
+    norms <- summarise(norms,
+                       .sum = sum(response, na.rm = TRUE),
+                       .n = n(),
+                       .by = any_of(group_vars))
+    norms$.prop <- prop_adj(norms$.sum, norms$.n)
+    norms <- norms[order(norms$te,
+                         norms$item,
+                         norms$type, 
+                         norms$age,
+                         decreasing = TRUE), , drop = FALSE]
+    norms <- tibble::as_tibble(norms)
     
     return(norms)
 }

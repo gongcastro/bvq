@@ -1,3 +1,9 @@
+# bvq 0.4.0
+
+* Switch most functions to base R. I made this decision in order to learn R base a bit better. Performance differences are negligible, and the user interface remains the same.
+* Phonology functions and datasets have been removed, and will be included in a different package.
+* `bvq_vocabulary()` now has a better naming system.
+
 # bvq 0.3.2
 
 * Refactor `bvq_vocabulary()` and `bvq_norms()` to use rlang and the dynamic dots (`...`) (#20) operator

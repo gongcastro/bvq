@@ -4,6 +4,7 @@
 #' @importFrom cli cli_progress_step
 #' @importFrom cli cli_progress_update
 #' @importFrom cli qty
+#' @importFrom formr formr_raw_results
 #'
 #' @param surveys Name of the surveys in the formr run.
 #' @param ... Unused.
@@ -25,7 +26,7 @@ download_surveys <- function(surveys, ...) {
     }
     
     for (i in seq_along(surveys)) {
-        raw[[i]] <- formr_raw_results(surveys[i])
+        raw[[i]] <- formr::formr_raw_results(surveys[i])
         if (interactive()) cli_progress_update()
     }
     
@@ -62,10 +63,10 @@ process_survey <- function(raw, participants_tmp, survey_name) {
         mutate(
             code = fix_code(code),
             survey_name = .env$survey_name,
-            version = ifelse(survey_name == "BL-Long-2",
+            version = ifelse(survey_name=="long",
                              survey_name,
                              paste(survey_name,
-                                   trimws(version, whitespace = "[\\h\\v]"),
+                                   trimws(tolower(version), whitespace = "[\\h\\v]"),
                                    sep = "-"
                              )
             )
@@ -87,23 +88,11 @@ process_survey <- function(raw, participants_tmp, survey_name) {
         filter(code %in% participants_tmp$code,
                !if_any(matches("created_|ended_"), is.na)) %>% 
         mutate(
-            across(
-                c(matches("created_|ended_"), date_birth),
-                as_datetime
-            ),
-            across(
-                starts_with("language_doe"),
-                function(x) ifelse(is.na(x), 0, x)
-            ),
+            across(c(matches("created_|ended_"), date_birth), as.POSIXct),
+            across(starts_with("language_doe"), function(x) ifelse(is.na(x), 0, x)),
             survey_name = .env$survey_name,
-            date_started = get_time_stamp(ended_cat,
-                                          ended_spa,
-                                          which = "first"
-            ),
-            date_finished = get_time_stamp(ended_cat,
-                                           ended_spa,
-                                           which = "last"
-            ),
+            date_started = get_time_stamp(ended_cat, ended_spa, which = "first"),
+            date_finished = get_time_stamp(ended_cat, ended_spa, which = "last"),
             language_doe_catalan = get_doe(matches("catalan")),
             language_doe_spanish = get_doe(matches("spanish")),
             language_doe_others = 100 - rowSums(across(c(
@@ -143,57 +132,53 @@ process_survey <- function(raw, participants_tmp, survey_name) {
     return(processed)
 }
 
-#' Import lockdown data
+#' Collect survey data
 #'
-#' @import dplyr
-#' @importFrom formr formr_raw_results
-#' @importFrom lubridate as_datetime
-#' @importFrom lubridate time_length
-#' @importFrom tidyr pivot_longer
-#' @importFrom janitor clean_names
-#' @importFrom rlang .env
 #' @importFrom cli cli_alert_success
 #' 
-#' @param surveys Name of formr surveys from the `bilexicon_lockdown` run.
+#' @param version Character string indicating the name fo the formr run (must be one of "lockdown", "long", or "short")
+#' @param participants Participants dataset, as returned by [bvq::bvq_participants()]
 #' @param ... Unused.
 #' 
 #' @author Gonzalo Garcia-Castro
 #' 
 #' @noRd
 #' @keywords internal
-#'
+#' 
 #' @md
-import_formr_lockdown <- function(participants,
-                                  surveys = c(
-    "bilexicon_lockdown_01_log",
-    "bilexicon_lockdown_02_welcome",
-    "bilexicon_lockdown_03_consent",
-    "bilexicon_lockdown_04_demo",
-    "bilexicon_lockdown_05_language",
-    "bilexicon_lockdown_06_words_catalan",
-    "bilexicon_lockdown_06_words_spanish"
-), ...) 
-{
-    version <- "BL-Lockdown"
+collect_survey <- function(version, participants, ...) {
     
+    # validate version name
+    survey_options <- c("long", "short", "lockdown")
+    if (!(version %in% survey_options)) {
+        cli_abort("survey must be one of {survey_options}")
+    }
+    
+    # get survey names
+    survey_names <- c("_log", "_welcome", "_consent", "_demo", "_language", 
+                      "_words_catalan", "_words_spanish")
+    
+    # get survey names
+    surveys <- paste0("bilexicon_", version, "_0", c(1:6, 6), survey_names) 
+    if (version=="long") {
+        surveys <- gsub("_long", "", surveys)
+        surveys <- gsub("catalan", "cat", surveys)
+        surveys <- gsub("spanish", "spa", surveys)
+    }
+    
+    # process participant info
     if (missing(participants)) participants <- bvq_participants()
+    participants_tmp <- participants[participants$version %in% version, ]
+    if (version=="long") {
+        participants_tmp <- participants_tmp[participants_tmp$randomisation=="2", ]
+    }
+    participants_tmp <- participants_tmp[, colnames(participants_tmp)!="version"]
     
-    participants_tmp <- select(participants, -version)
-    
-    # fetch responses
-    raw <- download_surveys(surveys)
-    raw[[1]] <- raw[[1]] %>%
-        rename(code = bl_code) %>%
-        mutate(
-            code = fix_code(na_if(code, "")), # fix codes known to be wrong
-            created = as_datetime(created)
-        ) %>%
-        filter(!is.na(code), !is.na(ended)) %>% 
-        fix_code_raw() %>% # fix codes known to be wrong
-        filter(code %in% participants_tmp$code) %>% # remove codes not included in participants
-        arrange(desc(created)) %>%
-        distinct(code, .keep_all = TRUE) # get only last response of each code
-    
+    # download and process survey data
+    raw <- download_surveys(surveys) # fetch responses
+    # fix Spanish dataframe colnames
+    colnames(raw[[7]]) <- gsub("cat_", "spa_", colnames(raw[[7]])) 
+    raw[[1]] <- fix_logs_df(raw, participants_tmp) # fix logs dataframe
     processed <- process_survey(raw, participants_tmp, version)
     
     if (interactive()) {
@@ -206,151 +191,34 @@ import_formr_lockdown <- function(participants,
 }
 
 
-#' Import short
-#'
-#' @import dplyr
-#' @importFrom formr formr_raw_results
-#' @importFrom lubridate as_datetime
-#' @importFrom tidyr pivot_longer
-#' @importFrom janitor clean_names
-#' @importFrom rlang .env
-#' @importFrom cli cli_alert_success
+#' Fix logs dataframe
 #' 
-#' @param surveys Name of formr surveys from the `bilexicon_short` run
-#' @param ... Unused.
+#' @param raw Named list with the contents of the surveys, as returned by [bvq::download_surveys()].
 #' 
 #' @author Gonzalo Garcia-Castro
 #' 
 #' @noRd
 #' @keywords internal
-#' 
-#' @md
-import_formr_short <- function(participants,
-                               surveys = c(
-    "bilexicon_short_01_log",
-    "bilexicon_short_02_welcome",
-    "bilexicon_short_03_consent",
-    "bilexicon_short_04_demo",
-    "bilexicon_short_05_language",
-    "bilexicon_short_06_words_catalan",
-    "bilexicon_short_06_words_spanish"
-),
-...) 
-{
-    version <- "BL-Short"
-    
-    if (missing(participants)) participants <- bvq_participants()
-    
-    participants_tmp <- participants %>%
-        filter(version %in% .env$version) %>%
-        select(-version)
-    
-    # fetch responses
-    raw <- download_surveys(surveys)
-    
-    # edit Spanish inventory
-    raw[[7]] <- rename_all(raw[[7]], ~ gsub("cat_", "spa_", .))
-    
-    # edit logs dataset
-    raw[[1]] <- raw[[1]] %>%
-        # fix codes known to be wrong
-        mutate(
-            code = fix_code(na_if(code, "")),
-            created = as_datetime(created)
-        ) %>%
-        # remove codes not inlcuded in participants
-        filter(code %in% participants_tmp$code) %>%
-        # get only last response of each code
-        arrange(desc(created)) %>%
-        distinct(code, .keep_all = TRUE) %>%
-        # remove responses with no code
-        filter(!is.na(code), !is.na(ended)) %>% 
-        # fix codes known to be wrong
-        fix_code_raw()
-    
-    processed <- process_survey(raw, participants_tmp, version)
-    
-    if (interactive()) {
-        n_responses <- nrow(distinct(processed, code))
-        msg <- "{version} updated: {n_responses} response{?s} retrieved"
-        cli_alert_success(msg)
-    }
-    
-    return(processed)
-}
-
-#' Import formr 2
 #'
-#' @import dplyr
-#' @importFrom formr formr_raw_results
-#' @importFrom lubridate as_datetime
-#' @importFrom tidyr pivot_longer
-#' @importFrom janitor clean_names
-#' @importFrom rlang .env
-#' @importFrom cli cli_alert_success
-#' 
-#' @param surveys Name of formr surveys from the bilexicon_long2 run.
-#' @param ... Unused.
-#' 
-#' @author Gonzalo Garcia-Castro
-#' 
-#' @noRd
-#' @keywords internal
-#' 
 #' @md
-import_formr2 <- function(participants, 
-                          surveys = c(
-    "bilexicon_01_log",
-    "bilexicon_02_welcome",
-    "bilexicon_03_consent",
-    "bilexicon_04_demo",
-    "bilexicon_05_language",
-    "bilexicon_06_words_cat",
-    "bilexicon_06_words_spa"
-),
-...) {
+fix_logs_df <- function(raw, participants_tmp) {
     
-    version <- "BL-Long"
+    # fix logs dataframe
+    logs <- raw[[1]]
+    names(logs)[names(logs) == "bl_code"] <- "code"
+    # variables to correct types
+    logs[c("created", "ended")] <- lapply(logs[c("created", "ended")], as.POSIXct)
+    # remove if missing any critical variable
+    logs$code <- fix_code(ifelse(logs$code=="", NA_character_, logs$code))
+    logs <- logs[!is.na(logs$code) & !is.na(logs$ended) & !is.na(logs$session), ]
+    # fix codes known to be wrong
+    logs <- fix_code_raw(logs)
+    # remove codes not included in participants
+    logs <- logs[logs$code %in% participants_tmp$code, ]
+    # get only last response of each code
+    logs <- logs[order(logs$created, decreasing = TRUE), , drop = FALSE]
+    logs <- logs[!duplicated(logs$code), , drop = FALSE]
     
-    if (missing(participants)) participants <- bvq_participants()
+    return(logs)
     
-    participants_tmp <- participants %>% 
-        filter(
-            version %in% .env$version,
-            randomisation %in% "2"
-        ) %>%
-        select(-version)
-    
-    # fetch responses
-    raw <- download_surveys(surveys)
-    raw[[7]] <- rename_with(
-        raw[[7]],
-        function(x) gsub("cat_", "spa_", x), everything()
-    )
-    raw[[1]] <- raw[[1]] %>%
-        # fix codes known to be wrong
-        mutate(
-            code = fix_code(na_if(code, "")),
-            created = as_datetime(created)
-        ) %>%
-        # remove codes not included in participants
-        filter(code %in% participants_tmp$code) %>%
-        # get only last response of each code
-        arrange(desc(created)) %>%
-        distinct(code, .keep_all = TRUE) %>%
-        # remove responses with no code
-        filter(!is.na(code), !is.na(ended)) %>% 
-        # fix codes known to be wrong
-        fix_code_raw()
-    
-    # process data
-    processed <- process_survey(raw, participants_tmp, version)
-    
-    if (interactive()) {
-        n_responses <- nrow(distinct(processed, code))
-        msg <- "{version} updated: {n_responses} response{?s} retrieved"
-        cli_alert_success(msg)
-    }
-    
-    return(processed)
 }
