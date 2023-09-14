@@ -35,7 +35,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bvq</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -171,16 +171,16 @@ specified in the <code>item</code> argument. For example:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32 × 9</span></span></span>
 <span><span class="co">#&gt;       te item      label             age type   item_dominance  .sum    .n .prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   195 spa_perro perro / perrito    16 under… L2                 7    16 0.45 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   195 spa_perro perro / perrito    16 under… L1                 3     5 0.556</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   195 spa_perro perro / perrito    16 under… L2                 5    14 0.389</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   195 spa_perro perro / perrito    16 under… L1                 5     7 0.636</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   195 spa_perro perro / perrito    15 under… L2                 3     9 0.385</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   195 spa_perro perro / perrito    15 under… L1                 6     7 0.727</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   195 spa_perro perro / perrito    16 produ… L2                 1    16 0.15 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 spa_perro perro / perrito    16 produ… L1                 0     5 0.222</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   195 spa_perro perro / perrito    16 produ… L2                 1    14 0.167</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 spa_perro perro / perrito    16 produ… L1                 0     7 0.182</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 spa_perro perro / perrito    15 produ… L1                 1     7 0.273</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 spa_perro perro / perrito    15 produ… L2                 0     9 0.154</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 cat_gos   gos / gosset       16 under… L1                15    16 0.85 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 cat_gos   gos / gosset       16 under… L2                 1     5 0.333</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 cat_gos   gos / gosset       16 under… L1                13    14 0.833</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 cat_gos   gos / gosset       16 under… L2                 3     7 0.455</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 22 more rows</span></span></span></code></pre></div>
 <p>We can even indicate a specific translation equivalent in the
 <code>te</code> argument to retrieve its norms, while leaving the
@@ -223,16 +223,16 @@ interest to the arguments (<code>lp</code>, in this case):</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 10</span></span></span>
 <span><span class="co">#&gt;       te item     label   age type        item_dominance lp     .sum    .n .prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   591 cat_casa casa     22 understands L2             Bili…     3     3 0.714</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   591 cat_casa casa     22 understands L2             Bili…     7     7 0.818</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   591 cat_casa casa     22 understands L2             Mono…     2     2 0.667</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   591 cat_casa casa     22 understands L1             Mono…     5     6 0.7  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   591 cat_casa casa     22 understands L1             Bili…    11    11 0.867</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   591 cat_casa casa     22 understands L1             Bili…     7     7 0.818</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   591 cat_casa casa     22 understands L2             Other     1     2 0.5  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   591 cat_casa casa     22 understands L1             Other     1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   591 cat_casa casa     22 produces    L2             Bili…     0     3 0.286</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   591 cat_casa casa     22 produces    L2             Bili…     1     7 0.273</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   591 cat_casa casa     22 produces    L2             Mono…     1     2 0.5  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   591 cat_casa casa     22 produces    L1             Mono…     4     6 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   591 cat_casa casa     22 produces    L1             Bili…     6    11 0.533</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   591 cat_casa casa     22 produces    L1             Bili…     5     7 0.636</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>   591 cat_casa casa     22 produces    L2             Other     1     2 0.5  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>   591 cat_casa casa     22 produces    L1             Other     1     1 0.6</span></span></code></pre></div>
 <p>To can get acquisition norms for the combination of multiple
