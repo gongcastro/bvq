@@ -67,3 +67,71 @@ test_that("missing values are only where expected", {
     expect_false(any(is.na(logs$age)))
     expect_false(any(is.na(logs$lp)))
 })
+
+# check bilingual_threshold and other_threshold --------------------------------
+
+get_does <- function(logs) {
+    doe_cols <- names(logs)[grepl("^doe_", names(logs))]
+    doe_1 <- apply(cbind(logs[, doe_cols]), 1, max)
+    logs_doe <- cbind(logs[, c("lp", doe_cols)], doe_1)
+    return(logs_doe)
+}
+
+test_that("argument bilingual_threshold behaves correctly when default", {
+
+    logs <- bvq_logs(participants, responses)
+    does <- get_does(logs)
+    expect_gte(min(does$doe_1[does$lp=="Monolingual"]), 0.80)
+    expect_lt(min(does$doe_1[does$lp=="Bilingual"]), 0.80)
+
+})
+
+test_that("argument bilingual_threshold behaves correctly when 0.60", {
+    
+    logs <- bvq_logs(participants, responses, bilingual_threshold = 0.60)
+    does <- get_does(logs)
+    
+    expect_gte(min(does$doe_1[does$lp=="Monolingual"]), 0.60)
+    expect_lt(min(does$doe_1[does$lp=="Bilingual"]), 0.60)
+        expect_lt(min(does$doe_1[does$lp=="Bilingual"]), 0.80)
+
+})
+
+test_that("argument other_threshold behaves correctly when default", {
+    
+    logs <- bvq_logs(participants, responses)
+    does <- get_does(logs)
+    
+    expect_lte(max(does$doe_others[does$lp!="Other"]), 0.10)
+    expect_gt(max(does$doe_others[does$lp=="Other"]), 0.10)
+    
+})
+
+test_that("argument other_threshold behaves correctly when 0.05", {
+    
+    logs <- bvq_logs(participants, responses, other_threshold = 0.05)
+    does <- get_does(logs)
+    
+    expect_lte(max(does$doe_others[does$lp!="Other"]), 0.05)
+    expect_gt(max(does$doe_others[does$lp=="Other"]), 0.05)
+    
+})
+
+# check args -------------------------------------------------------------------
+
+test_that("return error for incorrect bilingual_threshold", {
+    
+    expect_error(bvq_logs(participants, responses, bilingual_threshold = "a"))
+    expect_error(bvq_logs(participants, responses, bilingual_threshold = -1))
+    expect_error(bvq_logs(participants, responses, bilingual_threshold = 2))
+    
+})
+
+test_that("return error for incorrect other_threshold", {
+    
+    expect_error(bvq_logs(participants, responses, other_threshold = "a"))
+    expect_error(bvq_logs(participants, responses, other_threshold = -1))
+    expect_error(bvq_logs(participants, responses, other_threshold = 2))
+    
+})
+

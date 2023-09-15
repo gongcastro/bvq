@@ -56,6 +56,7 @@ bvq_vocabulary <- function(participants,
                            responses,
                            ...,
                            .scale = "prop") {
+    
     if (missing(participants)) participants <- bvq_participants()
     if (missing(responses)) responses <- bvq_responses(participants)
     
@@ -79,10 +80,10 @@ bvq_vocabulary <- function(participants,
     base$understands <- base$response > 1
     base$produces <- base$response > 2
     base <- base[, names(base) != "response"]
-    base <- pivot_longer(base,
-                         c(understands, produces),
-                         names_to = "type",
-                         values_to = "response")
+    base <- tidyr::pivot_longer(base,
+                                c(understands, produces),
+                                names_to = "type",
+                                values_to = "response")
     base <- base[!is.na(base$response), ]
     
     # join TE-level properties
@@ -122,14 +123,12 @@ bvq_vocabulary <- function(participants,
     base_te <- dplyr::left_join(base_te, base_n,
                                 by = join_by(id, time, ...))
     
-    base_te <- tidyr::pivot_wider(
-        base_te,
-        names_from = item_dominance,
-        values_from = response,
-        values_fn = sum,
-        values_fill = 0,
-        id_cols = c(id, time, type, n_total, te, ...)
-    )
+    base_te <- tidyr::pivot_wider(base_te,
+                                  names_from = item_dominance,
+                                  values_from = response,
+                                  values_fn = sum,
+                                  values_fill = 0,
+                                  id_cols = c(id, time, type, n_total, te, ...))
     
     # total vocabulary
     total <- vocab_total(base, dots_vctr)
@@ -194,13 +193,13 @@ check_arg_dots <- function(x, .cols) { # nocov start
 #' @keywords internal
 #' 
 vocab_total <- function(x, ...) { # nocov start
-    out <- x %>%
-        summarise(
-            total_count = sum(response, na.rm = TRUE),
-            n_total = n(),
-            .by = c(id, time, type, any_of(...))
-        ) %>%
-        mutate(total_prop = ifelse(n_total == 0, 0, total_count / n_total))
+    
+    out <- summarise(x, 
+                     total_count = sum(response, na.rm = TRUE),
+                     n_total = n(),
+                     .by = c(id, time, type, any_of(...))
+    )
+    out$total_prop <- ifelse(out$n_total==0, 0, out$total_count/out$n_total)
     
     return(out)
 } # nocov end
@@ -216,20 +215,16 @@ vocab_total <- function(x, ...) { # nocov start
 vocab_dominance <- function(x, ...) { # nocov start
     
     out <- x %>%
-        summarise(
-            count = sum(response, na.rm = TRUE),
-            n_total = sum(!is.na(response)),
-            .by = c(id, time, type, item_dominance, any_of(...))
-        ) %>%
-        mutate(prop = ifelse(n_total == 0, 0, count / n_total)) %>%
-        pivot_wider(
-            names_from = item_dominance,
-            values_from = c(n_total, matches("count|prop")),
-            names_glue = "{item_dominance}_{.value}",
-            names_repair = make_clean_names
-        ) %>%
-        clean_names() %>%
-        select(
+        dplyr::summarise(count = sum(response, na.rm = TRUE),
+                         n_total = sum(!is.na(response)),
+                         .by = c(id, time, type, item_dominance, any_of(...))) %>%
+        dplyr::mutate(prop = ifelse(n_total == 0, 0, count / n_total)) %>%
+        tidyr::pivot_wider(names_from = item_dominance,
+                           values_from = c(n_total, matches("count|prop")),
+                           names_glue = "{item_dominance}_{.value}",
+                           names_repair = make_clean_names) %>%
+        janitor::clean_names() %>%
+        dplyr::select(
             id, time, type, starts_with("l1_"), starts_with("l2_"),
             -ends_with("n_total"), any_of(...)
         )
@@ -248,20 +243,20 @@ vocab_dominance <- function(x, ...) { # nocov start
 vocab_concept <- function(x, ...) { # nocov start
     
     out <- x %>%
-        mutate(across(c(L1, L2), function(x) x > 0),
-               is_any = rowSums(pick(L2:L1)),
-               is_any = is_any > 0
+        dplyr::mutate(across(c(L1, L2), function(x) x > 0),
+                      is_any = rowSums(pick(L2:L1)),
+                      is_any = is_any > 0
         ) %>%
-        summarise(
+        dplyr::summarise(
             n = sum(is_any),
             .by = c(id, time, type, n_total, any_of(...))
         ) %>%
-        rename(concept_count = n) %>%
-        mutate(
+        dplyr::rename(concept_count = n) %>%
+        dplyr::mutate(
             concept_count = as.integer(concept_count),
             concept_prop = ifelse(n_total == 0, 0, concept_count / n_total)
         ) %>%
-        select(id, time, type, concept_count, concept_prop, any_of(...))
+        dplyr::select(id, time, type, concept_count, concept_prop, any_of(...))
     
     return(out)
 } # nocov end
@@ -277,20 +272,20 @@ vocab_concept <- function(x, ...) { # nocov start
 vocab_te <- function(x, ...) { # nocov start
     
     out <- x %>%
-        mutate(across(c(L1, L2), function(x) x > 0),
-               is_both = rowSums(pick(c(L2, L1))),
-               is_both = is_both > 1
+        dplyr::mutate(across(c(L1, L2), function(x) x > 0),
+                      is_both = rowSums(dplyr::pick(c(L2, L1))),
+                      is_both = is_both > 1
         ) %>%
-        summarise(
+        dplyr::summarise(
             n = sum(is_both),
             .by = c(id, time, type, n_total, any_of(...))
         ) %>%
-        rename(te_count = n) %>%
-        mutate(
+        dplyr::rename(te_count = n) %>%
+        dplyr::mutate(
             te_count = as.integer(te_count),
             te_prop = ifelse(n_total == 0, 0, te_count / n_total)
         ) %>%
-        select(id, time, type, te_count, te_prop, any_of(...))
+        dplyr::select(id, time, type, te_count, te_prop, any_of(...))
     
     return(out)
 } # nocov end
