@@ -292,6 +292,13 @@ get_longitudinal <- function(x, longitudinal = "all") {
 }
 
 #' Get BVQ formr runs
+#'
+#' @author Gonzalo Garcia-Castro
+#' 
+#' @noRd
+#' @keywords internal
+#' 
+#' @md
 get_bvq_runs <- function() {
     runs <- list(
         "bvq-1.0.0" = c(

@@ -187,7 +187,13 @@ process_survey <- function(raw, participants_tmp, version) {
 #' @param version character string indicating the name of the BVQ version being processed (must be `"BL-Lockdown"`, `"BL-Short"`, or `"BL-Long-2"`).
 #' 
 #' @import dplyr
+#'
+#' @author Gonzalo Garcia-Castro
 #' 
+#' @noRd
+#' @keywords internal
+#' 
+#' @md
 merge_surveys <- function(raw, participants_tmp, version) {
     
     # merge data frames
