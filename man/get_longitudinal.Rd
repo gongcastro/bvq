@@ -33,9 +33,9 @@ according to \code{longitudinal}.
 Deal with repeated measures
 }
 \examples{
-id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
-sums <- rle(sort(id))[["lengths"]]
-dat <- data.frame(id, time = unlist(sapply(sums, function(x) seq(1, x))))
+child_id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
+sums <- rle(sort(child_id))[["lengths"]]
+dat <- data.frame(child_id, time = unlist(sapply(sums, function(x) seq(1, x))))
 
 (dat)
 

@@ -34,7 +34,7 @@ Participant-level properties like language profile variables can be extracted us
 
 ```{r logs, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 bvq_logs(participants, responses) %>% 
-    select(id, time, age, lp, starts_with("doe_"))
+    select(child_id, time, age, lp, starts_with("doe_"))
 ```
 
 # Item properties

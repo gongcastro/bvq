@@ -15,12 +15,14 @@ A data frame (actually, a \link[tibble:tibble]{tibble::tibble} containing partic
 responses to each item, along with some session-specific metadata. The
 output includes the following variables:
 \itemize{
-\item id: a character string with five digits indicating a participant's identifier in the database from the \href{https://www.upf.edu/web/cbclab}{Laboratori de Recerca en Infància} at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.
+\item child_id: a character string with five digits indicating a participant's identifier in the database from the \href{https://www.upf.edu/web/cbclab}{Laboratori de Recerca en Infància} at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{child_id}.
+\item response_id: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 \item time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
-\item code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
-\item study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
 \item version: a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the \href{https://github.com/gongcastro/bvq}{GitHub repository}). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).
-\item item: character string indicating the item identifier (e.g., \code{spa_mesa}). This value is unique for each item. Responses to the same item from different participants are linked by the same \code{item} value.
+\item version_list: a character string indicating the specific list of
+items a participant was assigned to. Only applies in the case of short
+versions of BVQ, such as bvq-short, bvq-long, bvq-lockdown, or bvq-1.0.0, where the
+list of items was partitioned into several versions.#' * item: character string indicating the item identifier (e.g., \code{spa_mesa}). This value is unique for each item. Responses to the same item from different participants are linked by the same \code{item} value.
 \item response: integer indicating the participant's response to a give item: \code{1} if \code{"No"} (the participant does not understand or produce the word), \code{2} if "Understands" (the participants understands the word), or \code{3} if "Understands and Says" (the participant understands and produces the item).
 \item date_birth: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating participants birth date.
 \item date_started: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating when participants logged to the questionnaire for the first time.
@@ -31,7 +33,6 @@ output includes the following variables:
 \item doe_spanish: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
 \item doe_catalan: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Majorca or Barcelona).
 \item doe_others: a numeric value ranging from 0 to 1 indicating participants' daily exposure to languages other than Spanish or Catalan, as estimated by parents/caretakers, aggregating participants' exposure to all those other languages (e.g., Norwegian, Arab, Swahili).
-\item randomisation: a character string indicating the specific list of items a participant was assigned to. Only applies in the case of short versions of BVQ, such as BL-Short, BL-Short-2 or BL-Lockdown, where the list of items was partitioned into several versions.
 }
 }
 \description{

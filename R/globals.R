@@ -5,7 +5,7 @@ utils::globalVariables(unique(c(
   "complete_items",
   "date_birth",
   "date_sent",
-  "id_db",
+  "child_id",
   "language",
   "progress",
   "response",
@@ -18,7 +18,9 @@ utils::globalVariables(unique(c(
   "date_test",
   "link",
   # bvq_responses:
+  "response_id",
   "code",
+  "id",
   "date_birth",
   "item",
   "time_stamp",
@@ -27,6 +29,7 @@ utils::globalVariables(unique(c(
   "verbose",
   # bvq_norms:
   "pool_tmp",
+  "version_list",
   "dominance",
   "understands",
   "produces",

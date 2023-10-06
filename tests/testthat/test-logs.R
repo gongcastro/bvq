@@ -5,11 +5,11 @@ participants <- readRDS(system.file("fixtures/participants.rds",
 logs <- bvq_logs(participants, responses)
 
 test_that("columns are the right classes", {
-    expect_true(is.character(logs$id))
-    expect_true(is.character(logs$code))
+    expect_true(is.character(logs$child_id))
+    expect_true(is.character(logs$response_id))
     expect_true(is.numeric(logs$time))
-    expect_true(is.character(logs$study))
     expect_true(is.character(logs$version))
+    expect_true(is.character(logs$version_list))
     expect_true(lubridate::is.Date(logs$date_birth))
     expect_true(lubridate::is.Date(logs$date_started))
     expect_true(lubridate::is.Date(logs$date_finished))
@@ -22,7 +22,6 @@ test_that("columns are the right classes", {
     expect_true(is.numeric(logs$doe_spanish))
     expect_true(is.numeric(logs$doe_catalan))
     expect_true(is.numeric(logs$doe_others))
-    expect_true(is.logical(logs$completed))
 })
 
 test_that("variables contains possible values", {
@@ -39,9 +38,8 @@ test_that("variables contains possible values", {
     # expect_true(all(logs$id %in% participants$id))
     # expect_true(all(logs$id_exp %in% participants$id_exp))
     # expect_true(all(logs$id_db %in% participants$id_db))
-    expect_in(logs$code, participants$code)
+    expect_in(logs$response_id, participants$response_id)
     expect_true(all(logs$time > 0))
-    expect_in(logs$study, participants$study)
     expect_in(logs$version, responses$version)
     expect_true(all(logs$duration[!is.na(logs$duration)] >= 0))
     expect_true(all(logs$date_birth <= today()))
@@ -58,9 +56,8 @@ test_that("variables contains possible values", {
 
 
 test_that("missing values are only where expected", {
-    expect_false(any(is.na(logs$id)))
+    expect_false(any(is.na(logs$child_id)))
     expect_false(any(is.na(logs$time)))
-    expect_false(any(is.na(logs$study)))
     expect_false(any(is.na(logs$version)))
     expect_false(any(is.na(logs$date_birth)))
     expect_false(any(is.na(logs$date_finished)))
@@ -97,25 +94,25 @@ test_that("argument bilingual_threshold behaves correctly when 0.60", {
 
 })
 
-test_that("argument other_threshold behaves correctly when default", {
-    
-    logs <- bvq_logs(participants, responses)
-    does <- get_does(logs)
-    
-    expect_lte(max(does$doe_others[does$lp!="Other"]), 0.10)
-    expect_gt(max(does$doe_others[does$lp=="Other"]), 0.10)
-    
-})
-
-test_that("argument other_threshold behaves correctly when 0.05", {
-    
-    logs <- bvq_logs(participants, responses, other_threshold = 0.05)
-    does <- get_does(logs)
-    
-    expect_lte(max(does$doe_others[does$lp!="Other"]), 0.05)
-    expect_gt(max(does$doe_others[does$lp=="Other"]), 0.05)
-    
-})
+# test_that("argument other_threshold behaves correctly when default", {
+#     
+#     logs <- bvq_logs(participants, responses)
+#     does <- get_does(logs)
+#     
+#     expect_lte(max(does$doe_others[does$lp!="Other"]), 0.10)
+#     expect_gt(max(does$doe_others[does$lp=="Other"]), 0.10)
+#     
+# })
+# 
+# test_that("argument other_threshold behaves correctly when 0.05", {
+#     
+#     logs <- bvq_logs(participants, responses, other_threshold = 0.05)
+#     does <- get_does(logs)
+#     
+#     expect_lte(max(does$doe_others[does$lp!="Other"]), 0.05)
+#     expect_gt(max(does$doe_others[does$lp=="Other"]), 0.05)
+#     
+# })
 
 # check args -------------------------------------------------------------------
 

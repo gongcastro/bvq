@@ -49,7 +49,7 @@ logs <- bvq_logs(responses = responses)
 
 logs %>%
   select(
-    id, time, age, lp,
+    child_id, time, age, lp,
     starts_with("doe_")
   )
 ```
@@ -79,7 +79,7 @@ Setting `longitudinal = "only"` is especially useful to perform repeated measure
 responses %>%
   get_longitudinal("only") %>%
   select(
-    id, time, item, response, randomisation,
+    child_id, time, item, response, version_list,
     starts_with("date_")
   ) %>%
   drop_na(response)
