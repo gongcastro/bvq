@@ -1,7 +1,10 @@
 # bvq 1.0.0
 
+## formr implementation
+
+* New formr run named BVQ (`bvq-1.0.0`).
 * Remove items about COVID-19 lockdown
-* Fix the following item names (according to utilx function `fix_item()`):
+* Fix the following item names (according to utils function `fix_item()`):
     - `cat_parc` -> `cat_parc1`
     - `cat_voler` -> `cat_voler1`
     - `cat_voler3` -> `cat_voler2`
@@ -11,7 +14,34 @@
     - `cat_anar` -> `cat_anar1`
     - `spa_querer` -> `spa_querer1`
     - `spa_ir` -> `spa_ir1`
+* Importing function incorporate this run to the workflow
+
+## New ID scheme:
+
+* `id` is now `child_id`
+* `code` is now `response_id`
+* Remove any other participant-level identifier (the crossing between `child_id` and `response` is already unambiguous).
+
+## New versioning system
+
+* Subsequent versions of `bvq` will be named using the numeric `0.0.0` format
+* Previous version names have been changed in the package too:
+    - `BL-Short` -> `bvq-short`
+    - `BL-Long` -> `bvq-long`
+    - `BL-Lockdown` -> `bvq-lockdown`
+* `collect_survey()` now retrieves survey names from new util function `get_bvq_runs()` 
     
+## Other changes
+
+* Fixtures have been made smaller in size
+* formr surveys are now stored in `inst/formr` for reproducibility
+    
+# bvq 0.4.0
+
+* Switch most functions to base R. I made this decision in order to learn R base a bit better. Performance differences are negligible, and the user interface remains the same.
+* Phonology functions and datasets have been removed, and will be included in a different package.
+* `bvq_vocabulary()` now has a better naming system.
+
 # bvq 0.3.2
 
 * Refactor `bvq_vocabulary()` and `bvq_norms()` to use rlang and the dynamic dots (`...`) (#20) operator

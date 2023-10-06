@@ -61,7 +61,7 @@ get_time_stamp <- function(..., which = "first") {
     }
     
     if (which == "first") fun <- min else fun <- max
-    x <- as_datetime(apply(across(c(...)), 1, fun, na.rm = TRUE))
+    x <- lubridate::as_datetime(apply(across(c(...)), 1, fun, na.rm = TRUE))
     
     return(x)
 }
@@ -108,13 +108,12 @@ get_doe <- function(...) {
 #' @noRd
 #' @keywords internal
 #' 
-fix_code <- function(x) { # nocov start
+fix_response_id <- function(x) { # nocov start
     x <- toupper(trimws(x))
     x <- gsub("O", "0", x)
     x <- gsub("I", "L", x)
     x <- gsub("[^\\d]+", "", x, perl = TRUE)
-    x <- paste0("BL", x)
-    
+    x <- as.character(x)
     return(x)
 } # nocov end
 
@@ -154,31 +153,22 @@ fix_code_raw <- function(x) { # nocov start
 #' 
 fix_doe <- function(x) { # nocov start
     
-    x %>%
-        mutate(
-            doe_catalan = case_when(
-                id == "54469" & time == 2 ~ 0,
-                id == "57157" & time == 1 ~ 80,
-                id == "57046" & time == 1 ~ 50,
-                code == "BL1582" ~ 30,
-                code == "BL1295" ~ 10,
-                code == "BL1252" ~ 90,
-                .default = doe_catalan
-            ),
-            doe_spanish = case_when(
-                id == "57046" & time == 1 ~ 50,
-                code == "BL896" ~ 75,
-                .default = doe_spanish
-            ),
-            doe_others = case_when(
-                code == "BL1252" ~ 0,
-                code == "BL1208" ~ 0,
-                code == "BL896" ~ 0,
-                code == "BL1582" ~ 0,
-                code == "BL1295" ~ 0,
-                .default = doe_others
-            )
-        )
+    x$doe_catalan[x$child_id=="54469" & x$time == 2] <- 0
+    x$doe_catalan[x$child_id=="57157" & x$time == 1] <- 80
+    x$doe_catalan[x$child_id=="57046" & x$time == 1] <- 50
+    x$doe_spanish[x$child_id=="57046" & x$time == 2] <- 50
+    x$doe_catalan[x$child_id=="54469" & x$time == 2] <- 30
+    x$doe_catalan[x$response_id=="BL1295" & x$time == 2] <- 10
+    x$doe_catalan[x$response_id=="BL1252" & x$time == 2] <- 90
+    x$doe_spanish[x$response_id=="BL896"] <- 75
+    x$doe_others[x$response_id=="BL1252"] <- 0
+    x$doe_others[x$response_id=="BL1208"] <- 0
+    x$doe_others[x$response_id=="BL896"] <- 0
+    x$doe_others[x$response_id=="BL1582"] <- 0
+    x$doe_others[x$response_id=="BL1295"] <- 0
+    
+    return(x)
+    
 } # nocov end
 
 #' Fix sex (missing in first responses to BL-Lockdown)
@@ -192,17 +182,12 @@ fix_doe <- function(x) { # nocov start
 #' 
 fix_sex <- function(x) { # nocov start
     
-    x$sex <- ifelse(x$id_bvq %in% c(
-        "bilexicon_1097",
-        "bilexicon_1441",
-        "bilexicon_1124",
-        "bilexicon_1448"
-    ),
-    "Female",
-    x$sex
-    )
-    
-    x$sex <- ifelse(x$id_bvq == "bilexicon_1447", "Male", x$sex)
+    child_id_female <- c("54917",
+                         "58294",
+                         "54977",
+                         "54925")
+    x$sex[x$child_id %in% child_id_female] <- "Female"
+    x$sex[x$child_id %in% "58276"] <- "Male"
     
     return(x)
 } # nocov end
@@ -226,12 +211,12 @@ fix_item <- function(x) { # nocov start
     x$item[x$item == "cat_despres1"] <- "cat_despres"
     x$item[x$item == "cat_peix"] <- "cat_peix1"
     x$item[x$item == "cat_estar"] <- "cat_estar1"
+    x$item[x$item == "cat_querer"] <- "cat_querer1"
     x$item[x$item == "cat_estiguestequiet"] <- "cat_estiguesquiet"
-    x$item[x$item == "cat_anar"] <- "cat_anar1"
-    x$item[x$item == "spa_querer"] <- "spa_querer1"
     x$item[x$item == "spa_nibla"] <- "spa_niebla"
     x$item[x$item == "spa_ir"] <- "spa_ir1"
     x$item[x$item == "spa_querer"] <- "spa_querer1"
+    x$item[x$item == "cat_anar"] <- "cat_anar1"
     
     return(x)
 } # nocov end
@@ -247,7 +232,7 @@ fix_item <- function(x) { # nocov start
 #' @keywords internal
 #' 
 fix_id_exp <- function(x) { # nocov start
-    x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
+    x$id_exp[x$code %in% "BL547"] <- "bilexicon_189"
     return(x)
 } # nocov end
 
@@ -280,9 +265,9 @@ fix_id_exp <- function(x) { # nocov start
 #' @author Gonzalo Garcia-Castro
 #' 
 #' @examples
-#' id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
-#' sums <- rle(sort(id))[["lengths"]]
-#' dat <- data.frame(id, time = unlist(sapply(sums, function(x) seq(1, x))))
+#' child_id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
+#' sums <- rle(sort(child_id))[["lengths"]]
+#' dat <- data.frame(child_id, time = unlist(sapply(sums, function(x) seq(1, x))))
 #'
 #' (dat)
 #'
@@ -296,53 +281,86 @@ get_longitudinal <- function(x, longitudinal = "all") {
         cli_abort(paste0("longitudinal must be one of: ", long_colapsed))
     }
     
-    repeated <- filter(distinct(x, id, time), n() > 1, .by = id)
+    repeated <- filter(distinct(x, child_id, time), n() > 1, .by = child_id)
     
-    if (longitudinal == "no") x <- filter(x, !(id %in% repeated$id))
-    if (longitudinal == "first") x <- filter(x, time == min(time), .by = id)
-    if (longitudinal == "last") x <- filter(x, time == max(time), .by = id)
-    if (longitudinal == "only") x <- filter(x, id %in% repeated$id)
+    if (longitudinal == "no") x <- filter(x, !(child_id %in% repeated$child_id))
+    if (longitudinal == "first") x <- filter(x, time==min(time), .by = child_id)
+    if (longitudinal == "last") x <- filter(x, time==max(time), .by = child_id)
+    if (longitudinal == "only") x <- filter(x, child_id %in% repeated$child_id)
     
     return(x)
 }
 
-# runs <- list(
-#     "bvq-v1.0.0" = c(
-#         "bvq_01_log",
-#         "bvq_02_welcome",
-#         "bvq_03_consent",
-#         "bvq_04_demo",
-#         "bvq_05_language",
-#         "bvq_06_words_catalan",
-#         "bvq_06_words_spanish"
-#     ),
-#     "bvq-v0.5.0" = c(
-#         "bilexicon_lockdown_01_log",
-#         "bilexicon_lockdown_02_welcome",
-#         "bilexicon_lockdown_03_consent",
-#         "bilexicon_lockdown_04_demo",
-#         "bilexicon_lockdown_05_language",
-#         "bilexicon_lockdown_06_words_catalan",
-#         "bilexicon_lockdown_06_words_spanish"
-#     ),
-#     "bvq-v0.4.0" = c(
-#         "bilexicon_short_01_log",
-#         "bilexicon_short_02_welcome",
-#         "bilexicon_short_03_consent",
-#         "bilexicon_short_04_demo",
-#         "bilexicon_short_05_language",
-#         "bilexicon_short_06_words_catalan",
-#         "bilexicon_short_06_words_spanish"
-#     ),
-#     "bvq-v0.3.0" = c(
-#         "bilexicon_01_log",
-#         "bilexicon_02_welcome",
-#         "bilexicon_03_consent",
-#         "bilexicon_04_demo",
-#         "bilexicon_05_language",
-#         "bilexicon_06_words_cat",
-#         "bilexicon_06_words_spa"
-#     )
-# )
+#' Get BVQ formr runs
+get_bvq_runs <- function() {
+    runs <- list(
+        "bvq-1.0.0" = c(
+            "bvq_01_log",
+            "bvq_02_welcome",
+            "bvq_03_consent",
+            "bvq_04_demo",
+            "bvq_05_language",
+            "bvq_06_words_catalan",
+            "bvq_06_words_spanish"
+        ),
+        "bvq-lockdown" = c(
+            "bilexicon_lockdown_01_log",
+            "bilexicon_lockdown_02_welcome",
+            "bilexicon_lockdown_03_consent",
+            "bilexicon_lockdown_04_demo",
+            "bilexicon_lockdown_05_language",
+            "bilexicon_lockdown_06_words_catalan",
+            "bilexicon_lockdown_06_words_spanish"
+        ),
+        "bvq-short" = c(
+            "bilexicon_short_01_log",
+            "bilexicon_short_02_welcome",
+            "bilexicon_short_03_consent",
+            "bilexicon_short_04_demo",
+            "bilexicon_short_05_language",
+            "bilexicon_short_06_words_catalan",
+            "bilexicon_short_06_words_spanish"
+        ),
+        "bvq-long" = c(
+            "bilexicon_01_log",
+            "bilexicon_02_welcome",
+            "bilexicon_03_consent",
+            "bilexicon_04_demo",
+            "bilexicon_05_language",
+            "bilexicon_06_words_cat",
+            "bilexicon_06_words_spa"
+        )
+    )
+    
+    attr(runs, "versions") <- c("bvq-devlex" = "DevLex",
+                                "bvq-phocross" = "PhoCross",
+                                "bvq-long" = "BL-Long",
+                                "bvq-short" = "BL-Short",
+                                "bvq-lockdown" = "BL-Lockdown",
+                                "bvq-1.0.0" = "1.0.0")
+    return(runs)
+}
 
+
+#' Proportion, adjusted for zero- and one-inflation
+#' 
+#' @details
+#' It is very common that a large proportion of the participants know or do not know some word.
+#' Vocabulary sizes and word prevalence norms in package are calculated using an estimate that
+#' adjusts for zero- and one-inflation so that, at the population level such estimates are more
+#' likely to be accurate.
+#' 
+#'
+#' @export prop_adj
+#'
+#' @param x Number of successes
+#' @param n Number of tries
+#' 
+#' @returns A numeric scalar.
+#' 
+#' @examples prop_adj(4, 60)
+#' 
+prop_adj <- function(x, n) {
+    (x + 2) / (n + 4)
+}
 

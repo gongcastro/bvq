@@ -56,12 +56,13 @@ bvq_vocabulary <- function(participants,
                            responses,
                            ...,
                            .scale = "prop") {
+    
     if (missing(participants)) participants <- bvq_participants()
     if (missing(responses)) responses <- bvq_responses(participants)
     
     # get logs
-    logs <- bvq_logs(participants, responses) %>%
-        filter(id %in% unique(responses$id))
+    logs <- bvq_logs(participants, responses)
+    logs <- logs[logs$id %in% unique(responses$id), ]
     
     # collect ... into a character vector for `any_of`
     dots_vctr <- as.character(match.call(expand.dots = FALSE)$`...`)
@@ -75,53 +76,59 @@ bvq_vocabulary <- function(participants,
     }
     
     # get main dataset
-    base <- responses %>%
-        mutate(
-            understands = response > 1,
-            produces = response > 2
-        ) %>%
-        select(-response) %>%
-        pivot_longer(c(understands, produces),
-                     names_to = "type",
-                     values_to = "response"
-        ) %>%
-        filter(!is.na(response)) %>%
-        inner_join(select(bvq::pool, item, te, language, any_of(dots_vctr)),
-                   multiple = "all",
-                   by = join_by(item),
-                   relationship = "many-to-many"
-        ) %>%
-        inner_join(select(logs, id, time, dominance, any_of(dots_vctr)),
-                   multiple = "all",
-                   by = join_by(id, time),
-                   relationship = "many-to-many"
-        ) %>%
-        mutate(item_dominance = ifelse(language == dominance, "L1", "L2")) %>%
-        select(
-            id, time, dominance, item_dominance, type,
-            te, item, any_of(dots_vctr), response
-        )
+    base <- responses 
+    base$understands <- base$response > 1
+    base$produces <- base$response > 2
+    base <- base[, names(base) != "response"]
+    base <- tidyr::pivot_longer(base,
+                                c(understands, produces),
+                                names_to = "type",
+                                values_to = "response")
+    base <- base[!is.na(base$response), ]
     
-    base_n <- base %>%
-        distinct(pick(c(id, time, te, ...))) %>%
-        count(pick(c(id, time, ...)),
-              name = "n_total"
-        ) %>%
-        select(id, time, ..., n_total)
+    # join TE-level properties
+    cols.keep <- names(bvq::pool) %in% c("item", "te", "language", dots_vctr)
+    pool_tmp <- bvq::pool[, cols.keep]
+    base <- dplyr::inner_join(base,
+                              pool_tmp,
+                              multiple = "all",
+                              by = join_by(item),
+                              relationship = "many-to-many")
     
-    base_te <- base %>%
-        filter(response) %>%
-        left_join(base_n,
-                  multiple = "all",
-                  by = join_by(id, time, ...)
-        ) %>%
-        pivot_wider(
-            names_from = item_dominance,
-            values_from = response,
-            values_fn = sum,
-            values_fill = 0,
-            id_cols = c(id, time, type, n_total, te, ...)
-        )
+    # join participant-level properties
+    cols.keep <- names(logs) %in% c("id", "time", "dominance", dots_vctr)
+    logs_tmp <- logs[, cols.keep]
+    base <- dplyr::inner_join(base, logs_tmp,
+                              multiple = "all",
+                              by = join_by(id, time),
+                              relationship = "many-to-many")
+    
+    # define TE-by-participant properties
+    base$item_dominance <- ifelse(base$language==base$dominance, "L1", "L2")
+    cols.keep <- c("id", "time", "dominance", "item_dominance", "type",
+                   "te", "item", dots_vctr, "response")
+    base <- base[, cols.keep]
+    
+    # compute total denominator
+    cols.distinct <- names(base) %in% c("id", "time", "te", dots_vctr)
+    base_n <- base[!duplicated(base[, cols.distinct]), , drop = FALSE]
+    base_n <- dplyr::count(base_n, 
+                           dplyr::pick(id, time, type, ...), 
+                           name = "n_total")
+    cols.keep <- names(base_n) %in% c("id", "time", dots_vctr, "n_total")
+    base_n <- base_n[, cols.keep]
+    
+    # compute TE-wise denominator
+    base_te <- base[base$response, ]
+    base_te <- dplyr::left_join(base_te, base_n,
+                                by = join_by(id, time, ...))
+    
+    base_te <- tidyr::pivot_wider(base_te,
+                                  names_from = item_dominance,
+                                  values_from = response,
+                                  values_fn = sum,
+                                  values_fill = 0,
+                                  id_cols = c(id, time, type, n_total, te, ...))
     
     # total vocabulary
     total <- vocab_total(base, dots_vctr)
@@ -132,20 +139,30 @@ bvq_vocabulary <- function(participants,
     # merge all datasets
     which_col_not <- c("count", "prop")[which(!(c("count", "prop") %in% .scale))]
     
-    vocabulary <- list(total, dominance, concept, te) %>%
-        reduce(left_join,
-               multiple = "all",
-               by = join_by(id, time, type, ...)
-        ) %>%
-        mutate(across(
-            matches("concept|te"),
-            function(x) ifelse(is.na(x), as.integer(0), x)
-        )) %>%
-        select(id, time, type, any_of(dots_vctr), matches(.scale)) %>%
-        select(-ends_with(which_col_not))
+    vocabulary <- list(total, dominance, concept, te) 
+    vocabulary <- reduce(vocabulary,
+                         dplyr::left_join,
+                         multiple = "all",
+                         by = join_by(id, time, type, ...)) 
+    cols.integer <- names(vocabulary)[grepl("concept|te", names(vocabulary))]
+    vocabulary[, cols.integer] <- lapply(vocabulary[, cols.integer],
+                                         function(x) {
+                                             ifelse(is.na(x), as.integer(0), x)
+                                         })
+    cols.scale <- names(vocabulary)[grepl(paste(.scale, collapse = "|"),
+                                          names(vocabulary))]
+    cols.keep <- c("id", "time", "type",
+                   dots_vctr,
+                   cols.scale[cols.scale %in% cols.scale[grepl("prop$", cols.scale)]],
+                   cols.scale[cols.scale %in% cols.scale[grepl("count$", cols.scale)]])
+    vocabulary <- vocabulary[, cols.keep]
+    vocabulary <- vocabulary[, !(names(vocabulary) %in% which_col_not)]
+    vocabulary <- tibble::as_tibble(vocabulary)
     
     return(vocabulary)
 }
+
+
 
 #' Check argument `...` in the [bvq::bvq_vocabulary()] function
 #'
@@ -176,13 +193,13 @@ check_arg_dots <- function(x, .cols) { # nocov start
 #' @keywords internal
 #' 
 vocab_total <- function(x, ...) { # nocov start
-    out <- x %>%
-        summarise(
-            total_count = sum(response, na.rm = TRUE),
-            n_total = n(),
-            .by = c(id, time, type, any_of(...))
-        ) %>%
-        mutate(total_prop = ifelse(n_total == 0, 0, total_count / n_total))
+    
+    out <- summarise(x, 
+                     total_count = sum(response, na.rm = TRUE),
+                     n_total = n(),
+                     .by = c(id, time, type, any_of(...))
+    )
+    out$total_prop <- ifelse(out$n_total==0, 0, out$total_count/out$n_total)
     
     return(out)
 } # nocov end
@@ -198,20 +215,16 @@ vocab_total <- function(x, ...) { # nocov start
 vocab_dominance <- function(x, ...) { # nocov start
     
     out <- x %>%
-        summarise(
-            count = sum(response, na.rm = TRUE),
-            n_total = sum(!is.na(response)),
-            .by = c(id, time, type, item_dominance, any_of(...))
-        ) %>%
-        mutate(prop = ifelse(n_total == 0, 0, count / n_total)) %>%
-        pivot_wider(
-            names_from = item_dominance,
-            values_from = c(n_total, matches("count|prop")),
-            names_glue = "{item_dominance}_{.value}",
-            names_repair = make_clean_names
-        ) %>%
-        clean_names() %>%
-        select(
+        dplyr::summarise(count = sum(response, na.rm = TRUE),
+                         n_total = sum(!is.na(response)),
+                         .by = c(id, time, type, item_dominance, any_of(...))) %>%
+        dplyr::mutate(prop = ifelse(n_total == 0, 0, count / n_total)) %>%
+        tidyr::pivot_wider(names_from = item_dominance,
+                           values_from = c(n_total, matches("count|prop")),
+                           names_glue = "{item_dominance}_{.value}",
+                           names_repair = make_clean_names) %>%
+        janitor::clean_names() %>%
+        dplyr::select(
             id, time, type, starts_with("l1_"), starts_with("l2_"),
             -ends_with("n_total"), any_of(...)
         )
@@ -230,20 +243,20 @@ vocab_dominance <- function(x, ...) { # nocov start
 vocab_concept <- function(x, ...) { # nocov start
     
     out <- x %>%
-        mutate(across(c(L1, L2), function(x) x > 0),
-               is_any = rowSums(pick(L2:L1)),
-               is_any = is_any > 0
+        dplyr::mutate(across(c(L1, L2), function(x) x > 0),
+                      is_any = rowSums(pick(L2:L1)),
+                      is_any = is_any > 0
         ) %>%
-        summarise(
+        dplyr::summarise(
             n = sum(is_any),
             .by = c(id, time, type, n_total, any_of(...))
         ) %>%
-        rename(concept_count = n) %>%
-        mutate(
+        dplyr::rename(concept_count = n) %>%
+        dplyr::mutate(
             concept_count = as.integer(concept_count),
             concept_prop = ifelse(n_total == 0, 0, concept_count / n_total)
         ) %>%
-        select(id, time, type, concept_count, concept_prop, any_of(...))
+        dplyr::select(id, time, type, concept_count, concept_prop, any_of(...))
     
     return(out)
 } # nocov end
@@ -259,20 +272,20 @@ vocab_concept <- function(x, ...) { # nocov start
 vocab_te <- function(x, ...) { # nocov start
     
     out <- x %>%
-        mutate(across(c(L1, L2), function(x) x > 0),
-               is_both = rowSums(pick(c(L2, L1))),
-               is_both = is_both > 1
+        dplyr::mutate(across(c(L1, L2), function(x) x > 0),
+                      is_both = rowSums(dplyr::pick(c(L2, L1))),
+                      is_both = is_both > 1
         ) %>%
-        summarise(
+        dplyr::summarise(
             n = sum(is_both),
             .by = c(id, time, type, n_total, any_of(...))
         ) %>%
-        rename(te_count = n) %>%
-        mutate(
+        dplyr::rename(te_count = n) %>%
+        dplyr::mutate(
             te_count = as.integer(te_count),
             te_prop = ifelse(n_total == 0, 0, te_count / n_total)
         ) %>%
-        select(id, time, type, te_count, te_prop, any_of(...))
+        dplyr::select(id, time, type, te_count, te_prop, any_of(...))
     
     return(out)
 } # nocov end

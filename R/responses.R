@@ -5,9 +5,6 @@
 #' (the output of [bvq::bvq_participants()]) and `runs` (a character vector that can
 #' take zero, one, or multiple of the following values: `"formr2"`,
 #' `"formr-short"`, `"formr-lockdown"`) as arguments.
-#' @import dplyr
-#' @importFrom lubridate as_date
-#' @importFrom formr formr_connect
 #' @importFrom stats time
 #'
 #' @export bvq_responses
@@ -18,12 +15,14 @@
 #' @returns A data frame (actually, a [tibble::tibble] containing participant's
 #'   responses to each item, along with some session-specific metadata. The
 #'   output includes the following variables:
-#' * id: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància](https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same `id`.
+#' * child_id: a character string with five digits indicating a participant's identifier in the database from the [Laboratori de Recerca en Infància](https://www.upf.edu/web/cbclab) at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same `child_id`.
+#' * response_id: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 #' * time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
-#' * code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
-#' * study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
 #' * version: a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the [GitHub repository](https://github.com/gongcastro/bvq)). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).
-#' * item: character string indicating the item identifier (e.g., `spa_mesa`). This value is unique for each item. Responses to the same item from different participants are linked by the same `item` value.
+#' * version_list: a character string indicating the specific list of
+#'   items a participant was assigned to. Only applies in the case of short
+#'   versions of BVQ, such as bvq-short, bvq-long, bvq-lockdown, or bvq-1.0.0, where the
+#'   list of items was partitioned into several versions.#' * item: character string indicating the item identifier (e.g., `spa_mesa`). This value is unique for each item. Responses to the same item from different participants are linked by the same `item` value.
 #' * response: integer indicating the participant's response to a give item: `1` if `"No"` (the participant does not understand or produce the word), `2` if "Understands" (the participants understands the word), or `3` if "Understands and Says" (the participant understands and produces the item).
 #' * date_birth: a date value (see lubridate package) in `yyyy/mm/dd` format indicating participants birth date.
 #' * date_started: a date value (see lubridate package) in `yyyy/mm/dd` format indicating when participants logged to the questionnaire for the first time.
@@ -34,7 +33,6 @@
 #' * doe_spanish: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
 #' * doe_catalan: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Majorca or Barcelona).
 #' * doe_others: a numeric value ranging from 0 to 1 indicating participants' daily exposure to languages other than Spanish or Catalan, as estimated by parents/caretakers, aggregating participants' exposure to all those other languages (e.g., Norwegian, Arab, Swahili).
-#' * randomisation: a character string indicating the specific list of items a participant was assigned to. Only applies in the case of short versions of BVQ, such as BL-Short, BL-Short-2 or BL-Lockdown, where the list of items was partitioned into several versions.
 #'
 #' @author Gonzalo Garcia-Castro
 #' 
@@ -48,36 +46,48 @@ bvq_responses <- function(participants = NULL) {
     
     if (is.null(participants)) participants <- bvq_participants()
     
-    # retrieve data from formr
-    bvq_030 <- import_bvq_030(participants) # formr2
-    bvq_040 <- import_bvq_040(participants) # formr-lockdown
-    bvq_050 <- import_bvq_050(participants) # formr-lockdown
-    bvq_100 <- import_bvq_100(participants) # bvq
+    bvq.list <- lapply(names(get_bvq_runs()), 
+                       function(x) collect_survey(x, participants))
+    names(bvq.list) <- names(get_bvq_runs())
     
-    responses <- list(bvq_030, bvq_040, bvq_050, bvq_100) %>%
-        bind_rows() %>%
-        distinct(id, code, item, .keep_all = TRUE) %>%
-        mutate(across(c(starts_with("date_"), time_stamp), as_date),
-               date_finished = coalesce(time_stamp, date_finished),
-               time = ifelse(is.na(time), 1, time),
-               version = trimws(version, whitespace = "[\\h\\v]")
-        ) %>%
-        fix_item() %>%
-        fix_doe() %>%
-        mutate(across(starts_with("doe_"), function(x) x / 100)) %>%
-        fix_sex() %>%
-        mutate(study = ifelse(is.na(study), "BVQ", study)) %>%
-        fix_id_exp() %>%
-        filter(!is.na(date_finished)) %>%
-        arrange(desc(date_finished)) %>%
-        select(
-            id, time, code, study,
-            version, randomisation,
-            starts_with("date_"),
-            item, response, sex,
-            starts_with("doe_"),
-            starts_with("edu_")
-        )
+    # merge dataframes
+    responses <- do.call(dplyr::bind_rows, bvq.list)  
+    
+    # remove duplicated combinations of child_id, response_id, and item
+    cols.undup <- c("child_id", "response_id", "item")
+    responses <- responses[!duplicated(responses[cols.undup]), , drop = FALSE]
+    
+    # fix date columns
+    date.cols <-  grepl("^date_", colnames(responses))
+    responses[, date.cols] <- lapply(responses[, date.cols], 
+                                     as.Date,
+                                     origin = c("1970-01-01"))
+    
+    # fix other variables
+    responses$time <- ifelse(is.na(responses$time), 1, responses$time)
+    responses$version <- trimws(responses$version, whitespace = "[\\h\\v]")
+    responses <- fix_item(responses)
+    responses <- fix_doe(responses)
+    responses <- fix_sex(responses)
+
+    # fix degree of exposure columns
+    doe.cols <- grepl("^doe_", colnames(responses))
+    responses[, doe.cols] <- lapply(responses[, doe.cols], function(x) x / 100)
+    
+    # remove rows with missing date_finished and reorder
+    responses <- responses[!is.na(responses$date_finished), ]
+    
+    # reorder dataframe and select columns
+    responses <- responses[order(responses$date_finished, decreasing = TRUE), , drop = FALSE]
+    cols.keep <- c(
+        "child_id", "response_id", "time", 
+        "version", "version_list", 
+        colnames(responses)[grepl("^date_", colnames(responses))],
+        "item", "response", "sex",
+        colnames(responses)[grepl("^doe_", colnames(responses))],
+        colnames(responses)[grepl("^edu_", colnames(responses))]
+    )
+    responses <- responses[, cols.keep]
     
     return(responses)
 }

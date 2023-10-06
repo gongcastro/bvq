@@ -4,8 +4,6 @@
 #' that have participated or are candidates to participate in any of the
 #' versions of BVQ.
 #'
-#' @import dplyr
-#' @importFrom lubridate as_date
 #' @importFrom cli cli_abort
 #' @importFrom googlesheets4 read_sheet
 #'
@@ -22,7 +20,7 @@
 #' * id_exp: a character string indicating a participant's identifier in the context of the particular study in which the participant was tested and invited to fill in the questionnaire. This value is always the same for each participant within the same study, so that different responses from the same participant in the same study share `id_exp`. The same participant may have different `id_exp` across different studies.
 #' * code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 #' * time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
-#' * date_birth: a date value (see lubridate package) in `yyyy/mm/dd` format indicating participants birth date.
+#' * date_birth: a date value in `yyyy/mm/dd` format indicating participants birth date.
 #' * age_now: a numeric value indicating the number of months elapsed since participants' birth date until the present day, as indicated by [lubridate::now()].
 #' * study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
 #' * version: a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the [GitHub repository](https://github.com/gongcastro/multilex). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).
@@ -55,25 +53,36 @@
 #' 
 #' @md
 bvq_participants <- function(...) {
+    bvq_connect() # get credentials to Google and formr
+    
+    # download Sheets
     suppressMessages({
-        bvq_connect() # get credentials to Google and formr
-        
         ss <- "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo"
-        participants <- read_sheet(ss, sheet = "Participants") %>%
-            mutate(
-                across(c(date_birth, date_test, date_sent), as_date),
-                across(include, as.logical)
-            ) %>%
-            filter(!is.na(code), include) %>%
-            select(-c(link, comments, include)) %>%
-            arrange(desc(as.numeric(gsub("BL", "", code))))
+        x <- googlesheets4::read_sheet(ss, sheet = "Participants")
     })
     
-    # make sure no columns are lists (probably due to inconsistent cell types)
-    is_col_list <- vapply(participants, is.list, logical(1))
+    # change classes
+    cols.dates <- grepl("date_", names(x))
+    x[, cols.dates] <- lapply(x[, cols.dates], as.Date)
+    x[, "include"] <- lapply(x[, "include"], as.logical)
+    
+    # filter rows
+    cols.keep <- !(names(x) %in% c("link", "comments", "include"))
+    x <- subset(x, !is.na(x$code) & x$include, cols.keep)
+    
+    # reorder rows
+    code.sorted <- as.numeric(gsub("BL", "", x$code))
+    x <- x[order(code.sorted, decreasing = TRUE), , drop = FALSE]
+    
+    # fix version values
+    x$version <- gsub("bl-", "", tolower(x$version))    
+    
+    # make sure no columns are lists
+    # (probably due to inconsistent cell types)
+    is_col_list <- vapply(x, is.list, logical(1))
     if (any(is_col_list)) { 
         col <- names(which(is_col_list))
         cli_abort("{col} {?has/have} class {.cls list}")
     }
-    return(participants)
+    return(x)
 }

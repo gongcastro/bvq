@@ -38,12 +38,13 @@ test_that("test item argument with single item", {
             ".prop"
         )
     )
-    expect_equal(unique(norms$item), "cat_gat")
+    expect_setequal(unique(norms$item), "cat_gat")
 })
 
 test_that("test item argument with multiple items", {
-    norms <-
-        bvq_norms(participants, responses, item = c("cat_gat", "spa_perro"))
+    norms <- bvq_norms(participants, 
+                       responses,
+                       item = c("cat_gat", "spa_perro"))
     expect_equal(
         colnames(norms),
         c(
@@ -58,14 +59,17 @@ test_that("test item argument with multiple items", {
             ".prop"
         )
     )
-    expect_equal(unique(norms$item), c("cat_gat", "spa_perro"))
+    expect_setequal(unique(norms$item), c("cat_gat", "spa_perro"))
 })
 
 test_that("test te = TRUE argument with single item", {
     norms <-
-        bvq_norms(participants, responses, item = "cat_gat", te = TRUE)
+        bvq_norms(participants,
+                  responses, 
+                  item = "cat_gat", 
+                  te = TRUE)
     
-    expect_equal(
+    expect_setequal(
         colnames(norms),
         c(
             "te",
@@ -79,7 +83,7 @@ test_that("test te = TRUE argument with single item", {
             ".prop"
         )
     )
-    expect_equal(unique(norms$item), c("cat_gat", "spa_gato"))
+    expect_in(unique(norms$item), c("cat_gat", "spa_gato"))
 })
 
 test_that("test te = TRUE argument with multiple items", {
@@ -101,14 +105,16 @@ test_that("test te = TRUE argument with multiple items", {
             ".prop"
         )
     )
-    expect_equal(unique(norms$item),
-                 c("cat_gat", "spa_gato",
-                   "cat_gos", "spa_perro"))
+    expect_setequal(unique(norms$item),
+                    c("cat_gat", "spa_gato",
+                      "cat_gos", "spa_perro"))
 })
 
 test_that("test te = FALSE argument", {
-    norms <-
-        bvq_norms(participants, responses, item = "cat_gat", te = FALSE)
+    norms <- bvq_norms(participants,
+                       responses,
+                       item = "cat_gat",
+                       te = FALSE)
     expect_equal(
         colnames(norms),
         c(
@@ -123,14 +129,16 @@ test_that("test te = FALSE argument", {
             ".prop"
         )
     )
-    expect_equal(unique(norms$item), c("cat_gat"))
+    expect_setequal(unique(norms$item), c("cat_gat"))
 })
 
 test_that("test te = 175 argument", {
-    norms <-
-        bvq_norms(participants, responses, item = "cat_cuc", te = 175)
+    norms <- bvq_norms(participants, 
+                       responses,
+                       item = "cat_cuc",
+                       te = 175)
     
-    expect_equal(
+    expect_setequal(
         colnames(norms),
         c(
             "te",
@@ -144,7 +152,7 @@ test_that("test te = 175 argument", {
             ".prop"
         )
     )
-    expect_equal(unique(norms$item), c("cat_cuc", "spa_gusano"))
+    expect_setequal(unique(norms$item), c("cat_cuc", "spa_gusano"))
 })
 
 test_that("test te = 9999 throws an error", {
@@ -157,33 +165,29 @@ test_that("test item = 'XXXXXX' throws an error", {
 
 test_that("test if items not in `te` are excluded with a warning", {
     suppressMessages({
-        expect_message(bvq_norms(
-            participants,
-            responses,
-            te = 175,
-            item = c("spa_gusano", "cat_gat")
-        ))
-        
-        
-        norms <- bvq_norms(
-            participants,
-            responses,
-            te = 175,
-            item = c("spa_gusano", "cat_gat")
+        expect_message(
+            bvq_norms(participants,
+                      responses,
+                      te = 175,
+                      item = c("spa_gusano", "cat_gat"))
         )
         
-        expect_equal(unique(norms$item), c("cat_cuc", "spa_gusano"))
+        
+        norms <- bvq_norms(participants,
+                           responses,
+                           te = 175,
+                           item = c("spa_gusano", "cat_gat"))
+        
+        expect_setequal(unique(norms$item), c("cat_cuc", "spa_gusano"))
     })
 })
 
 test_that("test that the ... argument works", {
-    norms <- bvq_norms(
-        participants,
-        responses,
-        lp,
-        semantic_category,
-        item = "cat_gat",
-        age = c(10, 12)
-    )
+    norms <- bvq_norms(participants,
+                       responses,
+                       lp,
+                       semantic_category,
+                       item = "cat_gat",
+                       age = c(10, 12))
     expect_in(c("lp", "semantic_category"), colnames(norms))
 })

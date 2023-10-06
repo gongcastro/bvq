@@ -49,29 +49,41 @@
 #' * completed: a logical value that returns `TRUE` if `progress` is 1, and `FALSE` otherwise.
 #'
 #' @author Gonzalo Garcia-Castro
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' responses <- bvq_responses()
-#' 
+#'
 #' logs <- bvq_logs(responses = responses)
 #' }
-#' 
+#'
 #' @md
 bvq_logs <- function(participants = NULL,
                      responses = NULL,
                      bilingual_threshold = 0.80,
                      other_threshold = 0.10) {
+    
+    # check args
+    arg_bil_range <- !((bilingual_threshold >= 0) & (bilingual_threshold <= 1))
+    arg_bil_class <- !is.numeric(bilingual_threshold)
+    if (arg_bil_range || arg_bil_class) {
+        cli::cli_abort("bilingual_threshold must be numeric between 0 and 1")
+    }
+    
+    arg_oth_range <- !((other_threshold >= 0) & (other_threshold <= 1))
+    arg_oth_class <- !is.numeric(other_threshold)
+    if (arg_oth_range || arg_oth_class) {
+        cli::cli_abort("other_threshold must be numeric between 0 and 1")
+    }
+    
     if (is.null(participants)) participants <- bvq_participants()
     if (is.null(responses)) responses <- bvq_responses(participants)
     
     # get n items answered by participants (depends on the questionnaire version)
     total_items <- studies %>%
         distinct(version, language, n) %>%
-        summarise(
-            total_items = sum(n),
-            .by = version
-        )
+        summarise(total_items = sum(n),
+                  .by = version)
     
     grouping_vars <- c(
         "id", "date_birth", "time",
@@ -93,21 +105,18 @@ bvq_logs <- function(participants = NULL,
     # generate logs
     logs <- responses %>%
         # total items to fill by each participant (varies across versions)
-        summarise(
-            complete_items = sum(!is.na(response)),
-            .by = one_of(grouping_vars)
-        ) %>%
-        left_join(total_items,
-                  by = join_by(version)) %>%
+        summarise(complete_items = sum(!is.na(response)),
+                  .by = one_of(grouping_vars)) %>%
+        left_join(total_items, by = join_by(version)) %>%
         left_join(select(participants, -c(date_birth, version)),
                   by = join_by(id, time, code, study)) %>%
-        filter(!is.na(id)) %>% 
+        filter(!is.na(id)) %>%
         mutate(
             # define language profiles based on thresholds
             lp = case_when(
+                doe_others > other_threshold ~ "Other",
                 doe_catalan >= bilingual_threshold ~ "Monolingual",
                 doe_spanish >= bilingual_threshold ~ "Monolingual",
-                doe_others > other_threshold ~ "Other",
                 .default = "Bilingual"
             ),
             # define language dominance
@@ -120,10 +129,8 @@ bvq_logs <- function(participants = NULL,
             duration = diff_in_time(date_finished, date_started, "days")
         ) %>%
         # compute participant's progreslos through the questionnaire
-        mutate(
-            progress = complete_items / total_items,
-            completed = progress >= 0.95
-        ) %>%
+        mutate(progress = complete_items / total_items,
+               completed = progress >= 0.95) %>%
         # select relevant columns and reorder them
         select(id, one_of(vars)) %>%
         arrange(desc(date_finished))
