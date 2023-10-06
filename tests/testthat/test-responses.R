@@ -2,10 +2,9 @@ responses <- readRDS(system.file("fixtures/responses.rds",
                                  package = "bvq"))
 
 test_that("columns are the right classes", {
-    expect_true(is.character(responses$id))
+    expect_true(is.character(responses$child_id))
     expect_true(is.numeric(responses$time))
-    expect_true(is.character(responses$code))
-    expect_true(is.character(responses$study))
+    expect_true(is.character(responses$response_id))
     expect_true(is.character(responses$version))
     expect_true(is.character(responses$item))
     expect_true(is.numeric(responses$response))
@@ -25,8 +24,8 @@ test_that("responses have the right values", {
 
 test_that("all participants have at least one non-missing response", {
     non_missing_responses <- responses %>%
-        group_by(id, time) %>%
-        summarise(not_missing = sum(!is.na(response)), .groups = "drop") %>%
+        summarise(not_missing = sum(!is.na(response)), 
+                  .by = c(child_id, time)) %>%
         pull(not_missing)
-    expect_false(all(non_missing_responses))
+    expect_true(all(non_missing_responses > 1))
 })

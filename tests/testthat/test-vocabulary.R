@@ -15,15 +15,15 @@ test_that("vocabulary proportions are plausible", {
     
     vocabulary <- vocabulary %>%
         left_join(
-            select(participants, id, time, version, randomisation),
-            by = join_by(id, time),
+            select(participants, child_id, time, version, version_list),
+            by = join_by(child_id, time),
             multiple = "all"
         ) %>%
-        filter(!is.na(version),!is.na(randomisation)) %>%
+        filter(!is.na(version),!is.na(version_list)) %>%
         mutate(version = case_when(
-            grepl("cbc", id) ~ "CBC",
-            grepl("devlex", id) ~ "DevLex",
-            .default = paste(version, randomisation, sep = "-")
+            grepl("cbc", child_id) ~ "CBC",
+            grepl("devlex", child_id) ~ "DevLex",
+            .default = paste(version, version_list, sep = "-")
         )) %>%
         left_join(n_total,
                   by = join_by(version),
@@ -45,7 +45,7 @@ test_that("column classes are the right ones", {
     vocabulary <-
         bvq_vocabulary(participants, responses, .scale = c("prop", "count"))
     
-    expect_true(all(class(vocabulary$id) == "character"))
+    expect_true(all(class(vocabulary$child_id) == "character"))
     expect_true(all(class(vocabulary$time) == "numeric"))
     expect_true(all(class(vocabulary$type) == "character"))
     expect_true(all(class(vocabulary$total_count) == "integer"))

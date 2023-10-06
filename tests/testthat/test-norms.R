@@ -47,17 +47,15 @@ test_that("test item argument with multiple items", {
                        item = c("cat_gat", "spa_perro"))
     expect_equal(
         colnames(norms),
-        c(
-            "te",
-            "item",
-            "label",
-            "age",
-            "type",
-            "item_dominance",
-            ".sum",
-            ".n",
-            ".prop"
-        )
+        c("te",
+          "item",
+          "label",
+          "age",
+          "type",
+          "item_dominance",
+          ".sum",
+          ".n",
+          ".prop")
     )
     expect_setequal(unique(norms$item), c("cat_gat", "spa_perro"))
 })
@@ -71,17 +69,15 @@ test_that("test te = TRUE argument with single item", {
     
     expect_setequal(
         colnames(norms),
-        c(
-            "te",
-            "item",
-            "label",
-            "age",
-            "type",
-            "item_dominance",
-            ".sum",
-            ".n",
-            ".prop"
-        )
+        c("te",
+          "item",
+          "label",
+          "age",
+          "type",
+          "item_dominance",
+          ".sum",
+          ".n",
+          ".prop")
     )
     expect_in(unique(norms$item), c("cat_gat", "spa_gato"))
 })
@@ -93,17 +89,15 @@ test_that("test te = TRUE argument with multiple items", {
                        te = TRUE)
     expect_equal(
         colnames(norms),
-        c(
-            "te",
-            "item",
-            "label",
-            "age",
-            "type",
-            "item_dominance",
-            ".sum",
-            ".n",
-            ".prop"
-        )
+        c("te",
+          "item",
+          "label",
+          "age",
+          "type",
+          "item_dominance",
+          ".sum",
+          ".n",
+          ".prop")
     )
     expect_setequal(unique(norms$item),
                     c("cat_gat", "spa_gato",
@@ -117,17 +111,15 @@ test_that("test te = FALSE argument", {
                        te = FALSE)
     expect_equal(
         colnames(norms),
-        c(
-            "te",
-            "item",
-            "label",
-            "age",
-            "type",
-            "item_dominance",
-            ".sum",
-            ".n",
-            ".prop"
-        )
+        c("te",
+          "item",
+          "label",
+          "age",
+          "type",
+          "item_dominance",
+          ".sum",
+          ".n",
+          ".prop")
     )
     expect_setequal(unique(norms$item), c("cat_gat"))
 })
@@ -140,17 +132,15 @@ test_that("test te = 175 argument", {
     
     expect_setequal(
         colnames(norms),
-        c(
-            "te",
-            "item",
-            "label",
-            "age",
-            "type",
-            "item_dominance",
-            ".sum",
-            ".n",
-            ".prop"
-        )
+        c("te",
+          "item",
+          "label",
+          "age",
+          "type",
+          "item_dominance",
+          ".sum",
+          ".n",
+          ".prop")
     )
     expect_setequal(unique(norms$item), c("cat_cuc", "spa_gusano"))
 })
