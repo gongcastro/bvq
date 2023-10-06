@@ -59,17 +59,13 @@ process_survey <- function(raw, participants_tmp, survey_name) {
         lapply(select, -one_of(c("created", "modified", "ended", "expired"))) %>%
         # if a single session ID has multiple entries, select most recent
         reduce(inner_join, by = join_by(session), multiple = "all") %>%
-        mutate(
-            code = fix_code(code),
-            survey_name = .env$survey_name,
-            version = ifelse(survey_name == "BL-Long-2",
-                             survey_name,
-                             paste(survey_name,
-                                   trimws(version, whitespace = "[\\h\\v]"),
-                                   sep = "-"
-                             )
-            )
-        ) %>%
+        mutate(survey_name = .env$survey_name,
+               version = ifelse(survey_name == "BL-Long-2",
+                                survey_name,
+                                paste(survey_name,
+                                      trimws(version, whitespace = "[\\h\\v]"),
+                                      sep = "-"
+                                ))) %>% 
         left_join(participants_tmp, by = join_by(code))
     
     items_to_keep <- c(
@@ -84,66 +80,103 @@ process_survey <- function(raw, participants_tmp, survey_name) {
         select(-matches("lockdown")) %>%
         left_join(words_cat, by = join_by(session), multiple = "all") %>%
         left_join(words_spa, by = join_by(session), multiple = "all") %>%
-        filter(code %in% participants_tmp$code,
-               !if_any(matches("created_|ended_"), is.na)) %>% 
-        mutate(
-            across(
-                c(matches("created_|ended_"), date_birth),
-                as_datetime
-            ),
-            across(
-                starts_with("language_doe"),
-                function(x) ifelse(is.na(x), 0, x)
-            ),
-            survey_name = .env$survey_name,
-            date_started = get_time_stamp(ended_cat,
-                                          ended_spa,
-                                          which = "first"
-            ),
-            date_finished = get_time_stamp(ended_cat,
-                                           ended_spa,
-                                           which = "last"
-            ),
-            language_doe_catalan = get_doe(matches("catalan")),
-            language_doe_spanish = get_doe(matches("spanish")),
-            language_doe_others = 100 - rowSums(across(c(
-                language_doe_catalan,
-                language_doe_spanish
-            )))
-        ) %>%
+        dplyr::filter(code %in% participants_tmp$code,
+                      !if_any(matches("created_|ended_"), is.na)) %>% 
+        mutate(across(c(matches("created_|ended_"), date_birth),
+                      as_datetime),
+               across(starts_with("language_doe"),
+                      function(x) ifelse(is.na(x), 0, x)),
+               survey_name = .env$survey_name,
+               date_started = get_time_stamp(ended_cat,
+                                             ended_spa,
+                                             which = "first"),
+               date_finished = get_time_stamp(ended_cat,
+                                              ended_spa,
+                                              which = "last"),
+               language_doe_catalan = get_doe(matches("catalan")),
+               language_doe_spanish = get_doe(matches("spanish")),
+               language_doe_others = 100 - rowSums(across(c(
+                   language_doe_catalan,
+                   language_doe_spanish
+               )))) %>% 
         arrange(desc(date_finished)) %>%
         distinct(session, .keep_all = TRUE) %>%
-        rename(
-            edu_parent1 = demo_parent1,
-            edu_parent2 = demo_parent2
-        ) %>%
-        select(
-            starts_with("id"),
-            one_of(items_to_keep),
-            starts_with("cat_"),
-            starts_with("spa_")
-        ) %>%
-        pivot_longer(
-            cols = matches("cat_|spa_"),
-            names_to = "item",
-            values_to = "response"
-        ) %>%
+        rename(edu_parent1 = demo_parent1,
+               edu_parent2 = demo_parent2) %>%
+        select(starts_with("id"),
+               one_of(items_to_keep),
+               starts_with("cat_"),
+               starts_with("spa_")) %>%
+        pivot_longer(cols = matches("cat_|spa_"),
+                     names_to = "item",
+                     values_to = "response") %>%
         rename_with(function(x) gsub("language_", "", x), everything()) %>%
-        mutate(
-            language = ifelse(grepl("cat_", item), "Catalan", "Spanish"),
-            sex = ifelse(sex == 1, "Male", "Female"),
-            across(
-                starts_with("edu_"),
-                function(x) na_if(x, "")
-            )
-        ) %>%
+        mutate(language = ifelse(grepl("cat_", item), "Catalan", "Spanish"),
+               sex = ifelse(sex == 1, "Male", "Female"),
+               across(starts_with("edu_"),
+                      function(x) na_if(x, ""))) %>%
         arrange(desc(date_finished)) %>%
-        distinct(id, code, item, .keep_all = TRUE)
+        distinct(id, code, item, .keep_all = TRUE) %>% 
+        mutate(across(c(starts_with("id"), code, study, version, randomisation,
+                        sex, edu_parent1, edu_parent2, item, language),
+                      as.character))
     
     return(processed)
 }
 
-#' Import lockdown data
+#' Import BVQ-v1.0.0 data
+#'
+#' @import dplyr
+#' @importFrom formr formr_raw_results
+#' @importFrom lubridate as_datetime
+#' @importFrom lubridate time_length
+#' @importFrom tidyr pivot_longer
+#' @importFrom janitor clean_names
+#' @importFrom rlang .env
+#' @importFrom cli cli_alert_success
+#' 
+#' @param surveys Name of formr surveys from the `bvq` run.
+#' @param ... Unused.
+#' 
+#' @author Gonzalo Garcia-Castro
+#' 
+#' @noRd
+#' @keywords internal
+#'
+#' @md
+import_bvq_100 <- function(participants,
+                           surveys = runs[["bvq-v1.0.0"]], 
+                           ...) 
+{
+    version <- "bvq-v1.0.0"
+    
+    if (missing(participants)) participants <- bvq_participants()
+    
+    participants_tmp <- subset(participants, select = -version)
+    
+    # fetch responses
+    raw <- download_surveys(surveys)
+    names(raw[[1]])[names(raw[[1]]) == "bl_code"] <- "code"
+    raw[[1]]$code <- fix_code(na_if(raw[[1]]$code, ""))
+    raw[[1]]$created <- lubridate::as_datetime(raw[[1]]$created)
+    raw[[1]] <- subset(raw[[1]], !is.na(code) & !is.na(ended))
+    raw[[1]] <- fix_code_raw(raw[[1]]) # fix codes known to be wrong
+    raw[[1]] <- raw[[1]][order(desc(raw[[1]]$created)), , drop = FALSE]
+    # get only last response of each code
+    raw[[1]] <- raw[[1]][!duplicated(raw[[1]]$code), , drop = FALSE]
+    
+    processed <- process_survey(raw, participants_tmp, version)
+    
+    if (interactive()) {
+        n_responses <- nrow(distinct(processed, code))
+        msg <- "{version} updated: {n_responses} response{?s} retrieved"
+        cli_alert_success(msg)
+    }
+    
+    return(processed)
+}
+
+#' Import BVQ-v0.5.0 data
 #'
 #' @import dplyr
 #' @importFrom formr formr_raw_results
@@ -163,18 +196,11 @@ process_survey <- function(raw, participants_tmp, survey_name) {
 #' @keywords internal
 #'
 #' @md
-import_formr_lockdown <- function(participants,
-                                  surveys = c(
-    "bilexicon_lockdown_01_log",
-    "bilexicon_lockdown_02_welcome",
-    "bilexicon_lockdown_03_consent",
-    "bilexicon_lockdown_04_demo",
-    "bilexicon_lockdown_05_language",
-    "bilexicon_lockdown_06_words_catalan",
-    "bilexicon_lockdown_06_words_spanish"
-), ...) 
+import_bvq_050 <- function(participants,
+                           surveys = runs[["bvq-v0.5.0"]], 
+                           ...) 
 {
-    version <- "BL-Lockdown"
+    version <- "bvq-v0.5.0"
     
     if (missing(participants)) participants <- bvq_participants()
     
@@ -190,7 +216,7 @@ import_formr_lockdown <- function(participants,
         ) %>%
         filter(!is.na(code), !is.na(ended)) %>% 
         fix_code_raw() %>% # fix codes known to be wrong
-        filter(code %in% participants_tmp$code) %>% # remove codes not included in participants
+        # filter(code %in% participants_tmp$code) %>% # remove codes not included in participants
         arrange(desc(created)) %>%
         distinct(code, .keep_all = TRUE) # get only last response of each code
     
@@ -206,7 +232,7 @@ import_formr_lockdown <- function(participants,
 }
 
 
-#' Import short
+#' Import BVQ-0.4.0
 #'
 #' @import dplyr
 #' @importFrom formr formr_raw_results
@@ -225,19 +251,11 @@ import_formr_lockdown <- function(participants,
 #' @keywords internal
 #' 
 #' @md
-import_formr_short <- function(participants,
-                               surveys = c(
-    "bilexicon_short_01_log",
-    "bilexicon_short_02_welcome",
-    "bilexicon_short_03_consent",
-    "bilexicon_short_04_demo",
-    "bilexicon_short_05_language",
-    "bilexicon_short_06_words_catalan",
-    "bilexicon_short_06_words_spanish"
-),
-...) 
+import_bvq_040 <- function(participants,
+                           surveys = runs[["bvq-v0.4.0"]], 
+                           ...) 
 {
-    version <- "BL-Short"
+    version <- "bvq-v0.4.0"
     
     if (missing(participants)) participants <- bvq_participants()
     
@@ -279,7 +297,7 @@ import_formr_short <- function(participants,
     return(processed)
 }
 
-#' Import formr 2
+#' Import BVQ-v0.3.0
 #'
 #' @import dplyr
 #' @importFrom formr formr_raw_results
@@ -298,19 +316,11 @@ import_formr_short <- function(participants,
 #' @keywords internal
 #' 
 #' @md
-import_formr2 <- function(participants, 
-                          surveys = c(
-    "bilexicon_01_log",
-    "bilexicon_02_welcome",
-    "bilexicon_03_consent",
-    "bilexicon_04_demo",
-    "bilexicon_05_language",
-    "bilexicon_06_words_cat",
-    "bilexicon_06_words_spa"
-),
-...) {
+import_bvq_030 <- function(participants, 
+                           surveys = runs[["bvq-v0.3.0"]],
+                          ...) {
     
-    version <- "BL-Long"
+    version <- "bvq-v0.3.0"
     
     if (missing(participants)) participants <- bvq_participants()
     

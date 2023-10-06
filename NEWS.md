@@ -1,3 +1,17 @@
+# bvq 1.0.0
+
+* Remove items about COVID-19 lockdown
+* Fix the following item names (according to utilx function `fix_item()`):
+    - `cat_parc` -> `cat_parc1`
+    - `cat_voler` -> `cat_voler1`
+    - `cat_voler3` -> `cat_voler2`
+    - `cat_despres1` -> `cat_despres`
+    - `cat_peix` -> `cat_peix1`
+    - `cat_estar` -> `cat_estar1`
+    - `cat_anar` -> `cat_anar1`
+    - `spa_querer` -> `spa_querer1`
+    - `spa_ir` -> `spa_ir1`
+    
 # bvq 0.3.2
 
 * Refactor `bvq_vocabulary()` and `bvq_norms()` to use rlang and the dynamic dots (`...`) (#20) operator

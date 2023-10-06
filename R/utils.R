@@ -18,10 +18,10 @@
 #' @examples
 #' diff_in_time(as.Date("2023-02-01"), as.Date("2022-02-01"))
 diff_in_time <- function(x, y, units = "months") {
-  diff <- difftime(x, y)
-  diff <- abs(time_length(diff, units))
-  diff <- ifelse(diff %in% c(-Inf, Inf), NA_real_, diff)
-  return(diff)
+    diff <- difftime(x, y)
+    diff <- abs(time_length(diff, units))
+    diff <- ifelse(diff %in% c(-Inf, Inf), NA_real_, diff)
+    return(diff)
 }
 
 #' Get timestamps
@@ -56,14 +56,14 @@ diff_in_time <- function(x, y, units = "months") {
 #' (y)
 #'
 get_time_stamp <- function(..., which = "first") {
-  if (!(which == "first" || which == "last")) {
-    cli_abort("`which` must be 'first' or 'last'")
-  }
-
-  if (which == "first") fun <- min else fun <- max
-  x <- as_datetime(apply(across(c(...)), 1, fun, na.rm = TRUE))
-
-  return(x)
+    if (!(which == "first" || which == "last")) {
+        cli_abort("`which` must be 'first' or 'last'")
+    }
+    
+    if (which == "first") fun <- min else fun <- max
+    x <- as_datetime(apply(across(c(...)), 1, fun, na.rm = TRUE))
+    
+    return(x)
 }
 
 #' Summarise language profile
@@ -96,7 +96,7 @@ get_time_stamp <- function(..., which = "first") {
 #'
 #' (y)
 get_doe <- function(...) {
-  rowSums(across(c(...)), dims = 1, na.rm = TRUE)
+    rowSums(across(c(...)), dims = 1, na.rm = TRUE)
 }
 
 #' Fix codes
@@ -109,13 +109,13 @@ get_doe <- function(...) {
 #' @keywords internal
 #' 
 fix_code <- function(x) { # nocov start
-  x <- toupper(trimws(x))
-  x <- gsub("O", "0", x)
-  x <- gsub("I", "L", x)
-  x <- gsub("[^\\d]+", "", x, perl = TRUE)
-  x <- paste0("BL", x)
-
-  return(x)
+    x <- toupper(trimws(x))
+    x <- gsub("O", "0", x)
+    x <- gsub("I", "L", x)
+    x <- gsub("[^\\d]+", "", x, perl = TRUE)
+    x <- paste0("BL", x)
+    
+    return(x)
 } # nocov end
 
 
@@ -129,15 +129,15 @@ fix_code <- function(x) { # nocov start
 #' @keywords internal
 #' 
 fix_code_raw <- function(x) { # nocov start
-  x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "code"] <- "BL1674"
-  x[x$session == "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2", "code"] <- "BL1671"
-  x[x$session == "TW8vSEn7YTtbZoe9BaEtRgwNvryWTwSv49dLKb5W0_6bFL306Eiw0Ehg72Q9nqLx", "code"] <- "BL1672"
-  x[x$session == "DDjiYrPl-WD951rocaSKH9grkn2T4ZJKjhdCAPDzqNBWyhc8E8wwjOY0CcruNn1m", "code"] <- "BL1673"
-  x[x$session == "c9fPw4Lbm5WS0AbBRppv4NVHh4eETxvEitH8lUC1pkt2ulxxHCvXgAYopCGRQSa_", "code"] <- "BL1569"
-  x[x$session == "I8ldNrILmQd7Vhtwqk99Y9YaKWrZzlExKeXsRv9_toIEi43BtlfuLI-PmdU4iY7G", "code"] <- "BL1788"
-  x[x$session == "dU5CZLLkvmY7SDpe8d0jFQO3xzpmeS0lCOFF_ErjETC1tyyYbv3ZhyaDmlfdJwHc", "code"] <- "BL1876"
-  x[x$session == "L4F1jd13H4wyFf6QYGy8hfSURneFr-zfzMn1YFFeBTbTZWWjxYPRbC-rPY6U1qdr", "code"] <- "remove"
-  return(x)
+    x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "code"] <- "BL1674"
+    x[x$session == "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2", "code"] <- "BL1671"
+    x[x$session == "TW8vSEn7YTtbZoe9BaEtRgwNvryWTwSv49dLKb5W0_6bFL306Eiw0Ehg72Q9nqLx", "code"] <- "BL1672"
+    x[x$session == "DDjiYrPl-WD951rocaSKH9grkn2T4ZJKjhdCAPDzqNBWyhc8E8wwjOY0CcruNn1m", "code"] <- "BL1673"
+    x[x$session == "c9fPw4Lbm5WS0AbBRppv4NVHh4eETxvEitH8lUC1pkt2ulxxHCvXgAYopCGRQSa_", "code"] <- "BL1569"
+    x[x$session == "I8ldNrILmQd7Vhtwqk99Y9YaKWrZzlExKeXsRv9_toIEi43BtlfuLI-PmdU4iY7G", "code"] <- "BL1788"
+    x[x$session == "dU5CZLLkvmY7SDpe8d0jFQO3xzpmeS0lCOFF_ErjETC1tyyYbv3ZhyaDmlfdJwHc", "code"] <- "BL1876"
+    x[x$session == "L4F1jd13H4wyFf6QYGy8hfSURneFr-zfzMn1YFFeBTbTZWWjxYPRbC-rPY6U1qdr", "code"] <- "remove"
+    return(x)
 } # nocov end
 
 #' Fix DOEs
@@ -153,32 +153,32 @@ fix_code_raw <- function(x) { # nocov start
 #' @keywords internal
 #' 
 fix_doe <- function(x) { # nocov start
-
-  x %>%
-    mutate(
-      doe_catalan = case_when(
-        id == "54469" & time == 2 ~ 0,
-        id == "57157" & time == 1 ~ 80,
-        id == "57046" & time == 1 ~ 50,
-        code == "BL1582" ~ 30,
-        code == "BL1295" ~ 10,
-        code == "BL1252" ~ 90,
-        .default = doe_catalan
-      ),
-      doe_spanish = case_when(
-        id == "57046" & time == 1 ~ 50,
-        code == "BL896" ~ 75,
-        .default = doe_spanish
-      ),
-      doe_others = case_when(
-        code == "BL1252" ~ 0,
-        code == "BL1208" ~ 0,
-        code == "BL896" ~ 0,
-        code == "BL1582" ~ 0,
-        code == "BL1295" ~ 0,
-        .default = doe_others
-      )
-    )
+    
+    x %>%
+        mutate(
+            doe_catalan = case_when(
+                id == "54469" & time == 2 ~ 0,
+                id == "57157" & time == 1 ~ 80,
+                id == "57046" & time == 1 ~ 50,
+                code == "BL1582" ~ 30,
+                code == "BL1295" ~ 10,
+                code == "BL1252" ~ 90,
+                .default = doe_catalan
+            ),
+            doe_spanish = case_when(
+                id == "57046" & time == 1 ~ 50,
+                code == "BL896" ~ 75,
+                .default = doe_spanish
+            ),
+            doe_others = case_when(
+                code == "BL1252" ~ 0,
+                code == "BL1208" ~ 0,
+                code == "BL896" ~ 0,
+                code == "BL1582" ~ 0,
+                code == "BL1295" ~ 0,
+                .default = doe_others
+            )
+        )
 } # nocov end
 
 #' Fix sex (missing in first responses to BL-Lockdown)
@@ -191,20 +191,20 @@ fix_doe <- function(x) { # nocov start
 #' @keywords internal
 #' 
 fix_sex <- function(x) { # nocov start
-
-  x$sex <- ifelse(x$id_bvq %in% c(
-    "bilexicon_1097",
-    "bilexicon_1441",
-    "bilexicon_1124",
-    "bilexicon_1448"
-  ),
-  "Female",
-  x$sex
-  )
-
-  x$sex <- ifelse(x$id_bvq == "bilexicon_1447", "Male", x$sex)
-
-  return(x)
+    
+    x$sex <- ifelse(x$id_bvq %in% c(
+        "bilexicon_1097",
+        "bilexicon_1441",
+        "bilexicon_1124",
+        "bilexicon_1448"
+    ),
+    "Female",
+    x$sex
+    )
+    
+    x$sex <- ifelse(x$id_bvq == "bilexicon_1447", "Male", x$sex)
+    
+    return(x)
 } # nocov end
 
 
@@ -218,22 +218,22 @@ fix_sex <- function(x) { # nocov start
 #' @keywords internal
 #' 
 fix_item <- function(x) { # nocov start
-
-  x$item[x$item == "cat_parc"] <- "cat_parc1"
-  x$item[x$item == "cat_eciam"] <- "cat_enciam"
-  x$item[x$item == "cat_voler3"] <- "cat_voler2"
-  x$item[x$item == "cat_voler"] <- "cat_voler1"
-  x$item[x$item == "cat_despres1"] <- "cat_despres"
-  x$item[x$item == "cat_peix"] <- "cat_peix1"
-  x$item[x$item == "cat_estar"] <- "cat_estar1"
-  x$item[x$item == "cat_querer"] <- "cat_querer1"
-  x$item[x$item == "cat_estiguestequiet"] <- "cat_estiguesquiet"
-  x$item[x$item == "spa_nibla"] <- "spa_niebla"
-  x$item[x$item == "spa_ir"] <- "spa_ir1"
-  x$item[x$item == "spa_querer"] <- "spa_querer1"
-  x$item[x$item == "cat_anar"] <- "cat_anar1"
-
-  return(x)
+    
+    x$item[x$item == "cat_parc"] <- "cat_parc1"
+    x$item[x$item == "cat_eciam"] <- "cat_enciam"
+    x$item[x$item == "cat_voler3"] <- "cat_voler2"
+    x$item[x$item == "cat_voler"] <- "cat_voler1"
+    x$item[x$item == "cat_despres1"] <- "cat_despres"
+    x$item[x$item == "cat_peix"] <- "cat_peix1"
+    x$item[x$item == "cat_estar"] <- "cat_estar1"
+    x$item[x$item == "cat_estiguestequiet"] <- "cat_estiguesquiet"
+    x$item[x$item == "cat_anar"] <- "cat_anar1"
+    x$item[x$item == "spa_querer"] <- "spa_querer1"
+    x$item[x$item == "spa_nibla"] <- "spa_niebla"
+    x$item[x$item == "spa_ir"] <- "spa_ir1"
+    x$item[x$item == "spa_querer"] <- "spa_querer1"
+    
+    return(x)
 } # nocov end
 
 
@@ -247,8 +247,8 @@ fix_item <- function(x) { # nocov start
 #' @keywords internal
 #' 
 fix_id_exp <- function(x) { # nocov start
-  x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
-  return(x)
+    x$id_exp <- ifelse(x$code %in% "BL547", "bilexicon_189", x$id_exp)
+    return(x)
 } # nocov end
 
 #' Deal with repeated measures
@@ -289,19 +289,60 @@ fix_id_exp <- function(x) { # nocov start
 #' get_longitudinal(dat, "first")
 #' get_longitudinal(dat, "only")
 get_longitudinal <- function(x, longitudinal = "all") {
-  longitudinal_opts <- c("all", "no", "first", "last", "only")
-
-  if (!(longitudinal %in% longitudinal_opts) && interactive()) {
-    long_colapsed <- paste0(longitudinal_opts, collapse = ", ")
-    cli_abort(paste0("longitudinal must be one of: ", long_colapsed))
-  }
-
-  repeated <- filter(distinct(x, id, time), n() > 1, .by = id)
-
-  if (longitudinal == "no") x <- filter(x, !(id %in% repeated$id))
-  if (longitudinal == "first") x <- filter(x, time == min(time), .by = id)
-  if (longitudinal == "last") x <- filter(x, time == max(time), .by = id)
-  if (longitudinal == "only") x <- filter(x, id %in% repeated$id)
-
-  return(x)
+    longitudinal_opts <- c("all", "no", "first", "last", "only")
+    
+    if (!(longitudinal %in% longitudinal_opts) && interactive()) {
+        long_colapsed <- paste0(longitudinal_opts, collapse = ", ")
+        cli_abort(paste0("longitudinal must be one of: ", long_colapsed))
+    }
+    
+    repeated <- filter(distinct(x, id, time), n() > 1, .by = id)
+    
+    if (longitudinal == "no") x <- filter(x, !(id %in% repeated$id))
+    if (longitudinal == "first") x <- filter(x, time == min(time), .by = id)
+    if (longitudinal == "last") x <- filter(x, time == max(time), .by = id)
+    if (longitudinal == "only") x <- filter(x, id %in% repeated$id)
+    
+    return(x)
 }
+
+# runs <- list(
+#     "bvq-v1.0.0" = c(
+#         "bvq_01_log",
+#         "bvq_02_welcome",
+#         "bvq_03_consent",
+#         "bvq_04_demo",
+#         "bvq_05_language",
+#         "bvq_06_words_catalan",
+#         "bvq_06_words_spanish"
+#     ),
+#     "bvq-v0.5.0" = c(
+#         "bilexicon_lockdown_01_log",
+#         "bilexicon_lockdown_02_welcome",
+#         "bilexicon_lockdown_03_consent",
+#         "bilexicon_lockdown_04_demo",
+#         "bilexicon_lockdown_05_language",
+#         "bilexicon_lockdown_06_words_catalan",
+#         "bilexicon_lockdown_06_words_spanish"
+#     ),
+#     "bvq-v0.4.0" = c(
+#         "bilexicon_short_01_log",
+#         "bilexicon_short_02_welcome",
+#         "bilexicon_short_03_consent",
+#         "bilexicon_short_04_demo",
+#         "bilexicon_short_05_language",
+#         "bilexicon_short_06_words_catalan",
+#         "bilexicon_short_06_words_spanish"
+#     ),
+#     "bvq-v0.3.0" = c(
+#         "bilexicon_01_log",
+#         "bilexicon_02_welcome",
+#         "bilexicon_03_consent",
+#         "bilexicon_04_demo",
+#         "bilexicon_05_language",
+#         "bilexicon_06_words_cat",
+#         "bilexicon_06_words_spa"
+#     )
+# )
+
+

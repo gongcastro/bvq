@@ -44,17 +44,17 @@
 #' }
 #' 
 #' @md
-bvq_responses <- function(participants = NULL)
-{
+bvq_responses <- function(participants = NULL) {
     
     if (is.null(participants)) participants <- bvq_participants()
     
     # retrieve data from formr
-    formr2 <- import_formr2(participants) # formr2
-    formr_lockdown <- import_formr_lockdown(participants) # formr-lockdown
-    formr_short <- import_formr_short(participants) # formr-lockdown
+    bvq_030 <- import_bvq_030(participants) # formr2
+    bvq_040 <- import_bvq_040(participants) # formr-lockdown
+    bvq_050 <- import_bvq_050(participants) # formr-lockdown
+    bvq_100 <- import_bvq_100(participants) # bvq
     
-    responses <- list(formr1, formr2, formr_short, formr_lockdown) %>%
+    responses <- list(bvq_030, bvq_040, bvq_050, bvq_100) %>%
         bind_rows() %>%
         distinct(id, code, item, .keep_all = TRUE) %>%
         mutate(across(c(starts_with("date_"), time_stamp), as_date),
@@ -66,7 +66,7 @@ bvq_responses <- function(participants = NULL)
         fix_doe() %>%
         mutate(across(starts_with("doe_"), function(x) x / 100)) %>%
         fix_sex() %>%
-        mutate(study = ifelse(is.na(study), "BiLexicon", study)) %>%
+        mutate(study = ifelse(is.na(study), "BVQ", study)) %>%
         fix_id_exp() %>%
         filter(!is.na(date_finished)) %>%
         arrange(desc(date_finished)) %>%
