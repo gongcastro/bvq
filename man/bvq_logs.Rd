@@ -32,12 +32,15 @@ participant-level information. Each row corresponds to a questionnaire
 response and each column represents a variable. The output includes the
 following variables:
 \itemize{
-\item id: a character string with five digits indicating a participant's identifier in the database from the \href{https://www.upf.edu/web/cbclab}{Laboratori de Recerca en Infància} at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.
-\item code: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
+\item child_id: a character string with five digits indicating a participant's identifier in the database from the \href{https://www.upf.edu/web/cbclab}{Laboratori de Recerca en Infància} at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{id}.
+\item response_id: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 \item time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
 \item study: a character string indicating the study in which the participant was invited to fill in the questionnaire. Frequently, participants that filled in the questionnaire came to the lab to participant in a study, and were then invited to fill in the questionnaire later. This value indicates what study each participant was tested in before being sent the questionnaire.
 \item version: a character string indicating what version of the questionnaire a given participant filled in. Different versions may contain a different subset of items, and the administration instructions might vary slightly (see formr questionnaire templates in the [GitHub repository(https://github.com/gongcastro/multilex)). Also, different versions were designed, implemented, and administrated at different time points (e.g., before/during/after the COVID-related lockdown).
-\item date_sent: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating the date in which the questionnaire was sent to participants.
+\item version_list: a character string indicating the specific list of
+items a participant was assigned to. Only applies in the case of short
+versions of BVQ, such as bvq-short, bvq-long, bvq-lockdown, or bvq-1.0.0, where the
+list of items was partitioned into several versions.#' * date_sent: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating the date in which the questionnaire was sent to participants.
 \item days_from_sent: a numeric value indicating the number of days elapsed since participants were sent the questionnaire (as indicated by \code{date_sent})  and completed the questionnaire.
 \item date_birth: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating participants birth date.
 \item age: a numeric value indicating the number of months elapsed since participants' birth date until they filled in the last item of their questionnaire response.
