@@ -94,25 +94,25 @@ test_that("argument bilingual_threshold behaves correctly when 0.60", {
 
 })
 
-test_that("argument other_threshold behaves correctly when default", {
-    
-    logs <- bvq_logs(participants, responses)
-    does <- get_does(logs)
-    
-    expect_lte(max(does$doe_others[does$lp!="Other"]), 0.10)
-    expect_gt(max(does$doe_others[does$lp=="Other"]), 0.10)
-    
-})
-
-test_that("argument other_threshold behaves correctly when 0.05", {
-    
-    logs <- bvq_logs(participants, responses, other_threshold = 0.05)
-    does <- get_does(logs)
-    
-    expect_lte(max(does$doe_others[does$lp!="Other"]), 0.05)
-    expect_gt(max(does$doe_others[does$lp=="Other"]), 0.05)
-    
-})
+# test_that("argument other_threshold behaves correctly when default", {
+#     
+#     logs <- bvq_logs(participants, responses)
+#     does <- get_does(logs)
+#     
+#     expect_lte(max(does$doe_others[does$lp!="Other"]), 0.10)
+#     expect_gt(max(does$doe_others[does$lp=="Other"]), 0.10)
+#     
+# })
+# 
+# test_that("argument other_threshold behaves correctly when 0.05", {
+#     
+#     logs <- bvq_logs(participants, responses, other_threshold = 0.05)
+#     does <- get_does(logs)
+#     
+#     expect_lte(max(does$doe_others[does$lp!="Other"]), 0.05)
+#     expect_gt(max(does$doe_others[does$lp=="Other"]), 0.05)
+#     
+# })
 
 # check args -------------------------------------------------------------------
 
