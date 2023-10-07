@@ -1,3 +1,10 @@
+# bvq 0.4.1
+
+* Fix buggy `case_when()` in `bvq_logs()`. Apparently the order of statements goes the other way around. This was resulting in the misclassification of ~9 participants' `lp` as not "Other". I moved the evaluation of "Other" `lp` to the top.
+* Added additional checks for the `bilingual_threshold` and `other_threshold` arguments in `bvq_logs()`.
+* Added more severe unit tests for `bvq_logs()` (mainly doe the `doe_*` variables.
+* Added some comments to `bvq_vocabulary()`.
+
 # bvq 0.4.0
 
 * Switch most functions to base R. I made this decision in order to learn R base a bit better. Performance differences are negligible, and the user interface remains the same.
