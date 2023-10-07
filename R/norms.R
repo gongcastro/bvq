@@ -77,8 +77,8 @@
 #' }
 #' 
 #' @md
-bvq_norms <- function(participants = NULL,
-                      responses = NULL,
+bvq_norms <- function(participants = bvq_participants(),
+                      responses = bvq_responses(participants),
                       ...,
                       te = NULL,
                       item = NULL,
@@ -95,7 +95,7 @@ bvq_norms <- function(participants = NULL,
     # retrieve participants and logs -------------------------------------------
     
     logs_tmp <- bvq_logs(participants = participants, responses = responses)
-    cols.keep <-  colnames(logs_tmp) %in% c("id", "time", "dominance", group_vars)
+    cols.keep <-  colnames(logs_tmp) %in% c("child_id", "time", "dominance", group_vars)
     logs_tmp <- logs_tmp[, cols.keep]
     logs_tmp$age <- floor(logs_tmp$age)
     logs_tmp <- logs_tmp[logs_tmp$age >= min(age) & logs_tmp$age <= max(age), ]

@@ -63,11 +63,11 @@ test_that("get_doe works", {
 })
 
 test_that("get_longitudinal works", {
-    id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
-    sums <- rle(sort(id))[["lengths"]]
+    child_id <- c(1, 1, 1, 2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10)
+    sums <- rle(sort(child_id))[["lengths"]]
     time <- unlist(lapply(sums, function(x) seq(1, x)))
-    dat <- data.frame(id, time = time)
-    long_ids <- dat$id %in% c(1, 2, 4, 7, 10)
+    dat <- data.frame(child_id, time = time)
+    long_ids <- dat$child_id %in% c(1, 2, 4, 7, 10)
     
     expect_identical(get_longitudinal(dat), dat)
     expect_identical(get_longitudinal(dat, "all"), dat)
@@ -79,20 +79,18 @@ test_that("get_longitudinal works", {
 })
 
 
-test_that("fix_code works", {
-    code_vctr <- c(
-        "BL0123",
-        "bl0123",
-        "Bl0123",
-        "BLBL0123",
-        "bi0123",
-        "blo123",
-        "B0123",
-        "BI0123",
-        " BL0123"
-    )
+test_that("fix_response_id works", {
+    code_vctr <- c("BL0123",
+                   "bl0123",
+                   "Bl0123",
+                   "BLBL0123",
+                   "bi0123",
+                   "blo123",
+                   "B0123",
+                   "BI0123",
+                   " BL0123")
     
-    expect_equal(unique(fix_code(code_vctr)), "BL0123")
+    expect_equal(unique(fix_response_id(code_vctr)), "0123")
 })
 
 

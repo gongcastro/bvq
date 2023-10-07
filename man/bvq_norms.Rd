@@ -5,8 +5,8 @@
 \title{Generate item-level norms for age, sex, language profile and item dominance}
 \usage{
 bvq_norms(
-  participants = NULL,
-  responses = NULL,
+  participants = bvq_participants(),
+  responses = bvq_responses(participants),
   ...,
   te = NULL,
   item = NULL,
