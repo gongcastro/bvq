@@ -276,7 +276,7 @@ fix_id_exp <- function(x) { # nocov start
 get_longitudinal <- function(x, longitudinal = "all") {
     longitudinal_opts <- c("all", "no", "first", "last", "only")
     
-    if (!(longitudinal %in% longitudinal_opts) && interactive()) {
+    if (!(longitudinal %in% longitudinal_opts)) {
         long_colapsed <- paste0(longitudinal_opts, collapse = ", ")
         cli_abort(paste0("longitudinal must be one of: ", long_colapsed))
     }
