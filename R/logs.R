@@ -61,8 +61,8 @@
 #' }
 #'
 #' @md
-bvq_logs <- function(participants = NULL,
-                     responses = NULL,
+bvq_logs <- function(participants = bvq_participants(),
+                     responses = bvq_responses(participants),
                      bilingual_threshold = 0.80,
                      other_threshold = 0.10) {
     

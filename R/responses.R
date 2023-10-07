@@ -42,9 +42,7 @@
 #' }
 #' 
 #' @md
-bvq_responses <- function(participants = NULL) {
-    
-    if (is.null(participants)) participants <- bvq_participants()
+bvq_responses <- function(participants = bvq_participants()) {
     
     bvq.list <- lapply(names(get_bvq_runs()), 
                        function(x) collect_survey(x, participants))

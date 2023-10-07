@@ -71,10 +71,11 @@ test_that("get_longitudinal works", {
     
     expect_identical(get_longitudinal(dat), dat)
     expect_identical(get_longitudinal(dat, "all"), dat)
-    expect_identical(get_longitudinal(dat, "only")$child_id, dat$child_id[long_ids])
-    expect_identical(get_longitudinal(dat, "no")$child_id, dat$child_id[!long_ids])
-    expect_identical(get_longitudinal(dat, "first")$child_id, unique(dat$child_id))
-    expect_identical(get_longitudinal(dat, "last")$child_id, unique(dat$child_id))
+    expect_identical(get_longitudinal(dat, "only")$id, dat$id[long_ids])
+    expect_identical(get_longitudinal(dat, "no")$id, dat$id[!long_ids])
+    expect_identical(get_longitudinal(dat, "first")$id, unique(dat$id))
+    expect_identical(get_longitudinal(dat, "last")$id, unique(dat$id))
+    expect_error(get_longitudinal(dat, longitudinal = "xxx"))
 })
 
 
@@ -90,4 +91,15 @@ test_that("fix_response_id works", {
                    " BL0123")
     
     expect_equal(unique(fix_response_id(code_vctr)), "0123")
+})
+
+
+test_that("prop_adj works", {
+    n <- 1e3
+    result <- prop_adj(runif(n, 0, 10), 10)
+    
+    expect_type(result, "double")
+    expect_true(all(result >= 0))
+    expect_true(all(result <= 1))
+    expect_length(result, n)
 })

@@ -5,8 +5,8 @@
 \title{Generate participant information and progress for each response}
 \usage{
 bvq_logs(
-  participants = NULL,
-  responses = NULL,
+  participants = bvq_participants(),
+  responses = bvq_responses(participants),
   bilingual_threshold = 0.8,
   other_threshold = 0.1
 )

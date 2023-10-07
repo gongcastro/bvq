@@ -276,7 +276,7 @@ fix_id_exp <- function(x) { # nocov start
 get_longitudinal <- function(x, longitudinal = "all") {
     longitudinal_opts <- c("all", "no", "first", "last", "only")
     
-    if (!(longitudinal %in% longitudinal_opts) && interactive()) {
+    if (!(longitudinal %in% longitudinal_opts)) {
         long_colapsed <- paste0(longitudinal_opts, collapse = ", ")
         cli_abort(paste0("longitudinal must be one of: ", long_colapsed))
     }
@@ -299,7 +299,7 @@ get_longitudinal <- function(x, longitudinal = "all") {
 #' @keywords internal
 #' 
 #' @md
-get_bvq_runs <- function() {
+get_bvq_runs <- function() { # nocov start
     runs <- list(
         "bvq-1.0.0" = c(
             "bvq_01_log",
@@ -346,7 +346,7 @@ get_bvq_runs <- function() {
                                 "bvq-lockdown" = "BL-Lockdown",
                                 "bvq-1.0.0" = "1.0.0")
     return(runs)
-}
+} # nocov end
 
 
 #' Proportion, adjusted for zero- and one-inflation

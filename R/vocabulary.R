@@ -52,8 +52,8 @@
 #' 
 #' @md
 #' 
-bvq_vocabulary <- function(participants,
-                           responses,
+bvq_vocabulary <- function(participants = bvq_participants(),
+                           responses = bvq_responses(participants),
                            ...,
                            .scale = "prop") {
     

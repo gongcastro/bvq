@@ -77,8 +77,8 @@
 #' }
 #' 
 #' @md
-bvq_norms <- function(participants = NULL,
-                      responses = NULL,
+bvq_norms <- function(participants = bvq_participants(),
+                      responses = bvq_responses(participants),
                       ...,
                       te = NULL,
                       item = NULL,

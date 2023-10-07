@@ -12,7 +12,9 @@
 #' @keywords internal
 #' 
 #' @md
-collect_survey <- function(version, participants, ...) {
+collect_survey <- function(version, 
+                           participants = bvq_participants(),
+                           ...) {
     
     # validate version name
     survey_options <- names(get_bvq_runs())
@@ -20,21 +22,15 @@ collect_survey <- function(version, participants, ...) {
         cli_abort("survey must be one of {survey_options}")
     }
     
-    # process participant info
-    if (missing(participants)) {
-        participants_tmp <- bvq_participants()
-    } else {
-        participants_tmp <- participants
-    }
-    
     # correct version names
     version_names <- attr(get_bvq_runs(), "versions")
+    participants_tmp <- participants
     participants_tmp$version <- paste0("bvq-", participants_tmp$version)
     
     # get relevant participants
     participants_tmp <- participants_tmp[participants_tmp$version %in% version, ]
     if (version=="bvq-long") {
-        participants_tmp <- participants_tmp[participants_tmp$randomisation=="2", ]
+        participants_tmp <- participants_tmp[participants_tmp$version_list=="2", ]
     }
     participants_tmp <- participants_tmp[, colnames(participants_tmp)!="version"]
     
@@ -130,7 +126,7 @@ process_survey <- function(raw, participants_tmp, version) {
     processed <- raw_tmp %>%
         select(-matches("lockdown")) %>%
         left_join(words_cat, by = join_by(session), multiple = "all") %>%
-        left_join(words_spa, by = join_by(session), multiple = "all") %>%
+        left_join(words_spa, by = join_by(session), multiple = "all") %>% 
         dplyr::filter(response_id %in% participants_tmp$response_id,
                       !if_any(matches("created_|ended_"), is.na)) %>% 
         mutate(across(c(matches("created_|ended_"), date_birth),
@@ -178,6 +174,7 @@ process_survey <- function(raw, participants_tmp, version) {
         filter(!is.na(response))
     
     return(processed)
+    
 }
 
 #' Merge surveys from the same formr run
@@ -204,6 +201,7 @@ merge_surveys <- function(raw, participants_tmp, version) {
         mutate(version_list = version,
                version = .env$version,
                version_list = trimws(version_list, whitespace = "[\\h\\v]")) %>%
+        select(-version_list) %>% 
         left_join(participants_tmp, by = join_by(response_id))
     
     return(raw_tmp)
