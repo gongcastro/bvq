@@ -77,6 +77,8 @@ These two measures are returned in the long format under the `type` column.
 In additional to the vocabulary size scores, `bvq_vocabulary()` also returns the column `contents`. This column is a list containing the items marked as acquired for comprehension or production. For instance:
 
 ```{r contents, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(dplyr)
+
 contents <- bvq_vocabulary(participants, responses) %>% 
     select(child_id, response_id, contents)
 ```
