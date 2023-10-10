@@ -181,3 +181,4 @@ test_that("test that the ... argument works", {
                        age = c(10, 12))
     expect_in(c("lp", "semantic_category"), colnames(norms))
 })
+

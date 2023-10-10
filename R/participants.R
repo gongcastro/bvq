@@ -50,40 +50,35 @@
 #' 
 #' @md
 bvq_participants <- function(...) {
+    
     bvq_connect() # get credentials to Google and formr
     
     # download Sheets
     suppressMessages({
-        ss <- "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo"
-        x <- googlesheets4::read_sheet(ss, sheet = "Participants")
+        sheet <- read_sheet(ss = "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo",
+                        sheet = "Participants", 
+                        col_types = "cccciDncccDDclcc",
+                        .name_repair = janitor::make_clean_names)
     })
     
-    # change classes
-    cols.dates <- grepl("date_", names(x))
-    x[, cols.dates] <- lapply(x[, cols.dates], as.Date)
-    x[, "include"] <- lapply(x[, "include"], as.logical)
-    
-    # filter rows
-    cols.keep <- !(names(x) %in% c("link", "comments", "include",
-                                   "id_bvq", "id_exp", "study"))
-    x <- subset(x, !is.na(x$code) & x$include, cols.keep)
-    names(x)[names(x)=="randomisation"] <- "version_list"
-    names(x)[names(x)=="id"] <- "child_id"
-    names(x)[names(x)=="code"] <- "response_id"
-    
-    # reorder rows
-    code.sorted <- as.numeric(gsub("BL", "", x$response_id))
-    x <- x[order(code.sorted, decreasing = TRUE), , drop = FALSE]
-    
-    # fix version values
-    x$version <- gsub("bl-", "", tolower(x$version))    
+    participants <- sheet %>% 
+        filter(!is.na(code),
+               include) %>% 
+        select(child_id = id, response_id = code,
+               time, date_birth, date_sent, version,
+               version_list = randomisation, call) %>% 
+        mutate(response_id = gsub("BL", "", response_id),
+               version = gsub("bl-", "", tolower(version))) %>% 
+        # reorder rows
+        arrange(desc(as.numeric(response_id)))
     
     # make sure no columns are lists
     # (probably due to inconsistent cell types)
     is_col_list <- vapply(x, is.list, logical(1))
     if (any(is_col_list)) { 
         col <- names(which(is_col_list))
-        cli_abort("{col} {?has/have} class {.cls list}")
+        cli::cli_abort("{col} {?has/have} class {.cls list}")
     }
-    return(x)
+    
+    return(participants)
 }

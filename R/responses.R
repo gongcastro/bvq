@@ -5,7 +5,8 @@
 #' (the output of [bvq::bvq_participants()]) and `runs` (a character vector that can
 #' take zero, one, or multiple of the following values: `"formr2"`,
 #' `"formr-short"`, `"formr-lockdown"`) as arguments.
-#' @importFrom stats time
+#' @importFrom purrr map
+#' @importFrom purrr set_names
 #'
 #' @export bvq_responses
 #'
@@ -24,16 +25,16 @@
 #'   versions of BVQ, such as bvq-short, bvq-long, bvq-lockdown, or bvq-1.0.0, where the
 #'   list of items was partitioned into several versions.#' * item: character string indicating the item identifier (e.g., `spa_mesa`). This value is unique for each item. Responses to the same item from different participants are linked by the same `item` value.
 #' * response: integer indicating the participant's response to a give item: `1` if `"No"` (the participant does not understand or produce the word), `2` if "Understands" (the participants understands the word), or `3` if "Understands and Says" (the participant understands and produces the item).
-#' * date_birth: a date value (see lubridate package) in `yyyy/mm/dd` format indicating participants birth date.
-#' * date_started: a date value (see lubridate package) in `yyyy/mm/dd` format indicating when participants logged to the questionnaire for the first time.
-#' * date_finished: a date value (see lubridate package) in `yyyy/mm/dd` format indicating when participants logged to the questionnaire for the last time.
+#' * date_birth: [lubridate::Date] indicating participants birth date.
+#' * date_started: [lubridate::Date] indicating when participants logged to the questionnaire for the first time.
+#' * date_finished: [lubridate::Date] indicating when participants logged to the questionnaire for the last time.
 #' * sex: a character string indicating participants' biological sex, as reported by the parents.
-#' * edu_parent1: a character string indicating the educational attainment of one of the parents/caretakers.
-#' * edu_parent2: a character string indicating the educational attainment of the other parent/caretaker, if any.
 #' * doe_spanish: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
 #' * doe_catalan: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Majorca or Barcelona).
 #' * doe_others: a numeric value ranging from 0 to 1 indicating participants' daily exposure to languages other than Spanish or Catalan, as estimated by parents/caretakers, aggregating participants' exposure to all those other languages (e.g., Norwegian, Arab, Swahili).
-#'
+#' * edu_parent1: a character string indicating the educational attainment of one of the parents/caretakers.
+#' * edu_parent2: a character string indicating the educational attainment of the other parent/caretaker, if any.
+
 #' @author Gonzalo Garcia-Castro
 #' 
 #' @examples
@@ -44,48 +45,33 @@
 #' @md
 bvq_responses <- function(participants = bvq_participants()) {
     
-    bvq.list <- lapply(names(get_bvq_runs()), 
-                       function(x) collect_survey(x, participants))
-    names(bvq.list) <- names(get_bvq_runs())
+    bvq_names <- names(get_bvq_runs())
     
-    # merge dataframes
-    responses <- do.call(dplyr::bind_rows, bvq.list)  
-    
-    # remove duplicated combinations of child_id, response_id, and item
-    cols.undup <- c("child_id", "response_id", "item")
-    responses <- responses[!duplicated(responses[cols.undup]), , drop = FALSE]
-    
-    # fix date columns
-    date.cols <-  grepl("^date_", colnames(responses))
-    responses[, date.cols] <- lapply(responses[, date.cols], 
-                                     as.Date,
-                                     origin = c("1970-01-01"))
-    
-    # fix other variables
-    responses$time <- ifelse(is.na(responses$time), 1, responses$time)
-    responses$version <- trimws(responses$version, whitespace = "[\\h\\v]")
-    responses <- fix_item(responses)
-    responses <- fix_doe(responses)
-    responses <- fix_sex(responses)
-
-    # fix degree of exposure columns
-    doe.cols <- grepl("^doe_", colnames(responses))
-    responses[, doe.cols] <- lapply(responses[, doe.cols], function(x) x / 100)
-    
-    # remove rows with missing date_finished and reorder
-    responses <- responses[!is.na(responses$date_finished), ]
-    
-    # reorder dataframe and select columns
-    responses <- responses[order(responses$date_finished, decreasing = TRUE), , drop = FALSE]
-    cols.keep <- c(
-        "child_id", "response_id", "time", 
-        "version", "version_list", 
-        colnames(responses)[grepl("^date_", colnames(responses))],
-        "item", "response", "sex",
-        colnames(responses)[grepl("^doe_", colnames(responses))],
-        colnames(responses)[grepl("^edu_", colnames(responses))]
-    )
-    responses <- responses[, cols.keep]
+    responses <- bvq_names %>% 
+        # download and merge surveys
+        map(function(x) collect_survey(x, participants)) %>% 
+        set_names(bvq_names) %>% 
+        bind_rows() %>% 
+        # remove duplicated combinations
+        distinct(child_id, response_id, item, .keep_all = TRUE) %>% 
+        # fix variables
+        fix_item() %>% 
+        fix_doe() %>% 
+        fix_sex() %>% 
+        mutate(across(matches("date_"), 
+                      function(x) as.Date(x, origin = "1970-01-01")),
+               time = if_else(is.na(time), 1, time),
+               version = trimws(version, whitespace = "[\\h\\v]"),
+               across(matches("doe_"), function(x) x / 100)) %>% 
+        # remove rows with missing date_finished and reorder
+        dplyr::filter(!is.na(date_finished)) %>% 
+        # reorder by finishing date
+        arrange(desc(date_finished)) %>% 
+        # select columns
+        select(child_id, response_id, time, 
+               version, version_list, matches("date_"),
+               item, response, sex,
+               matches("doe_"), matches("edu_"))
     
     return(responses)
 }
