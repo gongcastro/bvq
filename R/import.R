@@ -227,9 +227,9 @@ fix_logs_df <- function(raw, participants_tmp) {
     # variables to correct types
     logs[c("created", "ended")] <- lapply(logs[c("created", "ended")], as.POSIXct)
     # remove if missing any critical variable
-    logs$code <- fix_response_id(ifelse(logs$response_id=="", 
-                                        NA_character_, 
-                                        logs$response_id))
+    logs$response_id <- fix_response_id(if_else(logs$response_id=="", 
+                                         NA_character_, 
+                                         gsub("BL", "", logs$response_id)))
     logs <- logs[!is.na(logs$response_id) & !is.na(logs$ended) & !is.na(logs$session), ]
     # fix codes known to be wrong
     logs <- fix_code_raw(logs)

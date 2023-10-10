@@ -45,12 +45,8 @@
 #' @md
 bvq_responses <- function(participants = bvq_participants()) {
     
-    bvq_names <- names(get_bvq_runs())
-    
-    responses <- bvq_names %>% 
-        # download and merge surveys
-        map(function(x) collect_survey(x, participants)) %>% 
-        set_names(bvq_names) %>% 
+    responses <- map(names(get_bvq_runs()),
+            function(x) collect_survey(x, participants)) %>% 
         bind_rows() %>% 
         # remove duplicated combinations
         distinct(child_id, response_id, item, .keep_all = TRUE) %>% 

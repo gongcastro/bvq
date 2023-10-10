@@ -74,7 +74,7 @@ bvq_participants <- function(...) {
     
     # make sure no columns are lists
     # (probably due to inconsistent cell types)
-    is_col_list <- vapply(x, is.list, logical(1))
+    is_col_list <- vapply(participants, is.list, logical(1))
     if (any(is_col_list)) { 
         col <- names(which(is_col_list))
         cli::cli_abort("{col} {?has/have} class {.cls list}")
