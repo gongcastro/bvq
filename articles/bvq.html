@@ -193,20 +193,21 @@ data frame.</p>
 <span>               <span class="va">lp</span>, <span class="co"># to keep participants' language profile</span></span>
 <span>               .scale <span class="op">=</span> <span class="st">"prop"</span> <span class="co"># to return estimates as proportions</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 86 × 9</span></span></span>
-<span><span class="co">##    child_id  time type     lp    total_prop l1_prop l2_prop concept_prop te_prop</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 58298        2 underst… Mono…    0.518    0.924   0.141        0.881   0.114 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 58298        2 produces Mono…    0.430    0.784   0.103        0.743   0.083<span style="text-decoration: underline;">8</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 58361        1 underst… Bili…    0.703    0.805   0.601        0.826   0.574 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 58361        1 produces Bili…    0.476    0.573   0.379        0.617   0.331 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 58298        1 underst… Mono…    0.370    0.702   0.062<span style="text-decoration: underline;">3</span>       0.662   0.048<span style="text-decoration: underline;">6</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 58298        1 produces Mono…    0.009<span style="text-decoration: underline;">85</span>  0.020<span style="text-decoration: underline;">5</span>  0            0.018<span style="text-decoration: underline;">9</span>  0     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 58068        2 underst… Bili…    0.737    0.850   0.633        0.846   0.563 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 58068        2 produces Bili…    0.328    0.528   0.146        0.526   0.102 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 57177        4 underst… Bili…    0.837    0.814   0.857        0.887   0.714 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> 57177        4 produces Bili…    0.568    0.678   0.466        0.757   0.329 </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 76 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 86 × 10</span></span></span>
+<span><span class="co">##    child_id response_id type       lp    total_prop l1_prop l2_prop concept_prop</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 58298    BL1879      understan… Mono…    0.518    0.924   0.141        0.881 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 58298    BL1879      produces   Mono…    0.430    0.784   0.103        0.743 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 58361    BL1863      understan… Bili…    0.703    0.805   0.601        0.826 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 58361    BL1863      produces   Bili…    0.476    0.573   0.379        0.617 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 58298    BL1848      understan… Mono…    0.370    0.702   0.062<span style="text-decoration: underline;">3</span>       0.662 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 58298    BL1848      produces   Mono…    0.009<span style="text-decoration: underline;">85</span>  0.020<span style="text-decoration: underline;">5</span>  0            0.018<span style="text-decoration: underline;">9</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 58068    BL1833      understan… Bili…    0.737    0.850   0.633        0.846 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 58068    BL1833      produces   Bili…    0.328    0.528   0.146        0.526 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 57177    BL1748      understan… Bili…    0.837    0.814   0.857        0.887 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 57177    BL1748      produces   Bili…    0.568    0.678   0.466        0.757 </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 76 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 2 more variables: te_prop &lt;dbl&gt;, contents &lt;list&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="computing-word-acquisition-norms">Computing word acquisition norms<a class="anchor" aria-label="anchor" href="#computing-word-acquisition-norms"></a>
@@ -228,18 +229,18 @@ adjusted for zero- and one-inflation following Gelman, Hill, and Vehtari
 <span>          age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">35</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 100 × 9</span></span></span>
-<span><span class="co">##       te item    label          age type        item_dominance  .sum    .n .prop</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   195 cat_gos gos / gosset    35 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   195 cat_gos gos / gosset    32 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   195 cat_gos gos / gosset    30 understands L1                 2     2 0.667</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   195 cat_gos gos / gosset    29 understands L2                 1     1 0.6  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   195 cat_gos gos / gosset    29 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   195 cat_gos gos / gosset    28 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   195 cat_gos gos / gosset    27 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   195 cat_gos gos / gosset    27 understands L2                 1     1 0.6  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   195 cat_gos gos / gosset    26 understands L2                 1     1 0.6  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>   195 cat_gos gos / gosset    26 understands L1                 1     1 0.6  </span></span>
+<span><span class="co">##       te item    label   age type     item_dominance  .sum    .n .prop</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   173 cat_gat gat      12 produces L1                 0     1 0.4  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   173 cat_gat gat      12 produces L2                 0     3 0.286</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   173 cat_gat gat      13 produces L1                 0     2 0.333</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   173 cat_gat gat      14 produces L1                 0     2 0.333</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   173 cat_gat gat      15 produces L1                 0     1 0.4  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   173 cat_gat gat      15 produces L2                 0     1 0.4  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   173 cat_gat gat      17 produces L1                 0     1 0.4  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   173 cat_gat gat      19 produces L2                 0     1 0.4  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   173 cat_gat gat      20 produces L2                 1     2 0.5  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   173 cat_gat gat      20 produces L1                 1     3 0.429</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 90 more rows</span></span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

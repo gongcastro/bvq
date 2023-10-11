@@ -115,7 +115,7 @@ proportions. If <code>"count"</code>, vocabulary metrics are reported as counts
 <p>A dataset (actually, a <a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble</a> with each participant's
 comprehensive and/or vocabulary size in each language. This data frame
 contains the following variables:</p><ul><li><p>child_id: a character string with five digits indicating a participant's identifier in the database from the <a href="https://www.upf.edu/web/cbclab" class="external-link">Laboratori de Recerca en Infància</a> at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same <code>child_id</code>.</p></li>
-<li><p>time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.</p></li>
+<li><p>response_id: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.</p></li>
 <li><p>age: a numeric value indicating the number of months elapsed since participants' birth date until they filled in the last item of their questionnaire response.</p></li>
 <li><p>type: a character string indicating the vocabulary type computed: <code>"understands"</code> if option "Understands" was selected, and <code>"produces"</code> if option "Understands &amp; Says" was selected.</p></li>
 <li><p>total_count: integer indicating the number of items selected as "Understands" or "Understands and Says" in both languages.</p></li>
@@ -130,6 +130,7 @@ contains the following variables:</p><ul><li><p>child_id: a character string wit
 <li><p>te_prop: numeric value ranging from 0 to 1 (both included) indicating the proportion of of translation equivalents (aka. cross-language synonyms or doublets) in which both items were selected as "Understands" or "Understands and Says". This is a measure of the number of lexicalised concepts.
 The specific subset of columns returned by <code>bvq_vocabulary()</code> depends
 on the elements of <code>...</code> and <code>.scale</code>.</p></li>
+<li><p>contents: list containing the items marked as acquired.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>

@@ -139,20 +139,20 @@ consulted in the <code>pool</code> data set:</p>
 <span>  item <span class="op">=</span> <span class="va">my_items</span>,</span>
 <span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">35</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 124 × 9</span></span></span>
-<span><span class="co">#&gt;       te item    label          age type        item_dominance  .sum    .n .prop</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   195 cat_gos gos / gosset    40 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   195 cat_gos gos / gosset    36 understands L2                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   195 cat_gos gos / gosset    36 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   195 cat_gos gos / gosset    35 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   195 cat_gos gos / gosset    32 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 cat_gos gos / gosset    30 understands L1                 2     2 0.667</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 cat_gos gos / gosset    29 understands L2                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 cat_gos gos / gosset    29 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 cat_gos gos / gosset    28 understands L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 cat_gos gos / gosset    27 understands L2                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 114 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 116 × 9</span></span></span>
+<span><span class="co">#&gt;       te item    label   age type     item_dominance  .sum    .n .prop</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   173 cat_gat gat      11 produces L2                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   173 cat_gat gat      12 produces L1                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   173 cat_gat gat      12 produces L2                 0     3 0.286</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   173 cat_gat gat      13 produces L1                 0     2 0.333</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   173 cat_gat gat      14 produces L1                 0     2 0.333</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   173 cat_gat gat      15 produces L1                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   173 cat_gat gat      15 produces L2                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   173 cat_gat gat      17 produces L1                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   173 cat_gat gat      19 produces L2                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   173 cat_gat gat      20 produces L2                 1     2 0.5  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 106 more rows</span></span></span></code></pre>
 <p>If we want to retrieve the acquisition norms of our item of interest,
 but also those of its translation equivalent, we can use the argument
 <code>te</code>. This argument can take the value <code>TRUE</code> if
@@ -171,22 +171,22 @@ specified in the <code>item</code> argument. For example:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16 × 9</span></span></span>
 <span><span class="co">#&gt;       te item      label             age type   item_dominance  .sum    .n .prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   195 spa_perro perro / perrito    15 under… L1                 1     1   0.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   195 spa_perro perro / perrito    15 under… L2                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   195 spa_perro perro / perrito    15 produ… L1                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   195 spa_perro perro / perrito    15 produ… L2                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   195 cat_gos   gos / gosset       15 under… L2                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   195 cat_gos   gos / gosset       15 under… L1                 1     1   0.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   195 cat_gos   gos / gosset       15 produ… L2                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   195 cat_gos   gos / gosset       15 produ… L1                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   173 spa_gato  gato / gatito      15 under… L1                 1     1   0.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   173 spa_gato  gato / gatito      15 under… L2                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>   173 spa_gato  gato / gatito      15 produ… L2                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>   173 spa_gato  gato / gatito      15 produ… L1                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span>   173 cat_gat   gat                15 under… L1                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span>   173 cat_gat   gat                15 under… L2                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span>   173 cat_gat   gat                15 produ… L2                 0     1   0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span>   173 cat_gat   gat                15 produ… L1                 0     1   0.4</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   173 cat_gat   gat                15 produ… L1                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   173 cat_gat   gat                15 produ… L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   173 cat_gat   gat                15 under… L1                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   173 cat_gat   gat                15 under… L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   173 spa_gato  gato / gatito      15 produ… L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   173 spa_gato  gato / gatito      15 produ… L1                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   173 spa_gato  gato / gatito      15 under… L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   173 spa_gato  gato / gatito      15 under… L1                 1     1   0.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   195 cat_gos   gos / gosset       15 produ… L1                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   195 cat_gos   gos / gosset       15 produ… L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>   195 cat_gos   gos / gosset       15 under… L1                 1     1   0.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span>   195 cat_gos   gos / gosset       15 under… L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span>   195 spa_perro perro / perrito    15 produ… L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span>   195 spa_perro perro / perrito    15 produ… L1                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span>   195 spa_perro perro / perrito    15 under… L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span>   195 spa_perro perro / perrito    15 under… L1                 1     1   0.6</span></span></code></pre></div>
 <p>We can even indicate a specific translation equivalent in the
 <code>te</code> argument to retrieve its norms, while leaving the
 argument <code>item</code> blank:</p>
@@ -198,18 +198,18 @@ argument <code>item</code> blank:</p>
 <span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">29</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 32 × 9</span></span></span>
-<span><span class="co">#&gt;       te item       label            age type   item_dominance  .sum    .n .prop</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   175 spa_gusano gusano / oruga    29 under… L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   175 spa_gusano gusano / oruga    29 under… L2                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   175 spa_gusano gusano / oruga    28 under… L2                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   175 spa_gusano gusano / oruga    27 under… L2                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   175 spa_gusano gusano / oruga    27 under… L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   175 spa_gusano gusano / oruga    26 under… L1                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   175 spa_gusano gusano / oruga    26 under… L2                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   175 spa_gusano gusano / oruga    25 under… L2                 0     2 0.333</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   175 spa_gusano gusano / oruga    29 produ… L1                 1     1 0.6  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   175 spa_gusano gusano / oruga    29 produ… L2                 0     1 0.4  </span></span>
+<span><span class="co">#&gt;       te item    label   age type        item_dominance  .sum    .n .prop</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   175 cat_cuc cuc      25 produces    L1                 1     2   0.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   175 cat_cuc cuc      26 produces    L1                 1     1   0.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   175 cat_cuc cuc      26 produces    L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   175 cat_cuc cuc      27 produces    L1                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   175 cat_cuc cuc      27 produces    L2                 1     1   0.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   175 cat_cuc cuc      28 produces    L1                 1     1   0.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   175 cat_cuc cuc      29 produces    L1                 1     1   0.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   175 cat_cuc cuc      29 produces    L2                 0     1   0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   175 cat_cuc cuc      25 understands L1                 1     2   0.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   175 cat_cuc cuc      26 understands L1                 1     1   0.6</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 22 more rows</span></span></span></code></pre></div>
 <p>We may be interested in computing the acquisition norms of some items
 of interest, while preserving some participant-level or item-level
@@ -228,8 +228,8 @@ interest to the arguments (<code>lp</code>, in this case):</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 10</span></span></span>
 <span><span class="co">#&gt;      te item     label   age type        item_dominance lp      .sum    .n .prop</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   591 cat_casa casa     22 understands L1             Monol…     1     1   0.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   591 cat_casa casa     22 produces    L1             Monol…     1     1   0.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   591 cat_casa casa     22 produces    L1             Monol…     1     1   0.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   591 cat_casa casa     22 understands L1             Monol…     1     1   0.6</span></span></code></pre></div>
 <p>To can get acquisition norms for the combination of multiple
 variables of interest. For instance, we can get the acquisition norms
 above, disaggregated by <code>lp</code> and <code>dominance</code>:</p>
@@ -245,8 +245,8 @@ above, disaggregated by <code>lp</code> and <code>dominance</code>:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 11</span></span></span>
 <span><span class="co">#&gt;      te item  label   age type  item_dominance lp    dominance  .sum    .n .prop</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   591 cat_… casa     22 unde… L1             Mono… Catalan       1     1   0.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   591 cat_… casa     22 prod… L1             Mono… Catalan       1     1   0.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   591 cat_… casa     22 prod… L1             Mono… Catalan       1     1   0.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>   591 cat_… casa     22 unde… L1             Mono… Catalan       1     1   0.6</span></span></code></pre></div>
   </main>
 </div>
 

@@ -167,35 +167,37 @@ with the <code>.scale</code> argument, which takes <code>"prop"</code>
 for proportions (default), and <code>"count"</code> for counts. Both can
 be computed using <code>.scale = c("prop", "count")</code>. For instance
 we can get vocabulary sizes as proportions running:</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 86 × 8</span></span></span>
-<span><span class="co">#&gt;    child_id  time type        total_prop l1_prop l2_prop concept_prop te_prop</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 58298        2 understands    0.518    0.924   0.141        0.881   0.114 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 58298        2 produces       0.430    0.784   0.103        0.743   0.083<span style="text-decoration: underline;">8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 58361        1 understands    0.703    0.805   0.601        0.826   0.574 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 58361        1 produces       0.476    0.573   0.379        0.617   0.331 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 58298        1 understands    0.370    0.702   0.062<span style="text-decoration: underline;">3</span>       0.662   0.048<span style="text-decoration: underline;">6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 58298        1 produces       0.009<span style="text-decoration: underline;">85</span>  0.020<span style="text-decoration: underline;">5</span>  0            0.018<span style="text-decoration: underline;">9</span>  0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 58068        2 understands    0.737    0.850   0.633        0.846   0.563 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58068        2 produces       0.328    0.528   0.146        0.526   0.102 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 57177        4 understands    0.837    0.814   0.857        0.887   0.714 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 57177        4 produces       0.568    0.678   0.466        0.757   0.329 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 76 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 86 × 9</span></span></span>
+<span><span class="co">#&gt;    child_id response_id type     total_prop l1_prop l2_prop concept_prop te_prop</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 58298    BL1879      underst…    0.518    0.924   0.141        0.881   0.114 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 58298    BL1879      produces    0.430    0.784   0.103        0.743   0.083<span style="text-decoration: underline;">8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 58361    BL1863      underst…    0.703    0.805   0.601        0.826   0.574 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 58361    BL1863      produces    0.476    0.573   0.379        0.617   0.331 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 58298    BL1848      underst…    0.370    0.702   0.062<span style="text-decoration: underline;">3</span>       0.662   0.048<span style="text-decoration: underline;">6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 58298    BL1848      produces    0.009<span style="text-decoration: underline;">85</span>  0.020<span style="text-decoration: underline;">5</span>  0            0.018<span style="text-decoration: underline;">9</span>  0     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 58068    BL1833      underst…    0.737    0.850   0.633        0.846   0.563 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58068    BL1833      produces    0.328    0.528   0.146        0.526   0.102 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 57177    BL1748      underst…    0.837    0.814   0.857        0.887   0.714 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 57177    BL1748      produces    0.568    0.678   0.466        0.757   0.329 </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 76 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: contents &lt;list&gt;</span></span></span></code></pre>
 <p>To get vocabulary sizes as counts, we can run this instead:</p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 86 × 8</span></span></span>
-<span><span class="co">#&gt;    child_id  time type      total_count l1_count l2_count concept_count te_count</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 58298        2 understa…         368      316       52           326       42</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 58298        2 produces          306      268       38           275       31</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 58361        1 understa…         490      281      209           289      201</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 58361        1 produces          332      200      132           216      116</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 58298        1 understa…         263      240       23           245       18</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 58298        1 produces            7        7        0             7        0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 58068        2 understa…         523      288      235           314      209</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58068        2 produces          233      179       54           195       38</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 57177        4 understa…         594      276      318           329      265</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 57177        4 produces          403      230      173           281      122</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 76 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 86 × 9</span></span></span>
+<span><span class="co">#&gt;    child_id response_id type        total_count l1_count l2_count concept_count</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 58298    BL1879      understands         368      316       52           326</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 58298    BL1879      produces            306      268       38           275</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 58361    BL1863      understands         490      281      209           289</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 58361    BL1863      produces            332      200      132           216</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 58298    BL1848      understands         263      240       23           245</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 58298    BL1848      produces              7        7        0             7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 58068    BL1833      understands         523      288      235           314</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58068    BL1833      produces            233      179       54           195</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 57177    BL1748      understands         594      276      318           329</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 57177    BL1748      produces            403      230      173           281</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 76 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: te_count &lt;int&gt;, contents &lt;list&gt;</span></span></span></code></pre>
 <p>Finally, two types of vocabulary sizes are computed:</p>
 <ul>
 <li>
@@ -207,6 +209,14 @@ the child says.</li>
 </ul>
 <p>These two measures are returned in the long format under the
 <code>type</code> column.</p>
+<div class="section level2">
+<h2 id="vocabulary-contents">Vocabulary contents<a class="anchor" aria-label="anchor" href="#vocabulary-contents"></a>
+</h2>
+<p>In additional to the vocabulary size scores,
+<code><a href="../reference/bvq_vocabulary.html">bvq_vocabulary()</a></code> also returns the column
+<code>contents</code>. This column is a list containing the items marked
+as acquired for comprehension or production. For instance:</p>
+</div>
 <div class="section level2">
 <h2 id="conditional-vocabulary-size-the-----extra-arguments">Conditional vocabulary size: the <code>...</code> extra
 arguments<a class="anchor" aria-label="anchor" href="#conditional-vocabulary-size-the-----extra-arguments"></a>
@@ -231,44 +241,46 @@ will be computed for each level of the <code>semantic_category</code>
 variable:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/bvq_vocabulary.html">bvq_vocabulary</a></span><span class="op">(</span><span class="va">participants</span>, <span class="va">responses</span>, <span class="va">semantic_category</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,230 × 9</span></span></span>
-<span><span class="co">#&gt;    child_id  time type        semantic_category total_prop l1_prop l2_prop</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 58298        2 understands Adventures             0.75    1      0.5   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 58298        2 produces    Adventures             0.7     0.9    0.5   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 58298        2 understands Animals                0.516   0.968  0.064<span style="text-decoration: underline;">5</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 58298        2 produces    Animals                0.452   0.839  0.064<span style="text-decoration: underline;">5</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 58298        2 understands Parts of animals       0.409   0.818  0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 58298        2 produces    Parts of animals       0.136   0.273  0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 58298        2 understands Parts of things        0.375   0.75   0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58298        2 produces    Parts of things        0.125   0.25   0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 58298        2 understands Question words         0.5     1      0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 58298        2 produces    Question words         0.5     1      0     </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,230 × 10</span></span></span>
+<span><span class="co">#&gt;    child_id response_id type        semantic_category total_prop l1_prop l2_prop</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 58298    BL1879      understands Adventures             0.75    1      0.5   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 58298    BL1879      produces    Adventures             0.7     0.9    0.5   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 58298    BL1879      understands Animals                0.516   0.968  0.064<span style="text-decoration: underline;">5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 58298    BL1879      produces    Animals                0.452   0.839  0.064<span style="text-decoration: underline;">5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 58298    BL1879      understands Parts of animals       0.409   0.818  0     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 58298    BL1879      produces    Parts of animals       0.136   0.273  0     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 58298    BL1879      understands Parts of things        0.375   0.75   0     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58298    BL1879      produces    Parts of things        0.125   0.25   0     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 58298    BL1879      understands Question words         0.5     1      0     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 58298    BL1879      produces    Question words         0.5     1      0     </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2,220 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: concept_prop &lt;dbl&gt;, te_prop &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: concept_prop &lt;dbl&gt;, te_prop &lt;dbl&gt;, contents &lt;list&gt;</span></span></span></code></pre></div>
 <p>Finally, we can preserve more than one variable, including
 combinations of participant-level and item-level variables, such as
 language profile (<code>lp</code>), age (<code>age</code>) and
 grammatical class (<code>class</code>):</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/bvq_vocabulary.html">bvq_vocabulary</a></span><span class="op">(</span><span class="va">participants</span>, <span class="va">responses</span>, <span class="va">age</span>, <span class="va">lp</span>, <span class="va">semantic_category</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,230 × 11</span></span></span>
-<span><span class="co">#&gt;    child_id  time type    age lp    semantic_category total_prop l1_prop l2_prop</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 58298        2 unde…  29.4 Mono… Adventures             0.75    1      0.5   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 58298        2 prod…  29.4 Mono… Adventures             0.7     0.9    0.5   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 58298        2 unde…  29.4 Mono… Animals                0.516   0.968  0.064<span style="text-decoration: underline;">5</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 58298        2 prod…  29.4 Mono… Animals                0.452   0.839  0.064<span style="text-decoration: underline;">5</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 58298        2 unde…  29.4 Mono… Parts of animals       0.409   0.818  0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 58298        2 prod…  29.4 Mono… Parts of animals       0.136   0.273  0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 58298        2 unde…  29.4 Mono… Parts of things        0.375   0.75   0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58298        2 prod…  29.4 Mono… Parts of things        0.125   0.25   0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 58298        2 unde…  29.4 Mono… Question words         0.5     1      0     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 58298        2 prod…  29.4 Mono… Question words         0.5     1      0     </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,230 × 12</span></span></span>
+<span><span class="co">#&gt;    child_id response_id type      age lp    semantic_category total_prop l1_prop</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 58298    BL1879      unders…  29.4 Mono… Adventures             0.75    1    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 58298    BL1879      produc…  29.4 Mono… Adventures             0.7     0.9  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 58298    BL1879      unders…  29.4 Mono… Animals                0.516   0.968</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 58298    BL1879      produc…  29.4 Mono… Animals                0.452   0.839</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 58298    BL1879      unders…  29.4 Mono… Parts of animals       0.409   0.818</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 58298    BL1879      produc…  29.4 Mono… Parts of animals       0.136   0.273</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 58298    BL1879      unders…  29.4 Mono… Parts of things        0.375   0.75 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 58298    BL1879      produc…  29.4 Mono… Parts of things        0.125   0.25 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 58298    BL1879      unders…  29.4 Mono… Question words         0.5     1    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 58298    BL1879      produc…  29.4 Mono… Question words         0.5     1    </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2,220 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: concept_prop &lt;dbl&gt;, te_prop &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: l2_prop &lt;dbl&gt;, concept_prop &lt;dbl&gt;, te_prop &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   contents &lt;list&gt;</span></span></span></code></pre></div>
 </div>
-  </main>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
