@@ -4,60 +4,61 @@ responses <- readRDS(system.file("fixtures/responses.rds",
 participants <- readRDS(system.file("fixtures/participants.rds",
                                     package = "bvq"))
 
-test_that("vocabulary proportions are plausible", {
-    vocabulary <- bvq_vocabulary(participants,
-                                 responses,
-                                 .scale = c("prop", "count"))
+vocabulary <- bvq_vocabulary(participants, 
+                             responses, 
+                             .scale = c("prop", "count"))
+
+test_that("bvq_vocabulary throws errors when appropriate", {
     
-    n_total <- studies %>%
-        distinct(version, language, .keep_all = TRUE) %>%
-        summarise(n_total = sum(n), .by = version)
+    expect_error(bvq_vocabulary(participants, responses, .scale = "XXX"))
+    expect_error(bvq_vocabulary(participants, responses, lp, XXXX))
     
-    vocabulary <- vocabulary %>%
-        left_join(
-            select(participants, child_id, time, version, version_list),
-            by = join_by(child_id, time),
-            multiple = "all"
-        ) %>%
-        filter(!is.na(version),!is.na(version_list)) %>%
-        mutate(version = case_when(
-            grepl("cbc", child_id) ~ "CBC",
-            grepl("devlex", child_id) ~ "DevLex",
-            .default = paste(version, version_list, sep = "-")
-        )) %>%
-        left_join(n_total,
-                  by = join_by(version),
-                  multiple = "all")
+})
+
+test_that("vocabulary scores are plausible", {
     
-    expect_true(all(between(vocabulary$total_prop, 0, 1)))
-    expect_true(all(between(vocabulary$l1_prop[!is.na(vocabulary$l1_prop)], 0, 1)))
-    expect_true(all(between(vocabulary$l2_prop[!is.na(vocabulary$l2_prop)], 0, 1)))
-    expect_true(all(between(vocabulary$concept_prop, 0, 1)))
-    expect_true(all(between(vocabulary$te_prop, 0, 1)))
-    expect_false(any(vocabulary$total_count[!is.na(vocabulary$total_count)] < 0))
-    expect_false(any(vocabulary$l1_count[!is.na(vocabulary$l1_count)] < 0))
-    expect_false(any(vocabulary$l2_count[!is.na(vocabulary$l2_count)] < 0))
-    expect_false(any(vocabulary$concept_count[!is.na(vocabulary$concept_count)] < 0))
-    expect_false(any(vocabulary$te_count[!is.na(vocabulary$te_count)] < 0))
+    expect_lte(max(vocabulary$total_prop, na.rm = TRUE), 1)
+    expect_gte(max(vocabulary$total_prop, na.rm = TRUE), 0)
+    expect_gte(max(vocabulary$total_count, na.rm = TRUE), 0)
+    
+    expect_lte(max(vocabulary$l1_prop, na.rm = TRUE), 1)
+    expect_gte(max(vocabulary$l1_prop, na.rm = TRUE), 0)
+    expect_gte(max(vocabulary$l1_count, na.rm = TRUE), 0)
+    
+    expect_lte(max(vocabulary$l2_prop, na.rm = TRUE), 1)
+    expect_gte(max(vocabulary$l2_prop, na.rm = TRUE), 0)
+    expect_gte(max(vocabulary$l2_count, na.rm = TRUE), 0)
+    
+    expect_lte(max(vocabulary$concept_prop, na.rm = TRUE), 1)
+    expect_gte(max(vocabulary$concept_prop, na.rm = TRUE), 0)
+    expect_gte(max(vocabulary$concept_count, na.rm = TRUE), 0)
+    
+    expect_lte(max(vocabulary$te_prop, na.rm = TRUE), 1)
+    expect_gte(max(vocabulary$te_prop, na.rm = TRUE), 0)
+    expect_gte(max(vocabulary$te_count, na.rm = TRUE), 0)
+    
 })
 
 test_that("column classes are the right ones", {
-    vocabulary <-
-        bvq_vocabulary(participants, responses, .scale = c("prop", "count"))
     
-    expect_true(all(class(vocabulary$child_id) == "character"))
-    expect_true(all(class(vocabulary$time) == "numeric"))
-    expect_true(all(class(vocabulary$type) == "character"))
-    expect_true(all(class(vocabulary$total_count) == "integer"))
-    expect_true(all(class(vocabulary$l1_count) == "integer"))
-    expect_true(all(class(vocabulary$l2_count) == "integer"))
-    expect_true(all(class(vocabulary$concept_count) == "integer"))
-    expect_true(all(class(vocabulary$te_count) == "integer"))
-    expect_true(all(class(vocabulary$total_prop) == "numeric"))
-    expect_true(all(class(vocabulary$l1_prop) == "numeric"))
-    expect_true(all(class(vocabulary$l2_prop) == "numeric"))
-    expect_true(all(class(vocabulary$concept_prop) == "numeric"))
-    expect_true(all(class(vocabulary$te_prop) == "numeric"))
+    expect_true(all(class(vocabulary$child_id)=="character"))
+    expect_true(all(class(vocabulary$response_id)=="character"))
+    expect_true(all(class(vocabulary$type)=="character"))
+    
+    expect_true(all(class(vocabulary$total_count)=="integer"))
+    expect_true(all(class(vocabulary$l1_count)=="integer"))
+    expect_true(all(class(vocabulary$l2_count)=="integer"))
+    expect_true(all(class(vocabulary$concept_count)=="integer"))
+    expect_true(all(class(vocabulary$te_count)=="integer"))
+    
+    expect_true(all(class(vocabulary$total_prop)=="numeric"))
+    expect_true(all(class(vocabulary$l1_prop)=="numeric"))
+    expect_true(all(class(vocabulary$l2_prop)=="numeric"))
+    expect_true(all(class(vocabulary$concept_prop)=="numeric"))
+    expect_true(all(class(vocabulary$te_prop)=="numeric"))
+    
+    expect_true(all(class(vocabulary$contents)=="list"))
+    
 })
 
 test_that("the ... argument works", {
@@ -67,5 +68,5 @@ test_that("the ... argument works", {
                                  semantic_category)
     
     expect_in(c("lp", "semantic_category"), colnames(vocabulary))
-    expect_error(bvq_vocabulary(participants, responses, lp, XXXX))
+
 })

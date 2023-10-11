@@ -99,9 +99,9 @@ get_doe <- function(...) {
     rowSums(across(c(...)), dims = 1, na.rm = TRUE)
 }
 
-#' Fix codes
+#' Fix response IDs
 #'
-#' @param x Vector of `code` whose values should be fixed.
+#' @param x Vector of `response_id` whose values should be fixed.
 #' 
 #' @author Gonzalo Garcia-Castro
 #' 
@@ -118,9 +118,9 @@ fix_response_id <- function(x) { # nocov start
 } # nocov end
 
 
-#' Fix raw codes
+#' Fix raw response IDs
 #'
-#' @param x Vector of `code` whose values should be fixed, based on `session`.
+#' @param x Vector of `response_id` whose values should be fixed, based on `session`.
 #' 
 #' @author Gonzalo Garcia-Castro
 #' 
@@ -128,14 +128,14 @@ fix_response_id <- function(x) { # nocov start
 #' @keywords internal
 #' 
 fix_code_raw <- function(x) { # nocov start
-    x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "code"] <- "BL1674"
-    x[x$session == "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2", "code"] <- "BL1671"
-    x[x$session == "TW8vSEn7YTtbZoe9BaEtRgwNvryWTwSv49dLKb5W0_6bFL306Eiw0Ehg72Q9nqLx", "code"] <- "BL1672"
-    x[x$session == "DDjiYrPl-WD951rocaSKH9grkn2T4ZJKjhdCAPDzqNBWyhc8E8wwjOY0CcruNn1m", "code"] <- "BL1673"
-    x[x$session == "c9fPw4Lbm5WS0AbBRppv4NVHh4eETxvEitH8lUC1pkt2ulxxHCvXgAYopCGRQSa_", "code"] <- "BL1569"
-    x[x$session == "I8ldNrILmQd7Vhtwqk99Y9YaKWrZzlExKeXsRv9_toIEi43BtlfuLI-PmdU4iY7G", "code"] <- "BL1788"
-    x[x$session == "dU5CZLLkvmY7SDpe8d0jFQO3xzpmeS0lCOFF_ErjETC1tyyYbv3ZhyaDmlfdJwHc", "code"] <- "BL1876"
-    x[x$session == "L4F1jd13H4wyFf6QYGy8hfSURneFr-zfzMn1YFFeBTbTZWWjxYPRbC-rPY6U1qdr", "code"] <- "remove"
+    x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "response_id"] <- "BL1674"
+    x[x$session == "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2", "response_id"] <- "BL1671"
+    x[x$session == "TW8vSEn7YTtbZoe9BaEtRgwNvryWTwSv49dLKb5W0_6bFL306Eiw0Ehg72Q9nqLx", "response_id"] <- "BL1672"
+    x[x$session == "DDjiYrPl-WD951rocaSKH9grkn2T4ZJKjhdCAPDzqNBWyhc8E8wwjOY0CcruNn1m", "response_id"] <- "BL1673"
+    x[x$session == "c9fPw4Lbm5WS0AbBRppv4NVHh4eETxvEitH8lUC1pkt2ulxxHCvXgAYopCGRQSa_", "response_id"] <- "BL1569"
+    x[x$session == "I8ldNrILmQd7Vhtwqk99Y9YaKWrZzlExKeXsRv9_toIEi43BtlfuLI-PmdU4iY7G", "response_id"] <- "BL1788"
+    x[x$session == "dU5CZLLkvmY7SDpe8d0jFQO3xzpmeS0lCOFF_ErjETC1tyyYbv3ZhyaDmlfdJwHc", "response_id"] <- "BL1876"
+    x[x$session == "L4F1jd13H4wyFf6QYGy8hfSURneFr-zfzMn1YFFeBTbTZWWjxYPRbC-rPY6U1qdr", "response_id"] <- "remove"
     return(x)
 } # nocov end
 
@@ -221,20 +221,6 @@ fix_item <- function(x) { # nocov start
     return(x)
 } # nocov end
 
-
-#' Fix id_exp
-#'
-#' @param x Vector of `id_exp` whose values should be fixed
-#' 
-#' @author Gonzalo Garcia-Castro
-#' 
-#' @noRd
-#' @keywords internal
-#' 
-fix_id_exp <- function(x) { # nocov start
-    x$id_exp[x$code %in% "BL547"] <- "bilexicon_189"
-    return(x)
-} # nocov end
 
 #' Deal with repeated measures
 #'

@@ -132,7 +132,7 @@ bvq_logs <- function(participants = bvq_participants(),
             age = diff_in_time(date_finished, date_birth, "months"),
             duration = diff_in_time(date_finished, date_started, "days")
         ) %>%
-        # compute participant's progreslos through the questionnaire
+        # compute participant's progres through the questionnaire
         mutate(progress = complete_items / total_items,
                completed = progress >= 0.95) %>%
         # select relevant columns and reorder them

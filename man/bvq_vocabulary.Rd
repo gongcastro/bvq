@@ -36,7 +36,7 @@ comprehensive and/or vocabulary size in each language. This data frame
 contains the following variables:
 \itemize{
 \item child_id: a character string with five digits indicating a participant's identifier in the database from the \href{https://www.upf.edu/web/cbclab}{Laboratori de Recerca en Infància} at Universitat Pompeu Fabra. This value is always the same for each participant, so that different responses from the same participant share the same \code{child_id}.
-\item time: a numeric value indicating how many times a given participant has been sent the questionnaire, regardless of whether they completed it or not.
+\item response_id: a character string identifying a single response to the questionnaire. This value is always unique for each response to the questionnaire, even for responses from the same participant.
 \item age: a numeric value indicating the number of months elapsed since participants' birth date until they filled in the last item of their questionnaire response.
 \item type: a character string indicating the vocabulary type computed: \code{"understands"} if option "Understands" was selected, and \code{"produces"} if option "Understands & Says" was selected.
 \item total_count: integer indicating the number of items selected as "Understands" or "Understands and Says" in both languages.
@@ -51,6 +51,7 @@ contains the following variables:
 \item te_prop: numeric value ranging from 0 to 1 (both included) indicating the proportion of of translation equivalents (aka. cross-language synonyms or doublets) in which both items were selected as "Understands" or "Understands and Says". This is a measure of the number of lexicalised concepts.
 The specific subset of columns returned by \code{\link[=bvq_vocabulary]{bvq_vocabulary()}} depends
 on the elements of \code{...} and \code{.scale}.
+\item contents: list containing the items marked as acquired.
 }
 }
 \description{

@@ -24,15 +24,15 @@ items a participant was assigned to. Only applies in the case of short
 versions of BVQ, such as bvq-short, bvq-long, bvq-lockdown, or bvq-1.0.0, where the
 list of items was partitioned into several versions.#' * item: character string indicating the item identifier (e.g., \code{spa_mesa}). This value is unique for each item. Responses to the same item from different participants are linked by the same \code{item} value.
 \item response: integer indicating the participant's response to a give item: \code{1} if \code{"No"} (the participant does not understand or produce the word), \code{2} if "Understands" (the participants understands the word), or \code{3} if "Understands and Says" (the participant understands and produces the item).
-\item date_birth: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating participants birth date.
-\item date_started: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating when participants logged to the questionnaire for the first time.
-\item date_finished: a date value (see lubridate package) in \code{yyyy/mm/dd} format indicating when participants logged to the questionnaire for the last time.
+\item date_birth: \link[lubridate:date_utils]{lubridate::Date} indicating participants birth date.
+\item date_started: \link[lubridate:date_utils]{lubridate::Date} indicating when participants logged to the questionnaire for the first time.
+\item date_finished: \link[lubridate:date_utils]{lubridate::Date} indicating when participants logged to the questionnaire for the last time.
 \item sex: a character string indicating participants' biological sex, as reported by the parents.
-\item edu_parent1: a character string indicating the educational attainment of one of the parents/caretakers.
-\item edu_parent2: a character string indicating the educational attainment of the other parent/caretaker, if any.
 \item doe_spanish: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Spanish, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Spanish (e.g., European and American Spanish).
 \item doe_catalan: a numeric value ranging from 0 to 1 indicating participants' daily exposure to Catalan, as estimated by parents/caregivers This value aggregates participants' exposure to any variant of Catalan (e.g., Catalan from Majorca or Barcelona).
 \item doe_others: a numeric value ranging from 0 to 1 indicating participants' daily exposure to languages other than Spanish or Catalan, as estimated by parents/caretakers, aggregating participants' exposure to all those other languages (e.g., Norwegian, Arab, Swahili).
+\item edu_parent1: a character string indicating the educational attainment of one of the parents/caretakers.
+\item edu_parent2: a character string indicating the educational attainment of the other parent/caretaker, if any.
 }
 }
 \description{

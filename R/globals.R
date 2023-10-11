@@ -16,6 +16,8 @@ utils::globalVariables(unique(c(
   "date_birth",
   "date_sent",
   "date_test",
+  "x",
+  "time",
   "link",
   # bvq_responses:
   "response_id",
