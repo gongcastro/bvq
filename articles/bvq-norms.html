@@ -139,20 +139,20 @@ consulted in the <code>pool</code> data set:</p>
 <span>  item <span class="op">=</span> <span class="va">my_items</span>,</span>
 <span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">35</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 124 × 9</span></span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 116 × 9</span></span></span>
 <span><span class="co">#&gt;       te item    label   age type     item_dominance  .sum    .n .prop</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   173 cat_gat gat      11 produces L2                 0     1 0.4  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   173 cat_gat gat      12 produces L1                 0     1 0.4  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   173 cat_gat gat      12 produces L2                 0     3 0.286</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   173 cat_gat gat      13 produces L1                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   173 cat_gat gat      13 produces L2                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   173 cat_gat gat      14 produces L2                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   173 cat_gat gat      14 produces L1                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   173 cat_gat gat      15 produces L1                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   173 cat_gat gat      15 produces L2                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   173 cat_gat gat      17 produces L1                 0     1 0.4  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 114 more rows</span></span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   173 cat_gat gat      13 produces L1                 0     2 0.333</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   173 cat_gat gat      14 produces L1                 0     2 0.333</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   173 cat_gat gat      15 produces L1                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   173 cat_gat gat      15 produces L2                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   173 cat_gat gat      17 produces L1                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   173 cat_gat gat      19 produces L2                 0     1 0.4  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   173 cat_gat gat      20 produces L2                 1     2 0.5  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 106 more rows</span></span></span></code></pre>
 <p>If we want to retrieve the acquisition norms of our item of interest,
 but also those of its translation equivalent, we can use the argument
 <code>te</code>. This argument can take the value <code>TRUE</code> if
