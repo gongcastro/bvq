@@ -11,6 +11,7 @@ utils::globalVariables(unique(c(
   "response",
   "study",
   "time_stamp",
+  "browseURL",
   # bvq_participants:
   "code",
   "date_birth",
