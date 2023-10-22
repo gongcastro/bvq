@@ -357,3 +357,18 @@ prop_adj <- function(x, n) {
     (x + 2) / (n + 4)
 }
 
+#' Launch bvq Shiny App in a browser
+#' 
+#' @source https://github.com/gongcastro/bvq-app
+#' 
+#' @importFrom utils browseURL
+#' 
+#' @details The BVQ Shiny App provides a visual interface to the bvq R package to explore the database. Its [GitHub repository](https://github.com/gongcastro/bvq-app) contains the data, documentation, and R scripts needed to run the BVQ Shiny app.
+#' 
+launch_app <- function() { # nocov start
+    browseURL("https://gongcastro.shinyapps.io/bvq-app/", 
+              browser = getOption("browser"),
+              encodeIfNeeded = FALSE)
+} # nocov end
+
+
