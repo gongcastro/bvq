@@ -1,3 +1,9 @@
+# bvq 1.0.1
+
+- Fixed `n_lemma` score for item `cat_gos` in `pool` (#33)
+- Add item `cat_vaixell` to Catalan checklist, which was missing (#32)
+- Some minor refactoring for readability
+
 # bvq 1.0.0
 
 ## formr implementation
