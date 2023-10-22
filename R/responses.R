@@ -45,8 +45,9 @@
 #' @md
 bvq_responses <- function(participants = bvq_participants()) {
     
-    responses <- map(names(get_bvq_runs()),
-            function(x) collect_survey(x, participants)) %>% 
+    responses <- get_bvq_runs() %>% 
+        names() %>% 
+        map(function(x) collect_survey(x, participants)) %>% 
         bind_rows() %>% 
         # remove duplicated combinations
         distinct(child_id, response_id, item, .keep_all = TRUE) %>% 
