@@ -365,7 +365,7 @@ prop_adj <- function(x, n) {
 #' 
 #' @details The BVQ Shiny App provides a visual interface to the bvq R package to explore the database. Its [GitHub repository](https://github.com/gongcastro/bvq-app) contains the data, documentation, and R scripts needed to run the BVQ Shiny app.
 #' 
-launch_app <- function() { #nocov
+launch_app <- function() { # nocov start
     browseURL("https://gongcastro.shinyapps.io/bvq-app/", 
               browser = getOption("browser"),
               encodeIfNeeded = FALSE)
