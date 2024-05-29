@@ -49,6 +49,9 @@
     <loc>/reference/bvq_connect.html</loc>
   </url>
   <url>
+    <loc>/reference/bvq_items.html</loc>
+  </url>
+  <url>
     <loc>/reference/bvq_logs.html</loc>
   </url>
   <url>
@@ -62,6 +65,9 @@
   </url>
   <url>
     <loc>/reference/bvq_vocabulary.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_bvq_runs.html</loc>
   </url>
   <url>
     <loc>/reference/get_doe.html</loc>
