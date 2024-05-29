@@ -281,7 +281,8 @@ get_longitudinal <- function(x, longitudinal = "all") {
 #'
 #' @author Gonzalo Garcia-Castro
 #' 
-#' @noRd
+#' @export get_bvq_runs
+#' 
 #' @keywords internal
 #' 
 #' @md
