@@ -48,6 +48,11 @@ reference:
   - bvq_logs
   - bvq_vocabulary
   - bvq_norms
+- title: "Items and questionnaires"
+  desc: "Information about questionnaire sections and items"
+  contents:
+  - bvq_items
+  - get_bvq_runs
 - title: "Helper functions"
   desc: "Additional functions to access and process the data"
   contents:
