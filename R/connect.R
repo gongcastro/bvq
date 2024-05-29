@@ -51,9 +51,7 @@ bvq_connect <- function(google_email = NULL,
                 strwrap(
                     prefix = " ",
                     initial = "",
-                    "Could not connect to {.url https://formr.org/}. \
-          Please check your internet connection or \
-          make sure you have set the right formr password."
+                    "Could not connect to {.url https://formr.org/}. Please check your internet connection or make sure you have set the right formr password in a {.file .Renviron} file, under the name {.envvar FORMR_PWD}."
                 )
             )
         }
