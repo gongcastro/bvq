@@ -57,7 +57,7 @@ bvq_participants <- function(...) {
     suppressMessages({
         sheet <- read_sheet(ss = "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo",
                         sheet = "Participants", 
-                        col_types = "cccciDncccDDclcc",
+                        col_types = "cccciDnccccDDclcc",
                         .name_repair = janitor::make_clean_names)
     })
     
