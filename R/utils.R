@@ -297,6 +297,15 @@ get_bvq_runs <- function() { # nocov start
             "bvq_06_words_catalan",
             "bvq_06_words_spanish"
         ),
+        "bvq-1.0.1" = c(
+            "bvq_01_log",
+            "bvq_02_welcome",
+            "bvq_03_consent",
+            "bvq_04_demo",
+            "bvq_05_language",
+            "bvq_06_words_catalan",
+            "bvq_06_words_spanish"
+        ),
         "bvq-lockdown" = c(
             "bilexicon_lockdown_01_log",
             "bilexicon_lockdown_02_welcome",
@@ -331,7 +340,8 @@ get_bvq_runs <- function() { # nocov start
                                 "bvq-long" = "BL-Long",
                                 "bvq-short" = "BL-Short",
                                 "bvq-lockdown" = "BL-Lockdown",
-                                "bvq-1.0.0" = "1.0.0")
+                                "bvq-1.0.0" = "1.0.0",
+                                "bvq-1.0.1" = "1.0.1")
     return(runs)
 } # nocov end
 

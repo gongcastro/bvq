@@ -62,6 +62,7 @@ collect_survey <- function(version,
 #' @importFrom formr formr_raw_results
 #'
 #' @param surveys Name of the surveys in the formr run.
+#' @param verbose Should progress messages be printed in the console?
 #' @param ... Unused.
 #' 
 #' @author Gonzalo Garcia-Castro
@@ -70,22 +71,22 @@ collect_survey <- function(version,
 #' @keywords internal
 #' 
 #' @md
-download_surveys <- function(surveys, ...) {
+download_surveys <- function(surveys, verbose = TRUE, ...) {
     n <- length(surveys)
     i <- 0
     raw <- vector(mode = "list", length = n)
     
-    if (interactive()) {
+    if (verbose && interactive()) {
         step_msg <- "Downloaded {i}/{n} {qty(i)}survey{?s}"
         cli_progress_step(msg = step_msg)
     }
     
     for (i in seq_along(surveys)) {
         raw[[i]] <- formr::formr_raw_results(surveys[i])
-        if (interactive()) cli_progress_update()
+        if (verbose && interactive()) cli_progress_update()
     }
     
-    if (interactive()) cli_progress_done(result = "done")
+    if (verbose && interactive()) cli_progress_done(result = "done")
     
     raw <- lapply(raw, select, -any_of("language"))
     names(raw) <- surveys
