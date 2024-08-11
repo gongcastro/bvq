@@ -32,10 +32,12 @@ responses %>%
 ```
 
 ```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-responses <- readRDS(system.file("fixtures/responses.rds", 
-                                 package = "bvq"))
-participants <- readRDS(system.file("fixtures/participants.rds", 
-                                    package = "bvq"))
+responses <- readRDS(system.file("fixtures/responses.rds",
+  package = "bvq"
+))
+participants <- readRDS(system.file("fixtures/participants.rds",
+  package = "bvq"
+))
 
 (responses)
 ```

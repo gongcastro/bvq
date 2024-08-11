@@ -4,12 +4,12 @@
 #' @importFrom readxl excel_sheets
 #' @importFrom readxl read_xlsx
 #' @importFrom cli cli_abort
-#' 
+#'
 #' @export bvq_items
 #'
 #' @param section Name of the questionnaire section to retrieve items for. Check the output of `get_bvq_runs()` to see the available sections for each version of the questionnaire.
 #' @param section Name of the version of the questionnaire for which the items of a section will be retrieved. Check the output of `names(get_bvq_runs())` to see the available versions of the questionnaire.
-#' 
+#'
 #' @returns A list of length 3, which includes:
 #' * survey: A [tibble::tibble] containing the items included in the questionnaire and several properties. Each row corresponds to a single item, and each column corresponds to a particular property:
 #'      - type: a character string indicating the type of the item (see [formr documentation](https://formr.org/documentation#available_items)).
@@ -29,31 +29,31 @@
 #'      - item: name of the setting.
 #'      - value: value of the setting.
 #' @author Gonzalo Garcia-Castro
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' bvq_items("bvq_06_words_catalan", version = "bvq-1.0.0")
 #' }
-#' 
+#'
 #' @md
 bvq_items <- function(section, version = "bvq-1.0.0") {
-    runs <- get_bvq_runs()
-    if (!(version %in% names(runs))) {
-        cli::cli_abort("Invalid {.field version} name '{version}'. See {.fn get_bvq_runs} for valid options")   
-    }
-    
-    valid_sections <- runs[[version]]
-    if (!(section %in% valid_sections)) {
-        cli::cli_abort("Invalid {.field section} '{section}'. See {.fn get_bvq_runs} for valid options")   
-    }
-    
-    path <- system.file(file.path("formr", version, paste0(section, ".xlsx")),
-                        package = "bvq",
-                        mustWork = TRUE)
-    sheets <- readxl::excel_sheets(path)
-    q <- lapply(sheets, \(x) readxl::read_xlsx(path, sheet = x))
-    names(q) <- sheets
-    
-    return(q)
-}
+  runs <- get_bvq_runs()
+  if (!(version %in% names(runs))) {
+    cli::cli_abort("Invalid {.field version} name '{version}'. See {.fn get_bvq_runs} for valid options")
+  }
 
+  valid_sections <- runs[[version]]
+  if (!(section %in% valid_sections)) {
+    cli::cli_abort("Invalid {.field section} '{section}'. See {.fn get_bvq_runs} for valid options")
+  }
+
+  path <- system.file(file.path("formr", version, paste0(section, ".xlsx")),
+    package = "bvq",
+    mustWork = TRUE
+  )
+  sheets <- readxl::excel_sheets(path)
+  q <- lapply(sheets, \(x) readxl::read_xlsx(path, sheet = x))
+  names(q) <- sheets
+
+  return(q)
+}
