@@ -1,99 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>/articles/bvq-connect.html</loc>
-  </url>
-  <url>
-    <loc>/articles/bvq-norms.html</loc>
-  </url>
-  <url>
-    <loc>/articles/bvq-responses.html</loc>
-  </url>
-  <url>
-    <loc>/articles/bvq-vocabulary.html</loc>
-  </url>
-  <url>
-    <loc>/articles/bvq.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bvq-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bvq_connect.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bvq_items.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bvq_logs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bvq_norms.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bvq_participants.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bvq_responses.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bvq_vocabulary.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_bvq_runs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_doe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_longitudinal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/launch_app.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pool.html</loc>
-  </url>
-  <url>
-    <loc>/reference/prop_adj.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tidyeval.html</loc>
-  </url>
-  <url>
-    <loc>/reference/track_progress.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/CONTRIBUTING.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/SUPPORT.html</loc></url>
+<url><loc>/articles/bvq-connect.html</loc></url>
+<url><loc>/articles/bvq-norms.html</loc></url>
+<url><loc>/articles/bvq-responses.html</loc></url>
+<url><loc>/articles/bvq-vocabulary.html</loc></url>
+<url><loc>/articles/bvq.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/bvq-package.html</loc></url>
+<url><loc>/reference/bvq_connect.html</loc></url>
+<url><loc>/reference/bvq_items.html</loc></url>
+<url><loc>/reference/bvq_logs.html</loc></url>
+<url><loc>/reference/bvq_norms.html</loc></url>
+<url><loc>/reference/bvq_participants.html</loc></url>
+<url><loc>/reference/bvq_responses.html</loc></url>
+<url><loc>/reference/bvq_vocabulary.html</loc></url>
+<url><loc>/reference/get_bvq_runs.html</loc></url>
+<url><loc>/reference/get_doe.html</loc></url>
+<url><loc>/reference/get_longitudinal.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/launch_app.html</loc></url>
+<url><loc>/reference/pipe.html</loc></url>
+<url><loc>/reference/pool.html</loc></url>
+<url><loc>/reference/prop_adj.html</loc></url>
+<url><loc>/reference/tidyeval.html</loc></url>
+<url><loc>/reference/track_progress.html</loc></url>
 </urlset>
+
