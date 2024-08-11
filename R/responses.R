@@ -36,39 +36,44 @@
 #' * edu_parent2: a character string indicating the educational attainment of the other parent/caretaker, if any.
 
 #' @author Gonzalo Garcia-Castro
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' bvq_responses()
 #' }
-#' 
+#'
 #' @md
 bvq_responses <- function(participants = bvq_participants()) {
-    
-    responses <- get_bvq_runs() %>% 
-        names() %>% 
-        map(function(x) collect_survey(x, participants)) %>% 
-        bind_rows() %>% 
-        # remove duplicated combinations
-        distinct(child_id, response_id, item, .keep_all = TRUE) %>% 
-        # fix variables
-        fix_item() %>% 
-        fix_doe() %>% 
-        fix_sex() %>% 
-        mutate(across(matches("date_"), 
-                      function(x) as.Date(x, origin = "1970-01-01")),
-               time = if_else(is.na(time), 1, time),
-               version = trimws(version, whitespace = "[\\h\\v]"),
-               across(matches("doe_"), function(x) x / 100)) %>% 
-        # remove rows with missing date_finished and reorder
-        dplyr::filter(!is.na(date_finished)) %>% 
-        # reorder by finishing date
-        arrange(desc(date_finished)) %>% 
-        # select columns
-        select(child_id, response_id, time, 
-               version, version_list, matches("date_"),
-               item, response, sex,
-               matches("doe_"), matches("edu_"))
-    
-    return(responses)
+  responses <- get_bvq_runs() %>%
+    names() %>%
+    map(function(x) collect_survey(x, participants)) %>%
+    bind_rows() %>%
+    # remove duplicated combinations
+    distinct(child_id, response_id, item, .keep_all = TRUE) %>%
+    # fix variables
+    fix_item() %>%
+    fix_doe() %>%
+    fix_sex() %>%
+    mutate(
+      across(
+        matches("date_"),
+        function(x) as.Date(x, origin = "1970-01-01")
+      ),
+      time = if_else(is.na(time), 1, time),
+      version = trimws(version, whitespace = "[\\h\\v]"),
+      across(matches("doe_"), function(x) x / 100)
+    ) %>%
+    # remove rows with missing date_finished and reorder
+    dplyr::filter(!is.na(date_finished)) %>%
+    # reorder by finishing date
+    arrange(desc(date_finished)) %>%
+    # select columns
+    select(
+      child_id, response_id, time,
+      version, version_list, matches("date_"),
+      item, response, sex,
+      matches("doe_"), matches("edu_")
+    )
+
+  return(responses)
 }

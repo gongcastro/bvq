@@ -65,81 +65,87 @@ bvq_logs <- function(participants = bvq_participants(),
                      responses = bvq_responses(participants),
                      bilingual_threshold = 0.80,
                      other_threshold = 0.10) {
-    
-    # check args
-    arg_bil_range <- !((bilingual_threshold >= 0) & (bilingual_threshold <= 1))
-    arg_bil_class <- !is.numeric(bilingual_threshold)
-    if (arg_bil_range || arg_bil_class) {
-        cli::cli_abort("bilingual_threshold must be numeric between 0 and 1")
-    }
-    
-    arg_oth_range <- !((other_threshold >= 0) & (other_threshold <= 1))
-    arg_oth_class <- !is.numeric(other_threshold)
-    if (arg_oth_range || arg_oth_class) {
-        cli::cli_abort("other_threshold must be numeric between 0 and 1")
-    }
-    
-    if (is.null(participants)) participants <- bvq_participants()
-    if (is.null(responses)) responses <- bvq_responses(participants)
-    
-    # get n items answered by participants (depends on the questionnaire version)
-    total_items <- studies %>%
-        distinct(version, language, n) %>%
-        summarise(total_items = sum(n),
-                  .by = version)
-    
-    grouping_vars <- c(
-        "child_id", "response_id", "time",
-        "date_birth",
-        "edu_parent1", "edu_parent2",
-        "date_birth", "date_started", "date_finished",
-        "doe_spanish", "doe_catalan",
-        "doe_others", "date_birth",
-        "version", "version_list"
+  # check args
+  arg_bil_range <- !((bilingual_threshold >= 0) & (bilingual_threshold <= 1))
+  arg_bil_class <- !is.numeric(bilingual_threshold)
+  if (arg_bil_range || arg_bil_class) {
+    cli::cli_abort("bilingual_threshold must be numeric between 0 and 1")
+  }
+
+  arg_oth_range <- !((other_threshold >= 0) & (other_threshold <= 1))
+  arg_oth_class <- !is.numeric(other_threshold)
+  if (arg_oth_range || arg_oth_class) {
+    cli::cli_abort("other_threshold must be numeric between 0 and 1")
+  }
+
+  if (is.null(participants)) participants <- bvq_participants()
+  if (is.null(responses)) responses <- bvq_responses(participants)
+
+  # get n items answered by participants (depends on the questionnaire version)
+  total_items <- studies %>%
+    distinct(version, language, n) %>%
+    summarise(
+      total_items = sum(n),
+      .by = version
     )
-    
-    vars <- c(
-        "response_id", "time", "version", "version_list", "age",
-        "date_birth", "date_started", "date_finished",
-        "duration", "dominance", "lp",
-        "edu_parent1", "edu_parent2",
-        "doe_spanish", "doe_catalan", "doe_others", "completed"
-    )
-    
-    # generate logs
-    logs <- responses %>%
-        # total items to fill by each participant (varies across versions)
-        summarise(complete_items = sum(!is.na(response)),
-                  .by = one_of(grouping_vars)) %>%
-        left_join(total_items, by = join_by(version)) %>%
-        left_join(select(participants, -c(date_birth, version, version_list)),
-                  by = join_by(child_id, time, response_id)) %>%
-        filter(!is.na(child_id)) %>%
-        mutate(
-            # define language profiles based on thresholds
-            lp = case_when(
-                doe_others > other_threshold ~ "Other",
-                doe_catalan >= bilingual_threshold ~ "Monolingual",
-                doe_spanish >= bilingual_threshold ~ "Monolingual",
-                .default = "Bilingual"
-            ),
-            # define language dominance
-            dominance = case_when(
-                doe_catalan > doe_spanish ~ "Catalan",
-                doe_spanish > doe_catalan ~ "Spanish",
-                doe_catalan == doe_spanish ~ sample(c("Catalan", "Spanish"), 1)
-            ),
-            age = diff_in_time(date_finished, date_birth, "months"),
-            duration = diff_in_time(date_finished, date_started, "days")
-        ) %>%
-        # compute participant's progress through the questionnaire
-        mutate(progress = complete_items / total_items,
-               completed = progress >= 0.95) %>%
-        # select relevant columns and reorder them
-        select(child_id, one_of(vars)) %>%
-        arrange(desc(date_finished))
-    
-    return(logs)
+
+  grouping_vars <- c(
+    "child_id", "response_id", "time",
+    "date_birth",
+    "edu_parent1", "edu_parent2",
+    "date_birth", "date_started", "date_finished",
+    "doe_spanish", "doe_catalan",
+    "doe_others", "date_birth",
+    "version", "version_list"
+  )
+
+  vars <- c(
+    "response_id", "time", "version", "version_list", "age",
+    "date_birth", "date_started", "date_finished",
+    "duration", "dominance", "lp",
+    "edu_parent1", "edu_parent2",
+    "doe_spanish", "doe_catalan", "doe_others", "completed"
+  )
+
+  # generate logs
+  logs <- responses %>%
+    # total items to fill by each participant (varies across versions)
+    summarise(
+      complete_items = sum(!is.na(response)),
+      .by = one_of(grouping_vars)
+    ) %>%
+    left_join(total_items, by = join_by(version)) %>%
+    left_join(select(participants, -c(date_birth, version, version_list)),
+      by = join_by(child_id, time, response_id)
+    ) %>%
+    filter(!is.na(child_id)) %>%
+    mutate(
+      # define language profiles based on thresholds
+      lp = case_when(
+        doe_others > other_threshold ~ "Other",
+        doe_catalan >= bilingual_threshold ~ "Monolingual",
+        doe_spanish >= bilingual_threshold ~ "Monolingual",
+        .default = "Bilingual"
+      ),
+      # define language dominance
+      dominance = case_when(
+        doe_catalan > doe_spanish ~ "Catalan",
+        doe_spanish > doe_catalan ~ "Spanish",
+        doe_catalan == doe_spanish ~ sample(c("Catalan", "Spanish"), 1)
+      ),
+      age = diff_in_time(date_finished, date_birth, "months"),
+      duration = diff_in_time(date_finished, date_started, "days")
+    ) %>%
+    # compute participant's progress through the questionnaire
+    mutate(
+      progress = complete_items / total_items,
+      completed = progress >= 0.95
+    ) %>%
+    # select relevant columns and reorder them
+    select(child_id, one_of(vars)) %>%
+    arrange(desc(date_finished))
+
+  return(logs)
 }
 
 #' Track a participant's response progress.
@@ -155,49 +161,50 @@ bvq_logs <- function(participants = bvq_participants(),
 #'   [bvq::bvq_participants()].
 #' @param ... Arguments passed to [bvq::download_surveys].
 #' @returns A logical vector indicating the surveys that the participant has completed.
-#' 
+#'
 #' @author Gonzalo Garcia-Castro
 #'
 #' @examples
 #' \dontrun{
-#' track_progress("1911", participants, verbose=FALSE)
+#' track_progress("1911", participants, verbose = FALSE)
 #' }
 #'
 #' @md
 track_progress <- function(response_id,
                            participants = NULL,
                            ...) {
-    
-    if (is.null(participants)) participants <- bvq_participants()
-    
-    version <- participants[participants$response_id==response_id,]$version
-    cli::cli_progress_step("Downloading responses from version {.val {version}}")
-    sur <- download_surveys(get_bvq_runs()[[version]], ...)
-    
-    cli::cli_progress_step("Looking up status of response {.val {response_id}}")
-    
-    logs <- sur[[1]]
-    logs$bl_code <- gsub("BL", "", logs$bl_code)
-    logs <- fix_code_raw(logs) 
-    logs <- logs[logs$bl_code %in% response_id, ]
-    formr_id <- logs$session
-    
-    status <- vapply(lapply(sur, `[[`, "session"),  
-                     \(x) formr_id %in% x, logical(1))
-    finished <- all(status)
-    status_label <- ifelse(finished, "finished", "in progress")
-    sur_now <- sur[[last(which(status))]]
-    sur_now_nm <- names(sur[last(which(status))])
-    sur_now_created <- as_datetime(sur_now[sur_now$session %in% formr_id, ]$created)
-    sur_now_modified <- as_datetime(sur_now[sur_now$session %in% formr_id, ]$modified)
-    if (is.na(sur_now_modified)) sur_now_modified <- sur_now_created
-    
-    cli::cli_progress_done(result = "done")
-    
-    cli::cli_text("Response {.field {response_id}} is {.field {status_label}}")
-    cli::cli_li("In {.field {sur_now_nm}} since {.val {sur_now_created}}")
-    cli::cli_li("Logged in: {.val {as_datetime(logs$created)}}")
-    cli::cli_li("Last activity: {.val {as_datetime(logs$created)}}")
-    
-    return(invisible(status))
+  if (is.null(participants)) participants <- bvq_participants()
+
+  version <- participants[participants$response_id == response_id, ]$version
+  cli::cli_progress_step("Downloading responses from version {.val {version}}")
+  sur <- download_surveys(get_bvq_runs()[[version]], ...)
+
+  cli::cli_progress_step("Looking up status of response {.val {response_id}}")
+
+  logs <- sur[[1]]
+  logs$bl_code <- gsub("BL", "", logs$bl_code)
+  logs <- fix_code_raw(logs)
+  logs <- logs[logs$bl_code %in% response_id, ]
+  formr_id <- logs$session
+
+  status <- vapply(
+    lapply(sur, `[[`, "session"),
+    \(x) formr_id %in% x, logical(1)
+  )
+  finished <- all(status)
+  status_label <- ifelse(finished, "finished", "in progress")
+  sur_now <- sur[[last(which(status))]]
+  sur_now_nm <- names(sur[last(which(status))])
+  sur_now_created <- as_datetime(sur_now[sur_now$session %in% formr_id, ]$created)
+  sur_now_modified <- as_datetime(sur_now[sur_now$session %in% formr_id, ]$modified)
+  if (is.na(sur_now_modified)) sur_now_modified <- sur_now_created
+
+  cli::cli_progress_done(result = "done")
+
+  cli::cli_text("Response {.field {response_id}} is {.field {status_label}}")
+  cli::cli_li("In {.field {sur_now_nm}} since {.val {sur_now_created}}")
+  cli::cli_li("Logged in: {.val {as_datetime(logs$created)}}")
+  cli::cli_li("Last activity: {.val {as_datetime(logs$created)}}")
+
+  return(invisible(status))
 }

@@ -44,10 +44,12 @@ norms <- bvq_norms(
 
 ```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 library(bvq)
-responses <- readRDS(system.file("fixtures/responses.rds", 
-                                 package = "bvq"))
-participants <- readRDS(system.file("fixtures/participants.rds", 
-                                    package = "bvq"))
+responses <- readRDS(system.file("fixtures/responses.rds",
+  package = "bvq"
+))
+participants <- readRDS(system.file("fixtures/participants.rds",
+  package = "bvq"
+))
 
 my_items <- c("cat_gos", "cat_gat")
 

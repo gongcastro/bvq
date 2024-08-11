@@ -31,54 +31,61 @@
 #' * date_sent: a date value (see lubridate
 #'   package) in `yyyy/mm/dd` format indicating the date in which the
 #'   participant was sent the questionnaire.
-#' * call: a character string indicating the status of the participant's response: 
+#' * call: a character string indicating the status of the participant's response:
 #'      - `"successful"`: participant completed the questionnaire)
-#'      - `"sent"`: participant has been sent the email but has not completed it 
+#'      - `"sent"`: participant has been sent the email but has not completed it
 #'      yet)
 #'      - `"pending"`: participant is still to be sent the questionnaire.
 #'      - `"reminded"`: a week has elapsed since the participant was sent the questionnaire,
 #'       and has been already reminded of it.
-#'      - `"stop"`: participant has not completed the questionnaire after 
+#'      - `"stop"`: participant has not completed the questionnaire after
 #'       two weeks since they were sent the questionnaire.
 #'
 #' @author Gonzalo Garcia-Castro
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' bvq_participants()
 #' }
-#' 
+#'
 #' @md
 bvq_participants <- function(...) {
-    
-    bvq_connect() # get credentials to Google and formr
-    
-    # download Sheets
-    suppressMessages({
-        sheet <- read_sheet(ss = "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo",
-                        sheet = "Participants", 
-                        col_types = "cccciDnccccDDclcc",
-                        .name_repair = janitor::make_clean_names)
-    })
-    
-    participants <- sheet %>% 
-        filter(!is.na(code),
-               include) %>% 
-        select(child_id = id, response_id = code,
-               time, date_birth, date_sent, version,
-               version_list = randomisation, call) %>% 
-        mutate(response_id = gsub("BL", "", response_id),
-               version = gsub("bl-", "", tolower(version))) %>% 
-        # reorder rows
-        arrange(desc(as.numeric(response_id)))
-    
-    # make sure no columns are lists
-    # (probably due to inconsistent cell types)
-    is_col_list <- vapply(participants, is.list, logical(1))
-    if (any(is_col_list)) { 
-        col <- names(which(is_col_list))
-        cli::cli_abort("{col} {?has/have} class {.cls list}")
-    }
-    
-    return(participants)
+  bvq_connect() # get credentials to Google and formr
+
+  # download Sheets
+  suppressMessages({
+    sheet <- read_sheet(
+      ss = "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo",
+      sheet = "Participants",
+      col_types = "cccciDnccccDDclcc",
+      .name_repair = janitor::make_clean_names
+    )
+  })
+
+  participants <- sheet %>%
+    filter(
+      !is.na(code),
+      include
+    ) %>%
+    select(
+      child_id = id, response_id = code,
+      time, date_birth, date_sent, version,
+      version_list = randomisation, call
+    ) %>%
+    mutate(
+      response_id = gsub("BL", "", response_id),
+      version = gsub("bl-", "", tolower(version))
+    ) %>%
+    # reorder rows
+    arrange(desc(as.numeric(response_id)))
+
+  # make sure no columns are lists
+  # (probably due to inconsistent cell types)
+  is_col_list <- vapply(participants, is.list, logical(1))
+  if (any(is_col_list)) {
+    col <- names(which(is_col_list))
+    cli::cli_abort("{col} {?has/have} class {.cls list}")
+  }
+
+  return(participants)
 }

@@ -9,8 +9,8 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-    collapse = TRUE,
-    comment = "#>"
+  collapse = TRUE,
+  comment = "#>"
 )
 ```
 
@@ -30,10 +30,12 @@ bvq_vocabulary(participants, responses)
 
 ```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 library(bvq)
-responses <- readRDS(system.file("fixtures/responses.rds", 
-                                 package = "bvq"))
-participants <- readRDS(system.file("fixtures/participants.rds", 
-                                    package = "bvq"))
+responses <- readRDS(system.file("fixtures/responses.rds",
+  package = "bvq"
+))
+participants <- readRDS(system.file("fixtures/participants.rds",
+  package = "bvq"
+))
 
 (responses)
 ```
@@ -79,8 +81,8 @@ In additional to the vocabulary size scores, `bvq_vocabulary()` also returns the
 ```{r contents, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 library(dplyr)
 
-contents <- bvq_vocabulary(participants, responses) %>% 
-    select(child_id, response_id, contents)
+contents <- bvq_vocabulary(participants, responses) %>%
+  select(child_id, response_id, contents)
 ```
 
 ## Conditional vocabulary size: the `...` extra arguments
