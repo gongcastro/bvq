@@ -42,18 +42,14 @@ bvq_connect <- function(google_email = NULL,
   # if key exists, use it to log in
   tryCatch(
     suppressWarnings(
-      formr::formr_connect(
-        email = formr_email,
-        password = password,
-        host = "https://formr.org/"
-      )
+      formr::formr_connect(keyring = "formr")
     ),
     error = function(e) {
       cli_abort(
         strwrap(
           prefix = " ",
           initial = "",
-          "Could not connect to {.url https://formr.org/}. Please check your internet connection or make sure you have set  the right formr password in a {.file .Renviron} file, under the name {.envvar FORMR_PWD}."
+          "Could not connect to {.url https://formr.org/}. Please check your internet connection or make sure you have set the right keyring as formr using {.code formr::formr_store_keys} (see vignettes)."
         )
       )
     }
