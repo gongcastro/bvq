@@ -1,0 +1,58 @@
+study_db,study,study_id,version,version_list,language,n
+Signs,Signs,184,CBC,,Catalan,100
+Signs,Signs,184,CBC,,Spanish,99
+Signs,Signs,194,CBC,,Catalan,100
+Signs,Signs,194,CBC,,Spanish,99
+Inhibition +24,Inhibition,191,CBC,,Catalan,100
+Inhibition +24,Inhibition,191,CBC,,Spanish,99
+Negation 3.0-30-3,Negation,209,CBC,,Catalan,100
+Negation 3.0-30-3,Negation,209,CBC,,Spanish,99
+Negation 27CAT-27-4,Negation,210,CBC,,Catalan,100
+Negation 27CAT-27-4,Negation,210,CBC,,Spanish,99
+CognatePriming-30,CognatePriming,219,bvq-long,1,Catalan,772
+CognatePriming-30,CognatePriming,219,bvq-long,1,Spanish,786
+CognatePriming-30,CognatePriming,219,bvq-long,2,Catalan,785
+CognatePriming-30,CognatePriming,219,bvq-long,2,Spanish,796
+CognatePriming-24,CognatePriming,229,bvq-long,2,Catalan,785
+CognatePriming-24,CognatePriming,229,bvq-long,2,Spanish,796
+CognatePriming-20,CognatePriming,233,bvq-long,2,Catalan,785
+CognatePriming-20,CognatePriming,233,bvq-long,2,Spanish,796
+BiLexicon_10-26,BiLexiconShort,207,bvq-short,A,Catalan,347
+BiLexicon_10-26,BiLexiconShort,207,bvq-short,A,Spanish,349
+BiLexicon_10-26,BiLexiconShort,207,bvq-short,B,Catalan,345
+BiLexicon_10-26,BiLexiconShort,207,bvq-short,B,Spanish,371
+BiLexicon_10-26,BiLexiconShort,207,bvq-short,C,Catalan,341
+BiLexicon_10-26,BiLexiconShort,207,bvq-short,C,Spanish,369
+BiLexicon_10-26,BiLexiconShort,207,bvq-short,D,Catalan,338
+BiLexicon_10-26,BiLexiconShort,207,bvq-short,D,Spanish,371
+BiLexicon_27-40,BiLexiconShort,208,bvq-short,A,Catalan,347
+BiLexicon_27-40,BiLexiconShort,208,bvq-short,A,Spanish,349
+BiLexicon_27-40,BiLexiconShort,208,bvq-short,B,Catalan,345
+BiLexicon_27-40,BiLexiconShort,208,bvq-short,B,Spanish,371
+BiLexicon_27-40,BiLexiconShort,208,bvq-short,C,Catalan,341
+BiLexicon_27-40,BiLexiconShort,208,bvq-short,C,Spanish,369
+BiLexicon_27-40,BiLexiconShort,208,bvq-short,D,Catalan,338
+BiLexicon_27-40,BiLexiconShort,208,bvq-short,D,Spanish,371
+BiLexicon-48-55,BiLexiconShort,234,bvq-short,A,Catalan,347
+BiLexicon-48-55,BiLexiconShort,234,bvq-short,A,Spanish,349
+BiLexicon-48-55,BiLexiconShort,234,bvq-short,B,Catalan,345
+BiLexicon-48-55,BiLexiconShort,234,bvq-short,B,Spanish,371
+BiLexicon-48-55,BiLexiconShort,234,bvq-short,C,Catalan,341
+BiLexicon-48-55,BiLexiconShort,234,bvq-short,C,Spanish,369
+BiLexicon-48-55,BiLexiconShort,234,bvq-short,D,Catalan,338
+BiLexicon-48-55,BiLexiconShort,234,bvq-short,D,Spanish,371
+PhoCross-30-I,PhoCross,217,bvq-long,1,Catalan,772
+PhoCross-30-I,PhoCross,217,bvq-long,1,Spanish,786
+PhoCross-30-I,PhoCross,217,bvq-long,2,Catalan,785
+PhoCross-30-I,PhoCross,217,bvq-long,2,Spanish,796
+UB1,UB1,NA,UB,,Catalan,NA
+DevLex,DevLex,208,DevLex,,Catalan,225
+DevLex,DevLex,208,DevLex,,Spanish,208
+Lockdown,Lockdown,0,bvq-lockdown,A,Catalan,347
+Lockdown,Lockdown,0,bvq-lockdown,A,Spanish,349
+Lockdown,Lockdown,0,bvq-lockdown,B,Catalan,345
+Lockdown,Lockdown,0,bvq-lockdown,B,Spanish,371
+Lockdown,Lockdown,0,bvq-lockdown,C,Catalan,341
+Lockdown,Lockdown,0,bvq-lockdown,C,Spanish,369
+Lockdown,Lockdown,0,bvq-lockdown,D,Catalan,338
+Lockdown,Lockdown,0,bvq-lockdown,D,Spanish,371
