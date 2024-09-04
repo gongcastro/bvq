@@ -23,6 +23,8 @@ password (argument \code{password}) or retrieving it from the global environment
 (\code{FORMR_PWD} in .Renviron)
 }
 \examples{
-\dontrun{bvq_connect()}
+\dontrun{
+bvq_connect()
+}
 
 }

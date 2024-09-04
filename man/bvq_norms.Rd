@@ -72,22 +72,22 @@ one-inflation (see function \code{\link[=prop_adj]{prop_adj()}}).
 responses <- bvq_responses()
 
 bvq_norms(
-    participants = participants,
-    responses = responses,
-    item = "cat_casa",
-    age = c(22, 22),
-    lp
+  participants = participants,
+  responses = responses,
+  item = "cat_casa",
+  age = c(22, 22),
+  lp
 )
-    
+
 my_items <- c("cat_gos", "cat_gat")
 
 bvq_norms(
-    participants = participants,
-    responses = responses,
-    item = my_items,
-    te = TRUE,
-    age = c(15, 16)
-)    
+  participants = participants,
+  responses = responses,
+  item = my_items,
+  te = TRUE,
+  age = c(15, 16)
+)
 }
 
 }

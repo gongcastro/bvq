@@ -114,7 +114,7 @@ bvq_logs <- function(participants = bvq_participants(),
       complete_items = sum(!is.na(response)),
       .by = one_of(grouping_vars)
     ) %>%
-    inner_join(total_items, by = join_by(version, version_list)) 
+    inner_join(total_items, by = join_by(version, version_list)) |>
     left_join(select(participants, -c(date_birth, version, version_list)),
       by = join_by(child_id, time, response_id)
     ) %>%
