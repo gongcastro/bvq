@@ -117,7 +117,7 @@ extracted using the <code><a href="../reference/bvq_logs.html">bvq_logs()</a></c
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/bvq_logs.html">bvq_logs</a></span><span class="op">(</span><span class="va">participants</span>, <span class="va">responses</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">child_id</span>, <span class="va">time</span>, <span class="va">age</span>, <span class="va">lp</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"doe_"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 43 × 7</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 38 × 7</span></span></span>
 <span><span class="co">##    child_id  time   age lp          doe_spanish doe_catalan doe_others</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 58298        2  29.4 Monolingual        0           1           0  </span></span>
@@ -130,7 +130,7 @@ extracted using the <code><a href="../reference/bvq_logs.html">bvq_logs()</a></c
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 57534        1  21.5 Monolingual        0.05        0.95        0  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 57436        3  25.5 Bilingual          0.4         0.6         0  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> 57336        1  21.2 Bilingual          0.4         0.6         0  </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 33 more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 28 more rows</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="item-properties">Item properties<a class="anchor" aria-label="anchor" href="#item-properties"></a>
@@ -174,7 +174,7 @@ data frame.</p>
 <span>               <span class="va">lp</span>, <span class="co"># to keep participants' language profile</span></span>
 <span>               .scale <span class="op">=</span> <span class="st">"prop"</span> <span class="co"># to return estimates as proportions</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 86 × 10</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 76 × 10</span></span></span>
 <span><span class="co">##    child_id response_id type       lp    total_prop l1_prop l2_prop concept_prop</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 58298    BL1879      understan… Mono…    0.518    0.924   0.141        0.881 </span></span>
@@ -187,7 +187,7 @@ data frame.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 58068    BL1833      produces   Bili…    0.328    0.528   0.146        0.526 </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 57177    BL1748      understan… Bili…    0.837    0.814   0.857        0.887 </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> 57177    BL1748      produces   Bili…    0.568    0.678   0.466        0.757 </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 76 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 66 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 2 more variables: te_prop &lt;dbl&gt;, contents &lt;list&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
@@ -209,7 +209,7 @@ adjusted for zero- and one-inflation following Gelman, Hill, and Vehtari
 <span>          item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat_gos"</span>, <span class="st">"cat_gat"</span><span class="op">)</span>,</span>
 <span>          age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">35</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 108 × 9</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 96 × 9</span></span></span>
 <span><span class="co">##       te item    label   age type     item_dominance  .sum    .n .prop</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   173 cat_gat gat      12 produces L1                 0     1 0.4  </span></span>
@@ -222,7 +222,7 @@ adjusted for zero- and one-inflation following Gelman, Hill, and Vehtari
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   173 cat_gat gat      15 produces L2                 0     1 0.4  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   173 cat_gat gat      17 produces L1                 0     1 0.4  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>   173 cat_gat gat      19 produces L2                 0     1 0.4  </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 98 more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 86 more rows</span></span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
