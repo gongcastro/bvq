@@ -79,6 +79,18 @@
 <p>BVQ is currently a developing package for internal use at the <a href="https://www.upf.edu/web/cbc" class="external-link">Center for Brain and Cognititon</a>
 (CBC). For this reason, logging in requires a password that can be
 required by writing to the maintainer of this package (<a href="mailto:gongarciacastro@gmail.com">gongarciacastro@gmail.com</a>).</p>
+<hr>
+<p><strong>EDIT</strong>: Since a few versions of the formr R
+package—which bvq uses—it is encouraged to use keyring to provide
+passwords when connecting to formr. Following these guidelines, it is
+recommended to set a keyring for formr in each local machine where bvq
+will be used. Please, do so as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">formr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/formr/man/formr_store_keys.html" class="external-link">formr_store_keys</a></span><span class="op">(</span><span class="st">"formr"</span><span class="op">)</span></span></code></pre></div>
+<p>When prompted, provide the apropriate email and password. These will
+be stored in the local machine, and will be retrieved by bvq whenever
+necessary without having to provide a password every time.</p>
+<hr>
 <p>If you have already acquired the password, <strong>please, do not
 include this password in your R scripts or anywhere they can
 accidentally be made public</strong>. Instead, store the password as a
@@ -102,7 +114,7 @@ be using the bvq package, this password will be used under the hood. You
 won’t have to load it.</p>
 <p>However, in the case you want to take a look at it (for instance, to
 make sure the variable is available), you may recover it running:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"FORMR_PWD"</span><span class="op">)</span></span></code></pre></div>
 <p>If <code>FORMR_PWD</code> is not available, the code above will
 return <code>""</code>. If this is the case, make sure the variable name
