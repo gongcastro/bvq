@@ -83,10 +83,10 @@ bvq_logs <- function(participants = bvq_participants(),
 
   # get n items answered by participants (depends on the questionnaire version)
   total_items <- studies %>%
-    distinct(version, language, n) %>%
+    distinct(version, version_list, language, n) %>%
     summarise(
       total_items = sum(n),
-      .by = version
+      .by = c(version, version_list)
     )
 
   grouping_vars <- c(
@@ -114,7 +114,7 @@ bvq_logs <- function(participants = bvq_participants(),
       complete_items = sum(!is.na(response)),
       .by = one_of(grouping_vars)
     ) %>%
-    left_join(total_items, by = join_by(version)) %>%
+    inner_join(total_items, by = join_by(version, version_list)) |>
     left_join(select(participants, -c(date_birth, version, version_list)),
       by = join_by(child_id, time, response_id)
     ) %>%

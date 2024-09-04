@@ -22,7 +22,7 @@ This function prints some informative messages about a participants progress thr
 }
 \examples{
 \dontrun{
-track_progress("1911", participants, verbose=FALSE)
+track_progress("1911", participants, verbose = FALSE)
 }
 
 }
