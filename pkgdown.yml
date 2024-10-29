@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   bvq-connect: bvq-connect.html
@@ -7,4 +7,4 @@ articles:
   bvq-responses: bvq-responses.html
   bvq-vocabulary: bvq-vocabulary.html
   articles/bvq: bvq.html
-last_built: 2024-09-04T13:42Z
+last_built: 2024-10-29T12:11Z
