@@ -42,7 +42,7 @@ bvq_connect <- function(google_email = NULL,
   # if key exists, use it to log in
   tryCatch(
     suppressWarnings(
-      formr::formr_connect(keyring = "formr")
+      formr::formr_connect(email = formr_email, keyring = "formr")
     ),
     error = function(e) {
       cli_abort(
