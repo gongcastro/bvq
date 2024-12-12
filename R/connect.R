@@ -35,7 +35,7 @@ bvq_connect <- function(google_email = NULL,
   if (is.null(password)) {
     password <- Sys.getenv("FORMR_PWD", unset = NA)
     if (is.na(password)) {
-      cli_abort("Please, provide a password")
+      cli::cli_abort("Please, provide a password")
     }
   }
 
@@ -56,7 +56,7 @@ bvq_connect <- function(google_email = NULL,
   )
 
   # check if Google credentials exists, ask for them if not
-  if (!gs4_has_token()) {
+  if (!googlesheets4::gs4_has_token()) {
     tryCatch(
       suppressWarnings({
         googlesheets4::gs4_auth(
