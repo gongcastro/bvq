@@ -2,7 +2,7 @@
 #'
 #' @importFrom cli cli_alert_success
 #' 
-#' @param version Character string indicating the name fo the formr run (must be one of "lockdown", "long", or "short")
+#' @param version Character string indicating the name fo the formr run (must be one of "bvq-1.0.1", "bvq-1.0.0", "bvq-lockdown", "bvq-long", or "bvq-short")
 #' @param participants Participants dataset, as returned by [bvq::bvq_participants()]
 #' @param ... Unused.
 #' 
@@ -19,7 +19,7 @@ collect_survey <- function(version,
     # validate version name
     survey_options <- names(get_bvq_runs())
     if (!(version %in% survey_options)) {
-        cli_abort("survey must be one of {survey_options}")
+        cli::cli_abort("survey must be one of {survey_options}")
     }
     
     # correct version names
@@ -47,7 +47,7 @@ collect_survey <- function(version,
     if (interactive()) {
         n_responses <- nrow(distinct(processed, response_id))
         msg <- "{version} updated: {n_responses} response{?s} retrieved"
-        cli_alert_success(msg)
+        cli::cli_alert_success(msg)
     }
     
     return(processed)
@@ -78,7 +78,7 @@ download_surveys <- function(surveys, verbose = TRUE, ...) {
     
     if (verbose && interactive()) {
         step_msg <- "Downloaded {i}/{n} {qty(i)}survey{?s}"
-        cli_progress_step(msg = step_msg)
+        cli::cli_progress_step(msg = step_msg)
     }
     
     for (i in seq_along(surveys)) {
