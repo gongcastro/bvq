@@ -304,7 +304,8 @@ get_bvq_runs <- function() { # nocov start
             "bvq_04_demo",
             "bvq_05_language",
             "bvq_06_words_catalan",
-            "bvq_06_words_spanish"
+            "bvq_06_words_spanish",
+            "bvq_grammar"
         ),
         "bvq-lockdown" = c(
             "bilexicon_lockdown_01_log",
