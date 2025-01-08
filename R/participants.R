@@ -73,7 +73,7 @@ bvq_participants <- function(...) {
       version_list = randomisation, call
     ) %>%
     mutate(
-      response_id = gsub("BL", "", response_id),
+      response_id = gsub("BL|CAT", "", response_id),
       version = gsub("bl-|bvq-", "", tolower(version))
     ) %>%
     # reorder rows
