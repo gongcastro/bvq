@@ -222,7 +222,7 @@ process_survey <- function(raw, participants_tmp, version) {
 merge_surveys <- function(raw, participants_tmp, version) {
   # merge data frames
   raw_tmp <- raw %>%
-    lapply(select, -any_of(c("created", "modified", "ended", "expired"))) %>%
+    lapply(select, -any_of(c("created", "modified", "ended", "expired", "study_id", "session_id"))) %>%
     # if a single session ID has multiple entries, select most recent
     reduce(inner_join, by = join_by(session), multiple = "all") %>%
     mutate(
