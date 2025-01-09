@@ -174,37 +174,51 @@ track_progress <- function(response_id,
                            participants = NULL,
                            ...) {
   if (is.null(participants)) participants <- bvq_participants()
-
+  if (!is.character(response_id)) {
+    cli::cli_abort("{.code response_id} must be {.type character}")
+  }
+  if (!(response_id %in% participants$response_id)) {
+    cli::cli_abort("{.code response_id} {.val {response_id}} is not present in data")
+  }
   version <- participants[participants$response_id == response_id, ]$version
   cli::cli_progress_step("Downloading responses from version {.val {version}}")
-  sur <- download_surveys(get_bvq_runs()[[version]], ...)
+  vlist <- get_bvq_runs()
+  vvalues <- attr(vlist, "versions")
+  vnames <- names(vvalues)
+  names(vvalues) <- NULL
+  tversion <- vnames[[which(vvalues == version)]]
+
+  sur <- download_surveys(vlist[[tversion]], ...)
 
   cli::cli_progress_step("Looking up status of response {.val {response_id}}")
 
   logs <- sur[[1]]
-  logs$bl_code <- gsub("BL", "", logs$bl_code)
+  logs$bl_code <- gsub("BL|CAT", "", logs$bl_code)
   logs <- fix_code_raw(logs)
   logs <- logs[logs$bl_code %in% response_id, ]
   formr_id <- logs$session
 
-  status <- vapply(
-    lapply(sur, `[[`, "session"),
-    \(x) formr_id %in% x, logical(1)
-  )
-  finished <- all(status)
-  status_label <- ifelse(finished, "finished", "in progress")
-  sur_now <- sur[[last(which(status))]]
-  sur_now_nm <- names(sur[last(which(status))])
-  sur_now_created <- as_datetime(sur_now[sur_now$session %in% formr_id, ]$created)
-  sur_now_modified <- as_datetime(sur_now[sur_now$session %in% formr_id, ]$modified)
-  if (is.na(sur_now_modified)) sur_now_modified <- sur_now_created
+  for (fid in formr_id) {
+    status <- vapply(
+      lapply(sur, `[[`, "session"),
+      \(x) fid
+      %in% x,
+      logical(1)
+    )
+    finished <- all(status)
+    status_label <- ifelse(finished, "finished", "in progress")
+    sur_now <- sur[[last(which(status))]]
+    sur_now_nm <- names(sur[last(which(status))])
+    sur_now_created <- as_datetime(sur_now[sur_now$session %in% fid, ]$created)
+    sur_now_modified <- as_datetime(sur_now[sur_now$session %in% fid, ]$modified)
+    if (is.na(sur_now_modified)) sur_now_modified <- sur_now_created
 
+    cli::cli_h1("Session ID: {.val {fid}}")
+    cli::cli_text("Response {.field {response_id}} is {.field {status_label}}")
+    cli::cli_li("In {.field {sur_now_nm}} since {.val {sur_now_created}}")
+    cli::cli_li("Logged in: {.val {as_datetime(logs$created)}}")
+    cli::cli_li("Last activity: {.val {as_datetime(logs$created)}}")
+  }
   cli::cli_progress_done(result = "done")
-
-  cli::cli_text("Response {.field {response_id}} is {.field {status_label}}")
-  cli::cli_li("In {.field {sur_now_nm}} since {.val {sur_now_created}}")
-  cli::cli_li("Logged in: {.val {as_datetime(logs$created)}}")
-  cli::cli_li("Last activity: {.val {as_datetime(logs$created)}}")
-
   return(invisible(status))
 }
