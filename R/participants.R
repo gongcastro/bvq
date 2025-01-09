@@ -57,7 +57,7 @@ bvq_participants <- function(...) {
     sheet <- read_sheet(
       ss = "164DMKLRO0Xju0gdfkCS3evAq9ihTgEgFiuJopmqt7mo",
       sheet = "Participants",
-      col_types = "cccciDnccccDDclcc",
+      col_types = "cccciDnccccDDcllcc",
       .name_repair = janitor::make_clean_names
     )
   })
@@ -73,8 +73,8 @@ bvq_participants <- function(...) {
       version_list = randomisation, call
     ) %>%
     mutate(
-      response_id = gsub("BL", "", response_id),
-      version = gsub("bl-", "", tolower(version))
+      response_id = gsub("BL|CAT", "", response_id),
+      version = gsub("bl-|bvq-", "", tolower(version))
     ) %>%
     # reorder rows
     arrange(desc(as.numeric(response_id)))
