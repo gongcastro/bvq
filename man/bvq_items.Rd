@@ -15,7 +15,7 @@ A list of length 3, which includes:
 \item survey: A \link[tibble:tibble]{tibble::tibble} containing the items included in the questionnaire and several properties. Each row corresponds to a single item, and each column corresponds to a particular property:
 \itemize{
 \item type: a character string indicating the type of the item (see \href{https://formr.org/documentation#available_items}{formr documentation}).
-\item name: a character string indicating the name of the item, as it appears in the output of \code{bvq_responses()}.
+\item name: a character string indicating the name of the item, as it appears in the output of \code{\link[=bvq_responses_vocab]{bvq_responses_vocab()}}.
 \item label: a character string indicating the text shown to participants when filling out the questionnaire.
 \item optional: a logical value indicating whether providing an answer to the item is mandatory for participants.
 \item class: a character string indicating the CSS class with of the item.

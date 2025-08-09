@@ -7,13 +7,13 @@
 #'
 #' @export bvq_items
 #'
-#' @param section Name of the questionnaire section to retrieve items for. Check the output of `get_bvq_runs()` to see the available sections for each version of the questionnaire.
+#' @param section Name of the questionnaire section to retrieve items for. Check the output of [bvq::get_bvq_runs()] to see the available sections for each version of the questionnaire.
 #' @param section Name of the version of the questionnaire for which the items of a section will be retrieved. Check the output of `names(get_bvq_runs())` to see the available versions of the questionnaire.
 #'
 #' @returns A list of length 3, which includes:
 #' * survey: A [tibble::tibble] containing the items included in the questionnaire and several properties. Each row corresponds to a single item, and each column corresponds to a particular property:
 #'      - type: a character string indicating the type of the item (see [formr documentation](https://formr.org/documentation#available_items)).
-#'      - name: a character string indicating the name of the item, as it appears in the output of `bvq_responses()`.
+#'      - name: a character string indicating the name of the item, as it appears in the output of [bvq::bvq_responses_vocab()].
 #'      - label: a character string indicating the text shown to participants when filling out the questionnaire.
 #'      - optional: a logical value indicating whether providing an answer to the item is mandatory for participants.
 #'      - class: a character string indicating the CSS class with of the item.

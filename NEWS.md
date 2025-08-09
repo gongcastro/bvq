@@ -1,3 +1,12 @@
+# bvq 1.0.2
+
+- New grammar questionnaire in Catalan and Spanish (by Mireia Marimon).
+- New processing functions for the grammar questionnaires
+- New `track_progress` function to show a participant's progress throughout the questionnaire 
+- Changes some wording for consistency in the instructions (e.g., in Catalan, "fill/a" and "nado" become "nen/a")
+- Minor refactoring in utils.R
+- Renamed `bvq_responses()` to `bvq_responses_vocab()`
+
 # bvq 1.0.1
 
 - New function `launch_app()` that opens the BVQ app (see [https://github.com/gongcastro/bvq-app](https://github.com/gongcastro/bvq-app)) on a browser

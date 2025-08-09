@@ -40,7 +40,8 @@ reference:
   contents: 
   - bvq_connect
   - bvq_participants
-  - bvq_responses
+  - bvq_responses_vocab
+  - bvq_responses_grammar
   - pool
 - title: "Computing vocabulary norms"
   desc: "Functions for computing participant information, vocabulary size, and word acquisition norms."
@@ -64,4 +65,3 @@ reference:
   desc: "Helper functions used internally"
   contents:
   - get_doe
-  

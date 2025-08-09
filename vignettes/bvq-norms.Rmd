@@ -29,7 +29,7 @@ Let's go through an example of how to use the `bvq_norms()` function for a speci
 ```{r responses, echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 # norms will be computed from these datasets
 participants <- bvq_participants()
-responses <- bvq_responses(participants = participants)
+responses <- bvq_responses_vocab(participants = participants)
 
 # items we want to compute norms for
 my_items <- c("cat_gos", "cat_gat")
