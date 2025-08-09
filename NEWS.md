@@ -5,7 +5,7 @@
 - New `track_progress` function to show a participant's progress throughout the questionnaire 
 - Changes some wording for consistency in the instructions (e.g., in Catalan, "fill/a" and "nado" become "nen/a")
 - Minor refactoring in utils.R
-
+- Renamed `bvq_responses()` to `bvq_responses_vocab()`
 
 # bvq 1.0.1
 
