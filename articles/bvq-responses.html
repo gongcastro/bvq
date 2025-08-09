@@ -6,16 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Retrieving raw data • bvq</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/JetBrains_Mono-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Retrieving raw data">
@@ -28,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bvq</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +66,8 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Retrieving raw data</h1>
+
+      <h1>Retrieving raw data</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/gongcastro/bvq/blob/main/vignettes/bvq-responses.Rmd" class="external-link"><code>vignettes/bvq-responses.Rmd</code></a></small>
@@ -80,17 +80,18 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://gongcastro.github.io/bvq/" class="external-link">bvq</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
-<p>The function <code><a href="../reference/bvq_responses.html">bvq_responses()</a></code> retrieves participants’
-responses to the Barcelona Vocabulary Questionnaire (BVQ) using the <a href="https://formr.org/documentation" class="external-link">formr API</a>, and returns them
-along participant- and item-level information. This function returns a
-tidy data frame in which each row is one participant’s response to an
-individual item.</p>
+<p>The function <code><a href="../reference/bvq_responses_vocab.html">bvq_responses_vocab()</a></code> retrieves
+participants’ responses to the Barcelona Vocabulary Questionnaire (BVQ)
+using the <a href="https://formr.org/documentation" class="external-link">formr API</a>, and
+returns them along participant- and item-level information. This
+function returns a tidy data frame in which each row is one
+participant’s response to an individual item.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">responses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bvq_responses.html">bvq_responses</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">responses</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bvq_responses_vocab.html">bvq_responses_vocab</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># select relevant variables</span></span>
 <span><span class="va">responses</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">time</span>, <span class="va">item</span>, <span class="va">response</span>, <span class="va">randomisation</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">child_id</span>, <span class="va">time</span>, <span class="va">item</span>, <span class="va">response</span>, <span class="va">version_list</span> <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span> <span class="co"># drop unanswered items</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 34,465 × 16</span></span></span>
 <span><span class="co">#&gt;    child_id response_id  time version      version_list date_birth date_started</span></span>
@@ -156,10 +157,10 @@ variable indexes how many times that specific participant has filled the
 questionnaire (any version), including their last response. This allows
 to track each participant’s responses across time and perform
 longitudinal analyses.</p>
-<p>By default, <code><a href="../reference/bvq_responses.html">bvq_responses()</a></code> retrieves all responses.
-Using <code><a href="../reference/get_longitudinal.html">get_longitudinal()</a></code>, we can filter what cases we want
-to keep. The argument <code>longitudinal</code> takes one of the
-following character strings:</p>
+<p>By default, <code><a href="../reference/bvq_responses_vocab.html">bvq_responses_vocab()</a></code> retrieves all
+responses. Using <code><a href="../reference/get_longitudinal.html">get_longitudinal()</a></code>, we can filter what
+cases we want to keep. The argument <code>longitudinal</code> takes one
+of the following character strings:</p>
 <ul>
 <li>
 <code>"all"</code>: all responses are returned</li>
@@ -196,6 +197,20 @@ perform repeated measures analyses. For example:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16,067 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: date_finished &lt;date&gt;</span></span></span></code></pre>
 <div class="section level3">
+<h3 id="extracting-responses-to-grammar-questionnaires">Extracting responses to grammar questionnaires<a class="anchor" aria-label="anchor" href="#extracting-responses-to-grammar-questionnaires"></a>
+</h3>
+<p>The homologous funnction to retrieve responses to grammar
+questionnaires i <code><a href="../reference/bvq_responses_grammar.html">bvq_responses_grammar()</a></code>. This function
+returns a datatable with each row corresponding to one participants’s
+response to each item in the grammar questionnaire (long format).</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">responses_grammar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bvq_responses_grammar.html">bvq_responses_grammar</a></span><span class="op">(</span><span class="va">participants</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">responses_grammar</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">child_id</span>, <span class="va">time</span>, <span class="va">item</span>, <span class="va">response</span>, <span class="va">version</span>, <span class="va">version_list</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span> <span class="co"># drop unanswered items</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="please-note">Please note<a class="anchor" aria-label="anchor" href="#please-note"></a>
 </h3>
 <p>The values of <code>time</code> in the outcome of
@@ -204,7 +219,7 @@ functions may <em>not</em> be identical. This is because in
 <code><a href="../reference/bvq_participants.html">bvq_participants()</a></code> this value increases in one unit every
 time a given participant is sent the questionnaire, even if they do not
 end up filling it. In contrast, the value of <code>time</code> in the
-rest of the functions (e.g., <code><a href="../reference/bvq_responses.html">bvq_responses()</a></code>,
+rest of the functions (e.g., <code><a href="../reference/bvq_responses_vocab.html">bvq_responses_vocab()</a></code>,
 <code><a href="../reference/bvq_logs.html">bvq_logs()</a></code>) only increases when the questionnaire is
 filled. Since the outcome of <code><a href="../reference/bvq_participants.html">bvq_participants()</a></code> is mainly
 intended for internal use, you don’t have to worry about this as long as
@@ -223,7 +238,7 @@ and the rest of the functions.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>

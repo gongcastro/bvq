@@ -2,7 +2,6 @@
 <url><loc>/404.html</loc></url>
 <url><loc>/CONTRIBUTING.html</loc></url>
 <url><loc>/LICENSE-text.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
 <url><loc>/SUPPORT.html</loc></url>
 <url><loc>/articles/bvq-connect.html</loc></url>
 <url><loc>/articles/bvq-norms.html</loc></url>
@@ -19,7 +18,8 @@
 <url><loc>/reference/bvq_logs.html</loc></url>
 <url><loc>/reference/bvq_norms.html</loc></url>
 <url><loc>/reference/bvq_participants.html</loc></url>
-<url><loc>/reference/bvq_responses.html</loc></url>
+<url><loc>/reference/bvq_responses_grammar.html</loc></url>
+<url><loc>/reference/bvq_responses_vocab.html</loc></url>
 <url><loc>/reference/bvq_vocabulary.html</loc></url>
 <url><loc>/reference/get_bvq_runs.html</loc></url>
 <url><loc>/reference/get_doe.html</loc></url>
