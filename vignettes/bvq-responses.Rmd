@@ -20,22 +20,27 @@ library(tidyr)
 library(dplyr)
 ```
 
-The function `bvq_responses()` retrieves participants' responses to the Barcelona Vocabulary Questionnaire (BVQ) using the [formr API](https://formr.org/documentation), and returns them along participant- and item-level information. This function returns a tidy data frame in which each row is one participant's response to an individual item. 
+The function `bvq_responses_vocab()` retrieves participants' responses to the Barcelona Vocabulary Questionnaire (BVQ) using the [formr API](https://formr.org/documentation), and returns them along participant- and item-level information. This function returns a tidy data frame in which each row is one participant's response to an individual item. 
 
 ```{r responses, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-responses <- bvq_responses()
+responses <- bvq_responses_vocab()
 
 # select relevant variables
 responses %>%
-  select(id, time, item, response, randomisation) %>%
+  select(child_id, time, item, response, version_list ) %>%
   drop_na(response) # drop unanswered items
 ```
 
 ```{r load-responses, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-responses <- readRDS(system.file("fixtures/responses.rds",
+responses <- readRDS(system.file("fixtures/responses.rds", package = "bvq"))
+
+responses_grammar <- readRDS(system.file(
+"fixtures/responses-grammar.rds",
   package = "bvq"
 ))
-participants <- readRDS(system.file("fixtures/participants.rds",
+
+participants <- readRDS(system.file(
+  "fixtures/participants.rds",
   package = "bvq"
 ))
 
@@ -67,7 +72,7 @@ pool
 
 Several participants have filled the questionnaire more than once. All questionnaire responses included in any dataset returned by any function in BVQ have an associated `time` value. This variable indexes how many times that specific participant has filled the questionnaire (any version), including their last response. This allows to track each participant's responses across time and perform longitudinal analyses.
 
-By default, `bvq_responses()` retrieves all responses. Using `get_longitudinal()`, we can filter what cases we want to keep. The argument `longitudinal ` takes one of the following character strings:
+By default, `bvq_responses_vocab()` retrieves all responses. Using `get_longitudinal()`, we can filter what cases we want to keep. The argument `longitudinal ` takes one of the following character strings:
 
 * `"all"`: all responses are returned
 * `"no"`: participants with more than one response to the questionnaire (any version) are excluded from the output
@@ -87,6 +92,19 @@ responses %>%
   drop_na(response)
 ```
 
+### Extracting responses to grammar questionnaires
+
+The homologous funnction to retrieve responses to grammar questionnaires i `bvq_responses_grammar()`. This function returns a datatable with each row corresponding to one participants's response to each item in the grammar questionnaire (long format).
+
+```{r responses-grammar, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+responses_grammar <- bvq_responses_grammar(participants)
+
+responses_grammar %>%
+  select(child_id, time, item, response, version, version_list) %>%
+  drop_na(response) # drop unanswered items
+```
+
+
 ### Please note
 
-The values of `time` in the outcome of `bvq_participants()` and the outcome of the rest of the functions may *not* be identical. This is because in `bvq_participants()` this value increases in one unit every time a given participant is sent the questionnaire, even if they do not end up filling it. In contrast, the value of `time` in the rest of the functions (e.g., `bvq_responses()`, `bvq_logs()`) only increases when the questionnaire is filled. Since the outcome of `bvq_participants()` is mainly intended for internal use, you don't have to worry about this as long as you don't try to cross the outcomes of `bvq_participants()` and the rest of the functions.
+The values of `time` in the outcome of `bvq_participants()` and the outcome of the rest of the functions may *not* be identical. This is because in `bvq_participants()` this value increases in one unit every time a given participant is sent the questionnaire, even if they do not end up filling it. In contrast, the value of `time` in the rest of the functions (e.g., `bvq_responses_vocab()`, `bvq_logs()`) only increases when the questionnaire is filled. Since the outcome of `bvq_participants()` is mainly intended for internal use, you don't have to worry about this as long as you don't try to cross the outcomes of `bvq_participants()` and the rest of the functions.

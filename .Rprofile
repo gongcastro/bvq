@@ -1,3 +1,4 @@
+source("renv/activate.R")
 if (interactive()) {
   suppressWarnings(require(usethis, quietly = TRUE))
   suppressWarnings(require(devtools, quietly = TRUE))
@@ -13,5 +14,4 @@ if (interactive()) {
 
   # bias against scientific notation
   options(scipen = 4)
-
 }

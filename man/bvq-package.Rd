@@ -6,8 +6,6 @@
 \alias{bvq-package}
 \title{bvq: Barcelona Vocabulary Questionnaire Database and Helper Functions}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
-
 Download, clean, and process the Barcelona Vocabulary Questionnaire (BVQ) data. BVQ is a vocabulary inventory developed for assesing the vocabulary of Catalan-Spanish bilinguals infants from the Metropolitan Area of Barcelona (Spain). This package includes functions to download the data from formr servers, and return the processed data in multiple formats.
 }
 \seealso{
@@ -24,7 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Daniela S.  Ávila-Varela \email{avila.varela.daniela@gmail.com} (\href{https://orcid.org/0000-0002-3518-8117}{ORCID})
+  \item Daniela S. Ávila-Varela \email{avila.varela.daniela@gmail.com} (\href{https://orcid.org/0000-0002-3518-8117}{ORCID})
 }
 
 Other contributors:
