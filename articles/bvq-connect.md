@@ -1,0 +1,68 @@
+# Connecting to the database
+
+BVQ is currently a developing package for internal use at the [Center
+for Brain and Cognititon](https://www.upf.edu/web/cbc) (CBC). For this
+reason, logging in requires a password that can be required by writing
+to the maintainer of this package (<gongarciacastro@gmail.com>).
+
+------------------------------------------------------------------------
+
+**EDIT**: Since a few versions of the formr R package—which bvq uses—it
+is encouraged to use keyring to provide passwords when connecting to
+formr. Following these guidelines, it is recommended to set a keyring
+for formr in each local machine where bvq will be used. Please, do so as
+follows:
+
+``` r
+formr::formr_store_keys("formr")
+```
+
+When prompted, provide the apropriate email and password. These will be
+stored in the local machine, and will be retrieved by bvq whenever
+necessary without having to provide a password every time.
+
+------------------------------------------------------------------------
+
+If you have already acquired the password, **please, do not include this
+password in your R scripts or anywhere they can accidentally be made
+public**. Instead, store the password as a variable named `FORMR_PWD` in
+the .Renviron file in your home or project directory. You can create or
+open a .Renviron file from your R console to include your newly acquired
+password using the `edit_r_environ()` from the
+[usethis](https://usethis.r-lib.org/) package:
+
+    usethis::edit_r_environ()
+
+Another options is to create the a .txt file using your file manager,
+editing it to include the `FORMR_PWD` variable, and then saving the file
+as `.Renviron` (remember to remove any file extension after the file
+name). This file should look like this:
+
+    FORMR_PWD=XXXXXXXXXXXXXX
+    ...
+
+Where `...` represents any other global variables you may want to make
+available to your R session.
+
+Remember to restart your R session so that the new or modified global
+variables stored in your .Renviron file are available. Once `FORMR_PWD`
+is available to your R session, in which you will be using the bvq
+package, this password will be used under the hood. You won’t have to
+load it.
+
+However, in the case you want to take a look at it (for instance, to
+make sure the variable is available), you may recover it running:
+
+``` r
+Sys.getenv("FORMR_PWD")
+```
+
+If `FORMR_PWD` is not available, the code above will return `""`. If
+this is the case, make sure the variable name is correct, check that the
+.Renviron file is stored in your project folder or your home folder, and
+restart your R session. Should these steps fail, contact the bvq package
+maintainer (<gongarciacastro@gmail.com>).
+
+Finally, if you want to check if your current installation of bvq can
+retrieve the password, run
+[`bvq_connect()`](../reference/bvq_connect.md) in your R console.
