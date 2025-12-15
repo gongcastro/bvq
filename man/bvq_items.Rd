@@ -7,7 +7,9 @@
 bvq_items(section, version = "bvq-1.0.0")
 }
 \arguments{
-\item{section}{Name of the version of the questionnaire for which the items of a section will be retrieved. Check the output of \code{names(get_bvq_runs())} to see the available versions of the questionnaire.}
+\item{section}{Name of the questionnaire section to retrieve items for. Check the output of \code{\link[=get_bvq_runs]{get_bvq_runs()}} to see the available sections for each version of the questionnaire.}
+
+\item{version}{Name of the version of the questionnaire for which the items of a section will be retrieved. Check the output of \code{names(get_bvq_runs())} to see the available versions of the questionnaire.}
 }
 \value{
 A list of length 3, which includes:
