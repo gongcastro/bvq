@@ -1,5 +1,9 @@
 # Changelog
 
+## bvq 1.0.3
+
+- Make grammar questions compulsory
+
 ## bvq 1.0.2
 
 - New grammar questionnaire in Catalan and Spanish (by Mireia Marimon).
