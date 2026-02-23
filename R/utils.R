@@ -60,7 +60,11 @@ get_time_stamp <- function(..., which = "first") {
     cli::cli_abort("`which` must be 'first' or 'last'")
   }
 
-  if (which == "first") fun <- min else fun <- max
+  if (which == "first") {
+    fun <- min
+  } else {
+    fun <- max
+  }
   x <- lubridate::as_datetime(apply(across(c(...)), 1, fun, na.rm = TRUE))
 
   return(x)
@@ -108,7 +112,8 @@ get_doe <- function(...) {
 #' @noRd
 #' @keywords internal
 #'
-fix_response_id <- function(x) { # nocov start
+fix_response_id <- function(x) {
+  # nocov start
   x <- toupper(trimws(x))
   x <- gsub("O", "0", x)
   x <- gsub("I", "L", x)
@@ -127,15 +132,48 @@ fix_response_id <- function(x) { # nocov start
 #' @noRd
 #' @keywords internal
 #'
-fix_code_raw <- function(x) { # nocov start
-  x[x$session == "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY", "response_id"] <- "BL1674"
-  x[x$session == "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2", "response_id"] <- "BL1671"
-  x[x$session == "TW8vSEn7YTtbZoe9BaEtRgwNvryWTwSv49dLKb5W0_6bFL306Eiw0Ehg72Q9nqLx", "response_id"] <- "BL1672"
-  x[x$session == "DDjiYrPl-WD951rocaSKH9grkn2T4ZJKjhdCAPDzqNBWyhc8E8wwjOY0CcruNn1m", "response_id"] <- "BL1673"
-  x[x$session == "c9fPw4Lbm5WS0AbBRppv4NVHh4eETxvEitH8lUC1pkt2ulxxHCvXgAYopCGRQSa_", "response_id"] <- "BL1569"
-  x[x$session == "I8ldNrILmQd7Vhtwqk99Y9YaKWrZzlExKeXsRv9_toIEi43BtlfuLI-PmdU4iY7G", "response_id"] <- "BL1788"
-  x[x$session == "dU5CZLLkvmY7SDpe8d0jFQO3xzpmeS0lCOFF_ErjETC1tyyYbv3ZhyaDmlfdJwHc", "response_id"] <- "BL1876"
-  x[x$session == "L4F1jd13H4wyFf6QYGy8hfSURneFr-zfzMn1YFFeBTbTZWWjxYPRbC-rPY6U1qdr", "response_id"] <- "remove"
+fix_code_raw <- function(x) {
+  # nocov start
+  x[
+    x$session ==
+      "-OYU0wA9FPQ9-ugKUpyrz1A0usJZIuM5hb-cbV2yMgGBal5S9q3ReRgphBDDxFEY",
+    "response_id"
+  ] <- "BL1674"
+  x[
+    x$session ==
+      "ZZiRT3JN4AdKnXMxjEMtU3CzRkniH0hOSZzS-0kzquRt_Ls9PJzmKsY3qm8tQ7Z2",
+    "response_id"
+  ] <- "BL1671"
+  x[
+    x$session ==
+      "TW8vSEn7YTtbZoe9BaEtRgwNvryWTwSv49dLKb5W0_6bFL306Eiw0Ehg72Q9nqLx",
+    "response_id"
+  ] <- "BL1672"
+  x[
+    x$session ==
+      "DDjiYrPl-WD951rocaSKH9grkn2T4ZJKjhdCAPDzqNBWyhc8E8wwjOY0CcruNn1m",
+    "response_id"
+  ] <- "BL1673"
+  x[
+    x$session ==
+      "c9fPw4Lbm5WS0AbBRppv4NVHh4eETxvEitH8lUC1pkt2ulxxHCvXgAYopCGRQSa_",
+    "response_id"
+  ] <- "BL1569"
+  x[
+    x$session ==
+      "I8ldNrILmQd7Vhtwqk99Y9YaKWrZzlExKeXsRv9_toIEi43BtlfuLI-PmdU4iY7G",
+    "response_id"
+  ] <- "BL1788"
+  x[
+    x$session ==
+      "dU5CZLLkvmY7SDpe8d0jFQO3xzpmeS0lCOFF_ErjETC1tyyYbv3ZhyaDmlfdJwHc",
+    "response_id"
+  ] <- "BL1876"
+  x[
+    x$session ==
+      "L4F1jd13H4wyFf6QYGy8hfSURneFr-zfzMn1YFFeBTbTZWWjxYPRbC-rPY6U1qdr",
+    "response_id"
+  ] <- "remove"
   return(x)
 } # nocov end
 
@@ -151,7 +189,8 @@ fix_code_raw <- function(x) { # nocov start
 #' @noRd
 #' @keywords internal
 #'
-fix_doe <- function(x) { # nocov start
+fix_doe <- function(x) {
+  # nocov start
 
   x$doe_catalan[x$child_id == "54469" & x$time == 2] <- 0
   x$doe_catalan[x$child_id == "57157" & x$time == 1] <- 80
@@ -179,7 +218,8 @@ fix_doe <- function(x) { # nocov start
 #' @noRd
 #' @keywords internal
 #'
-fix_sex <- function(x) { # nocov start
+fix_sex <- function(x) {
+  # nocov start
 
   child_id_female <- c(
     "54917",
@@ -203,7 +243,8 @@ fix_sex <- function(x) { # nocov start
 #' @noRd
 #' @keywords internal
 #'
-fix_item <- function(x) { # nocov start
+fix_item <- function(x) {
+  # nocov start
 
   x$item[x$item == "cat_parc"] <- "cat_parc1"
   x$item[x$item == "cat_eciam"] <- "cat_enciam"
@@ -270,10 +311,18 @@ get_longitudinal <- function(x, longitudinal = "all") {
 
   repeated <- filter(distinct(x, child_id, time), n() > 1, .by = child_id)
 
-  if (longitudinal == "no") x <- filter(x, !(child_id %in% repeated$child_id))
-  if (longitudinal == "first") x <- filter(x, time == min(time), .by = child_id)
-  if (longitudinal == "last") x <- filter(x, time == max(time), .by = child_id)
-  if (longitudinal == "only") x <- filter(x, child_id %in% repeated$child_id)
+  if (longitudinal == "no") {
+    x <- filter(x, !(child_id %in% repeated$child_id))
+  }
+  if (longitudinal == "first") {
+    x <- filter(x, time == min(time), .by = child_id)
+  }
+  if (longitudinal == "last") {
+    x <- filter(x, time == max(time), .by = child_id)
+  }
+  if (longitudinal == "only") {
+    x <- filter(x, child_id %in% repeated$child_id)
+  }
 
   return(x)
 }
@@ -287,7 +336,8 @@ get_longitudinal <- function(x, longitudinal = "all") {
 #' @keywords internal
 #'
 #' @md
-get_bvq_runs <- function() { # nocov start
+get_bvq_runs <- function() {
+  # nocov start
   runs <- list(
     "bvq-1.0.0" = c(
       "bvq_01_log",
@@ -309,6 +359,17 @@ get_bvq_runs <- function() { # nocov start
       "bvq_grammar"
     ),
     "bvq-1.0.2" = c(
+      "bvq_01_log",
+      "bvq_02_welcome",
+      "bvq_03_consent",
+      "bvq_04_demo",
+      "bvq_05_language",
+      "bvq_06_words_catalan",
+      "bvq_06_words_spanish",
+      "bvq_grammar_catalan",
+      "bvq_grammar_spanish"
+    ),
+    "bvq-1.0.3" = c(
       "bvq_01_log",
       "bvq_02_welcome",
       "bvq_03_consent",
@@ -392,8 +453,10 @@ prop_adj <- function(x, n) {
 #'
 #' @details The BVQ Shiny App provides a visual interface to the bvq R package to explore the database. Its [GitHub repository](https://github.com/gongcastro/bvq-app) contains the data, documentation, and R scripts needed to run the BVQ Shiny app.
 #'
-launch_app <- function() { # nocov start
-  browseURL("https://gongcastro.shinyapps.io/bvq-app/",
+launch_app <- function() {
+  # nocov start
+  browseURL(
+    "https://gongcastro.shinyapps.io/bvq-app/",
     browser = getOption("browser"),
     encodeIfNeeded = FALSE
   )
