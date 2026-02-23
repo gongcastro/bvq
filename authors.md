@@ -14,7 +14,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/gongcastro/bvq/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/gongcastro/bvq/blob/v1.0.3/inst/CITATION)
 
 G. Garcia-Castro, D. S. Ávila-Varela, N. Sebastian-Galles (2023). bvq:
 Barcelona Vocabulary Questionnaire Database and Helper Functions.
