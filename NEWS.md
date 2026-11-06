@@ -1,3 +1,12 @@
+# bvq 1.0.4
+
+- Move questionnaire to [rforms](https://www.rforms.org/)
+- Make checkboxes in consent form bigger
+- Add privacy policy according to GDPR
+- Remove farewell component (unused)
+- Make instructions match language of questionnaire in grammar and vocabulary checklists
+- Make e-mail item optional
+
 # bvq 1.0.3
 
 - Make grammar questions compulsory
