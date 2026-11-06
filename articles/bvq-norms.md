@@ -17,6 +17,7 @@ norms for specific items, you can provide the item identifiers in the
 set:
 
 ``` r
+
 library(bvq)
 head(pool)
 #> # A tibble: 6 × 14
@@ -37,6 +38,7 @@ Let’s go through an example of how to use the
 of items.
 
 ``` r
+
 # norms will be computed from these datasets
 participants <- bvq_participants()
 responses <- bvq_responses_vocab(participants = participants)
@@ -74,6 +76,7 @@ the norms of the translation of the items specified in the `item`
 argument. For example:
 
 ``` r
+
 my_items <- c("cat_gos", "cat_gat")
 
 bvq_norms(
@@ -108,6 +111,7 @@ We can even indicate a specific translation equivalent in the `te`
 argument to retrieve its norms, while leaving the argument `item` blank:
 
 ``` r
+
 bvq_norms(
   participants = participants,
   responses = responses,
@@ -138,6 +142,7 @@ separately. We can do this by adding the unquoted variable names of
 interest to the arguments (`lp`, in this case):
 
 ``` r
+
 bvq_norms(
   participants = participants,
   responses = responses,
@@ -157,6 +162,7 @@ of interest. For instance, we can get the acquisition norms above,
 disaggregated by `lp` and `dominance`:
 
 ``` r
+
 bvq_norms(
   participants = participants,
   responses = responses,

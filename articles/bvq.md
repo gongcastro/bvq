@@ -8,6 +8,7 @@ data frame in which each row is one participant’s response to an
 individual item.
 
 ``` r
+
 library(bvq)
 library(dplyr)
 
@@ -44,6 +45,7 @@ Participant-level properties like language profile variables can be
 extracted using the [`bvq_logs()`](../reference/bvq_logs.md) function.
 
 ``` r
+
 bvq_logs(participants, responses) %>% 
     select(child_id, time, age, lp, starts_with("doe_"))
 ```
@@ -69,6 +71,7 @@ Item-level properties can be consulted in the `pool` data frame (see
 [`?pool`](../reference/pool.md)):
 
 ``` r
+
 data("pool")
 pool
 ```
@@ -103,6 +106,7 @@ To compute vocabulary size, we first need to run `bvq_responses()`
 under the hood):
 
 ``` r
+
 bvq_vocabulary(participants, 
                responses,
                lp, # to keep participants' language profile
@@ -139,6 +143,7 @@ Proportions are adjusted for zero- and one-inflation following Gelman,
 Hill, and Vehtari (2020).
 
 ``` r
+
 # items we want to compute norms for
 bvq_norms(participants,
           responses,

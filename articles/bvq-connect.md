@@ -14,6 +14,7 @@ for formr in each local machine where bvq will be used. Please, do so as
 follows:
 
 ``` r
+
 formr::formr_store_keys("formr")
 ```
 
@@ -54,6 +55,7 @@ However, in the case you want to take a look at it (for instance, to
 make sure the variable is available), you may recover it running:
 
 ``` r
+
 Sys.getenv("FORMR_PWD")
 ```
 

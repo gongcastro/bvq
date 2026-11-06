@@ -20,12 +20,14 @@ available in the [package website](https://gongcastro.github.io/bvq).
 From [r-universe](https://gongcastro.r-universe.dev/bvq) 🚀:
 
 ``` r
+
 install.packages('bvq', repos = 'https://gongcastro.r-universe.dev')
 ```
 
 From the GitHub repository:
 
 ``` r
+
 install.packages("remotes") # you may need to install remotes first
 remotes::install_github("gongcastro/bvq")
 ```

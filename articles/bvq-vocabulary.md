@@ -14,6 +14,7 @@ if this argument is not provided,
 under the hood):
 
 ``` r
+
 library(bvq)
 
 # vocabularies will be computed from these datasets
@@ -138,6 +139,7 @@ can keep information about the language profile (`lp`) of the
 participant:
 
 ``` r
+
 bvq_vocabulary(participants, responses, lp)
 ```
 
@@ -147,6 +149,7 @@ case, the vocabulary sizes will be computed for each level of the
 `semantic_category` variable:
 
 ``` r
+
 bvq_vocabulary(participants, responses, semantic_category)
 #> # A tibble: 1,970 × 10
 #>    child_id response_id type        semantic_category total_prop l1_prop l2_prop
@@ -170,6 +173,7 @@ of participant-level and item-level variables, such as language profile
 (`lp`), age (`age`) and grammatical class (`class`):
 
 ``` r
+
 bvq_vocabulary(participants, responses, age, lp, semantic_category)
 #> # A tibble: 1,970 × 12
 #>    child_id response_id type      age lp    semantic_category total_prop l1_prop

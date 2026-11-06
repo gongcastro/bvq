@@ -1,6 +1,7 @@
 # Retrieving raw data
 
 ``` r
+
 library(bvq)
 library(tidyr)
 library(dplyr)
@@ -15,6 +16,7 @@ tidy data frame in which each row is one participant’s response to an
 individual item.
 
 ``` r
+
 responses <- bvq_responses_vocab()
 
 # select relevant variables
@@ -53,6 +55,7 @@ can be extracted using the [`bvq_logs()`](../reference/bvq_logs.md)
 function.
 
 ``` r
+
 logs <- bvq_logs(responses = responses)
 
 logs %>%
@@ -66,6 +69,7 @@ Item-level properties can be consulted in the `pool` dataset (See
 ?pool):
 
 ``` r
+
 data("pool")
 pool
 #> # A tibble: 1,590 × 14
@@ -140,6 +144,7 @@ participants’s response to each item in the grammar questionnaire (long
 format).
 
 ``` r
+
 responses_grammar <- bvq_responses_grammar(participants)
 
 responses_grammar %>%
